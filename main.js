@@ -31,7 +31,6 @@ function ViewModel(data, map) {
         setTimeout(function() {
             infowindow.setOptions({
                 ariaLabel: place.info.name,
-                disableAutoPan: true,
                 content: document.getElementById("popup").querySelector("div").cloneNode(true)
             });
             infowindow.open({
