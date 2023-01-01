@@ -1,0 +1,86 @@
+{
+    "categories": [
+        {
+            "id": "restaurant",
+            "name": "Restaurante"
+        },
+        {
+            "id": "bakery",
+            "name": "Pastelaria"
+        }
+    ],
+    "districts": [
+        {
+            "id": "lisboa",
+            "name": "Lisboa"
+        },
+        {
+            "id": "porto",
+            "name": "Porto"
+        },
+        {
+            "id": "braga",
+            "name": "Braga"
+        }
+    ],
+    "places": [
+        {
+            "id": "ChIJSyuRMHAzGQ0R2TLSnEvPVjE",
+            "name": "La Trattoria",
+            "description": "",
+            "address": "R. Artilharia 1 79, 1250-038 Lisboa, Portugal",
+            "categories": [
+                "restaurant"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.724543,
+                "lng": -9.15606
+            }
+        },
+        {
+            "id": "ChIJH5RKyQwzGQ0RlxOx3eZow_k",
+            "name": "Rice Me",
+            "description": "Restaurante certificado pela APC com pratos à base de arroz.",
+            "address": "R. Carlos Testa 18A, 1050-046 Lisboa, Portugal",
+            "categories": [
+                "restaurant"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.7335122,
+                "lng": -9.1527965
+            }
+        },
+        {
+            "id": "ChIJDXzkhwAwHw0RCpQtrjmpMBE",
+            "name": "Refúgio do Maneta",
+            "description": "",
+            "categories": [
+                "restaurant"
+            ],
+            "address": "R. Inácio Nunes da Costa n°5, 2560-546 Silveira, Portugal",
+            "district": "lisboa",
+            "certified": false,
+            "position": {
+                "lat": 39.1121286,
+                "lng": -9.366643899999998
+            }
+        },
+        {
+            "id": "ChIJazrq-aP-JA0RtP5bz1O8ip8",
+            "name": "Jardim Verde",
+            "description": "",
+            "address": "R. Dr. António Alves Palha 63, 4715-091 Braga, Portugal",
+            "categories": [],
+            "district": "braga",
+            "certified": false,
+            "position": {
+                "lat": 41.5482142,
+                "lng": -8.4025925
+            }
+        }
+    ]
+}

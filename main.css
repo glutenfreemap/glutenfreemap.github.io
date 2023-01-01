@@ -1,0 +1,39 @@
+body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.main {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding: 1em 0;
+}
+
+.results-container {
+    position: relative;
+    flex: auto;
+}
+
+#map {
+    min-height: 20vw;
+    height: 100%;
+    width: 100%;
+}
+
+.results-map {
+}
+
+.results-list-container {
+    height: 100%;
+    position: absolute;
+    overflow-y: auto;
+    right: 0;
+}
+
+.results-list-item {
+    cursor: pointer;
+}
