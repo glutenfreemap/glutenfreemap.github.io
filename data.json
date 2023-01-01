@@ -81,6 +81,21 @@
                 "lat": 41.5482142,
                 "lng": -8.4025925
             }
+        },
+        {
+            "id": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
+            "name": "Zarzuela",
+            "description": "",
+            "address": "R. Bernardino Costa 21 23, 1200-052 Lisboa, Portugal",
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.706882,
+                "lng": -9.142439999999999
+            }
         }
     ]
 }

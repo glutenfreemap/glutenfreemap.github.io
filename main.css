@@ -18,8 +18,13 @@ body {
     flex: auto;
 }
 
+.results-container > .row {
+    position: relative;
+    height: 100%;
+}
+
 #map {
-    min-height: 20vw;
+    min-height: 20em;
     height: 100%;
     width: 100%;
 }
@@ -27,11 +32,16 @@ body {
 .results-map {
 }
 
-.results-list-container {
-    height: 100%;
-    position: absolute;
-    overflow-y: auto;
-    right: 0;
+@media (min-width: 768px) {
+    .results-list-container {
+        position: relative;
+    }
+
+    .results-list-container .list-group {
+        height: 100%;
+        position: absolute;
+        overflow-y: auto;
+    }
 }
 
 .results-list-item {
