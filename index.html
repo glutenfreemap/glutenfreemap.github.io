@@ -68,7 +68,7 @@
                 </div>
                 <div style="display:none"></div>
                 <div class="view-link"> <a target="_blank"
-                        data-bind="attr: { href: 'https://www.google.com/maps/place/?q=place_id:' + encodeURI(id) }"
+                        data-bind="attr: { href: `https://www.google.com/maps/search/?api=1&query=${encodeURI(address.join(','))}&query_place_id=${encodeURI(id)}` }"
                         tabindex="0"> <span>Visualize no Google Maps</span> </a> </div>
             </div>
         </div>
