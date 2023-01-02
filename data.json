@@ -28,7 +28,10 @@
             "id": "ChIJSyuRMHAzGQ0R2TLSnEvPVjE",
             "name": "La Trattoria",
             "description": "",
-            "address": "R. Artilharia 1 79, 1250-038 Lisboa, Portugal",
+            "address": [
+                "R. Artilharia 1 79",
+                "1250-038 Lisboa, Portugal"
+            ],
             "categories": [
                 "restaurant"
             ],
@@ -43,7 +46,10 @@
             "id": "ChIJH5RKyQwzGQ0RlxOx3eZow_k",
             "name": "Rice Me",
             "description": "Restaurante certificado pela APC com pratos à base de arroz.",
-            "address": "R. Carlos Testa 18A, 1050-046 Lisboa, Portugal",
+            "address": [
+                "R. Carlos Testa 18A",
+                "1050-046 Lisboa, Portugal"
+            ],
             "categories": [
                 "restaurant"
             ],
@@ -61,7 +67,10 @@
             "categories": [
                 "restaurant"
             ],
-            "address": "R. Inácio Nunes da Costa n°5, 2560-546 Silveira, Portugal",
+            "address": [
+                "R. Inácio Nunes da Costa n°5",
+                "2560-546 Silveira, Portugal"
+            ],
             "district": "lisboa",
             "certified": false,
             "position": {
@@ -73,7 +82,10 @@
             "id": "ChIJazrq-aP-JA0RtP5bz1O8ip8",
             "name": "Jardim Verde",
             "description": "",
-            "address": "R. Dr. António Alves Palha 63, 4715-091 Braga, Portugal",
+            "address": [
+                "R. Dr. António Alves Palha 63",
+                "4715-091 Braga, Portugal"
+            ],
             "categories": [],
             "district": "braga",
             "certified": false,
@@ -86,7 +98,10 @@
             "id": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
             "name": "Zarzuela",
             "description": "",
-            "address": "R. Bernardino Costa 21 23, 1200-052 Lisboa, Portugal",
+            "address": [
+                "R. Bernardino Costa 21 23",
+                "1200-052 Lisboa, Portugal"
+            ],
             "categories": [
                 "bakery"
             ],
