@@ -1,5 +1,4 @@
 
-
 function ViewModel(data, map) {
     this.filters = {
         category: {
@@ -99,56 +98,7 @@ function initMap() {
         center: { lat: 39.95411101672692, lng: -8.00837091713906 },
     });
 
-    $.getJSON("data.json", data => {
-        ko.applyBindings(new ViewModel(data, map));
-    });
-
-
-    // const contentString =
-    //     '<div id="content">' +
-    //     '<div id="siteNotice">' +
-    //     "</div>" +
-    //     '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
-    //     '<div id="bodyContent">' +
-    //     "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-    //     "sandstone rock formation in the southern part of the " +
-    //     "Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) " +
-    //     "south west of the nearest large town, Alice Springs; 450&#160;km " +
-    //     "(280&#160;mi) by road. Kata Tjuta and Uluru are the two major " +
-    //     "features of the Uluru - Kata Tjuta National Park. Uluru is " +
-    //     "sacred to the Pitjantjatjara and Yankunytjatjara, the " +
-    //     "Aboriginal people of the area. It has many springs, waterholes, " +
-    //     "rock caves and ancient paintings. Uluru is listed as a World " +
-    //     "Heritage Site.</p>" +
-    //     '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-    //     "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-    //     "(last visited June 22, 2009).</p>" +
-    //     "</div>" +
-    //     "</div>";
-    // const infowindow = new google.maps.InfoWindow({
-    //     content: contentString,
-    //     ariaLabel: "Uluru",
-    // });
-    // const marker = new google.maps.Marker({
-    //     position: uluru,
-    //     map,
-    //     title: "Uluru (Ayers Rock)",
-    // });
-
-    // const marker2 = new google.maps.Marker({
-    //     position: { lat: -20.453, lng: 131.044 },
-    //     map,
-    //     title: "Uluru2",
-    // });
-
-    // marker.addListener("click", () => {
-    //     infowindow.open({
-    //         anchor: marker,
-    //         map,
-    //     });
-    // });
-
-    // document.getElementById("bt1").addEventListener("click", function() {
-    //     marker.setVisible(!marker.getVisible());
-    // });
+    fetch(dataUrl, { cache: "force-cache" })
+        .then(response => response.json())
+        .then(data => ko.applyBindings(new ViewModel(data, map)));
 }
