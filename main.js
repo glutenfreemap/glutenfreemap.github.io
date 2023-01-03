@@ -1,8 +1,15 @@
 
-function ViewModel(data, map) {
+function ViewModel() {
+
+    this.data = ko.observable({});
+    this.loaded = ko.observable();
+    this.mapLoaded = ko.observable();
+
+    this.places = ko.computed(() => this.data().places);
+
     this.filters = {
         category: {
-            values: data.categories,
+            values: ko.computed(() => this.data().categories),
             selected: ko.observable(),
             match: function(place) {
                 const selected = this.selected();
@@ -10,7 +17,7 @@ function ViewModel(data, map) {
             }
         },
         district: {
-            values: data.districts,
+            values: ko.computed(() => this.data().districts),
             selected: ko.observable(),
             match: function(place) {
                 const selected = this.selected();
@@ -26,38 +33,14 @@ function ViewModel(data, map) {
         }
     };
 
-    // Create popup
-    const infoWindow = new google.maps.InfoWindow({});
-
-    // Create markers
-    const places = data.places.map(info => {
-        const marker = new google.maps.Marker({
-            map,
-            position: info.position,
-            title: info.name,
-        });
-        
-        const place = {
-            info,
-            marker
-        };
-
-        marker.addListener("click", () => this.selectedPlace(place));
-
-        return place;
-    });
-
     this.visiblePlaces = ko.computed(() => {
+        const places = this.places();
+        if (!places) {
+            return [];
+        }
+
         const filters = Object.values(this.filters);
-        return places.filter(place => !filters.some(filter => !filter.match(place.info)));
-    });
-
-    const markerCluster = new markerClusterer.MarkerClusterer({ map, markers: places.map(p => p.marker) });
-
-    this.visiblePlaces.subscribe(places => {
-        infoWindow.close();
-        markerCluster.clearMarkers(true);
-        markerCluster.addMarkers(places.map(p => p.marker));
+        return places.filter(place => !filters.some(filter => !filter.match(place)));
     });
 
     this.selectedPlace = ko.observable();
@@ -65,36 +48,82 @@ function ViewModel(data, map) {
     this.gotoPlace = (place) => {
         this.selectedPlace(place);
     };
-
-    this.selectedPlace.subscribe(place => {
-        if (place) {
-            map.setZoom(14);
-            map.panTo(place.info.position);
-
-            setTimeout(function() {
-                infoWindow.setOptions({
-                    ariaLabel: place.info.name,
-                    content: document.getElementById("popup").querySelector("div").cloneNode(true)
-                });
-                infoWindow.open({
-                    anchor: place.marker,
-                    shouldFocus: false,
-                    map,
-                });
-            }, 0);
-        }
-    });
 }
 
+function subscribeAndUpdate(observable, handler) {
+    observable.subscribe(handler);
+    handler(observable());
+}
 
-function initMap() {
-    
-    const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 7,
-        center: { lat: 39.95411101672692, lng: -8.00837091713906 },
-    });
+const viewModel = new ViewModel();
+
+function main(dataUrl) {
+    ko.applyBindings(viewModel);
 
     fetch(dataUrl, { cache: "force-cache" })
         .then(response => response.json())
-        .then(data => ko.applyBindings(new ViewModel(data, map)));
+        .then(data => {
+            viewModel.data(data);
+            viewModel.loaded(true);
+        });
+}
+
+function initMap() {
+    subscribeAndUpdate(viewModel.loaded, loaded => {
+        if (!loaded) return;
+
+        console.log("loaded!")
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 7,
+            center: { lat: 39.95411101672692, lng: -8.00837091713906 },
+        });
+
+        viewModel.mapLoaded(true);
+
+        // Create popup
+        const infoWindow = new google.maps.InfoWindow({});
+
+        // Create markers
+        viewModel.places().forEach(place => {
+            const marker = new google.maps.Marker({
+                map,
+                position: place.position,
+                title: place.name,
+            });
+            
+            marker.addListener("click", () => viewModel.selectedPlace(place));
+            place.marker = marker;
+        });
+
+        // Add a clusterer
+        const markerCluster = new markerClusterer.MarkerClusterer({ map, markers: viewModel.places().map(p => p.marker) });
+
+        subscribeAndUpdate(viewModel.visiblePlaces, places => {
+            infoWindow.close();
+            markerCluster.clearMarkers(true);
+            markerCluster.addMarkers(places.map(p => p.marker));
+        });
+
+        subscribeAndUpdate(viewModel.selectedPlace, place => {
+            if (place) {
+                map.setZoom(14);
+                map.panTo(place.position);
+
+                setTimeout(function() {
+                    infoWindow.setOptions({
+                        ariaLabel: place.name,
+                        content: document.getElementById("popup").querySelector("div").cloneNode(true)
+                    });
+                    infoWindow.open({
+                        anchor: place.marker,
+                        shouldFocus: false,
+                        map,
+                    });
+                }, 0);
+            } else {
+                infoWindow.close();
+            }
+        });
+    });
 }
