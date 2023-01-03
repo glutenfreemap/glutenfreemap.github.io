@@ -26,23 +26,8 @@ function ViewModel(data, map) {
         }
     };
 
-    this.openPlaceInfo = function(place) {
-        setTimeout(function() {
-            infowindow.setOptions({
-                ariaLabel: place.info.name,
-                content: document.getElementById("popup").querySelector("div").cloneNode(true)
-            });
-            infowindow.open({
-                anchor: place.marker,
-                shouldFocus: false,
-                map,
-            });
-        }, 0);
-    }
-
     // Create popup
-    const infowindow = new google.maps.InfoWindow({
-    });
+    const infoWindow = new google.maps.InfoWindow({});
 
     // Create markers
     const places = data.places.map(info => {
@@ -57,7 +42,7 @@ function ViewModel(data, map) {
             marker
         };
 
-        marker.addListener("click", () => this.openPlaceInfo(place));
+        marker.addListener("click", () => this.selectedPlace(place));
 
         return place;
     });
@@ -70,7 +55,7 @@ function ViewModel(data, map) {
     const markerCluster = new markerClusterer.MarkerClusterer({ map, markers: places.map(p => p.marker) });
 
     this.visiblePlaces.subscribe(places => {
-        infowindow.close();
+        infoWindow.close();
         markerCluster.clearMarkers(true);
         markerCluster.addMarkers(places.map(p => p.marker));
     });
@@ -85,7 +70,18 @@ function ViewModel(data, map) {
         if (place) {
             map.setZoom(14);
             map.panTo(place.info.position);
-            this.openPlaceInfo(place);
+
+            setTimeout(function() {
+                infoWindow.setOptions({
+                    ariaLabel: place.info.name,
+                    content: document.getElementById("popup").querySelector("div").cloneNode(true)
+                });
+                infoWindow.open({
+                    anchor: place.marker,
+                    shouldFocus: false,
+                    map,
+                });
+            }, 0);
         }
     });
 }
