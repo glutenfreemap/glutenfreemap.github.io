@@ -137,11 +137,13 @@
 
                         console.log(details);
 
+                        var addressParts = /^(.*),\s*(\d{4}-\d{3}.*)/.exec(details.formatted_address);
+
                         infowindowContent.children.namedItem("place-json").textContent = JSON.stringify({
                             id: place.place_id,
                             name: place.name,
                             description: "",
-                            address: details.formatted_address,
+                            address: addressParts ? [addressParts[1], addressParts[2]] : [details.formatted_address],
                             categories: [ ],
                             district: "",
                             certified: false,
