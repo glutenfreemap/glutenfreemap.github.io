@@ -57,12 +57,20 @@ function subscribeAndUpdate(observable, handler) {
 
 const viewModel = new ViewModel();
 
+function compareStringsIgnoreCase(a, b) {
+    var lowerA = a.toLowerCase();
+    var lowerB = b.toLowerCase();
+    return lowerA < lowerB ? -1 : (lowerA > lowerB ? 1 : 0);
+}
+
 function main(dataUrl) {
     ko.applyBindings(viewModel);
 
     fetch(dataUrl, { cache: "force-cache" })
         .then(response => response.json())
         .then(data => {
+            data.places.sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
+
             viewModel.data(data);
             viewModel.loaded(true);
         });
