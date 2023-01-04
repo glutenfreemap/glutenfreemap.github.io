@@ -1,12 +1,34 @@
 {
+    "languages": [
+        {
+            "id": "pt",
+            "name": "Português"
+        },
+        {
+            "id": "en",
+            "name": "English"
+        },
+        {
+            "id": "fr",
+            "name": "Français"
+        }
+    ],
     "categories": [
         {
             "id": "restaurant",
-            "name": "Restaurante"
+            "name": {
+                "pt": "Restaurante",
+                "en": "Restaurant",
+                "fr": "Restaurant"
+            }
         },
         {
             "id": "bakery",
-            "name": "Pastelaria"
+            "name": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            }
         }
     ],
     "districts": [

@@ -29,6 +29,26 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  glutenfreemap
 
+languages:
+- id: pt
+  name: Português
+  links:
+    map: Mapa
+    about: Acerca
+
+- id: en
+  name: English
+  links:
+    map: Map
+    about: About
+
+- id: fr
+  name: Français
+  links:
+    map: Carte
+    about: À propos
+
+
 # Build settings
 # theme: minima
 # plugins:

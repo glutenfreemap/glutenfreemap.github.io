@@ -1,7 +1,9 @@
-
 function ViewModel() {
 
     this.data = ko.observable({});
+
+    this.language = ko.observable();
+
     this.loaded = ko.observable();
     this.mapLoaded = ko.observable();
 
@@ -9,7 +11,15 @@ function ViewModel() {
 
     this.filters = {
         category: {
-            values: ko.computed(() => this.data().categories),
+            values: ko.computed(() => {
+                const lang = this.language();
+                const categories = this.data().categories;
+                if (!lang || !categories) return [];
+
+                return this.data().categories
+                    .map(d => ({ id: d.id, name: d.name[lang] }))
+                    .sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
+            }),
             selected: ko.observable(),
             match: function(place) {
                 const selected = this.selected();
@@ -63,12 +73,14 @@ function compareStringsIgnoreCase(a, b) {
     return lowerA < lowerB ? -1 : (lowerA > lowerB ? 1 : 0);
 }
 
-function main(dataUrl) {
+function main(dataUrl, lang) {
+    viewModel.language(lang);
     ko.applyBindings(viewModel);
 
     fetch(dataUrl, { cache: "force-cache" })
         .then(response => response.json())
         .then(data => {
+            data.districts.sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
             data.places.sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
 
             viewModel.data(data);
@@ -79,8 +91,6 @@ function main(dataUrl) {
 function initMap() {
     subscribeAndUpdate(viewModel.loaded, loaded => {
         if (!loaded) return;
-
-        console.log("loaded!")
 
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 7,
