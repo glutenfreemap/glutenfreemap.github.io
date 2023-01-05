@@ -1,4 +1,5 @@
-function ViewModel() {
+
+function ViewModel(storage) {
 
     this.data = ko.observable({});
 
@@ -23,7 +24,7 @@ function ViewModel() {
             selected: ko.observable(),
             match: function(place) {
                 const selected = this.selected();
-                return selected == null || place.categories.indexOf(selected.id) != -1;
+                return selected == null || place.categories.indexOf(selected) != -1;
             }
         },
         district: {
@@ -31,7 +32,7 @@ function ViewModel() {
             selected: ko.observable(),
             match: function(place) {
                 const selected = this.selected();
-                return selected == null || place.district === selected.id;
+                return selected == null || place.district === selected;
             }
         },
         certified: {
@@ -42,6 +43,17 @@ function ViewModel() {
             }
         }
     };
+
+    const bindToStorage = (observable, key) => {
+        this.loaded.subscribe(() => {
+            observable(storage.getItem(key));
+            observable.subscribe(value => storage.setItem(key, value));
+        });
+    }
+
+    bindToStorage(this.filters.category.selected, "filters.category");
+    bindToStorage(this.filters.district.selected, "filters.district");
+    bindToStorage(this.filters.certified.selected, "filters.certified");
 
     this.visiblePlaces = ko.computed(() => {
         const places = this.places();
@@ -65,7 +77,7 @@ function subscribeAndUpdate(observable, handler) {
     handler(observable());
 }
 
-const viewModel = new ViewModel();
+const viewModel = new ViewModel(window.localStorage);
 
 function compareStringsIgnoreCase(a, b) {
     var lowerA = a.toLowerCase();
@@ -103,7 +115,7 @@ function initMap() {
         const infoWindow = new google.maps.InfoWindow({});
 
         // Create markers
-        viewModel.places().forEach(place => {
+        const markers = viewModel.places().map(place => {
             const marker = new google.maps.Marker({
                 map,
                 position: place.position,
@@ -112,6 +124,7 @@ function initMap() {
             
             marker.addListener("click", () => viewModel.selectedPlace(place));
             place.marker = marker;
+            return marker;
         });
 
         // Add a clusterer
@@ -126,8 +139,14 @@ function initMap() {
 
         subscribeAndUpdate(viewModel.visiblePlaces, places => {
             infoWindow.close();
+
+            markers.forEach(m => m.setMap(null));
+
             markerCluster.clearMarkers(true);
-            markerCluster.addMarkers(places.map(p => p.marker));
+            markerCluster.addMarkers(places.map(p => {
+                p.marker.setMap(map);
+                return p.marker;
+            }));
         });
 
         subscribeAndUpdate(viewModel.selectedPlace, place => {
