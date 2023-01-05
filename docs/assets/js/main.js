@@ -107,7 +107,23 @@ function initMap() {
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 7,
             center: { lat: 39.95411101672692, lng: -8.00837091713906 },
+            streetViewControl: false
         });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+            
+                    map.setCenter(pos);
+                    map.setZoom(12);
+                },
+                () => {}
+            );
+        }
 
         viewModel.mapLoaded(true);
 
