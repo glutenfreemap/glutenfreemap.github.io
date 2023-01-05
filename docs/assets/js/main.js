@@ -141,6 +141,7 @@ function initMap() {
                 map,
                 position: place.position,
                 title: place.name,
+                icon: `/assets/img/pin-${ place.certified ? "green" : "black" }.svg`
             });
             
             marker.addListener("click", () => viewModel.selectedPlace(place));
