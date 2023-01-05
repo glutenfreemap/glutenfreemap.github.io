@@ -70,6 +70,9 @@ layout: localized
                         data-bind="click: $parent.gotoPlace">
                         <div class="ms-2 me-auto">
                             <div class="fw-bold" data-bind="text: name"></div>
+                            <!-- ko foreach: categories -->
+                                <small class="text-muted" data-bind="text: $root.getCategory($data)"></small>
+                            <!-- /ko -->
                             <div data-bind="text: $root.getTranslatedValue(description)"></div>
                         </div>
                         <span class="badge bg-success rounded-pill" data-bind="if: certified">{{ page.strings.certified.badge }}</span>

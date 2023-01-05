@@ -55,6 +55,10 @@ function ViewModel(storage) {
     bindToStorage(this.filters.district.selected, "filters.district");
     bindToStorage(this.filters.certified.selected, "filters.certified");
 
+    this.categoriesById = ko.computed(() => {
+        return this.filters.category.values().reduce((a, c) => { a[c.id] = c.name; return a; }, {});
+    });
+
     this.visiblePlaces = ko.computed(() => {
         const places = this.places();
         if (!places) {
@@ -76,6 +80,8 @@ function ViewModel(storage) {
         const lang = this.language();
         return values[lang] || values.pt;
     };
+
+    this.getCategory = id => this.categoriesById()[id];
 }
 
 function subscribeAndUpdate(observable, handler) {

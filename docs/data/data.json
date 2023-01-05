@@ -138,9 +138,9 @@
             "id": "ChIJDXzkhwAwHw0RCpQtrjmpMBE",
             "name": "Refúgio do Maneta",
             "description": {
-                "pt": "Restaurante",
-                "en": "Restaurant",
-                "fr": "Restaurant"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "categories": [
                 "restaurant"
@@ -160,9 +160,9 @@
             "id": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
             "name": "Zarzuela",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. Bernardino Costa 21 23",
@@ -182,9 +182,9 @@
             "id": "ChIJj22_NUAvHw0RgV6Y_rZyPG8",
             "name": "Talho das Manas",
             "description": {
-                "pt": "Talho",
-                "en": "Butchery",
-                "fr": "Boucherie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Largo Luis de Camões 1",
@@ -204,9 +204,9 @@
             "id": "ChIJERhzUeQ1GQ0RFaTir5Z8Jy4",
             "name": "GROM",
             "description": {
-                "pt": "Gelataria",
-                "en": "Ice Cream",
-                "fr": "Glacier"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. Garrett 42",
@@ -226,9 +226,9 @@
             "id": "ChIJH4EKzag0GQ0RQmZkvy9IN-E",
             "name": "The Food for Real Alcântara",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. dos Lusíadas 51 A",
@@ -266,9 +266,9 @@
             "id": "ChIJt-y0kxfNHg0RgiaiY6yRp_4",
             "name": "Gelataria Scoop Gelato",
             "description": {
-                "pt": "Gelataria",
-                "en": "Ice Cream",
-                "fr": "Glacier"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. da Cruz a Caselas 3",
@@ -288,9 +288,9 @@
             "id": "ChIJx30CuVXLHg0RG2pydX3H6TI",
             "name": "Naturluv",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Av. da República 16B",
@@ -310,9 +310,9 @@
             "id": "ChIJS7720BjJHg0R_3YPjig13x0",
             "name": "Batarda's",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Praceta Lagoa de Óbidos 38",
@@ -332,9 +332,9 @@
             "id": "ChIJTRtXqy_EHg0RpJm6mQok6NQ",
             "name": "Gelateria Italiana Fabio Lupi",
             "description": {
-                "pt": "Gelataria",
-                "en": "Ice Cream",
-                "fr": "Glacier"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Av. Valbom 10A",
@@ -354,9 +354,9 @@
             "id": "ChIJx2I1hiozGQ0RMIlpo_DLWaA",
             "name": "Rice Me Deli",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Av. António Augusto de Aguiar 124 A",
@@ -376,9 +376,9 @@
             "id": "ChIJf1v-rKgzGQ0RuSyX_dZ7Edo",
             "name": "Despensa N.6",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Av. Sacadura Cabral 6A",
@@ -398,9 +398,9 @@
             "id": "ChIJZyNS9aAvHw0ReDX4COiBWaQ",
             "name": "Pasteis Brasão",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Rua da Pena Seca, Nº5 Bonabal",
@@ -420,9 +420,9 @@
             "id": "ChIJTQ_QindlJA0RvmP6i0DDSco",
             "name": "Celícias",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. Machado dos Santos 639",
@@ -442,9 +442,9 @@
             "id": "ChIJ3RHB6eNkJA0Rg8lLQkCZaB0",
             "name": "Com Cuore",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Rua Trindade Coelho entrada 10 loja 11",
@@ -502,9 +502,9 @@
             "id": "ChIJ4zMOGJ0vPQ0RB4g8q4UGpwg",
             "name": "H2otel Congress & Medical Spa",
             "description": {
-                "pt": "Hotel",
-                "en": "Hotel",
-                "fr": "Hotel"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Av. das Termas Apartado 459",
@@ -524,9 +524,9 @@
             "id": "ChIJpfiD8v4iPQ0RQKpVDjwEmlA",
             "name": "Puralã - Wool Valley Hotel & SPA",
             "description": {
-                "pt": "Hotel",
-                "en": "Hotel",
-                "fr": "Hotel"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Alameda Pêro da Covilhã",
@@ -544,9 +544,9 @@
             "id": "ChIJpfiD8v4iPQ0RD6ebNYZe7I0",
             "name": "Sport Hotel Gym + SPA",
             "description": {
-                "pt": "Hotel",
-                "en": "Hotel",
-                "fr": "Hotel"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Av. Frei Heitor Pinto Bloco A",
@@ -564,9 +564,9 @@
             "id": "ChIJ0ffGYKUrQwsRLkloXQ8xtrM",
             "name": "Longe da Espiga",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. Dr. Filipe da Cunha Álvares Cabral 5 Cave Esquerda",
@@ -584,9 +584,9 @@
             "id": "ChIJZek67UjlGQ0RbGmMLu7aMqU",
             "name": "O Grão Da Mesma Mó",
             "description": {
-                "pt": "Restaurante",
-                "en": "Restaurant",
-                "fr": "Restaurant"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Alcarcova de Baixo 45",
@@ -604,9 +604,9 @@
             "id": "ChIJF_FbJqfTJA0RpkP58j-nPus",
             "name": "Biclaque",
             "description": {
-                "pt": "Restaurante",
-                "en": "Restaurant",
-                "fr": "Restaurant"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Rua do Complexo Turístico de Lamelas, 1",
@@ -624,9 +624,9 @@
             "id": "ChIJvZQJLGP9JA0R4Vk-oYjbptQ",
             "name": "Bonna",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. Dom Paio Mendes 3",
@@ -644,9 +644,9 @@
             "id": "ChIJi4dz8YZGJA0Rlx2J1XpqCUs",
             "name": "Boca de Leão",
             "description": {
-                "pt": "Pastelaria",
-                "en": "Bakery",
-                "fr": "Pâtisserie"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "R. Dr. Manuel Monteiro 27",
@@ -666,9 +666,9 @@
             "id": "ChIJJ7y5f6PSJA0Rc0Z5kiqRhjc",
             "name": "Pena Park Hotel",
             "description": {
-                "pt": "Hotel",
-                "en": "Hotel",
-                "fr": "Hotel"
+                "pt": "",
+                "en": "",
+                "fr": ""
             },
             "address": [
                 "Rua do Complexo Turístico de Lamelas, 1",

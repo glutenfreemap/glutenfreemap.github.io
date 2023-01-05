@@ -74,6 +74,10 @@ footer a:hover {
     cursor: pointer;
 }
 
+.results-list-item small + small::before {
+    content: "| ";
+}
+
 .map-placeholder {
     background-color: #ccc;
 }
