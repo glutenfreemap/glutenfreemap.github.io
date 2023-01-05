@@ -2,4 +2,4 @@
 layout: page
 lang: en
 ---
-Hello
+Coming soon.
