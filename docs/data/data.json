@@ -29,6 +29,30 @@
                 "en": "Bakery",
                 "fr": "Pâtisserie"
             }
+        },
+        {
+            "id": "ice-cream",
+            "name": {
+                "pt": "Gelataria",
+                "en": "Ice Cream Parlor",
+                "fr": "Glacier"
+            }
+        },
+        {
+            "id": "butchery",
+            "name": {
+                "pt": "Talho",
+                "en": "Butchery",
+                "fr": "Boucherie"
+            }
+        },
+        {
+            "id": "hotel",
+            "name": {
+                "pt": "Hotel",
+                "en": "Hotel",
+                "fr": "Hotel"
+            }
         }
     ],
     "districts": [
@@ -43,13 +67,37 @@
         {
             "id": "braga",
             "name": "Braga"
+        },
+        {
+            "id": "guarda",
+            "name": "Guarda"
+        },
+        {
+            "id": "ponta-delgada",
+            "name": "Ponta Delgada"
+        },
+        {
+            "id": "evora",
+            "name": "Evora"
+        },
+        {
+            "id": "vila-real",
+            "name": "Vila Real"
+        },
+        {
+            "id": "coimbra",
+            "name": "Coimbra"
         }
     ],
     "places": [
         {
             "id": "ChIJSyuRMHAzGQ0R2TLSnEvPVjE",
             "name": "La Trattoria",
-            "description": "",
+            "description": {
+                "pt": "Restaurante italiano",
+                "en": "Italian restaurant",
+                "fr": "Restaurant italian"
+            },
             "address": [
                 "R. Artilharia 1 79",
                 "1250-038 Lisboa, Portugal"
@@ -89,7 +137,11 @@
         {
             "id": "ChIJDXzkhwAwHw0RCpQtrjmpMBE",
             "name": "Refúgio do Maneta",
-            "description": "",
+            "description": {
+                "pt": "Restaurante",
+                "en": "Restaurant",
+                "fr": "Restaurant"
+            },
             "categories": [
                 "restaurant"
             ],
@@ -105,25 +157,13 @@
             }
         },
         {
-            "id": "ChIJazrq-aP-JA0RtP5bz1O8ip8",
-            "name": "Jardim Verde",
-            "description": "",
-            "address": [
-                "R. Dr. António Alves Palha 63",
-                "4715-091 Braga, Portugal"
-            ],
-            "categories": [],
-            "district": "braga",
-            "certified": false,
-            "position": {
-                "lat": 41.5482142,
-                "lng": -8.4025925
-            }
-        },
-        {
             "id": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
             "name": "Zarzuela",
-            "description": "",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
             "address": [
                 "R. Bernardino Costa 21 23",
                 "1200-052 Lisboa, Portugal"
@@ -136,6 +176,510 @@
             "position": {
                 "lat": 38.706882,
                 "lng": -9.142439999999999
+            }
+        },
+        {
+            "id": "ChIJj22_NUAvHw0RgV6Y_rZyPG8",
+            "name": "Talho das Manas",
+            "description": {
+                "pt": "Talho",
+                "en": "Butchery",
+                "fr": "Boucherie"
+            },
+            "address": [
+                "Largo Luis de Camões 1",
+                "2560-138 Pte. do Rol, Portugal"
+            ],
+            "categories": [
+                "butchery"
+            ],
+            "district": "lisboa",
+            "certified": false,
+            "position": {
+                "lat": 39.0911329,
+                "lng": -9.319987699999999
+            }
+        },
+        {
+            "id": "ChIJERhzUeQ1GQ0RFaTir5Z8Jy4",
+            "name": "GROM",
+            "description": {
+                "pt": "Gelataria",
+                "en": "Ice Cream",
+                "fr": "Glacier"
+            },
+            "address": [
+                "R. Garrett 42",
+                "1200-204 Lisboa, Portugal"
+            ],
+            "categories": [
+                "ice-cream"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.710925,
+                "lng": -9.1405719
+            }
+        },
+        {
+            "id": "ChIJH4EKzag0GQ0RQmZkvy9IN-E",
+            "name": "The Food for Real Alcântara",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "R. dos Lusíadas 51 A",
+                "1300-366 Lisboa, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.70505429999999,
+                "lng": -9.1808102
+            }
+        },
+        {
+            "id": "ChIJ3Q-VS4MzGQ0RvTWx3Xxbl5U",
+            "name": "The Food for Real Entrecampos",
+            "description": "",
+            "address": [
+                "Praça Carlos Fabião 4B 1600",
+                "1600-316 Lisboa, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.74611639999999,
+                "lng": -9.152437099999998
+            }
+        },
+        {
+            "id": "ChIJt-y0kxfNHg0RgiaiY6yRp_4",
+            "name": "Gelataria Scoop Gelato",
+            "description": {
+                "pt": "Gelataria",
+                "en": "Ice Cream",
+                "fr": "Glacier"
+            },
+            "address": [
+                "R. da Cruz a Caselas 3",
+                "1400-083 Lisboa, Portugal"
+            ],
+            "categories": [
+                "ice-cream"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.71555240000001,
+                "lng": -9.2145101
+            }
+        },
+        {
+            "id": "ChIJx30CuVXLHg0RG2pydX3H6TI",
+            "name": "Naturluv",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "Av. da República 16B",
+                "1495-107 Algés, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.7013311,
+                "lng": -9.232755
+            }
+        },
+        {
+            "id": "ChIJS7720BjJHg0R_3YPjig13x0",
+            "name": "Batarda's",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "Praceta Lagoa de Óbidos 38",
+                "2775-722 Parede, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.6945651,
+                "lng": -9.342839500000002
+            }
+        },
+        {
+            "id": "ChIJTRtXqy_EHg0RpJm6mQok6NQ",
+            "name": "Gelateria Italiana Fabio Lupi",
+            "description": {
+                "pt": "Gelataria",
+                "en": "Ice Cream",
+                "fr": "Glacier"
+            },
+            "address": [
+                "Av. Valbom 10A",
+                "2750-508 Cascais, Portugal"
+            ],
+            "categories": [
+                "ice-cream"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.6990787,
+                "lng": -9.420091000000001
+            }
+        },
+        {
+            "id": "ChIJx2I1hiozGQ0RMIlpo_DLWaA",
+            "name": "Rice Me Deli",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "Av. António Augusto de Aguiar 124 A",
+                "1050-124 Lisboa, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.73349390000001,
+                "lng": -9.152955299999999
+            }
+        },
+        {
+            "id": "ChIJf1v-rKgzGQ0RuSyX_dZ7Edo",
+            "name": "Despensa N.6",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "Av. Sacadura Cabral 6A",
+                "1000-274 Lisboa, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.7448556,
+                "lng": -9.1402889
+            }
+        },
+        {
+            "id": "ChIJZyNS9aAvHw0ReDX4COiBWaQ",
+            "name": "Pasteis Brasão",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "Rua da Pena Seca, Nº5 Bonabal",
+                "2565-835 Torres Vedras, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 39.0714742,
+                "lng": -9.342269
+            }
+        },
+        {
+            "id": "ChIJTQ_QindlJA0RvmP6i0DDSco",
+            "name": "Celícias",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "R. Machado dos Santos 639",
+                "4400-209 Vila Nova de Gaia, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "porto",
+            "certified": true,
+            "position": {
+                "lat": 41.1274785,
+                "lng": -8.6318659
+            }
+        },
+        {
+            "id": "ChIJ3RHB6eNkJA0Rg8lLQkCZaB0",
+            "name": "Com Cuore",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "Rua Trindade Coelho entrada 10 loja 11",
+                "4050-618 Porto, Portugal"
+            ],
+            "categories": ["bakery"],
+            "district": "porto",
+            "certified": true,
+            "position": {
+                "lat": 41.1451924,
+                "lng": -8.611552800000002
+            }
+        },
+        {
+            "id": "ChIJV1tMQzpvJA0R4RENcdFBgA8",
+            "name": "Sergio Crivelli",
+            "description": {
+                "pt": "Restaurante italiano",
+                "en": "Italian restaurant",
+                "fr": "Restaurant italian"
+            },
+            "address": [
+                "Rua de Brito Capelo 705",
+                "4450-076 Matosinhos, Portugal"
+            ],
+            "categories": ["restaurant"],
+            "district": "porto",
+            "certified": true,
+            "position": {
+                "lat": 41.181714,
+                "lng": -8.689615999999997
+            }
+        },
+        {
+            "id": "ChIJd3n8GS9nJA0RXXyb6ZMGT_4",
+            "name": "Conessenza",
+            "description": {
+                "pt": "Restaurante italiano",
+                "en": "Italian restaurant",
+                "fr": "Restaurant italian"
+            },
+            "address": [
+                "R. Eng. Duarte Pacheco 277",
+                "4470-174 Maia, Portugal"
+            ],
+            "categories": ["restaurant"],
+            "district": "porto",
+            "certified": true,
+            "position": {
+                "lat": 41.2356024,
+                "lng": -8.6220923
+            }
+        },
+        {
+            "id": "ChIJ4zMOGJ0vPQ0RB4g8q4UGpwg",
+            "name": "H2otel Congress & Medical Spa",
+            "description": {
+                "pt": "Hotel",
+                "en": "Hotel",
+                "fr": "Hotel"
+            },
+            "address": [
+                "Av. das Termas Apartado 459",
+                "6215-674 Unhais da Serra, Portugal"
+            ],
+            "categories": [
+                "hotel"
+            ],
+            "district": "guarda",
+            "certified": true,
+            "position": {
+                "lat": 40.2661659,
+                "lng": -7.624068099999999
+            }
+        },
+        {
+            "id": "ChIJpfiD8v4iPQ0RQKpVDjwEmlA",
+            "name": "Puralã - Wool Valley Hotel & SPA",
+            "description": {
+                "pt": "Hotel",
+                "en": "Hotel",
+                "fr": "Hotel"
+            },
+            "address": [
+                "Alameda Pêro da Covilhã",
+                "6200-507 Covilhã, Portugal"
+            ],
+            "categories": ["hotel"],
+            "district": "guarda",
+            "certified": true,
+            "position": {
+                "lat": 40.2674288,
+                "lng": -7.497471299999998
+            }
+        },
+        {
+            "id": "ChIJpfiD8v4iPQ0RD6ebNYZe7I0",
+            "name": "Sport Hotel Gym + SPA",
+            "description": {
+                "pt": "Hotel",
+                "en": "Hotel",
+                "fr": "Hotel"
+            },
+            "address": [
+                "Av. Frei Heitor Pinto Bloco A",
+                "6201-909 Covilhã, Portugal"
+            ],
+            "categories": ["hotel"],
+            "district": "guarda",
+            "certified": true,
+            "position": {
+                "lat": 40.2841093,
+                "lng": -7.5054775
+            }
+        },
+        {
+            "id": "ChIJ0ffGYKUrQwsRLkloXQ8xtrM",
+            "name": "Longe da Espiga",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "R. Dr. Filipe da Cunha Álvares Cabral 5 Cave Esquerda",
+                "9500-182 Ponta Delgada, Portugal"
+            ],
+            "categories": ["bakery"],
+            "district": "ponta-delgada",
+            "certified": true,
+            "position": {
+                "lat": 37.7382685,
+                "lng": -25.6804223
+            }
+        },
+        {
+            "id": "ChIJZek67UjlGQ0RbGmMLu7aMqU",
+            "name": "O Grão Da Mesma Mó",
+            "description": {
+                "pt": "Restaurante",
+                "en": "Restaurant",
+                "fr": "Restaurant"
+            },
+            "address": [
+                "Alcarcova de Baixo 45",
+                "7000-841 Évora, Portugal"
+            ],
+            "categories": ["restaurant"],
+            "district": "evora",
+            "certified": true,
+            "position": {
+                "lat": 38.5704542,
+                "lng": -7.908417899999998
+            }
+        },
+        {
+            "id": "ChIJF_FbJqfTJA0RpkP58j-nPus",
+            "name": "Biclaque",
+            "description": {
+                "pt": "Restaurante",
+                "en": "Restaurant",
+                "fr": "Restaurant"
+            },
+            "address": [
+                "Rua do Complexo Turístico de Lamelas, 1",
+                "4870-110 Ribeira de Pena, Portugal"
+            ],
+            "categories": ["restaurant"],
+            "district": "vila-real",
+            "certified": true,
+            "position": {
+                "lat": 41.50423000000001,
+                "lng": -7.801541599999999
+            }
+        },
+        {
+            "id": "ChIJvZQJLGP9JA0R4Vk-oYjbptQ",
+            "name": "Bonna",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "R. Dom Paio Mendes 3",
+                "4700-419 Braga, Portugal"
+            ],
+            "categories": ["bakery"],
+            "district": "braga",
+            "certified": true,
+            "position": {
+                "lat": 41.5495717,
+                "lng": -8.4290593
+            }
+        },
+        {
+            "id": "ChIJi4dz8YZGJA0Rlx2J1XpqCUs",
+            "name": "Boca de Leão",
+            "description": {
+                "pt": "Pastelaria",
+                "en": "Bakery",
+                "fr": "Pâtisserie"
+            },
+            "address": [
+                "R. Dr. Manuel Monteiro 27",
+                "4490-624 Póvoa de Varzim, Portugal"
+            ],
+            "categories": [
+                "bakery"
+            ],
+            "district": "porto",
+            "certified": true,
+            "position": {
+                "lat": 41.38408,
+                "lng": -8.755871400000002
+            }
+        },
+        {
+            "id": "ChIJJ7y5f6PSJA0Rc0Z5kiqRhjc",
+            "name": "Pena Park Hotel",
+            "description": {
+                "pt": "Hotel",
+                "en": "Hotel",
+                "fr": "Hotel"
+            },
+            "address": [
+                "Rua do Complexo Turístico de Lamelas, 1",
+                "4870-110 Ribeira de Pena, Portugal"
+            ],
+            "categories": ["hotel"],
+            "district": "vila-real",
+            "certified": true,
+            "position": {
+                "lat": 41.50402919999999,
+                "lng": -7.801981499999999
             }
         }
     ]
