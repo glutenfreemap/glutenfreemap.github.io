@@ -67,7 +67,11 @@
         {
             "id": "ChIJH5RKyQwzGQ0RlxOx3eZow_k",
             "name": "Rice Me",
-            "description": "Restaurante certificado pela APC com pratos à base de arroz.",
+            "description": {
+                "pt": "Restaurante certificado pela APC com pratos à base de arroz.",
+                "en": "APC-certified rice-based restaurant.",
+                "fr": "Restaurant certifié par l'APC servant des plats à base de riz."
+            },
             "address": [
                 "R. Carlos Testa 18A",
                 "1050-046 Lisboa, Portugal"

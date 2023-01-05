@@ -67,8 +67,13 @@ function ViewModel(storage) {
 
     this.selectedPlace = ko.observable();
 
-    this.gotoPlace = (place) => {
+    this.gotoPlace = place => {
         this.selectedPlace(place);
+    };
+
+    this.getTranslatedValue = values => {
+        const lang = this.language();
+        return values[lang] || values.pt;
     };
 }
 

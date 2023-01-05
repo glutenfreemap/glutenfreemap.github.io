@@ -70,7 +70,7 @@ layout: localized
                         data-bind="click: $parent.gotoPlace">
                         <div class="ms-2 me-auto">
                             <div class="fw-bold" data-bind="text: name"></div>
-                            <div data-bind="text: description"></div>
+                            <div data-bind="text: $root.getTranslatedValue(description)"></div>
                         </div>
                         <span class="badge bg-success rounded-pill" data-bind="if: certified">{{ page.strings.certified.badge }}</span>
                     </a>
