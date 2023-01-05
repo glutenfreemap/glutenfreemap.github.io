@@ -25,7 +25,13 @@ lang: pt
     </div>
 </div>
 <script>
-    const languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
+    let languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
+    const lastLanguage = window.localStorage.getItem("preferences.language");
+    if (lastLanguage) {
+        languages = Array.from(languages);
+        languages.unshift(lastLanguage);
+    }
+
     languages.some(l => {
         const id = "lang-" + l.split("-")[0];
         const link = document.getElementById(id);
