@@ -115,7 +115,14 @@ function initMap() {
         });
 
         // Add a clusterer
-        const markerCluster = new markerClusterer.MarkerClusterer({ map, markers: viewModel.places().map(p => p.marker) });
+        const markerCluster = new markerClusterer.MarkerClusterer({
+            map,
+            markers: viewModel.places().map(p => p.marker),
+            onClusterClick: function() {
+                infoWindow.close();
+                markerClusterer.defaultOnClusterClickHandler.apply(this, arguments);
+            }
+        });
 
         subscribeAndUpdate(viewModel.visiblePlaces, places => {
             infoWindow.close();
