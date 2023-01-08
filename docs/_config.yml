@@ -20,10 +20,6 @@
 
 title: GlutenFreeMap
 email: glutenfreemap@aaubry.net
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
@@ -32,18 +28,45 @@ github_username:  glutenfreemap
 languages:
 - id: pt
   name: Português
+  info:
+    description:
+      Uma aplicação para encontrar estabelecimentos adequados a celíacos.
+  install:
+    title: Instalar Aplicação
+    description:
+      Adicione esta aplicação ao seu ecrã inicial para que esteja sempre acessível.
+    accept: Instalar
+    cancel: Não obrigado
   links:
     map: Mapa
     about: Acerca
 
 - id: en
   name: English
+  info:
+    description:
+      An application to find establishments suitable for celiacs.
+  install:
+    title: Install Application
+    description:
+      Add this app to your home screen so it's always accessible.
+    accept: Install
+    cancel: No thanks
   links:
     map: Map
     about: About
 
 - id: fr
   name: Français
+  info:
+    description:
+      Une application pour trouver des établissements adaptés aux coeliaques.
+  install:
+    title: Installer l'Application
+    description:
+      Ajoutez cette application à votre écran d'accueil pour qu'elle soit toujours accessible.
+    accept: Installer
+    cancel: Non merci
   links:
     map: Carte
     about: À propos

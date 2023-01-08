@@ -15,7 +15,7 @@ layout: base
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href=".">{{ language.links.map }} </a>
+                        <a class="nav-link text-dark" href=".">{{ language.links.map }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" href="about.html">{{ language.links.about }}</a>
@@ -41,6 +41,57 @@ layout: base
 
 {{ content }}
 
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="installPrompt" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="gg-export"></i>
+            &nbsp;<strong class="me-auto">{{ language.install.title }}</strong>
+        </div>
+        <div class="toast-body">
+            {{ language.install.description }}
+            <div class="mt-2 pt-2 border-top">
+                <button id="installButton" type="button" class="btn btn-primary btn-sm">{{ language.install.accept }}</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">{{ language.install.cancel }}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     window.localStorage.setItem("preferences.language", "{{ language.id }}");
+
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+            .register("/sw.js")
+            .then(() => console.log("service worker registered"));
+    }
+
+    window.addEventListener("beforeinstallprompt", e => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        // Stash the event so it can be triggered later.
+        const deferredPrompt = e;
+
+        const installPrompt = new bootstrap.Toast(document.getElementById("installPrompt"), {
+            autohide: false
+        });
+        installPrompt.show();
+
+        document.getElementById("installButton").addEventListener("click", e => {
+            // hide our user interface that shows our A2HS button
+            installPrompt.hide();
+
+            // Show the prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === "accepted") {
+                    console.log("User accepted the A2HS prompt");
+                } else {
+                    console.log("User dismissed the A2HS prompt");
+                }
+                deferredPrompt = null;
+            });
+        });
+    });
 </script>
