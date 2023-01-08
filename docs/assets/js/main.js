@@ -122,22 +122,35 @@ function initMap() {
             streetViewControl: false
         });
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-            
-                    map.setCenter(pos);
-                    map.setZoom(12);
-                },
-                () => {}
-            );
-        }
-
         viewModel.mapLoaded(true);
+        
+        if (navigator.geolocation) {
+            const centerBt = document.getElementById("center-bt");
+            centerBt.parentNode.removeChild(centerBt);
+    
+            centerBt.addEventListener("click", () => {
+                centerBt.className = "center-button pending";
+
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        centerBt.className = "center-button";
+
+                        const pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+                
+                        map.setCenter(pos);
+                        map.setZoom(12);
+                    },
+                    () => {
+                        centerBt.className = "center-button";
+                    }
+                );
+            });
+    
+            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerBt);
+        }
 
         // Create popup
         const infoWindow = new google.maps.InfoWindow({});
@@ -180,7 +193,6 @@ function initMap() {
 
         subscribeAndUpdate(viewModel.selectedPlace, place => {
             if (place) {
-                map.setZoom(14);
                 map.panTo(place.position);
 
                 setTimeout(function() {

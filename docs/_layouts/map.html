@@ -51,11 +51,23 @@ layout: localized
                             <div class="address-line full-width" data-bind="text: $data"></div>
                         </div>
                         <div class="view-link"> <a target="_blank"
-                            data-bind="attr: { href: `https://www.google.com/maps/search/?api=1&query=${encodeURI(address.join(','))}&query_place_id=${encodeURI(id)}` }"
-                            tabindex="0"> <span>{{ page.strings.map.viewOnGoogleMaps }}</span> </a>
+                                data-bind="attr: { href: `https://www.google.com/maps/search/?api=1&query=${encodeURI(address.join(','))}&query_place_id=${encodeURI(id)}` }"
+                                tabindex="0"> <span>{{ page.strings.map.viewOnGoogleMaps }}</span> </a>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div style="display: none">
+                <button id="center-bt" class="center-button" aria-label="{{ page.strings.map.centerMap }}" title="{{ page.strings.map.centerMap }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 97">
+                        <circle cx="48.5" cy="48.5" r="38" />
+                        <rect width="97" height="8.5" x="0" y="44.25" />
+                        <rect width="8.5" height="97" x="44.25" y="0" />
+                        <circle class="animated"
+                            style="stroke:#ffffff;stroke-width:28;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers"
+                            cx="48.5" cy="48.5" r="18" />
+                    </svg>
+                </button>
             </div>
         </div>
         <div class="col-md-4 mt-3 mt-md-0">
@@ -71,7 +83,7 @@ layout: localized
                         <div class="ms-2 me-auto">
                             <div class="fw-bold" data-bind="text: name"></div>
                             <!-- ko foreach: categories -->
-                                <small class="text-muted" data-bind="text: $root.getCategory($data)"></small>
+                            <small class="text-muted" data-bind="text: $root.getCategory($data)"></small>
                             <!-- /ko -->
                             <div data-bind="text: $root.getTranslatedValue(description)"></div>
                         </div>
@@ -97,7 +109,7 @@ layout: localized
 <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmm1g52sRlwGvDlE_BzLK4ZA2dEXeYboA&callback=initMap&region=PT&language={{ page.lang }}"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener("DOMContentLoaded", function (event) {
         main("{{ 'data/data.json' | relative_url }}?v={{ site.time | date:'%s' }}", "{{ page.lang }}");
     });
 </script>
