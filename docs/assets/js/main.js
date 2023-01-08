@@ -112,6 +112,7 @@ function main(dataUrl, lang) {
         });
 }
 
+
 function initMap() {
     subscribeAndUpdate(viewModel.loaded, loaded => {
         if (!loaded) return;
@@ -141,7 +142,6 @@ function initMap() {
                         };
                 
                         map.setCenter(pos);
-                        map.setZoom(12);
                     },
                     () => {
                         centerBt.className = "center-button";
