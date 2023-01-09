@@ -112,14 +112,13 @@ function main(dataUrl, lang) {
         });
 }
 
-
 function initMap() {
     subscribeAndUpdate(viewModel.loaded, loaded => {
         if (!loaded) return;
 
         const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 7,
-            center: { lat: 39.95411101672692, lng: -8.00837091713906 },
+            center: { lat: 40, lng: -8 },
             streetViewControl: false
         });
 
