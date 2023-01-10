@@ -77,7 +77,14 @@ function ViewModel(storage) {
     this.selectedPlace = ko.observable();
 
     this.gotoPlace = place => {
-        document.getElementById("map").scrollIntoView();
+        const map = document.getElementById("map");
+        const rect = map.getBoundingClientRect();
+
+        window.scrollTo({
+            top: window.pageYOffset + rect.top - rect.left,
+            behavior: "smooth"
+       });
+
         this.selectedPlace(place);
     };
 
