@@ -104,12 +104,11 @@ layout: localized
     </div>
 </div>
 
-<script defer src="/assets/js/knockout-3.5.0-min.js"></script>
-<script defer src="{{ 'assets/js/main.js' | relative_url }}?v={{ site.time | date:'%s' }}"></script>
-<script defer src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmm1g52sRlwGvDlE_BzLK4ZA2dEXeYboA&callback=initMap&region=PT&language={{ page.lang }}"></script>
-<script defer>
+<script src="/assets/js/knockout-3.5.0-min.js"></script>
+<script>
     document.addEventListener("DOMContentLoaded", function (event) {
         main("{{ 'data/data.json' | relative_url }}?v={{ site.time | date:'%s' }}", "{{ page.lang }}");
     });
 </script>
+<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmm1g52sRlwGvDlE_BzLK4ZA2dEXeYboA&callback=initMap&region=PT&language={{ page.lang }}"></script>

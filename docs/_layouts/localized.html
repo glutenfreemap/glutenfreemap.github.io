@@ -24,7 +24,7 @@ layout: base
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
+                            data-bs-toggle="dropdown" aria-expanded="false" aria-label="{{ language.links.language }}">
                             {{ language.name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -38,6 +38,8 @@ layout: base
         </div>
     </nav>
 </header>
+
+<script src="{{ 'assets/js/main.js' | relative_url }}?v={{ site.time | date:'%s' }}"></script>
 
 {{ content }}
 
@@ -59,39 +61,4 @@ layout: base
 
 <script>
     window.localStorage.setItem("preferences.language", "{{ language.id }}");
-
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker
-            .register("/sw.js")
-            .then(() => console.log("service worker registered"));
-    }
-
-    window.addEventListener("beforeinstallprompt", e => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        const deferredPrompt = e;
-
-        const installPrompt = new bootstrap.Toast(document.getElementById("installPrompt"), {
-            autohide: false
-        });
-        installPrompt.show();
-
-        document.getElementById("installButton").addEventListener("click", e => {
-            // hide our user interface that shows our A2HS button
-            installPrompt.hide();
-
-            // Show the prompt
-            deferredPrompt.prompt();
-            // Wait for the user to respond to the prompt
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === "accepted") {
-                    console.log("User accepted the A2HS prompt");
-                } else {
-                    console.log("User dismissed the A2HS prompt");
-                }
-                deferredPrompt = null;
-            });
-        });
-    });
 </script>

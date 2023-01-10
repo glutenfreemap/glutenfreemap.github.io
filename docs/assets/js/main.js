@@ -1,3 +1,8 @@
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+        .register("/sw.js")
+        .then(() => console.log("service worker registered"));
+}
 
 function ViewModel(storage) {
 
@@ -89,7 +94,12 @@ function subscribeAndUpdate(observable, handler) {
     handler(observable());
 }
 
-const viewModel = new ViewModel(window.localStorage);
+function Deferred() {
+    this.promise = new Promise((resolve, reject) => {
+        this.resolve = resolve;
+        this.reject = reject;
+    });
+}
 
 function compareStringsIgnoreCase(a, b) {
     var lowerA = a.toLowerCase();
@@ -97,9 +107,13 @@ function compareStringsIgnoreCase(a, b) {
     return lowerA < lowerB ? -1 : (lowerA > lowerB ? 1 : 0);
 }
 
+const futureViewModel = new Deferred();
+
 function main(dataUrl, lang) {
+    const viewModel = new ViewModel(window.localStorage);
     viewModel.language(lang);
     ko.applyBindings(viewModel);
+    futureViewModel.resolve(viewModel);
 
     fetch(dataUrl, { cache: "force-cache" })
         .then(response => response.json())
@@ -113,101 +127,133 @@ function main(dataUrl, lang) {
 }
 
 function initMap() {
-    subscribeAndUpdate(viewModel.loaded, loaded => {
-        if (!loaded) return;
+    futureViewModel.promise.then(viewModel => {
+        subscribeAndUpdate(viewModel.loaded, loaded => {
+            if (!loaded) return;
 
-        const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 7,
-            center: { lat: 40, lng: -8 },
-            streetViewControl: false
-        });
-
-        viewModel.mapLoaded(true);
-        
-        if (navigator.geolocation) {
-            const centerBt = document.getElementById("center-bt");
-            centerBt.parentNode.removeChild(centerBt);
-    
-            centerBt.addEventListener("click", () => {
-                centerBt.className = "center-button pending";
-
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        centerBt.className = "center-button";
-
-                        const pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        };
-                
-                        map.setCenter(pos);
-                    },
-                    () => {
-                        centerBt.className = "center-button";
-                    }
-                );
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 7,
+                center: { lat: 40, lng: -8 },
+                streetViewControl: false
             });
-    
-            map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerBt);
-        }
 
-        // Create popup
-        const infoWindow = new google.maps.InfoWindow({});
-
-        // Create markers
-        const markers = viewModel.places().map(place => {
-            const marker = new google.maps.Marker({
-                map,
-                position: place.position,
-                title: place.name,
-                icon: `/assets/img/pin-${ place.certified ? "green" : "black" }.svg`
-            });
+            viewModel.mapLoaded(true);
             
-            marker.addListener("click", () => viewModel.selectedPlace(place));
-            place.marker = marker;
-            return marker;
-        });
+            if (navigator.geolocation) {
+                const centerBt = document.getElementById("center-bt");
+                centerBt.parentNode.removeChild(centerBt);
+        
+                centerBt.addEventListener("click", () => {
+                    centerBt.className = "center-button pending";
 
-        // Add a clusterer
-        const markerCluster = new markerClusterer.MarkerClusterer({
-            map,
-            markers: viewModel.places().map(p => p.marker),
-            onClusterClick: function() {
-                infoWindow.close();
-                markerClusterer.defaultOnClusterClickHandler.apply(this, arguments);
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            centerBt.className = "center-button";
+
+                            const pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                            };
+                    
+                            map.setCenter(pos);
+                        },
+                        () => {
+                            centerBt.className = "center-button";
+                        }
+                    );
+                });
+        
+                map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerBt);
             }
-        });
 
-        subscribeAndUpdate(viewModel.visiblePlaces, places => {
-            infoWindow.close();
+            // Create popup
+            const infoWindow = new google.maps.InfoWindow({});
 
-            markers.forEach(m => m.setMap(null));
+            // Create markers
+            const markers = viewModel.places().map(place => {
+                const marker = new google.maps.Marker({
+                    map,
+                    position: place.position,
+                    title: place.name,
+                    icon: `/assets/img/pin-${ place.certified ? "green" : "black" }.svg`
+                });
+                
+                marker.addListener("click", () => viewModel.selectedPlace(place));
+                place.marker = marker;
+                return marker;
+            });
 
-            markerCluster.clearMarkers(true);
-            markerCluster.addMarkers(places.map(p => {
-                p.marker.setMap(map);
-                return p.marker;
-            }));
-        });
+            // Add a clusterer
+            const markerCluster = new markerClusterer.MarkerClusterer({
+                map,
+                markers: viewModel.places().map(p => p.marker),
+                onClusterClick: function() {
+                    infoWindow.close();
+                    markerClusterer.defaultOnClusterClickHandler.apply(this, arguments);
+                }
+            });
 
-        subscribeAndUpdate(viewModel.selectedPlace, place => {
-            if (place) {
-                map.panTo(place.position);
-
-                setTimeout(function() {
-                    infoWindow.setOptions({
-                        ariaLabel: place.name,
-                        content: document.getElementById("popup").querySelector("div").cloneNode(true)
-                    });
-                    infoWindow.open({
-                        anchor: place.marker,
-                        shouldFocus: false,
-                        map,
-                    });
-                }, 0);
-            } else {
+            subscribeAndUpdate(viewModel.visiblePlaces, places => {
                 infoWindow.close();
-            }
+
+                markers.forEach(m => m.setMap(null));
+
+                markerCluster.clearMarkers(true);
+                markerCluster.addMarkers(places.map(p => {
+                    p.marker.setMap(map);
+                    return p.marker;
+                }));
+            });
+
+            subscribeAndUpdate(viewModel.selectedPlace, place => {
+                if (place) {
+                    map.panTo(place.position);
+
+                    setTimeout(function() {
+                        infoWindow.setOptions({
+                            ariaLabel: place.name,
+                            content: document.getElementById("popup").querySelector("div").cloneNode(true)
+                        });
+                        infoWindow.open({
+                            anchor: place.marker,
+                            shouldFocus: false,
+                            map,
+                        });
+                    }, 0);
+                } else {
+                    infoWindow.close();
+                }
+            });
         });
     });
 }
+
+
+window.addEventListener("beforeinstallprompt", e => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    const deferredPrompt = e;
+
+    const installPrompt = new bootstrap.Toast(document.getElementById("installPrompt"), {
+        autohide: false
+    });
+    installPrompt.show();
+
+    document.getElementById("installButton").addEventListener("click", e => {
+        // hide our user interface that shows our A2HS button
+        installPrompt.hide();
+
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+                console.log("User accepted the A2HS prompt");
+            } else {
+                console.log("User dismissed the A2HS prompt");
+            }
+            deferredPrompt = null;
+        });
+    });
+});
