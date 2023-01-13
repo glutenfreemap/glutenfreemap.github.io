@@ -25,16 +25,16 @@ lang: pt
     </div>
 </div>
 <script>
-    let languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
-    const lastLanguage = window.localStorage.getItem("preferences.language");
+    var languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
+    var lastLanguage = window.localStorage.getItem("preferences.language");
     if (lastLanguage) {
         languages = Array.from(languages);
         languages.unshift(lastLanguage);
     }
 
-    languages.some(l => {
-        const id = "lang-" + l.split("-")[0];
-        const link = document.getElementById(id);
+    languages.some(function(l) {
+        var id = "lang-" + l.split("-")[0];
+        var link = document.getElementById(id);
         if (link) {
             location.replace(link.getAttribute("href"));
             return true;

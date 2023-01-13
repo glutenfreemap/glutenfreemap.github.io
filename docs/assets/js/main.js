@@ -1,10 +1,15 @@
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("/sw.js")
-        .then(() => console.log("service worker registered"));
+        .then(function () {
+            console.log("Service worker registered");
+        });
+} else {
+    console.log("Service workers not available")
 }
 
 function ViewModel(storage) {
+    var self = this;
 
     this.data = ko.observable({});
 
@@ -13,46 +18,46 @@ function ViewModel(storage) {
     this.loaded = ko.observable();
     this.mapLoaded = ko.observable();
 
-    this.places = ko.computed(() => this.data().places);
+    this.places = ko.computed(function() { return self.data().places; });
 
     this.filters = {
         category: {
-            values: ko.computed(() => {
-                const lang = this.language();
-                const categories = this.data().categories;
+            values: ko.computed(function() {
+                var lang = self.language();
+                var categories = self.data().categories;
                 if (!lang || !categories) return [];
 
-                return this.data().categories
-                    .map(d => ({ id: d.id, name: d.name[lang] }))
-                    .sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
+                return self.data().categories
+                    .map(function(d) { return { id: d.id, name: d.name[lang] }; })
+                    .sort(function(a, b) { return compareStringsIgnoreCase(a.name, b.name); });
             }),
             selected: ko.observable(),
             match: function(place) {
-                const selected = this.selected();
+                var selected = this.selected();
                 return selected == null || place.categories.indexOf(selected) != -1;
             }
         },
         district: {
-            values: ko.computed(() => this.data().districts),
+            values: ko.computed(function() { return self.data().districts; }),
             selected: ko.observable(),
             match: function(place) {
-                const selected = this.selected();
+                var selected = this.selected();
                 return selected == null || place.district === selected;
             }
         },
         certified: {
             selected: ko.observable(false),
             match: function(place) {
-                const selected = this.selected();
+                var selected = this.selected();
                 return !selected || place.certified;
             }
         }
     };
 
-    const bindToStorage = (observable, key) => {
-        this.loaded.subscribe(() => {
+    function bindToStorage(observable, key) {
+        self.loaded.subscribe(function() {
             observable(storage.getItem(key));
-            observable.subscribe(value => storage.setItem(key, value));
+            observable.subscribe(function(value) { storage.setItem(key, value); });
         });
     }
 
@@ -60,40 +65,52 @@ function ViewModel(storage) {
     bindToStorage(this.filters.district.selected, "filters.district");
     bindToStorage(this.filters.certified.selected, "filters.certified");
 
-    this.categoriesById = ko.computed(() => {
-        return this.filters.category.values().reduce((a, c) => { a[c.id] = c.name; return a; }, {});
+    this.categoriesById = ko.computed(function() {
+        return self.filters.category.values().reduce(function(a, c) { a[c.id] = c.name; return a; }, {});
     });
 
-    this.visiblePlaces = ko.computed(() => {
-        const places = this.places();
+    this.visiblePlaces = ko.computed(function() {
+        var places = self.places();
         if (!places) {
             return [];
         }
 
-        const filters = Object.values(this.filters);
-        return places.filter(place => !filters.some(filter => !filter.match(place)));
+        return places.filter(function(place) {
+            for (var filterName in self.filters) {
+                if (!self.filters[filterName].match(place)) {
+                    return false;
+                }
+            }
+            return true;
+        });
     });
 
     this.selectedPlace = ko.observable();
 
-    this.gotoPlace = place => {
-        const map = document.getElementById("map");
-        const rect = map.getBoundingClientRect();
+    this.gotoPlace = function (place) {
+        var map = document.getElementById("map");
+        var rect = map.getBoundingClientRect();
 
-        window.scrollTo({
-            top: window.pageYOffset + rect.top - rect.left,
-            behavior: "smooth"
-       });
+        try {
+            window.scrollTo({
+                top: window.pageYOffset + rect.top - rect.left,
+                behavior: "smooth"
+            });
+        } catch(e) {
+            window.scrollTo(0, window.pageYOffset + rect.top - rect.left);
+        }
 
-        this.selectedPlace(place);
+        self.selectedPlace(place);
     };
 
-    this.getTranslatedValue = values => {
-        const lang = this.language();
+    this.getTranslatedValue = function (values) {
+        var lang = self.language();
         return values[lang] || values.pt;
     };
 
-    this.getCategory = id => this.categoriesById()[id];
+    this.getCategory = function (id) {
+        return self.categoriesById()[id];
+    };
 }
 
 function subscribeAndUpdate(observable, handler) {
@@ -102,9 +119,10 @@ function subscribeAndUpdate(observable, handler) {
 }
 
 function Deferred() {
-    this.promise = new Promise((resolve, reject) => {
-        this.resolve = resolve;
-        this.reject = reject;
+    var self = this;
+    this.promise = new Promise(function (resolve, reject) {
+        self.resolve = resolve;
+        self.reject = reject;
     });
 }
 
@@ -114,109 +132,128 @@ function compareStringsIgnoreCase(a, b) {
     return lowerA < lowerB ? -1 : (lowerA > lowerB ? 1 : 0);
 }
 
-const futureViewModel = new Deferred();
+var futureViewModel = new Deferred();
 
 function main(dataUrl, lang) {
-    const viewModel = new ViewModel(window.localStorage);
+    var viewModel = new ViewModel(window.localStorage);
     viewModel.language(lang);
     ko.applyBindings(viewModel);
     futureViewModel.resolve(viewModel);
 
-    fetch(dataUrl, { cache: "force-cache" })
-        .then(response => response.json())
-        .then(data => {
-            data.districts.sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
-            data.places.sort((a, b) => compareStringsIgnoreCase(a.name, b.name));
-
-            viewModel.data(data);
-            viewModel.loaded(true);
+    $.get(dataUrl, function(data) {
+        data.districts.sort(function (a, b) {
+            return compareStringsIgnoreCase(a.name, b.name);
         });
+        data.places.sort(function (a, b) {
+            return compareStringsIgnoreCase(a.name, b.name);
+        });
+
+        viewModel.data(data);
+        viewModel.loaded(true);
+    });
 }
 
 function initMap() {
-    futureViewModel.promise.then(viewModel => {
-        subscribeAndUpdate(viewModel.loaded, loaded => {
+    futureViewModel.promise.then(function (viewModel) {
+        subscribeAndUpdate(viewModel.loaded, function (loaded) {
             if (!loaded) return;
 
-            const map = new google.maps.Map(document.getElementById("map"), {
+            var map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 7,
                 center: { lat: 40, lng: -8 },
-                streetViewControl: false
+                streetViewControl: false,
+                gestureHandling: "greedy"
             });
 
             viewModel.mapLoaded(true);
-            
+
             if (navigator.geolocation) {
-                const centerBt = document.getElementById("center-bt");
+                var centerBt = document.getElementById("center-bt");
                 centerBt.parentNode.removeChild(centerBt);
-        
-                centerBt.addEventListener("click", () => {
+
+                centerBt.addEventListener("click", function () {
                     centerBt.className = "center-button pending";
 
+                    console.log("Requesting location");
                     navigator.geolocation.getCurrentPosition(
-                        position => {
+                        function (position) {
+                            console.log("Location received", position);
                             centerBt.className = "center-button";
 
-                            const pos = {
+                            var pos = {
                                 lat: position.coords.latitude,
                                 lng: position.coords.longitude,
                             };
-                    
+
                             map.setCenter(pos);
                         },
-                        () => {
+                        function (err) {
+                            console.log("Location unavailable", err);
                             centerBt.className = "center-button";
                         }
                     );
                 });
-        
+
                 map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerBt);
             }
 
             // Create popup
-            const infoWindow = new google.maps.InfoWindow({});
+            var infoWindow = new google.maps.InfoWindow({});
 
             // Create markers
-            const markers = viewModel.places().map(place => {
-                const marker = new google.maps.Marker({
-                    map,
+            var selectingPlaceFromMap = false;
+            var markers = viewModel.places().map(function (place) {
+                var marker = new google.maps.Marker({
+                    map: map,
                     position: place.position,
                     title: place.name,
-                    icon: `/assets/img/pin-${ place.certified ? "green" : "black" }.svg`
+                    icon:  ["/assets/img/pin-", place.certified ? "green" : "black", ".svg"].join("")
                 });
-                
-                marker.addListener("click", () => viewModel.selectedPlace(place));
+
+                marker.addListener("click", function () {
+                    selectingPlaceFromMap = true;
+                    return viewModel.selectedPlace(place);
+                });
                 place.marker = marker;
                 return marker;
             });
 
             // Add a clusterer
-            const markerCluster = new markerClusterer.MarkerClusterer({
-                map,
-                markers: viewModel.places().map(p => p.marker),
-                onClusterClick: function() {
+            var markerCluster = new markerClusterer.MarkerClusterer({
+                map: map,
+                markers: viewModel.places().map(function (p) {
+                    return p.marker;
+                }),
+                onClusterClick: function () {
                     infoWindow.close();
                     markerClusterer.defaultOnClusterClickHandler.apply(this, arguments);
                 }
             });
 
-            subscribeAndUpdate(viewModel.visiblePlaces, places => {
+            subscribeAndUpdate(viewModel.visiblePlaces, function (places) {
                 infoWindow.close();
 
-                markers.forEach(m => m.setMap(null));
+                markers.forEach(function (m) {
+                    m.setMap(null);
+                });
 
                 markerCluster.clearMarkers(true);
-                markerCluster.addMarkers(places.map(p => {
+                markerCluster.addMarkers(places.map(function (p) {
                     p.marker.setMap(map);
                     return p.marker;
                 }));
             });
 
-            subscribeAndUpdate(viewModel.selectedPlace, place => {
+            subscribeAndUpdate(viewModel.selectedPlace, function (place) {
                 if (place) {
+                    if (!selectingPlaceFromMap) {
+                        map.setZoom(12);
+                    }
+                    selectingPlaceFromMap = false;
+
                     map.panTo(place.position);
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         infoWindow.setOptions({
                             ariaLabel: place.name,
                             content: document.getElementById("popup").querySelector("div").cloneNode(true)
@@ -224,7 +261,7 @@ function initMap() {
                         infoWindow.open({
                             anchor: place.marker,
                             shouldFocus: false,
-                            map,
+                            map: map
                         });
                     }, 0);
                 } else {
@@ -236,25 +273,25 @@ function initMap() {
 }
 
 
-window.addEventListener("beforeinstallprompt", e => {
+window.addEventListener("beforeinstallprompt", function (e) {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
     // Stash the event so it can be triggered later.
-    const deferredPrompt = e;
+    var deferredPrompt = e;
 
-    const installPrompt = new bootstrap.Toast(document.getElementById("installPrompt"), {
+    var installPrompt = new bootstrap.Toast(document.getElementById("installPrompt"), {
         autohide: false
     });
     installPrompt.show();
 
-    document.getElementById("installButton").addEventListener("click", e => {
+    document.getElementById("installButton").addEventListener("click", function (e) {
         // hide our user interface that shows our A2HS button
         installPrompt.hide();
 
         // Show the prompt
         deferredPrompt.prompt();
         // Wait for the user to respond to the prompt
-        deferredPrompt.userChoice.then((choiceResult) => {
+        deferredPrompt.userChoice.then(function (choiceResult) {
             if (choiceResult.outcome === "accepted") {
                 console.log("User accepted the A2HS prompt");
             } else {

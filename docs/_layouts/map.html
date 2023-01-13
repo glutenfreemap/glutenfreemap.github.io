@@ -1,29 +1,31 @@
 ---
 layout: localized
 ---
-<div class="container">
-    <form class="row g-3">
-        <div class="col-md-3 col-6">
-            <label for="filter-category" class="form-label">{{ page.strings.category.label }}</label>
-            <select id="filter-category" class="form-control" data-bind="
-                options: filters.category.values,
-                value: filters.category.selected,
-                optionsCaption: '{{ page.strings.category.all }}',
-                optionsValue: 'id',
-                optionsText: 'name'">
-            </select>
+<div class="container filters">
+    <form class="g-3">
+        <div class="form-row">
+            <div class="form-group col-md-3 col-6">
+                <label for="filter-category" class="form-label">{{ page.strings.category.label }}</label>
+                <select id="filter-category" class="form-control" data-bind="
+                    options: filters.category.values,
+                    value: filters.category.selected,
+                    optionsCaption: '{{ page.strings.category.all }}',
+                    optionsValue: 'id',
+                    optionsText: 'name'">
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-6">
+                <label for="filter-district" class="form-label">{{ page.strings.district.label }}</label>
+                <select id="filter-district" class="form-control" data-bind="
+                    options: filters.district.values,
+                    value: filters.district.selected,
+                    optionsCaption: '{{ page.strings.district.all }}',
+                    optionsValue: 'id',
+                    optionsText: 'name'">
+                </select>
+            </div>
         </div>
-        <div class="col-md-3 col-6">
-            <label for="filter-district" class="form-label">{{ page.strings.district.label }}</label>
-            <select id="filter-district" class="form-control" data-bind="
-                options: filters.district.values,
-                value: filters.district.selected,
-                optionsCaption: '{{ page.strings.district.all }}',
-                optionsValue: 'id',
-                optionsText: 'name'">
-            </select>
-        </div>
-        <div class="col-12">
+        <div class="form-group">
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="filter-certified"
                     data-bind="checked: filters.certified.selected">
@@ -51,7 +53,7 @@ layout: localized
                             <div class="address-line full-width" data-bind="text: $data"></div>
                         </div>
                         <div class="view-link"> <a target="_blank"
-                                data-bind="attr: { href: `https://www.google.com/maps/search/?api=1&query=${encodeURI(address.join(','))}&query_place_id=${encodeURI(id)}` }"
+                                data-bind="attr: { href: ['https://www.google.com/maps/search/?api=1&query=', encodeURI(address.join(',')), '&query_place_id=', encodeURI(id)].join('') }"
                                 tabindex="0"> <span>{{ page.strings.map.viewOnGoogleMaps }}</span> </a>
                         </div>
                     </div>
@@ -87,7 +89,7 @@ layout: localized
                             <!-- /ko -->
                             <div data-bind="text: $root.getTranslatedValue(description)"></div>
                         </div>
-                        <span class="badge bg-success rounded-pill" data-bind="if: certified">{{ page.strings.certified.badge }}</span>
+                        <span class="badge badge-success" data-bind="if: certified">{{ page.strings.certified.badge }}</span>
                     </a>
                 </div>
                 <!-- ko ifnot: visiblePlaces().length -->
@@ -110,5 +112,5 @@ layout: localized
         main("{{ 'data/data.json' | relative_url }}?v={{ site.time | date:'%s' }}", "{{ page.lang }}");
     });
 </script>
-<script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+<script src="/assets/js/markerclusterer.2.0.15.min.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmm1g52sRlwGvDlE_BzLK4ZA2dEXeYboA&callback=initMap&region=PT&language={{ page.lang }}"></script>

@@ -130,6 +130,10 @@ footer a:hover {
     }
 }
 
+#map .card-body {
+    padding: 0;
+}
+
 /* loader */
 
 .loading {
