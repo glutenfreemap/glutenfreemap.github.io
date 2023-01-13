@@ -6,6 +6,14 @@ body {
     right: 0;
 }
 
+body.android {
+    padding-top: 1em;
+}
+
+.android header {
+    display: none;
+}
+
 footer a {
     text-decoration: none;
 }
@@ -128,6 +136,10 @@ footer a:hover {
     to {
         fill: #fff;
     }
+}
+
+.android .filters {
+    min-height: 7em;
 }
 
 #map .card-body {

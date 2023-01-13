@@ -281,6 +281,25 @@ function initMap() {
     });
 }
 
+if ("Android" in window) {
+    document.body.className = "android";
+
+    var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
+        if (li.className.indexOf("dropdown") >= 0) {
+            return {
+                label: li.querySelector("a.dropdown-toggle").getAttribute("aria-label"),
+                children: Array.prototype.slice.call(li.querySelectorAll(".dropdown-menu a")).map(function (link) {
+                    return ({ label: link.textContent, url: link.href });
+                })
+            };
+        } else {
+            var link = li.querySelector("a");
+            return { label: link.textContent, url: link.href };
+        }
+    });
+
+    Android.setMenu(JSON.stringify(menu));
+}
 
 window.addEventListener("beforeinstallprompt", function (e) {
     // Prevent Chrome 67 and earlier from automatically showing the prompt

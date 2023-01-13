@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GlutenFreeMap</string>
+    <string name="permission_location_rationale">You need to allow location access if you want to see your current location on the map.</string>
+</resources>
