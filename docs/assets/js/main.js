@@ -3,6 +3,15 @@ if ("serviceWorker" in navigator) {
         .register("/sw.js")
         .then(function () {
             console.log("Service worker registered");
+
+            // detect controller change and refresh the page
+            var refreshing = false;
+            navigator.serviceWorker.addEventListener("controllerchange", function() {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
+            });
         });
 } else {
     console.log("Service workers not available")
