@@ -146,6 +146,22 @@ footer a:hover {
     padding: 0;
 }
 
+.tutorial {
+    counter-reset: step;
+}
+
+.tutorial img {
+    width: 10em;
+}
+
+.tutorial li::before {
+    counter-increment: step;
+    content: counter(step) ".";
+    position: absolute;
+    margin-left: -1em;
+    font-weight: bold;
+}
+
 /* loader */
 
 .loading {
