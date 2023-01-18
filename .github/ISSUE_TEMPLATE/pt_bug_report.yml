@@ -39,7 +39,7 @@ body:
         - Android
         - iPhone
         - Windows
-        - MacOS
+        - macOS
         - Linux
         - Outro
   - type: input
