@@ -8,8 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Por favor preencha este formulário o melhor que conseguir. Toda a informação que puder acrescentar aumentará as hipóteses de conseguirmos corrigir o problema.  
-        No entanto, se não souber o que colocar nalguma parte, não se preocupe. Faremos os possíveis para identificar a causa do erro com a informação que nos puder disponibilizar.
+        Por favor preencha este formulário o melhor que conseguir. Toda a informação que puder acrescentar aumentará as hipóteses de conseguirmos corrigir o problema. No entanto, se não souber o que colocar nalguma parte, não se preocupe. Faremos os possíveis para identificar a causa do erro com a informação que nos puder disponibilizar.
   - type: textarea
     id: what-happened
     attributes:
