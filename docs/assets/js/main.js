@@ -304,6 +304,11 @@ if ("Android" in window) {
 window.addEventListener("beforeinstallprompt", function (e) {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
+
+    if (window.localStorage.getItem("install-refused") === "yes") {
+        return;
+    }
+
     // Stash the event so it can be triggered later.
     var deferredPrompt = e;
 
@@ -327,5 +332,9 @@ window.addEventListener("beforeinstallprompt", function (e) {
             }
             deferredPrompt = null;
         });
+    });
+
+    document.getElementById("cancelButton").addEventListener("click", function (e) {
+        window.localStorage.setItem("install-refused", "yes");
     });
 });
