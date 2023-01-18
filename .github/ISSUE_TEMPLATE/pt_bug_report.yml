@@ -60,7 +60,7 @@ body:
         - Aplicação Android
         - Outro
   - type: input
-    id: device-version
+    id: browser-version
     attributes:
       label: Versão do navegador
       description: Qual a versão do seu navegador?
