@@ -21,12 +21,12 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
         <div class="card-header" id="headingChrome">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                    data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    data-target="#chromeInstructions" aria-expanded="true" aria-controls="chromeInstructions">
                     Instalação no Chrome
                 </button>
             </h2>
         </div>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingChrome" data-parent="#tutorial">
+        <div id="chromeInstructions" class="collapse" aria-labelledby="headingChrome" data-parent="#tutorial">
             <div class="card-body">
                 <ol class="tutorial row">
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
@@ -77,12 +77,12 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
         <div class="card-header" id="headingFirefox">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-                    data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    data-target="#firefoxInstructions" aria-expanded="false" aria-controls="firefoxInstructions">
                     Instalação no Firefox
                 </button>
             </h2>
         </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingFirefox" data-parent="#tutorial">
+        <div id="firefoxInstructions" class="collapse" aria-labelledby="headingFirefox" data-parent="#tutorial">
             <div class="card-body">
                 <ol class="tutorial row">
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
@@ -125,12 +125,12 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
         <div class="card-header" id="headingSafari">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    data-target="#safariInstructions" aria-expanded="false" aria-controls="safariInstructions">
                     Instalação no Safari
                 </button>
             </h2>
         </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingSafari" data-parent="#tutorial">
+        <div id="safariInstructions" class="collapse" aria-labelledby="headingSafari" data-parent="#tutorial">
             <div class="card-body">
                 <ol class="tutorial row">
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
@@ -170,8 +170,16 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
         </div>
     </div>
 </div>
-
-
+<script>
+    var userAgent = navigator.userAgent;
+    if (userAgent.match(/chrome|chromium|crios/i)) {
+        document.getElementById("chromeInstructions").className = "";
+    } else if (userAgent.match(/firefox|fxios/i)) {
+        document.getElementById("firefoxInstructions").className = "";
+    } else if (userAgent.match(/safari/i)) {
+        document.getElementById("safariInstructions").className = "";
+    }
+</script>
 
 ## Privacidade
 
