@@ -36,7 +36,7 @@ body:
       label: Dispositivo
       description: Que dispositivo (Telemóvel, PC, etc.) utiliza?
       options:
-        - Smartphone Android
+        - Android
         - iPhone
         - PC
         - Mac
