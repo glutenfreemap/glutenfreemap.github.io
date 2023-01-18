@@ -194,3 +194,8 @@ Esta aplicação é disponibilizada na esperança que seja útil, sem no entanto
 ## Correções e sugestões  
 
 Caso encontre algum erro, queira sugerir algum local em falta, ou para qualquer outro assunto relacionado com esta aplicação, [consulte esta página](suggestions.html).
+
+## Avisos legais
+
+O ícone da aplicação é adaptado <a href="https://www.vecteezy.com/vector-art/343969-gluten-free-icon" target="_blank">desta imagem por Lia Aramburu, publicada em Vecteezy</a>.
+
