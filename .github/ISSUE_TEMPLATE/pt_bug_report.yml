@@ -3,59 +3,51 @@ description: Ajude-nos a melhorar reportando um problema com a aplicação
 title: "[Bug]: "
 labels:
   - bug
+  - needs-triage
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!
-  - type: input
-    id: contact
-    attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
-    validations:
-      required: false
+        Por favor preencha este formulário o melhor que conseguir.
+        Toda a informação que puder acrescentar aumentará as hipóteses de conseguirmos corrigir o problema.  
+        No entanto, se não souber o que colocar nalguma parte, não se preocupe.
+        Faremos os possíveis para identificar a causa do erro com a informação que nos puder disponibilizar.
   - type: textarea
     id: what-happened
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Descrição do problema
+      description: |
+        Descreva o problema o melhor que conseguir. Se possível, explique os passos necessários para reproduzir o problema.
+        Considere adicionar capturas de ecrã que ajudem a explicar o problema.
+      placeholder: Uma descrição clara e concisa do problema.
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: Comportamento esperado
+      description: Explique o que acha que devia ter acontecido.
+      placeholder: Uma descrição do que esperava que tivesse acontecido.
     validations:
       required: true
   - type: dropdown
-    id: version
+    id: device
     attributes:
-      label: Version
-      description: What version of our software are you running?
+      label: Dispositivo
+      description: Que dispositivo (Telemóvel, PC, etc.) utiliza?
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-    validations:
-      required: true
+        - Smartphone Android
+        - iPhone
+        - PC
+        - Mac
+        - Outro
   - type: dropdown
     id: browsers
     attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
+      label: Que browser utiliza?
       options:
         - Firefox
         - Chrome
         - Safari
         - Microsoft Edge
-  - type: textarea
-    id: logs
-    attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+        - Aplicação Android
