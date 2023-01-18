@@ -1,5 +1,5 @@
 name: Reportar um erro na aplicação
-about: Ajude-nos a melhorar reportando um problema com a aplicação
+description: Ajude-nos a melhorar reportando um problema com a aplicação
 title: "[Bug]: "
 labels:
   - bug
