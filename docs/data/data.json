@@ -11,15 +11,29 @@
         {
             "id": "fr",
             "name": "Français"
+        },
+        {
+            "id": "es",
+            "name": "Español"
         }
     ],
     "categories": [
+        {
+            "id": "take-away",
+            "name": {
+                "pt": "Take-away",
+                "en": "Take-away",
+                "fr": "Take-away",
+                "es": "Take-away"
+            }
+        },
         {
             "id": "restaurant",
             "name": {
                 "pt": "Restaurante",
                 "en": "Restaurant",
-                "fr": "Restaurant"
+                "fr": "Restaurant",
+                "es": "Restaurante"
             }
         },
         {
@@ -27,7 +41,8 @@
             "name": {
                 "pt": "Pastelaria",
                 "en": "Bakery",
-                "fr": "Pâtisserie"
+                "fr": "Pâtisserie",
+                "es": "Pastelería"
             }
         },
         {
@@ -35,7 +50,8 @@
             "name": {
                 "pt": "Gelataria",
                 "en": "Ice Cream Parlor",
-                "fr": "Glacier"
+                "fr": "Glacier",
+                "es": "Heladería"
             }
         },
         {
@@ -43,7 +59,8 @@
             "name": {
                 "pt": "Talho",
                 "en": "Butchery",
-                "fr": "Boucherie"
+                "fr": "Boucherie",
+                "es": "Carnicería"
             }
         },
         {
@@ -51,7 +68,8 @@
             "name": {
                 "pt": "Hotel",
                 "en": "Hotel",
-                "fr": "Hotel"
+                "fr": "Hotel",
+                "es": "Hotel"
             }
         }
     ],
@@ -94,9 +112,10 @@
             "id": "ChIJSyuRMHAzGQ0R2TLSnEvPVjE",
             "name": "La Trattoria",
             "description": {
-                "pt": "Restaurante italiano",
-                "en": "Italian restaurant",
-                "fr": "Restaurant italian"
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Artilharia 1 79",
@@ -116,9 +135,10 @@
             "id": "ChIJH5RKyQwzGQ0RlxOx3eZow_k",
             "name": "Rice Me",
             "description": {
-                "pt": "Restaurante certificado pela APC com pratos à base de arroz.",
-                "en": "APC-certified rice-based restaurant.",
-                "fr": "Restaurant certifié par l'APC servant des plats à base de riz."
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Carlos Testa 18A",
@@ -140,7 +160,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "categories": [
                 "restaurant"
@@ -162,7 +183,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Bernardino Costa 21 23",
@@ -184,7 +206,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Largo Luis de Camões 1",
@@ -206,7 +229,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Garrett 42",
@@ -228,7 +252,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. dos Lusíadas 51 A",
@@ -268,7 +293,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. da Cruz a Caselas 3",
@@ -290,7 +316,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Av. da República 16B",
@@ -312,7 +339,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Praceta Lagoa de Óbidos 38",
@@ -334,7 +362,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Av. Valbom 10A",
@@ -356,7 +385,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Av. António Augusto de Aguiar 124 A",
@@ -378,7 +408,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Av. Sacadura Cabral 6A",
@@ -400,7 +431,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Rua da Pena Seca, Nº5 Bonabal",
@@ -422,7 +454,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Machado dos Santos 639",
@@ -444,7 +477,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Rua Trindade Coelho entrada 10 loja 11",
@@ -462,9 +496,10 @@
             "id": "ChIJV1tMQzpvJA0R4RENcdFBgA8",
             "name": "Sergio Crivelli",
             "description": {
-                "pt": "Restaurante italiano",
-                "en": "Italian restaurant",
-                "fr": "Restaurant italian"
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Rua de Brito Capelo 705",
@@ -482,9 +517,10 @@
             "id": "ChIJd3n8GS9nJA0RXXyb6ZMGT_4",
             "name": "Conessenza",
             "description": {
-                "pt": "Restaurante italiano",
-                "en": "Italian restaurant",
-                "fr": "Restaurant italian"
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Eng. Duarte Pacheco 277",
@@ -504,7 +540,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Av. das Termas Apartado 459",
@@ -526,7 +563,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Alameda Pêro da Covilhã",
@@ -546,7 +584,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Av. Frei Heitor Pinto Bloco A",
@@ -566,7 +605,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Dr. Filipe da Cunha Álvares Cabral 5 Cave Esquerda",
@@ -586,7 +626,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Alcarcova de Baixo 45",
@@ -606,7 +647,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Rua do Complexo Turístico de Lamelas, 1",
@@ -626,7 +668,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Dom Paio Mendes 3",
@@ -646,7 +689,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "R. Dr. Manuel Monteiro 27",
@@ -668,7 +712,8 @@
             "description": {
                 "pt": "",
                 "en": "",
-                "fr": ""
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Rua do Complexo Turístico de Lamelas, 1",
@@ -681,6 +726,27 @@
                 "lat": 41.50402919999999,
                 "lng": -7.801981499999999
             }
-        }
+        },
+        {
+            "id": "ChIJE6bORE_QHg0RPVZoCaLZDCA",
+            "name": "Churrasqueira Franguito",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "Estr. Algueirão 138",
+                "2725-079 Algueirão-Mem Martins, Portugal"
+            ],
+            "categories": ["take-away"],
+            "district": "lisboa",
+            "certified": true,
+            "position": {
+                "lat": 38.8078663,
+                "lng": -9.3332397
+            }
+        }        
     ]
 }

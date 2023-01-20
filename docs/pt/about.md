@@ -4,16 +4,15 @@ lang: pt
 title: Acerca
 ---
 
-# Acerca da GlutenFreeMap
+# Acerca de GlutenFreeMap
 
-Esta aplicação destina-se a pessoas celíacas ou intolerantes ao glúten que se encontrem em Portugal.
-Consiste numa lista de locais com oferta sem glúten, apresentando-os num mapa para maior conveniência.
+Com o GlutenFreeMap pretendemos ajudar as pessoas celíacas ou intolerantes ao glúten a encontrar estabelecimentos com oferta sem glúten, de uma forma simples e concisa, identificando aqueles que são certificados pelo <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/" target="_blank">Projecto Gluten Free</a> da APC.
 
-Esta aplicação é gratuita e está isenta de publicidade. Não temos qualquer ligação com os estabelecimentos aqui referenciados.
+O GlutenFreeMap é uma aplicação gratuita e está isenta de publicidade. Não temos qualquer ligação com os estabelecimentos aqui referenciados.
 
 ## Instalação
 
-Esta aplicação pode ser utilizada diretamente num navegador da Web, em https://glutenfreemap.github.io/pt. Caso queira tê-la sempre à mão, poderá instalá-la no seu telemóvel / tablet. O método varia consoante o navegador.
+Esta aplicação pode ser utilizada diretamente num navegador Web, em https://glutenfreemap.github.io/pt mas, caso queira tê-la sempre à mão, poderá instalá-la no seu telemóvel / tablet. O método varia consoante o navegador, conforme as intruções a seguir:
 
 
 <div class="accordion mb-4" id="tutorial">
@@ -46,7 +45,7 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
-                        <div class="flex-grow-1">Ao escolher instalar a aplicação, terá de confirmar:</div>
+                        <div class="flex-grow-1">Ao escolher instalar, terá de confirmar:</div>
                         <div>
                             <a class="image-link" href="/assets/img/install/chrome-2.png" target="_blank">
                                 <img src="/assets/img/install/chrome-2.png" />
@@ -62,7 +61,7 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
-                        <div class="flex-grow-1">A partir desse momento poderá abrir a aplicação diretamente a partir do ecrã principal:</div>
+                        <div class="flex-grow-1">A partir deste momento poderá abrir a aplicação diretamente a partir do ecrã principal:</div>
                         <div>
                             <a class="image-link" href="/assets/img/install/chrome-4.png" target="_blank">
                                 <img src="/assets/img/install/chrome-4.png" />
@@ -102,7 +101,7 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
-                        <div class="flex-grow-1">Ao escolher instalar a aplicação, terá de confirmar:</div>
+                        <div class="flex-grow-1">Ao escolher instalar, terá de confirmar:</div>
                         <div>
                             <a class="image-link" href="/assets/img/install/firefox-2.png" target="_blank">
                                 <img src="/assets/img/install/firefox-2.png" />
@@ -110,7 +109,7 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
-                        <div class="flex-grow-1">A partir desse momento poderá abrir a aplicação diretamente a partir do ecrã principal:</div>
+                        <div class="flex-grow-1">A partir deste momento poderá abrir a aplicação diretamente a partir do ecrã principal:</div>
                         <div>
                             <a class="image-link" href="/assets/img/install/firefox-3.png" target="_blank">
                                 <img src="/assets/img/install/firefox-3.png" />
@@ -150,7 +149,7 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
-                        <div class="flex-grow-1">Ao escolher instalar a aplicação, terá de confirmar:</div>
+                        <div class="flex-grow-1">Ao escolher instalar, terá de confirmar:</div>
                         <div>
                             <a class="image-link" href="/assets/img/install/safari-3.png" target="_blank">
                                 <img src="/assets/img/install/safari-3.png" />
@@ -158,7 +157,7 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
                         </div>
                     </li>
                     <li class="col-12 col-md-6 col-lg-4 d-flex flex-column my-2">
-                        <div class="flex-grow-1">A partir desse momento poderá abrir a aplicação diretamente a partir do ecrã principal:</div>
+                        <div class="flex-grow-1">A partir deste momento poderá abrir a aplicação diretamente a partir do ecrã principal:</div>
                         <div>
                             <a class="image-link" href="/assets/img/install/safari-4.png" target="_blank">
                                 <img src="/assets/img/install/safari-4.png" />
@@ -183,17 +182,17 @@ Esta aplicação pode ser utilizada diretamente num navegador da Web, em https:/
 
 ## Privacidade
 
-Esta aplicação não recolhe quaisquer tipos de dados dos utilizadores. Não utiliza cookies e as preferências dos utilizadores são guardadas no seu próprio dispositivo.
+O GlutenFreeMap não recolhe quaisquer tipos de dados dos utilizadores. Não utiliza cookies e as preferências dos utilizadores são guardadas localmente, no seu dispositivo.
 
-Esta aplicação utiliza Google Maps para apresentar os locais no mapa. Não podemos garantir que este componente não efetue algum tipo de rastreio dos utilizadores. Caso queira evitá-lo, sugerimos que utilize a [versão Web](https://glutenfreemap.github.io/pt) desta aplicação, e que bloqueie o domínio `maps.googleapis.com` através de um bloqueador de publicidades. O mapa deixará de estar disponível, mas a aplicação deverá continuar funcional.
+É utilizado o Google Maps para apresentar os locais no mapa. Não podemos garantir que este não efetua qualquer tipo de rastreio dos utilizadores. Caso queira evitá-lo, sugerimos que utilize a [versão Web](https://glutenfreemap.github.io/pt) desta aplicação, e que bloqueie o domínio `maps.googleapis.com` através de um bloqueador de publicidades. Neste caso o mapa deixará de estar disponível contudo a aplicação deverá continuar funcional.
 
 ## Isenção de responsabilidade
 
-Esta aplicação é disponibilizada na esperança que seja útil, sem no entanto oferecer quaisquer garantias. Procuramos que a informação apresentada seja correta e confiável, mas não nos responsabilizamos quaisquer erros ou omissões ou pelos resultados obtidos com a utilização desta informação. Sugerimos que contacte sempre os estabelecimentos e que esclareça com os mesmos qualquer dúvida que tenha.
+Esta aplicação é disponibilizada na esperança que seja útil, sem no entanto oferecer quaisquer garantias. Procuramos que a informação apresentada seja correta e confiável, mas não nos responsabilizamos por eventuais erros ou omissões ou pelos resultados obtidos com a utilização desta informação. Sugerimos que contacte sempre os estabelecimentos para esclarecer qualquer dúvida que tenha.
 
 ## Correções e sugestões  
 
-Caso encontre algum erro, queira sugerir algum local em falta, ou para qualquer outro assunto relacionado com esta aplicação, [consulte esta página](suggestions.html).
+Caso encontre algum erro, queira sugerir algum local em falta ou para qualquer outro assunto relacionado com esta aplicação, [consulte esta página](suggestions.html).
 
 ## Avisos legais
 

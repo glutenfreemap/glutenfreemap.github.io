@@ -74,6 +74,21 @@ languages:
     about: À propos
     language: Langue
 
+- id: es
+  name: Español
+  info:
+    description:
+      Una aplicación para encontrar establecimientos aptos para celíacos.
+  install:
+    title: Instalar aplicación
+    description:
+      Agregue esta aplicación a su pantalla de inicio para que siempre esté accesible.
+    accept: Instalar
+    cancel: No gracias
+  links:
+    map: Mapa
+    about: Sobre
+    language: Idioma
 
 # Build settings
 # theme: minima
