@@ -26,35 +26,23 @@ body:
       placeholder: Uma descrição do que esperava que tivesse acontecido.
     validations:
       required: true
-  - type: dropdown
-    id: device-type
+  - type: input
+    id: os-type
     attributes:
       label: Sistema operativo
       description: Que sistema operativo utiliza?
-      options:
-        - Android
-        - iPhone
-        - Windows
-        - macOS
-        - Linux
-        - Outro
+      placeholder: Android, iOS, Window
   - type: input
-    id: device-version
+    id: os-version
     attributes:
       label: Versão do sistema operativo
       description: Qual a versão do seu sistema operativo?
       placeholder: Android 11
-  - type: dropdown
+  - type: input
     id: browser-type
     attributes:
       label: Que navegador utiliza?
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
-        - Aplicação Android
-        - Outro
+      placeholder: Chrome, Safari, Firefox, App Android
   - type: input
     id: browser-version
     attributes:
