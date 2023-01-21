@@ -9,6 +9,8 @@ body:
     attributes:
       label: Nome
       description: Nome do estabelecimento
+    validations:
+      required: true
   - type: dropdown
     id: categories
     attributes:
