@@ -1,0 +1,13 @@
+version: "3.0"
+services:
+  jekyll:
+    image: jekyll/jekyll
+    command: bash -c 'bundle install && bundle exec jekyll serve --host 0.0.0.0 --watch --force_polling'
+    ports:
+      - "8080:4000"
+    volumes:
+      - bundle-cache:/usr/local/bundle
+      - ./docs:/srv/jekyll
+
+volumes:
+  bundle-cache:
