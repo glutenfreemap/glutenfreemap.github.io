@@ -1,0 +1,37 @@
+name: Sugerir um estabelecimento
+description: Proponha a adição de um estabelecimento que esteja em falta.
+labels:
+  - enhancement
+  - needs-triage
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Nome
+      description: Nome do estabelecimento
+  - type: dropdown
+    id: categories
+    attributes:
+      label: Categoria(s)
+      multiple: true
+      options:
+        - Take-away
+        - Restaurante
+        - Pastelaria
+        - Gelataria
+        - Talho
+        - Hotel
+  - type: textarea
+    id: address
+    attributes:
+      label: Morada
+      description: Indique a morada do estabelecimento. Se não tiver a certeza, indique pelo menos a localidade.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição
+      description: Dê uma breve descrição do estabelecimento, e em que medida é adequado para celíacos e intolerantes ao glúten.
+    validations:
+      required: true
