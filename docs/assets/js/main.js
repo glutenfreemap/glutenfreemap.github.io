@@ -338,3 +338,54 @@ window.addEventListener("beforeinstallprompt", function (e) {
         window.localStorage.setItem("install-refused", "yes");
     });
 });
+
+$(function() {
+    function matchUserAgent(userAgent, patterns) {
+        var result = { name: "", version: "" };
+        for(var i = 0; i < patterns.length; ++i) {
+            var match = patterns[i].pattern.exec(userAgent);
+            if (match) {
+                result.name = patterns[i].name;
+                result.version = match[1] || "";
+                break;
+            }
+        }
+        return result;
+    }
+
+    var userAgent = navigator.userAgent;
+
+    var browser = matchUserAgent(userAgent, [
+        { pattern: /(?:chrome|chromium|crios)(?:\/([0-9.]*))/i, name: "Chrome" },
+        { pattern: /(?:firefox|fxios)(?:\/([0-9.]*))/i, name: "Firefox" },
+        { pattern: /safari(?:\/([0-9.]*))/i, name: "Safari" }
+    ]);
+
+    var os = matchUserAgent(userAgent, [
+        { pattern: /Android/, name: "Android" },
+        { pattern: /(iPhone|iPad|iPod)/, name: "iOS" },
+        { pattern: /Windows\s+(?:NT\s+)?([0-9.]*)/, name: "Windows" },
+        { pattern: /Mac/, name: "Mac OS" },
+        { pattern: /Linux|X11/, name: "Linux" }
+    ]);
+
+    if ("Android" in window) {
+        browser = { name: "Android App", version: Android.getAppVersion() };
+        os = { name: "Android", version: Android.getAndroidVersion() };
+    }
+
+    var instructionsPanel = document.getElementById(browser.name.toLowerCase() + "Instructions");
+    if (instructionsPanel) {
+        instructionsPanel.className = "";
+    }
+
+    var reportErrorLink = document.getElementById("report-error");
+    if (reportErrorLink) {
+        reportErrorLink.href += [
+            "&os-type=" + encodeURIComponent(os.name),
+            "&os-version=" + encodeURIComponent(os.version),
+            "&browser-version=" + encodeURIComponent(browser.name),
+            "&browser-version=" + encodeURIComponent(browser.version)
+        ].join("");
+    }
+});

@@ -1,3 +1,9 @@
+@media all and (display-mode: standalone) {
+    .browser-only {
+        display: none !important;
+    }
+}  
+
 body {
     position: absolute;
     top: 0;

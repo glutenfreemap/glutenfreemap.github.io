@@ -6,7 +6,7 @@ A forma recomendada de nos contactar é através da plataforma GitHub. Terá de 
 
 Existem vários formulários de contacto, de acordo com o tipo de contacto:
 
-- [**Reportar erros na aplicação**](https://github.com/glutenfreemap/glutenfreemap.github.io/issues/new?template=pt_bug_report.yml){:target="_blank"}  
+- [**Reportar erros na aplicação**](https://github.com/glutenfreemap/glutenfreemap.github.io/issues/new?template=pt_bug_report.yml){:id="report-error" target="_blank"}  
   Utilize esta opção para qualquer problema que encontre na aplicação, desde erros durante a utilização a incorrecções na informação apresentada.
 
 - [**Sugerir um estabelecimento em falta**](https://github.com/glutenfreemap/glutenfreemap.github.io/issues/new?template=pt_suggest_venue.yml){:target="_blank"}  

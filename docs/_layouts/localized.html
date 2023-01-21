@@ -42,12 +42,10 @@ layout: base
     </nav>
 </header>
 
-<script src="{{ 'assets/js/main.js' | relative_url }}?v={{ site.time | date:'%s' }}"></script>
-
 {{ content }}
 
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-    <div id="installPrompt" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div id="installPrompt" class="toast hide browser-only" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <i class="gg-export"></i>
             &nbsp;<strong class="me-auto">{{ language.install.title }}</strong>
