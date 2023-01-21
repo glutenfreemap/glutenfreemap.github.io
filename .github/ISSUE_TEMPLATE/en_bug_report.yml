@@ -1,0 +1,52 @@
+name: Report an error in the application
+description: Help us improve by reporting a problem with the application.
+labels:
+  - bug
+  - needs-triage
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please fill out this form as best you can. Any information you can add will increase the chances that we can fix the problem. However, if you don't know what to put somewhere, don't worry. We will do our best to identify the cause of the error with the information you can provide us.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Problem description
+      description: |
+        Describe the problem as best you can. If possible, explain the steps needed to reproduce the problem.
+        Consider adding screenshots that help explain the issue.
+      placeholder: A clear and concise description of the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: what-should-happen
+    attributes:
+      label: Expected behaviour
+      description: Explain what you think should have happened.
+      placeholder: A description of what you expected to happen.
+    validations:
+      required: true
+  - type: input
+    id: os-type
+    attributes:
+      label: Operating system
+      description: What operating system do you use?
+      placeholder: Android, iOS, Windows
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system version
+      description: What is your operating system version?
+      placeholder: Android 11
+  - type: input
+    id: browser-type
+    attributes:
+      label: Browser
+      description: What browser do you use?
+      placeholder: Chrome, Safari, Firefox, Android App
+  - type: input
+    id: browser-version
+    attributes:
+      label: Browser version
+      description: What is your browser version?
+      placeholder: "109.0"

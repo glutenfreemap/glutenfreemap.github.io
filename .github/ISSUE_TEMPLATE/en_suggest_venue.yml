@@ -1,0 +1,39 @@
+name: Suggest an establishment
+description: Suggest adding an establishment that is missing.
+labels:
+  - enhancement
+  - needs-triage
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      description: Establishment name
+    validations:
+      required: true
+  - type: dropdown
+    id: categories
+    attributes:
+      label: Category(ies)
+      multiple: true
+      options:
+        - Take-away
+        - Restaurant
+        - Bakery
+        - Ice Cream Parlor
+        - Butchery
+        - Hotel
+  - type: textarea
+    id: address
+    attributes:
+      label: Address
+      description: Indicate the establishment's address. If you are not sure, indicate at least the city name.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Give a brief description of the establishment, and to what extent it is suitable for celiacs and gluten intolerants.
+    validations:
+      required: true
