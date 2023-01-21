@@ -40,6 +40,7 @@ languages:
   links:
     map: Mapa
     about: Acerca
+    contacts: Reportar Problemas
     language: Língua
 
 - id: en

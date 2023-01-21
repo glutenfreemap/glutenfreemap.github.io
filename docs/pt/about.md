@@ -6,9 +6,11 @@ title: Acerca
 
 # Acerca de GlutenFreeMap
 
-Com o GlutenFreeMap pretendemos ajudar as pessoas celíacas ou intolerantes ao glúten a encontrar estabelecimentos com oferta sem glúten, de uma forma simples e concisa, identificando aqueles que são certificados pelo <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/" target="_blank">Projecto Gluten Free</a> da APC.
+Com o GlutenFreeMap pretendemos ajudar as pessoas celíacas ou intolerantes ao glúten a encontrar estabelecimentos com oferta sem glúten, de uma forma simples e concisa, identificando aqueles que são certificados pelo [Projecto Gluten Free](https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/){:target="_blank"} da APC.
 
 O GlutenFreeMap é uma aplicação gratuita e está isenta de publicidade. Não temos qualquer ligação com os estabelecimentos aqui referenciados.
+
+Todo o código do GlutenFreeMap é aberto e pode ser livremente consultado em [github.com/glutenfreemap/glutenfreemap.github.io](https://github.com/glutenfreemap/glutenfreemap.github.io){:target="_blank"}. O código pode ser copiado e reutilizado de acordo com a licença [GPL3](https://www.gnu.org/licenses/gpl-3.0.html){:target="_blank"}.
 
 ## Instalação
 
@@ -190,9 +192,9 @@ O GlutenFreeMap não recolhe quaisquer tipos de dados dos utilizadores. Não uti
 
 Esta aplicação é disponibilizada na esperança que seja útil, sem no entanto oferecer quaisquer garantias. Procuramos que a informação apresentada seja correta e confiável, mas não nos responsabilizamos por eventuais erros ou omissões ou pelos resultados obtidos com a utilização desta informação. Sugerimos que contacte sempre os estabelecimentos para esclarecer qualquer dúvida que tenha.
 
-## Correções e sugestões  
+## Correções e sugestões
 
-Caso encontre algum erro, queira sugerir algum local em falta ou para qualquer outro assunto relacionado com esta aplicação, [consulte esta página](suggestions.html).
+Caso encontre algum erro, queira sugerir algum local em falta ou para qualquer outro assunto relacionado com esta aplicação, [consulte esta página](contacts.html).
 
 ## Avisos legais
 
