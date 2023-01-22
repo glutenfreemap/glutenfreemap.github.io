@@ -196,6 +196,8 @@ function initMap() {
                 var centerBt = document.getElementById("center-bt");
                 centerBt.parentNode.removeChild(centerBt);
 
+                var locationMarker = null;
+
                 centerBt.addEventListener("click", function () {
                     centerBt.className = "center-button pending";
 
@@ -211,10 +213,25 @@ function initMap() {
                             };
 
                             map.setCenter(pos);
+
+                            if (locationMarker) {
+                                locationMarker.setPosition(pos);
+                                locationMarker.setMap(map);
+                            } else {
+                                locationMarker = new google.maps.Marker({
+                                    map: map,
+                                    position: pos,
+                                    icon: "/assets/img/location.svg"
+                                });
+                            }
                         },
                         function (err) {
                             console.log("Location unavailable", err);
                             centerBt.className = "center-button";
+
+                            if (locationMarker) {
+                                locationMarker.setMap(null);
+                            }
                         }
                     );
                 });
