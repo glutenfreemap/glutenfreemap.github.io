@@ -1,293 +1,294 @@
-@media all and (display-mode: standalone) {
-    .browser-only {
-        display: none !important;
-    }
-}  
+--- # Copyright 2023 Antoine Aubry,
+Catarina Tavares # # This file is part of GlutenFreeMap. # # GlutenFreeMap is free software: you can redistribute it and/or modify it under the terms of # the GNU General Public License as published by the Free Software Foundation, # either version 3 of the License, or(at your option) any later version. # # GlutenFreeMap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. # See the GNU General Public License for more details. # # You should have received a copy of the GNU General Public License along with GlutenFreeMap. # If not,
+see <https:// www.gnu.org/licenses/ > .--- @media all and (display-mode: standalone) {
+  .browser-only {
+    display: none !important;
+  }
+}
 
 body {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 body.android {
-    padding-top: 1em;
+  padding-top: 1em;
 }
 
 .android header {
-    display: none;
+  display: none;
 }
 
 footer a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 footer a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .main {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
 }
 
 .results-container {
-    position: relative;
-    flex: auto;
+  position: relative;
+  flex: auto;
 }
 
-.results-container>.row {
-    position: relative;
-    height: 100%;
+.results-container > .row {
+  position: relative;
+  height: 100%;
 }
 
 .results-map {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
 }
 
-.results-map>* {
-    grid-row: 1;
-    grid-column: 1;
+.results-map > * {
+  grid-row: 1;
+  grid-column: 1;
 }
 
 #popup {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-#popup>.card {
-    margin: auto;
+#popup > .card {
+  margin: auto;
 }
 
 #map {
-    min-height: 20em;
-    height: 100%;
-    width: 100%;
+  min-height: 20em;
+  height: 100%;
+  width: 100%;
 }
 
-@media (min-width: 768px) {
-    .results-list-container {
-        position: relative;
-        height: 100%;
-    }
+@media(min-width: 768px) {
+  .results-list-container {
+    position: relative;
+    height: 100%;
+  }
 
-    .results-list-container .list-group {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        overflow-y: auto;
-    }
+  .results-list-container .list-group {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow-y: auto;
+  }
 }
 
 .results-list-item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.results-list-item small+small::before {
-    content: "| ";
+.results-list-item small + small::before {
+  content: "| ";
 }
 
 .map-placeholder {
-    background-color: #ccc;
+  background-color: #ccc;
 }
 
 .map-placeholder,
 .results-placeholder {
-    height: 100%;
-    display: flex;
+  height: 100%;
+  display: flex;
 }
 
 .center-button {
-    background: #fff;
-    border: 0px none;
-    margin: 10px;
-    padding: 10px;
-    text-transform: none;
-    appearance: none;
-    position: absolute;
-    cursor: pointer;
-    user-select: none;
-    border-radius: 2px;
-    height: 40px;
-    width: 40px;
-    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  background: #fff;
+  border: 0 none;
+  margin: 10px;
+  padding: 10px;
+  text-transform: none;
+  appearance: none;
+  position: absolute;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 2px;
+  height: 40px;
+  width: 40px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
 }
 
 .center-button svg {
-    vertical-align: inherit;
-    fill: #666;
+  vertical-align: inherit;
+  fill: #666;
 }
 
 .center-button:hover svg {
-    fill: #000;
+  fill: #000;
 }
 
 .center-button.pending svg .animated {
-    animation: blink-animation 1s steps(2, start) infinite;
-    -webkit-animation: blink-animation 1s steps(2, start) infinite;
+  animation: blink-animation 1s steps(2, start) infinite;
+  -webkit-animation: blink-animation 1s steps(2, start) infinite;
 }
 
 @keyframes blink-animation {
-    to {
-        fill: #fff;
-    }
+  to {
+    fill: #fff;
+  }
 }
 
 @-webkit-keyframes blink-animation {
-    to {
-        fill: #fff;
-    }
+  to {
+    fill: #fff;
+  }
 }
 
 .android .filters {
-    min-height: 7em;
+  min-height: 7em;
 }
 
 #map .card-body {
-    padding: 0;
+  padding: 0;
 }
 
 .tutorial {
-    counter-reset: step;
+  counter-reset: step;
 }
 
 .tutorial img {
-    width: 10em;
+  width: 10em;
 }
 
 .tutorial li::before {
-    counter-increment: step;
-    content: counter(step) ".";
-    position: absolute;
-    margin-left: -1em;
-    font-weight: bold;
+  counter-increment: step;
+  content: counter(step) ".";
+  position: absolute;
+  margin-left: -1em;
+  font-weight: bold;
 }
 
 /* loader */
 
 .loading {
-    display: inline-block;
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: auto;
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: auto;
 }
 
 .loading div {
-    display: inline-block;
-    position: absolute;
-    left: 8px;
-    width: 16px;
-    background: #aaa;
-    animation: loading 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: #aaa;
+  animation: loading 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 }
 
 .loading div:nth-child(1) {
-    left: 8px;
-    animation-delay: -0.24s;
+  left: 8px;
+  animation-delay: -0.24s;
 }
 
 .loading div:nth-child(2) {
-    left: 32px;
-    animation-delay: -0.12s;
+  left: 32px;
+  animation-delay: -0.12s;
 }
 
 .loading div:nth-child(3) {
-    left: 56px;
-    animation-delay: 0;
+  left: 56px;
+  animation-delay: 0;
 }
 
 @keyframes loading {
-    0% {
-        top: 8px;
-        height: 64px;
-    }
+  0% {
+    top: 8px;
+    height: 64px;
+  }
 
-    50%,
-    100% {
-        top: 24px;
-        height: 32px;
-    }
+  50%,
+  100% {
+    top: 24px;
+    height: 32px;
+  }
 }
 
 .toast .gg-export {
-    margin-top: 0.3em;
+  margin-top: 0.3em;
 }
 
 
 /* Info icon - https://css.gg/info */
 .gg-info {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs,1));
-    width: 20px;
-    height: 20px;
-    border: 2px solid;
-    border-radius: 40px
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 40px
 }
 
 .gg-info::after,
 .gg-info::before {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    border-radius: 3px;
-    width: 2px;
-    background: currentColor;
-    left: 7px
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 3px;
+  width: 2px;
+  background: currentColor;
+  left: 7px
 }
 
 .gg-info::after {
-    bottom: 2px;
-    height: 8px
+  bottom: 2px;
+  height: 8px
 }
 
 .gg-info::before {
-    height: 2px;
-    top: 2px
+  height: 2px;
+  top: 2px
 }
 
 /* Export icon - https://css.gg/export */
 .gg-export {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs,1));
-    width: 18px;
-    height: 14px;
-    border: 2px solid;
-    border-top: 0;
-    box-shadow:
-        -6px -8px 0 -6px,
-        6px -8px 0 -6px
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 18px;
+  height: 14px;
+  border: 2px solid;
+  border-top: 0;
+  box-shadow: -6px -8px 0 -6px, 6px -8px 0 -6px
 }
 .gg-export::after,
 .gg-export::before {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute
 }
 .gg-export::before {
-    background: currentColor;
-    width: 2px;
-    height: 14px;
-    right: 6px;
-    bottom: 5px
+  background: currentColor;
+  width: 2px;
+  height: 14px;
+  right: 6px;
+  bottom: 5px
 }
 .gg-export::after {
-    width: 6px;
-    height: 6px;
-    border-left: 2px solid;
-    border-top: 2px solid;
-    right: 4px;
-    bottom: 14px;
-    transform: rotate(45deg)
+  width: 6px;
+  height: 6px;
+  border-left: 2px solid;
+  border-top: 2px solid;
+  right: 4px;
+  bottom: 14px;
+  transform: rotate(45deg)
 }
