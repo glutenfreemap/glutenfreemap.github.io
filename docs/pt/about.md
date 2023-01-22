@@ -14,9 +14,9 @@ Todo o código do GlutenFreeMap é aberto e pode ser livremente consultado em [g
 
 <div class="browser-only">
     <h2>Instalação</h2>
-
-    Esta aplicação pode ser utilizada diretamente num navegador Web, em https://glutenfreemap.github.io/pt mas, caso queira tê-la sempre à mão, poderá instalá-la no seu telemóvel / tablet. O método varia consoante o navegador, conforme as intruções a seguir:
-
+    <p>
+        Esta aplicação pode ser utilizada diretamente num navegador Web, em https://glutenfreemap.github.io/pt mas, caso queira tê-la sempre à mão, poderá instalá-la no seu telemóvel / tablet. O método varia consoante o navegador, conforme as intruções a seguir:
+    </p>
     <div class="accordion mb-4" id="tutorial">
         <div class="card">
             <div class="card-header" id="headingChrome">
@@ -189,5 +189,4 @@ Caso encontre algum erro, queira sugerir algum local em falta ou para qualquer o
 
 ## Avisos legais
 
-O ícone da aplicação é adaptado <a href="https://www.vecteezy.com/vector-art/343969-gluten-free-icon" target="_blank">desta imagem por Lia Aramburu, publicada em Vecteezy</a>.
-
+O ícone da aplicação é adaptado [desta imagem por Lia Aramburu, publicada em Vecteezy](https://www.vecteezy.com/vector-art/343969-gluten-free-icon){:target="_blank"}.
