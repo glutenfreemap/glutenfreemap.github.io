@@ -21,7 +21,7 @@ title: About
 
 # About GlutenFreeMap
 
-With GlutenFreeMap we intend to help celiac or gluten-intolerant people in Portugal to find establishments with gluten-free offer, in a simple and concise way, identifying those that are certified by the [Gluten Free Project](https://www.celiacos.org.pt/how-to-certify-your-establishment/){:target="_blank"} from APC.
+With GlutenFreeMap we intend to help celiac or gluten-intolerant people in Portugal to find establishments with gluten-free offer, in a simple and concise way, identifying those that are certified by the [Gluten Free Project](https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/){:target="_blank"} from APC.
 
 GlutenFreeMap is a free application and is exempt from ads. We have no connection with the establishments referenced here.
 
