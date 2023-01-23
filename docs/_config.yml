@@ -87,3 +87,10 @@ languages:
     about: Sobre
     contacts: Reportar problemas
     language: Idioma
+
+defaults:
+  - scope:
+      path: "*/map.md"
+      type: pages
+    values:
+      includeScripts: map-scripts.html

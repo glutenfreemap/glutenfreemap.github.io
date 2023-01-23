@@ -14,20 +14,23 @@
 # You should have received a copy of the GNU General Public License along with GlutenFreeMap.
 # If not, see <https://www.gnu.org/licenses/>.
 
-layout: map
-lang: fr
+permalink: /es
+layout: localized
+lang: es
 strings:
   category:
-    label: Categorie
-    all: (toutes)
+    label: Categoría
+    all: (todas)
   district:
-    label: District
-    all: (tous)
+    label: Província
+    all: (todas)
   certified:
     filter:
-      label: Établissements certifiés
-    badge: certifié
+      label: Establecimientos asesorados
+    badge: asesorado
+  noResults: Sin resultados
   map:
-    viewOnGoogleMaps: Voir sur Google Maps
-    centerMap: Centrer sur la localisation courrante
+    viewOnGoogleMaps: Ver en Google Maps
+    centerMap: Centrar en la ubicación actual
 ---
+{% include map.html %}

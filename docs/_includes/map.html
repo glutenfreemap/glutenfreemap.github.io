@@ -1,6 +1,3 @@
----
-layout: localized
----
 <div class="container filters">
     <form class="g-3">
         <div class="form-row">
@@ -97,7 +94,7 @@ layout: localized
                     <div class="alert alert-primary d-flex align-items-center" role="alert">
                         <i class="gg-info"></i>
                         &nbsp;
-                        Sem resultados
+                        {{ page.strings.noResults }}
                     </div>
                 </div>
                 <!-- /ko -->
@@ -105,12 +102,3 @@ layout: localized
         </div>
     </div>
 </div>
-
-<script src="/assets/js/knockout-3.5.0-min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-        main("{{ 'data/data.json' | relative_url }}?v={{ site.time | date:'%s' }}", "{{ page.lang }}");
-    });
-</script>
-<script src="/assets/js/markerclusterer.2.0.15.min.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmm1g52sRlwGvDlE_BzLK4ZA2dEXeYboA&callback=initMap&region=PT&language={{ page.lang }}"></script>
