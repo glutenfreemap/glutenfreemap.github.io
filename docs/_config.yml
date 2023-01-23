@@ -34,7 +34,7 @@ languages:
   links:
     map: Mapa
     about: Acerca
-    contacts: Reportar Problemas
+    contacts: Reportar problemas
     language: Língua
 
 - id: en
@@ -51,6 +51,7 @@ languages:
   links:
     map: Map
     about: About
+    contacts: Report issues
     language: Language
 
 - id: fr
@@ -67,6 +68,7 @@ languages:
   links:
     map: Carte
     about: À propos
+    contacts: Signaler un problème
     language: Langue
 
 - id: es
@@ -83,4 +85,5 @@ languages:
   links:
     map: Mapa
     about: Sobre
+    contacts: Reportar problemas
     language: Idioma
