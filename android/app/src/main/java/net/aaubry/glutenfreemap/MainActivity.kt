@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -189,6 +190,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private class MyWebViewClient(private val owner: MainActivity) : WebViewClient() {
+
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+
+            view!!.evaluateJavascript("document.body.className = 'android'", null)
+        }
 
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
             val uri = Uri.parse(url)
