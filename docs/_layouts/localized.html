@@ -61,8 +61,7 @@ layout: base
 </div>
 
 <script>
-    window.localStorage.setItem("preferences.language", "{{ language.id }}");
-    if ("Android" in window) {
-        Android.setLanguage("{{ language.id }}");
-    }
+    document.addEventListener("DOMContentLoaded", function (event) {
+        host.setLanguage("{{ page.lang }}");
+    });
 </script>

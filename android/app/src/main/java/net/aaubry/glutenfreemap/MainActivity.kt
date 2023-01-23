@@ -84,6 +84,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @JavascriptInterface
+    fun getAppVersion(): Int {
+        return BuildConfig.VERSION_CODE
+    }
+
+    @JavascriptInterface
+    fun getAndroidVersion(): Int {
+        return Build.VERSION.SDK_INT
+    }
+
     private fun buildMenu(menuDefinition: JSONArray, menu: Menu) {
         for (i in 1..menuDefinition.length()) {
             val itemDefinition = menuDefinition[i - 1] as JSONObject

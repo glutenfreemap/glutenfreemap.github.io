@@ -159,6 +159,109 @@ function compareStringsIgnoreCase(a, b) {
 
 var futureViewModel = new Deferred();
 
+function WebBrowser() {
+    function matchUserAgent(userAgent, patterns) {
+        var result = { name: "", version: "" };
+        for(var i = 0; i < patterns.length; ++i) {
+            var match = patterns[i].pattern.exec(userAgent);
+            if (match) {
+                result.name = patterns[i].name;
+                result.version = match[1] || "";
+                break;
+            }
+        }
+        return result;
+    }
+
+    var userAgent = navigator.userAgent;
+
+    this.browser = matchUserAgent(userAgent, [
+        { pattern: /(?:chrome|chromium|crios)(?:\/([0-9.]*))/i, name: "Chrome" },
+        { pattern: /(?:firefox|fxios)(?:\/([0-9.]*))/i, name: "Firefox" },
+        { pattern: /safari(?:\/([0-9.]*))/i, name: "Safari" }
+    ]);
+
+    this.os = matchUserAgent(userAgent, [
+        { pattern: /Android/, name: "Android" },
+        { pattern: /(iPhone|iPad|iPod)/, name: "iOS" },
+        { pattern: /Windows\s+(?:NT\s+)?([0-9.]*)/, name: "Windows" },
+        { pattern: /Mac/, name: "Mac OS" },
+        { pattern: /Linux|X11/, name: "Linux" }
+    ]);
+
+    this.customizePage = function() {}
+
+    this.setLanguage = function(lang) {
+        window.localStorage.setItem("preferences.language", lang);
+    }
+}
+
+function AndroidApp(nativeInterface) {
+    this.browser = { name: "Android App", version: nativeInterface.getAppVersion() };
+    this.os = { name: "Android", version: nativeInterface.getAndroidVersion() };
+    this.rootClass = "android";
+
+    this.customizePage = function() {
+        document.body.className = "android";
+
+        var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
+            if (li.className.indexOf("dropdown") >= 0) {
+                return {
+                    label: li.querySelector("a.dropdown-toggle").getAttribute("aria-label"),
+                    children: Array.prototype.slice.call(li.querySelectorAll(".dropdown-menu a")).map(function (link) {
+                        return ({ label: link.textContent, url: link.href });
+                    })
+                };
+            } else {
+                var link = li.querySelector("a");
+                return { label: link.textContent, url: link.href };
+            }
+        });
+    
+        nativeInterface.setMenu(JSON.stringify(menu));
+    }
+
+    this.setLanguage = function(lang) {
+        nativeInterface.setLanguage(lang);
+    }
+}
+
+var host = null;
+
+if ("Android" in window) {
+    host = new AndroidApp(window.Android);
+} else if (window.location.search === "?android") {
+    host = new AndroidApp({
+        getAppVersion: function() { return "fake" },
+        getAndroidVersion: function() { return "1" },
+        setMenu: function(menu) { console.log("Menu set", JSON.parse(menu)); },
+        setLanguage: function(lang) {
+            window.localStorage.setItem("preferences.language", lang);
+        }
+    });
+} else {
+    host = new WebBrowser();
+}
+
+$(function() {
+    host.customizePage();
+
+    var instructionsPanel = document.getElementById(host.browser.name.toLowerCase() + "Instructions");
+    if (instructionsPanel) {
+        instructionsPanel.className = "";
+    }
+
+    var reportErrorLink = document.getElementById("report-error");
+    if (reportErrorLink) {
+        reportErrorLink.href += [
+            "&os-type=" + encodeURIComponent(host.os.name),
+            "&os-version=" + encodeURIComponent(host.os.version),
+            "&browser-type=" + encodeURIComponent(host.browser.name),
+            "&browser-version=" + encodeURIComponent(host.browser.version)
+        ].join("");
+    }
+});
+
 function main(dataUrl, lang) {
     var viewModel = new ViewModel(window.localStorage);
     viewModel.language(lang);
@@ -314,26 +417,6 @@ function initMap() {
     });
 }
 
-if ("Android" in window) {
-    document.body.className = "android";
-
-    var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
-        if (li.className.indexOf("dropdown") >= 0) {
-            return {
-                label: li.querySelector("a.dropdown-toggle").getAttribute("aria-label"),
-                children: Array.prototype.slice.call(li.querySelectorAll(".dropdown-menu a")).map(function (link) {
-                    return ({ label: link.textContent, url: link.href });
-                })
-            };
-        } else {
-            var link = li.querySelector("a");
-            return { label: link.textContent, url: link.href };
-        }
-    });
-
-    Android.setMenu(JSON.stringify(menu));
-}
-
 window.addEventListener("beforeinstallprompt", function (e) {
     // Prevent Chrome 67 and earlier from automatically showing the prompt
     e.preventDefault();
@@ -370,55 +453,4 @@ window.addEventListener("beforeinstallprompt", function (e) {
     document.getElementById("cancelButton").addEventListener("click", function (e) {
         window.localStorage.setItem("install-refused", "yes");
     });
-});
-
-$(function() {
-    function matchUserAgent(userAgent, patterns) {
-        var result = { name: "", version: "" };
-        for(var i = 0; i < patterns.length; ++i) {
-            var match = patterns[i].pattern.exec(userAgent);
-            if (match) {
-                result.name = patterns[i].name;
-                result.version = match[1] || "";
-                break;
-            }
-        }
-        return result;
-    }
-
-    var userAgent = navigator.userAgent;
-
-    var browser = matchUserAgent(userAgent, [
-        { pattern: /(?:chrome|chromium|crios)(?:\/([0-9.]*))/i, name: "Chrome" },
-        { pattern: /(?:firefox|fxios)(?:\/([0-9.]*))/i, name: "Firefox" },
-        { pattern: /safari(?:\/([0-9.]*))/i, name: "Safari" }
-    ]);
-
-    var os = matchUserAgent(userAgent, [
-        { pattern: /Android/, name: "Android" },
-        { pattern: /(iPhone|iPad|iPod)/, name: "iOS" },
-        { pattern: /Windows\s+(?:NT\s+)?([0-9.]*)/, name: "Windows" },
-        { pattern: /Mac/, name: "Mac OS" },
-        { pattern: /Linux|X11/, name: "Linux" }
-    ]);
-
-    if ("Android" in window) {
-        browser = { name: "Android App", version: Android.getAppVersion() };
-        os = { name: "Android", version: Android.getAndroidVersion() };
-    }
-
-    var instructionsPanel = document.getElementById(browser.name.toLowerCase() + "Instructions");
-    if (instructionsPanel) {
-        instructionsPanel.className = "";
-    }
-
-    var reportErrorLink = document.getElementById("report-error");
-    if (reportErrorLink) {
-        reportErrorLink.href += [
-            "&os-type=" + encodeURIComponent(os.name),
-            "&os-version=" + encodeURIComponent(os.version),
-            "&browser-version=" + encodeURIComponent(browser.name),
-            "&browser-version=" + encodeURIComponent(browser.version)
-        ].join("");
-    }
 });
