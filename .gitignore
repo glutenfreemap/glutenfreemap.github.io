@@ -1,3 +1,4 @@
 /docs/_site
 /docs/.jekyll-cache
 /android/.idea/deploymentTargetDropDown.xml
+/android/app/release
