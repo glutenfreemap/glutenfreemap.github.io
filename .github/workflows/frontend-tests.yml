@@ -1,0 +1,18 @@
+name: Cypress Tests
+
+on:
+  workflow_dispatch: {}
+  page_build: {}
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v5.0.5
+        with:
+          working-directory: tests

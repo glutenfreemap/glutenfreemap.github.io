@@ -200,7 +200,7 @@ Cette application est fournie dans l'espoir qu'elle sera utile, sans aucune gara
 
 ## Corrections et suggestions
 
-Si vous trouvez des erreurs, merci de suggérer un lieu manquant ou pour tout autre sujet lié à cette application, [voir cette page](contacts.html).
+Si vous trouvez des erreurs, merci de suggérer un lieu manquant ou pour tout autre sujet lié à cette application, [voir cette page](/{{ page.lang }}/contacts.html).
 
 ## Mentions légales
 

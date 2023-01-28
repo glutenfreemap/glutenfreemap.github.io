@@ -1,0 +1,23 @@
+{
+  "name": "glutenfreemap-tests",
+  "version": "1.0.0",
+  "description": "Frontend tests for GlutenFreeMap",
+  "scripts": {
+    "open": "cypress open --config baseUrl=http://localhost:8080",
+    "test:local": "cypress run --config baseUrl=http://localhost:8080",
+    "test:prod": "cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glutenfreemap/glutenfreemap.github.io.git"
+  },
+  "author": "Antoine Aubry",
+  "license": " GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/glutenfreemap/glutenfreemap.github.io/issues"
+  },
+  "homepage": "https://github.com/glutenfreemap/glutenfreemap.github.io#readme",
+  "devDependencies": {
+    "cypress": "^12.4.1"
+  }
+}

@@ -21,7 +21,7 @@ title: Sobre
 
 # Acerca de GlutenFreeMap
 
-Con GlutenFreeMap pretendemos ayudar a las personas celíacas o intolerantes al gluten a encontrar establecimientos con oferta sin gluten, de una forma sencilla y concisa, identificando aquellos que están asesorados por el proyecto [Gluten Free](https://www.celiacos.org.pt/cómo-certificar-su-establecimiento/){:target="_blank"} de APC (la asociacion de celiacos de Portugal).
+Con GlutenFreeMap pretendemos ayudar a las personas celíacas o intolerantes al gluten a encontrar establecimientos con oferta sin gluten, de una forma sencilla y concisa, identificando aquellos que están asesorados por el proyecto [Gluten Free](https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/){:target="_blank"} de APC (la asociacion de celiacos de Portugal).
 
 GlutenFreeMap es una aplicación gratuita y no tiene publicidad. No tenemos conexión con los establecimientos a los que se hace referencia aquí.
 
@@ -200,7 +200,7 @@ Esta aplicación se proporciona con la esperanza de que sea útil, sin garantía
 
 ## Arreglos y sugerencias
 
-Si encuentra algún error, sugiera una ubicación faltante o para cualquier otro tema relacionado con esta aplicación, [consulte esta página] (contactos.html).
+Si encuentra algún error, sugiera una ubicación faltante o para cualquier otro tema relacionado con esta aplicación, [consulte esta página] (/{{ page.lang }}/contacts.html).
 
 ## Avisos legales
 

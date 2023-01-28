@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License along with GlutenFreeMap.
 # If not, see <https://www.gnu.org/licenses/>.
 
-permalink: /es
+permalink: /es/
 layout: localized
 lang: es
 strings:

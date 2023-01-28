@@ -200,7 +200,7 @@ This application is provided in the hope that it will be useful, without making 
 
 ## Corrections and suggestions
 
-If you find any errors, please suggest a missing location or for any other subject related to this application, [see this page](contacts.html).
+If you find any errors, please suggest a missing location or for any other subject related to this application, [see this page](/{{ page.lang }}/contacts.html).
 
 ## Legal Notices
 

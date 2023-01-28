@@ -2,3 +2,5 @@
 /docs/.jekyll-cache
 /android/.idea/deploymentTargetDropDown.xml
 /android/app/release
+tests/node_modules
+tests/cypress/videos
