@@ -23,6 +23,7 @@ if ("serviceWorker" in navigator) {
             // detect controller change and refresh the page
             var refreshing = false;
             navigator.serviceWorker.addEventListener("controllerchange", function() {
+                console.log("Service worked updated");
                 if (!refreshing) {
                     refreshing = true;
                     window.location.reload();

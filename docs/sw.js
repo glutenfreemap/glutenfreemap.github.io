@@ -43,6 +43,7 @@ self.addEventListener("install", e => {
 });
 
 self.addEventListener("activate", (e) => {
+    console.log("[Service Worker] Activate");
     e.waitUntil(
         caches.keys().then((keyList) => {
             return Promise.all(
