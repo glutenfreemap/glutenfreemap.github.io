@@ -94,3 +94,8 @@ defaults:
       type: pages
     values:
       includeScripts: map-scripts.html
+  - scope:
+      path: "**/*.md"
+      type: pages
+    values:
+      sitemap: true
