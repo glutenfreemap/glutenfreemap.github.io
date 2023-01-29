@@ -20,6 +20,10 @@
   }
 }
 
+.android .browser-only {
+  display: none !important;
+}
+
 body {
   position: absolute;
   top: 0;
