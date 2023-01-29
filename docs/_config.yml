@@ -24,7 +24,7 @@ languages:
   name: Português
   info:
     description:
-      Uma aplicação para encontrar estabelecimentos adequados a celíacos.
+      Uma aplicação para encontrar estabelecimentos adequados a celíacos em Portugal.
   install:
     title: Instalar Aplicação
     description:
@@ -41,7 +41,7 @@ languages:
   name: English
   info:
     description:
-      An application to find establishments suitable for celiacs.
+      An application to find establishments suitable for celiacs in Portugal.
   install:
     title: Install Application
     description:
@@ -58,7 +58,7 @@ languages:
   name: Français
   info:
     description:
-      Une application pour trouver des établissements adaptés aux coeliaques.
+      Une application pour trouver des établissements adaptés aux coeliaques au Portugal.
   install:
     title: Installer l'Application
     description:
@@ -75,7 +75,7 @@ languages:
   name: Español
   info:
     description:
-      Una aplicación para encontrar establecimientos aptos para celíacos.
+      Una aplicación para encontrar establecimientos aptos para celíacos en Portugal.
   install:
     title: Instalar aplicación
     description:
