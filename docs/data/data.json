@@ -217,7 +217,7 @@
                 "butchery"
             ],
             "district": "lisboa",
-            "certified": false,
+            "certified": true,
             "position": {
                 "lat": 39.0911329,
                 "lng": -9.319987699999999
@@ -327,7 +327,7 @@
                 "bakery"
             ],
             "district": "lisboa",
-            "certified": true,
+            "certified": false,
             "position": {
                 "lat": 38.7013311,
                 "lng": -9.232755
