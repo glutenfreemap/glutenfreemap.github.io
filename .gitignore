@@ -4,3 +4,4 @@
 /android/app/release
 tests/node_modules
 tests/cypress/videos
+/docs/.jekyll-metadata
