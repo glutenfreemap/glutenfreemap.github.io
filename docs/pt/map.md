@@ -26,7 +26,10 @@ strings:
     all: (todos)
   certified:
     filter:
-      label: Estabelecimentos certificados
+      label: Apenas estabelecimentos certificados pela APC
+      labelDetails: |
+        A forma mais segura de obter a sua refeição passa por privilegiar a ida aos estabelecimentos certificados pelo Projeto Gluten Free da Associação Portuguesa de Celíacos (APC).
+        Para mais informações e certificações: <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/">https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/</a>.
     badge: certificado
   noResults: Sem resultados
   map:

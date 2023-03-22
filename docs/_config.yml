@@ -58,7 +58,7 @@ languages:
   name: Français
   info:
     description:
-      Une application pour trouver des établissements adaptés aux coeliaques au Portugal.
+      Une application pour trouver des établissements adaptés aux cœliaques au Portugal.
   install:
     title: Installer l'Application
     description:

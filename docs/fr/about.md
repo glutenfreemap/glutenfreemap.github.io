@@ -21,7 +21,7 @@ title: À propos
 
 # À propos de GlutenFreeMap
 
-Avec GlutenFreeMap, nous avons l'intention d'aider les personnes coeliaques ou intolérantes au gluten à trouver des établissements proposant une offre sans gluten, de manière simple et concise, tout en identifiant ceux qui sont certifiés par le [Projet Gluten Free](https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/){:target="_blank"} d'APC.
+Avec GlutenFreeMap, nous avons l'intention d'aider les personnes cœliaques ou intolérantes au gluten à trouver des établissements proposant une offre sans gluten, de manière simple et concise, tout en identifiant ceux qui sont certifiés par le [Projet Gluten Free](https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/){:target="_blank"} d'APC.
 
 GlutenFreeMap est une application gratuite et sans publicité. Nous n'avons aucun lien avec les établissements référencés ici.
 

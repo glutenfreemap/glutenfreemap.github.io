@@ -26,7 +26,10 @@ strings:
     all: (all)
   certified:
     filter:
-      label: Certified venues
+      label: Only certified establishments
+      labelDetails: |
+        The safest way to get your meal is to go to establishments certified by the Gluten Free Project of the Portuguese Celiac Association (APC).
+        For more information and certifications: <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/">https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/</a>.
     badge: certified
   noResults: No results
   map:
