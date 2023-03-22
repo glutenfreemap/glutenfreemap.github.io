@@ -245,10 +245,7 @@ if ("Android" in window) {
 $(function () {
     host.customizePage();
 
-    var instructionsPanel = document.getElementById(host.browser.name.toLowerCase() + "Instructions");
-    if (instructionsPanel) {
-        instructionsPanel.className = "";
-    }
+    $("button[data-target='#" + host.browser.name.toLowerCase() + "Instructions']").click();
 
     var reportErrorLink = document.getElementById("report-error");
     if (reportErrorLink) {
