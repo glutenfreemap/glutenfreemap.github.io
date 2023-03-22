@@ -197,11 +197,12 @@ function WebBrowser() {
 
 function AndroidApp(nativeInterface) {
     this.browser = { name: "Android App", version: nativeInterface.getAppVersion() };
-    this.os = { name: "Android", version: nativeInterface.getAndroidVersion() };
-    this.rootClass = "android";
+    
+    var androidVersion = nativeInterface.getAndroidVersion();
+    this.os = { name: "Android", version: androidVersion };
 
     this.customizePage = function () {
-        document.body.className = "android";
+        document.body.className = "android android-" + androidVersion;
 
         var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
             if (li.className.indexOf("dropdown") >= 0) {
