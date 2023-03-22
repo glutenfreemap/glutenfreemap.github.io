@@ -192,8 +192,6 @@ Todo el código de GlutenFreeMap está abierto y se puede consultar libremente e
 
 GlutenFreeMap no copia ningún dato de los usuarios. No utiliza cookies y las preferencias del usuario se guardan localmente en su dispositivo.
 
-Google Maps se utiliza para mostrar las ubicaciones en el mapa. No podemos garantizar que no realice ningún tipo de seguimiento de los usuarios. Si desea evitar esto, le sugerimos que use la [versión web] (https://glutenfreemap.github.io/pt) de esta aplicación, y que bloquee el dominio `maps.googleapis.com` usando una herramienta para bloquear publicidad. En este caso, el mapa ya no estará disponible, sin embargo, la aplicación debería seguir funcionando.
-
 ## Descargo de responsabilidad
 
 Esta aplicación se proporciona con la esperanza de que sea útil, sin garantías. Intentamos asegurarnos de que la información presentada sea correcta y confiable, pero no somos responsables de ningún error u omisión ni de los resultados obtenidos del uso de esta información. Te sugerimos que contactes siempre con los establecimientos para aclarar cualquier duda que puedas tener.
@@ -206,3 +204,14 @@ Si encuentra algún error, sugiera una ubicación faltante o para cualquier otro
 
 El ícono de la aplicación está adaptado de [esta imagen de Lia Aramburu, publicada en Vecteezy](https://www.vecteezy.com/vector-art/343969-gluten-free-icon){:target="_blank"}.
 
+## Herramientas utilizadas
+
+GlutenFreeMap se construyó con la ayuda de los siguientes proyectos, sin los cuales no hubiera sido posible ofrecer este proyecto de forma gratuita:
+
+- [Bootstrap](https://getbootstrap.com/)
+- [GitHub Pages](https://pages.github.com/)
+- [Jekyll](https://jekyllrb.com/)
+- [JQuery](https://jquery.com/)
+- [Knockout](https://knockoutjs.com/)
+- [MapLibre GL JS](https://maplibre.org/)
+- [Protomaps](https://protomaps.com/)

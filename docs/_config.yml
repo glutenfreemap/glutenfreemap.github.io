@@ -94,6 +94,7 @@ defaults:
       type: pages
     values:
       includeScripts: map-scripts.html
+      includeCss: map-css.html
   - scope:
       path: "**/*.md"
       type: pages

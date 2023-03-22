@@ -88,6 +88,15 @@ footer a:hover {
   min-height: 20em;
   height: 100%;
   width: 100%;
+  position: relative;
+}
+
+#map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 @media(min-width: 768px) {
@@ -170,6 +179,12 @@ footer a:hover {
 
 #map .card-body {
   padding: 0;
+}
+
+.venue-pin {
+  margin-top: -18px;
+  height: 42px;
+  cursor: pointer;
 }
 
 .tutorial {

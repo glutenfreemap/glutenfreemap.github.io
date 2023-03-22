@@ -31,6 +31,9 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.4.6.2.min.css">
     <link rel="stylesheet" type="text/css"
         href="{{ 'assets/css/main.css' | relative_url }}?v={{ site.time | date:'%s' }}">
+    {% if page.includeCss != null %}
+    {% include {{ page.includeCss }} %}
+    {% endif %}
 </head>
 
 <body>

@@ -28,7 +28,6 @@ const contentToCache = [
 {% for page in site.pages %}
     {{page.url | jsonify}},
 {% endfor %}
-
 ];
 
 self.addEventListener("install", e => {

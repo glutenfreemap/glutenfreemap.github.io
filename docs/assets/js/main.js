@@ -1,4 +1,4 @@
----
+/*
 # Copyright 2023 Antoine Aubry, Catarina Tavares
 # 
 # This file is part of GlutenFreeMap.
@@ -13,7 +13,7 @@
 # 
 # You should have received a copy of the GNU General Public License along with GlutenFreeMap.
 # If not, see <https://www.gnu.org/licenses/>.
----
+*/
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("/sw.js")
@@ -44,64 +44,67 @@ function ViewModel(storage) {
     this.loaded = ko.observable();
     this.mapLoaded = ko.observable();
 
-    this.places = ko.computed(function() { return self.data().places; });
+    this.places = ko.computed(function () { return self.data().places; });
 
     this.filters = {
         category: {
-            values: ko.computed(function() {
+            values: ko.computed(function () {
                 var lang = self.language();
                 var categories = self.data().categories;
                 if (!lang || !categories) return [];
 
                 return self.data().categories
-                    .map(function(d) { return { id: d.id, name: d.name[lang] }; })
-                    .sort(function(a, b) { return compareStringsIgnoreCase(a.name, b.name); });
+                    .map(function (d) { return { id: d.id, name: d.name[lang] }; })
+                    .sort(function (a, b) { return compareStringsIgnoreCase(a.name, b.name); });
             }),
             selected: ko.observable(),
-            match: function(place) {
+            match: function (place) {
                 var selected = this.selected();
                 return selected == null || place.categories.indexOf(selected) != -1;
             }
         },
         district: {
-            values: ko.computed(function() { return self.data().districts; }),
+            values: ko.computed(function () { return self.data().districts; }),
             selected: ko.observable(),
-            match: function(place) {
+            match: function (place) {
                 var selected = this.selected();
                 return selected == null || place.district === selected;
             }
         },
         certified: {
             selected: ko.observable(false),
-            match: function(place) {
+            match: function (place) {
                 var selected = this.selected();
                 return !selected || place.certified;
             }
         }
     };
 
-    function bindToStorage(observable, key) {
-        self.loaded.subscribe(function() {
-            observable(storage.getItem(key));
-            observable.subscribe(function(value) { storage.setItem(key, value); });
+    function bindToStorage(observable, key, parser) {
+        self.loaded.subscribe(function () {
+            var value = storage.getItem(key);
+            var parsedValue = parser ? parser(value) : value;
+            observable(parsedValue);
+
+            observable.subscribe(function (value) { storage.setItem(key, value); });
         });
     }
 
     bindToStorage(this.filters.category.selected, "filters.category");
     bindToStorage(this.filters.district.selected, "filters.district");
-    bindToStorage(this.filters.certified.selected, "filters.certified");
+    bindToStorage(this.filters.certified.selected, "filters.certified", function(value) { return value === "true"; });
 
-    this.categoriesById = ko.computed(function() {
-        return self.filters.category.values().reduce(function(a, c) { a[c.id] = c.name; return a; }, {});
+    this.categoriesById = ko.computed(function () {
+        return self.filters.category.values().reduce(function (a, c) { a[c.id] = c.name; return a; }, {});
     });
 
-    this.visiblePlaces = ko.computed(function() {
+    this.visiblePlaces = ko.computed(function () {
         var places = self.places();
         if (!places) {
             return [];
         }
 
-        return places.filter(function(place) {
+        return places.filter(function (place) {
             for (var filterName in self.filters) {
                 if (!self.filters[filterName].match(place)) {
                     return false;
@@ -113,6 +116,11 @@ function ViewModel(storage) {
 
     this.selectedPlace = ko.observable();
 
+    this.selectPlaceById = function (id) {
+        var place = self.places().filter(function (p) { return p.id === id })[0];
+        self.selectedPlace(place);
+    }
+
     this.gotoPlace = function (place) {
         var map = document.getElementById("map");
         var rect = map.getBoundingClientRect();
@@ -122,7 +130,7 @@ function ViewModel(storage) {
                 top: window.pageYOffset + rect.top - rect.left,
                 behavior: "smooth"
             });
-        } catch(e) {
+        } catch (e) {
             window.scrollTo(0, window.pageYOffset + rect.top - rect.left);
         }
 
@@ -144,26 +152,16 @@ function subscribeAndUpdate(observable, handler) {
     handler(observable());
 }
 
-function Deferred() {
-    var self = this;
-    this.promise = new Promise(function (resolve, reject) {
-        self.resolve = resolve;
-        self.reject = reject;
-    });
-}
-
 function compareStringsIgnoreCase(a, b) {
     var lowerA = a.toLowerCase();
     var lowerB = b.toLowerCase();
     return lowerA < lowerB ? -1 : (lowerA > lowerB ? 1 : 0);
 }
 
-var futureViewModel = new Deferred();
-
 function WebBrowser() {
     function matchUserAgent(userAgent, patterns) {
         var result = { name: "", version: "" };
-        for(var i = 0; i < patterns.length; ++i) {
+        for (var i = 0; i < patterns.length; ++i) {
             var match = patterns[i].pattern.exec(userAgent);
             if (match) {
                 result.name = patterns[i].name;
@@ -190,9 +188,9 @@ function WebBrowser() {
         { pattern: /Linux|X11/, name: "Linux" }
     ]);
 
-    this.customizePage = function() {}
+    this.customizePage = function () { }
 
-    this.setLanguage = function(lang) {
+    this.setLanguage = function (lang) {
         window.localStorage.setItem("preferences.language", lang);
     }
 }
@@ -202,7 +200,7 @@ function AndroidApp(nativeInterface) {
     this.os = { name: "Android", version: nativeInterface.getAndroidVersion() };
     this.rootClass = "android";
 
-    this.customizePage = function() {
+    this.customizePage = function () {
         document.body.className = "android";
 
         var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
@@ -218,11 +216,11 @@ function AndroidApp(nativeInterface) {
                 return { label: link.textContent, url: link.href };
             }
         });
-    
+
         nativeInterface.setMenu(JSON.stringify(menu));
     }
 
-    this.setLanguage = function(lang) {
+    this.setLanguage = function (lang) {
         nativeInterface.setLanguage(lang);
     }
 }
@@ -233,10 +231,10 @@ if ("Android" in window) {
     host = new AndroidApp(window.Android);
 } else if (window.location.search === "?android") {
     host = new AndroidApp({
-        getAppVersion: function() { return "fake" },
-        getAndroidVersion: function() { return "1" },
-        setMenu: function(menu) { console.log("Menu set", JSON.parse(menu)); },
-        setLanguage: function(lang) {
+        getAppVersion: function () { return "fake" },
+        getAndroidVersion: function () { return "1" },
+        setMenu: function (menu) { console.log("Menu set", JSON.parse(menu)); },
+        setLanguage: function (lang) {
             window.localStorage.setItem("preferences.language", lang);
         }
     });
@@ -244,7 +242,7 @@ if ("Android" in window) {
     host = new WebBrowser();
 }
 
-$(function() {
+$(function () {
     host.customizePage();
 
     var instructionsPanel = document.getElementById(host.browser.name.toLowerCase() + "Instructions");
@@ -266,10 +264,10 @@ $(function() {
 function main(dataUrl, lang) {
     var viewModel = new ViewModel(window.localStorage);
     viewModel.language(lang);
+    window.viewModel = viewModel;
     ko.applyBindings(viewModel);
-    futureViewModel.resolve(viewModel);
 
-    $.get(dataUrl, function(data) {
+    $.get(dataUrl, function (data) {
         data.districts.sort(function (a, b) {
             return compareStringsIgnoreCase(a.name, b.name);
         });
@@ -280,138 +278,267 @@ function main(dataUrl, lang) {
         viewModel.data(data);
         viewModel.loaded(true);
     });
-}
 
-function initMap() {
-    futureViewModel.promise.then(function (viewModel) {
-        subscribeAndUpdate(viewModel.loaded, function (loaded) {
-            if (!loaded) return;
+    var protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
 
-            var map = new google.maps.Map(document.getElementById("map"), {
-                zoom: 7,
-                center: { lat: 40, lng: -8 },
-                streetViewControl: false,
-                gestureHandling: "greedy"
+    var map = new maplibregl.Map({
+        container: "map-container",
+        center: [-8.267, 39.608],
+        zoom: 6.5,
+        style: {
+            version: 8,
+            glyphs: "https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf",
+            sources: {
+                "protomaps": {
+                    type: "vector",
+                    tiles: ["https://api.protomaps.com/tiles/v2/{z}/{x}/{y}.pbf?key=34e1462a1b9ab8a0"],
+                    attribution: 'Protomaps © <a href="https://openstreetmap.org">OpenStreetMap</a>',
+                    maxzoom: 14
+                }
+            },
+            layers: protomaps_themes_base.default("protomaps", "light")
+        }
+    });
+
+    map.addControl(new maplibregl.NavigationControl());
+
+    map.addControl(new maplibregl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true
+        },
+        trackUserLocation: true
+    }));
+
+    map.addControl(new maplibregl.FullscreenControl({
+        container: document.getElementById("map")
+    }));
+
+    map.on("load", function () {
+        var images = new Promise(function (resolve, reject) {
+            map.loadImage("/assets/img/pin-green.png", function (error, certifiedPin) {
+                if (error) return reject(error);
+
+                map.addImage("certified-marker", certifiedPin);
+                map.loadImage("/assets/img/pin-black.png", function (error, nonCertifiedPin) {
+                    if (error) return reject(error);
+
+                    map.addImage("non-certified-marker", nonCertifiedPin);
+                    resolve();
+                });
+            });
+        });
+
+        map.addSource("places", {
+            type: "geojson",
+            data: {
+                type: "FeatureCollection",
+                features: []
+            },
+            promoteId: "id",
+            cluster: true
+        });
+
+        map.on("mouseenter", "places", function () {
+            map.getCanvas().style.cursor = "pointer";
+        });
+
+        map.on("mouseleave", "places", function () {
+            map.getCanvas().style.cursor = "";
+        });
+
+        map.on("mouseenter", "clusters1", function () {
+            map.getCanvas().style.cursor = "pointer";
+        });
+
+        map.on("mouseleave", "clusters1", function () {
+            map.getCanvas().style.cursor = "";
+        });
+
+        // inspect a cluster on click
+        map.on("click", "clusters1", function (e) {
+            var features = map.queryRenderedFeatures(e.point, {
+                layers: ["clusters1"]
             });
 
-            viewModel.mapLoaded(true);
+            var clusterId = features[0].properties.cluster_id;
+            map.getSource("places").getClusterExpansionZoom(
+                clusterId,
+                function (err, zoom) {
+                    if (err) return;
 
-            if (navigator.geolocation) {
-                var centerBt = document.getElementById("center-bt");
-                centerBt.parentNode.removeChild(centerBt);
+                    map.easeTo({
+                        center: features[0].geometry.coordinates,
+                        zoom: zoom
+                    });
+                }
+            );
+        });
 
-                var locationMarker = null;
+        map.on("click", "places", function (e) {
+            return viewModel.selectPlaceById(e.features[0].properties.id);
+        });
 
-                centerBt.addEventListener("click", function () {
-                    centerBt.className = "center-button pending";
+        // Create popup
+        var infoWindow = new maplibregl.Popup({ offset: 42 });
 
-                    console.log("Requesting location");
-                    navigator.geolocation.getCurrentPosition(
-                        function (position) {
-                            console.log("Location received", position);
-                            centerBt.className = "center-button";
+        function findPlaceInClusters(placesSource, clusterId, placeId, callback) {
+            placesSource.getClusterChildren(clusterId, function (error, children) {
+                if (error) return callback(error);
+                for (var i = 0; i < children.length; ++i) {
+                    var child = children[i];
+                    if (child.properties.id === placeId) {
+                        callback(null, clusterId, child);
+                        return;
+                    }
+                    if (child.properties.cluster) {
+                        findPlaceInClusters(placesSource, child.properties.cluster_id, placeId, callback);
+                    }
+                }
+            });
+        }
 
-                            var pos = {
-                                lat: position.coords.latitude,
-                                lng: position.coords.longitude,
-                            };
+        subscribeAndUpdate(viewModel.selectedPlace, function (place) {
+            if (place) {
+                var coords = [place.position.lng, place.position.lat];
 
-                            map.setCenter(pos);
+                // After moving, we may need to zoom if the place is inside a cluster
+                map.once("moveend", function(evt) {
+                    var clusters = map.queryRenderedFeatures(null, {
+                        layers: ["clusters1"]
+                    });
 
-                            if (locationMarker) {
-                                locationMarker.setPosition(pos);
-                                locationMarker.setMap(map);
-                            } else {
-                                locationMarker = new google.maps.Marker({
-                                    map: map,
-                                    position: pos,
-                                    icon: "/assets/img/location.svg"
-                                });
-                            }
-                        },
-                        function (err) {
-                            console.log("Location unavailable", err);
-                            centerBt.className = "center-button";
+                    var placesSource = map.getSource("places");
+                    clusters.forEach(function(cluster) {
+                        if (cluster.properties.cluster) {
+                            findPlaceInClusters(placesSource, cluster.properties.cluster_id, place.id, function (error, clusterId, feature) {
+                                if (error) return console.error(error);
 
-                            if (locationMarker) {
-                                locationMarker.setMap(null);
-                            }
+                                placesSource.getClusterExpansionZoom(
+                                    clusterId,
+                                    function (err, zoom) {
+                                        if (err) return;
+                    
+                                        map.easeTo({
+                                            center: coords,
+                                            zoom: zoom
+                                        });
+                                    }
+                                );
+                            });
                         }
-                    );
+                    });
                 });
 
-                map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerBt);
+                // Check if the place is already inside the map
+                var bounds = map.getBounds();
+                if (bounds.contains(coords)) {
+                    map.easeTo({
+                        center: coords
+                    });
+                } else {
+                    map.flyTo({
+                        center: coords,
+                        zoom: Math.max(map.getZoom(), 12)
+                    });
+                }
+
+                setTimeout(function () {
+                    infoWindow.setLngLat(coords);
+                    infoWindow.setDOMContent(document.getElementById("popup").querySelector("div").cloneNode(true));
+                    infoWindow.addTo(map);
+                }, 0);
+            } else {
+                infoWindow.remove();
             }
+        });
 
-            // Create popup
-            var infoWindow = new google.maps.InfoWindow({});
-
-            // Create markers
-            var selectingPlaceFromMap = false;
-            var markers = viewModel.places().map(function (place) {
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: place.position,
-                    title: place.name,
-                    icon:  ["/assets/img/pin-", place.certified ? "green" : "black", ".svg"].join("")
-                });
-
-                marker.addListener("click", function () {
-                    selectingPlaceFromMap = true;
-                    return viewModel.selectedPlace(place);
-                });
-                place.marker = marker;
-                return marker;
+        subscribeAndUpdate(viewModel.visiblePlaces, function (places) {
+            map.getSource("places").setData({
+                type: "FeatureCollection",
+                features: places.map(function (place) {
+                    return {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [place.position.lng, place.position.lat]
+                        },
+                        properties: {
+                            id: place.id,
+                            certified: place.certified
+                        }
+                    }
+                })
             });
+        });
 
-            // Add a clusterer
-            var markerCluster = new markerClusterer.MarkerClusterer({
-                map: map,
-                markers: viewModel.places().map(function (p) {
-                    return p.marker;
-                }),
-                onClusterClick: function () {
-                    infoWindow.close();
-                    markerClusterer.defaultOnClusterClickHandler.apply(this, arguments);
+        viewModel.mapLoaded(true);
+
+        images.then(function () {
+            map.addLayer({
+                id: "clusters1",
+                type: "circle",
+                source: "places",
+                filter: ["has", "point_count"],
+                paint: {
+                    "circle-radius": 20,
+                    "circle-color": "#0015e9",
+                    "circle-opacity": 0.2
                 }
             });
 
-            subscribeAndUpdate(viewModel.visiblePlaces, function (places) {
-                infoWindow.close();
-
-                markers.forEach(function (m) {
-                    m.setMap(null);
-                });
-
-                markerCluster.clearMarkers(true);
-                markerCluster.addMarkers(places.map(function (p) {
-                    p.marker.setMap(map);
-                    return p.marker;
-                }));
+            map.addLayer({
+                id: "clusters2",
+                type: "circle",
+                source: "places",
+                filter: ["has", "point_count"],
+                paint: {
+                    "circle-radius": 16,
+                    "circle-color": "#0015e9",
+                    "circle-opacity": 0.4
+                }
             });
 
-            subscribeAndUpdate(viewModel.selectedPlace, function (place) {
-                if (place) {
-                    if (!selectingPlaceFromMap) {
-                        map.setZoom(12);
-                    }
-                    selectingPlaceFromMap = false;
+            map.addLayer({
+                id: "clusters3",
+                type: "circle",
+                source: "places",
+                filter: ["has", "point_count"],
+                paint: {
+                    "circle-radius": 12,
+                    "circle-color": "#0015e9",
+                    "circle-opacity": 0.6
+                }
+            });
 
-                    map.panTo(place.position);
+            map.addLayer({
+                id: "cluster-count",
+                type: "symbol",
+                source: "places",
+                filter: ["has", "point_count"],
+                layout: {
+                    "text-field": "{point_count_abbreviated}",
+                    "text-font": ["NotoSans-Regular"],
+                    "text-size": 12
+                },
+                paint: {
+                    "text-color": "#ffffff"
+                }
+            });
 
-                    setTimeout(function () {
-                        infoWindow.setOptions({
-                            ariaLabel: place.name,
-                            content: document.getElementById("popup").querySelector("div").cloneNode(true)
-                        });
-                        infoWindow.open({
-                            anchor: place.marker,
-                            shouldFocus: false,
-                            map: map
-                        });
-                    }, 0);
-                } else {
-                    infoWindow.close();
+            map.addLayer({
+                id: "places",
+                type: "symbol",
+                source: "places",
+                filter: ["!", ["has", "point_count"]],
+                layout: {
+                    "icon-image": [
+                        "case",
+                        ["get", "certified"], "certified-marker",
+                        "non-certified-marker"
+                    ],
+                    "icon-anchor": "bottom",
+                    "icon-size": 0.5
                 }
             });
         });
