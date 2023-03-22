@@ -138,18 +138,22 @@ footer a:hover {
   margin-left: 0.5em;
 }
 
+.custom-control-label {
+  display: inline;
+}
+
 #certificationDetails {
   margin-top: 0.5em;
   font-size: smaller;
 }
 
+#certificationDetails i {
+  margin-top: 0.25em;
+}
+
 #certificationDetails .alert div {
   margin-left: 1em;
 }
-
-/* .android .filters {
-  min-height: 7em;
-} */
 
 #map .card-body {
   padding: 0;
