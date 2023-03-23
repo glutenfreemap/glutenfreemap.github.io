@@ -378,7 +378,10 @@ function main(dataUrl, lang) {
         });
 
         // Create popup
-        var infoWindow = new maplibregl.Popup({ offset: 42 });
+        var infoWindow = new maplibregl.Popup({
+            offset: 42,
+            anchor: "bottom"
+        });
 
         function findPlaceInClusters(placesSource, clusterId, placeId, callback) {
             placesSource.getClusterChildren(clusterId, function (error, children) {

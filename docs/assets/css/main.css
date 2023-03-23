@@ -159,6 +159,11 @@ footer a:hover {
   padding: 0;
 }
 
+#map .card-body h5 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 .venue-pin {
   margin-top: -18px;
   height: 42px;
