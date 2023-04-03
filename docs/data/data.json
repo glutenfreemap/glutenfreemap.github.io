@@ -426,29 +426,6 @@
             }
         },
         {
-            "id": "ChIJZyNS9aAvHw0ReDX4COiBWaQ",
-            "name": "Pasteis Brasão",
-            "description": {
-                "pt": "",
-                "en": "",
-                "fr": "",
-                "es": ""
-            },
-            "address": [
-                "Rua da Pena Seca, Nº5 Bonabal",
-                "2565-835 Torres Vedras, Portugal"
-            ],
-            "categories": [
-                "bakery"
-            ],
-            "district": "lisboa",
-            "certified": true,
-            "position": {
-                "lat": 39.0714742,
-                "lng": -9.342269
-            }
-        },
-        {
             "id": "ChIJTQ_QindlJA0RvmP6i0DDSco",
             "name": "Celícias",
             "description": {
