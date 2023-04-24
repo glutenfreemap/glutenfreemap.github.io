@@ -142,12 +142,14 @@
                         infowindowContent.children.namedItem("place-json").textContent = JSON.stringify({
                             id: place.place_id,
                             name: place.name,
+                            subtitle: "",
                             description: {
                                 pt: "",
                                 en: "",
-                                fr: ""
+                                fr: "",
+                                es: ""
                             },
-                            address: addressParts ? [addressParts[1], addressParts[2]] : [details.formatted_address],
+                            address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
                             categories: [ ],
                             district: "",
                             certified: false,
