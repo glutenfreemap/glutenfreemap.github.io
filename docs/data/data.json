@@ -724,6 +724,28 @@
                 "lat": 38.8078663,
                 "lng": -9.3332397
             }
+        },
+        {
+            "id": "ChIJd_jP04b_JA0RhllYjJ_05nA",
+            "name": "Soul",
+            "subtitle": "Alimentação Saudável e do Bem",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "Av. Central 162 Loja 6",
+                "4710-229 Braga"
+            ],
+            "categories": ["bakery"],
+            "district": "braga",
+            "certified": true,
+            "position": {
+                "lat": 41.551437,
+                "lng": -8.4186808
+            }
         }        
     ]
 }
