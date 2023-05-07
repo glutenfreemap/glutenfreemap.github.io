@@ -105,7 +105,7 @@ footer a:hover {
     height: 100%;
   }
 
-  .results-list-container .list-group {
+  .results-list-container > .list-group {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -121,6 +121,27 @@ footer a:hover {
   content: "| ";
 }
 
+.venue.multiple {
+  width: 100%;
+}
+
+.venue.multiple .name {
+  color: inherit;
+  text-decoration: none;
+}
+
+.venue.multiple .name::before {
+  content: "⏵";
+}
+
+.venue.multiple.expanded .name::before {
+  content: "⏷";
+}
+
+.venue.multiple .subtitle {
+  font-weight: bold;
+}
+
 .venue .name {
   font-weight: bold;
 }
@@ -131,6 +152,14 @@ footer a:hover {
 
 .venue .description {
   font-size: smaller;
+}
+
+.venue .category {
+  color: #6c757d;
+}
+
+.active .category {
+  color: #bdc9d4;
 }
 
 .map-placeholder {

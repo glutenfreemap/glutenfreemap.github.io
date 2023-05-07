@@ -98,27 +98,91 @@ function ViewModel(storage) {
         return self.filters.category.values().reduce(function (a, c) { a[c.id] = c.name; return a; }, {});
     });
 
+    function isVisible(place) {
+        for (var filterName in self.filters) {
+            if (!self.filters[filterName].match(place)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    this.placesById = ko.computed(function() {
+        var places = self.places();
+        if (!places) {
+            return {};
+        }
+
+        var placesById = {};
+        places.forEach(function (place) {
+            if (place.locations) {
+                place.locations.forEach(function (location) {
+                    placesById[location.id] = location;
+                });
+            } else {
+                placesById[place.id] = place;
+            }
+        });
+        return placesById;
+    });
+
     this.visiblePlaces = ko.computed(function () {
         var places = self.places();
         if (!places) {
             return [];
         }
 
-        return places.filter(function (place) {
-            for (var filterName in self.filters) {
-                if (!self.filters[filterName].match(place)) {
-                    return false;
+        var filteredPlaces = [];
+        places.forEach(function (place) {
+            if (place.locations) {
+                var filteredLocations = place.locations.filter(isVisible);
+                if (filteredLocations.length) {
+                    filteredPlaces.push({
+                        id: place.id,
+                        name: place.name,
+                        certified: filteredLocations.some(function(l) { return l.certified; }),
+                        locations: filteredLocations
+                    });
+                }
+            } else {
+                if (isVisible(place)) {
+                    filteredPlaces.push(place);
                 }
             }
-            return true;
         });
+        return filteredPlaces;
     });
 
     this.selectedPlace = ko.observable();
+    this.expandedPlace = ko.observable();
 
     this.selectPlaceById = function (id) {
-        var place = self.places().filter(function (p) { return p.id === id })[0];
+        var place = self.placesById()[id];
         self.selectedPlace(place);
+        if (place.group) {
+            self.expandPlace(place.group);
+        }
+    }
+
+    this.togglePlace = function (place) {
+        if (self.expandedPlace() === place) {
+            self.expandedPlace(null);
+        } else {
+            self.expandedPlace(place);
+        }
+    }
+
+    this.expandPlace = function (place) {
+        self.expandedPlace(place);
+    }
+
+    this.isExpanded = function (place) {
+        var expandedPlace = self.expandedPlace();
+        return expandedPlace && expandedPlace.id === place.id;
+    }
+
+    this.isSelected = function (place) {
+        return self.selectedPlace() === place;
     }
 
     this.gotoPlace = function (place) {
@@ -271,6 +335,23 @@ function main(dataUrl, lang) {
         });
         data.places.sort(function (a, b) {
             return compareStringsIgnoreCase(a.name, b.name);
+        });
+
+        var groupId = 1;
+        data.places.forEach(function (p) {
+            if (p.locations) {
+                p.locations.sort(function (a, b) {
+                    return compareStringsIgnoreCase(a.subtitle, b.subtitle);
+                });
+                p.locations.forEach(function (l) {
+                    l.group = p;
+                    l.name = p.name;
+                    l.categories = p.categories;
+                    l.certified = p.certified;
+                });
+
+                p.id = "group" + groupId++;
+            }
         });
 
         viewModel.data(data);
@@ -454,20 +535,28 @@ function main(dataUrl, lang) {
             }
         });
 
+        function placeToFeature(place) {
+            return {
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [place.position.lng, place.position.lat]
+                },
+                properties: {
+                    id: place.id,
+                    certified: place.certified
+                }
+            };
+        }
+
         subscribeAndUpdate(viewModel.visiblePlaces, function (places) {
             map.getSource("places").setData({
                 type: "FeatureCollection",
-                features: places.map(function (place) {
-                    return {
-                        type: "Feature",
-                        geometry: {
-                            type: "Point",
-                            coordinates: [place.position.lng, place.position.lat]
-                        },
-                        properties: {
-                            id: place.id,
-                            certified: place.certified
-                        }
+                features: places.flatMap(function (place) {
+                    if (place.locations) {
+                        return place.locations.map(placeToFeature);
+                    } else {
+                        return placeToFeature(place);
                     }
                 })
             });
