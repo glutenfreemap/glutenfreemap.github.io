@@ -768,6 +768,70 @@
                 "lat": 38.6433548,
                 "lng": -9.1000987
             }
+        },
+        {
+            "name": "Totale Pizzeria",
+            "categories": ["restaurant"],
+            "certified": false,
+            "locations": [
+                {
+                    "id": "ChIJSTggDKAxGQ0RxSCAPAnWbP0",
+                    "subtitle": "Parque das Nações",
+                    "description": {
+                        "pt": "",
+                        "en": "",
+                        "fr": "",
+                        "es": ""
+                    },
+                    "address": [
+                        "Alameda dos Oceanos 41F",
+                        "1990-203 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7632256,
+                        "lng": -9.0969204
+                    }
+                },
+                {
+                    "id": "ChIJYyyU364zGQ0RbEcR08k89EI",
+                    "subtitle": "Saldanha",
+                    "description": {
+                        "pt": "",
+                        "en": "",
+                        "fr": "",
+                        "es": ""
+                    },
+                    "address": [
+                        "Praça José Fontana 17A",
+                        "1050-129 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7300099,
+                        "lng": -9.1445622
+                    }
+                },
+                {
+                    "id": "ChIJv2p45R01GQ0RxU1oj2EIgFU",
+                    "subtitle": "Santos",
+                    "description": {
+                        "pt": "",
+                        "en": "",
+                        "fr": "",
+                        "es": ""
+                    },
+                    "address": [
+                        "Largo do Conde Barão 37",
+                        "1200-118 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.708662,
+                        "lng": -9.1522327
+                    }
+                }
+            ]
         }
     ]
 }
