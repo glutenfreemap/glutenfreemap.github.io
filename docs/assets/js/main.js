@@ -34,12 +34,66 @@ if ("serviceWorker" in navigator) {
     console.log("Service workers not available")
 }
 
+function Changelog(storage) {
+    var changeKeyPrefix = "change_viewed_";
+    
+    var latestChangeId = $("#latest-change").attr("data-latest-change-id");
+
+    this.latestChange = ko.observable(latestChangeId);
+    this.viewedChanges = ko.observableArray();
+    
+    this.isViewed = function (changeId) {
+        return this.viewedChanges.indexOf(changeId) !== -1;
+    }
+
+    this.setViewed = function (changeId) {
+        var alreadyViewed = this.isViewed(changeId);
+        if (!alreadyViewed) {
+            // Do not update the view model because we still want the change to appear as not viewed.
+            storage.setItem(changeKeyPrefix + changeId, "1");
+        }
+        return alreadyViewed;
+    }
+
+    for (var key in storage) {
+        if (key.indexOf(changeKeyPrefix) === 0) {
+            var changeId = key.substring(changeKeyPrefix.length);
+            this.viewedChanges.push(changeId);
+        }
+    }
+
+    var isFreshInstall = storage.getItem("fresh_install") === "1";
+    if (isFreshInstall) {
+        window.localStorage.removeItem("fresh_install");
+        this.setViewed(latestChangeId);
+        this.viewedChanges.push(latestChangeId);
+        return;
+    }
+
+    if (!document.getElementById("changelog") && !this.isViewed(latestChangeId)) {
+        var newsPrompt = document.getElementById("newsPrompt");
+        var lastNotifiedChangeKey = "last_change_notified";
+        var lastNotifiedChangeId = storage.getItem(lastNotifiedChangeKey);
+        if (newsPrompt && lastNotifiedChangeId !== latestChangeId) {
+            var notification = new bootstrap.Toast(newsPrompt, {
+                autohide: false
+            });
+            notification.show();
+            
+            $(newsPrompt).on("hide.bs.toast", function() {
+                storage.setItem(lastNotifiedChangeKey, latestChangeId);
+            });
+        }
+    }
+}
+
 function ViewModel(storage) {
     var self = this;
 
     this.data = ko.observable({});
 
-    this.language = ko.observable();
+    this.language = ko.observable(document.documentElement.getAttribute("lang"));
+    this.changelog = new Changelog(storage);
 
     this.loaded = ko.observable();
     this.mapLoaded = ko.observable();
@@ -222,6 +276,20 @@ function compareStringsIgnoreCase(a, b) {
     return lowerA < lowerB ? -1 : (lowerA > lowerB ? 1 : 0);
 }
 
+function main() {
+    var viewModel = new ViewModel(window.localStorage);
+
+    applyHostSpecificChanges(viewModel);
+    
+    window.viewModel = viewModel;
+    ko.applyBindings(viewModel);
+
+    var mapElement = document.getElementById("map");
+    if (mapElement) {
+        loadMap(mapElement);
+    }
+}
+
 function WebBrowser() {
     function matchUserAgent(userAgent, patterns) {
         var result = { name: "", version: "" };
@@ -290,24 +358,25 @@ function AndroidApp(nativeInterface) {
     }
 }
 
-var host = null;
-
-if ("Android" in window) {
-    host = new AndroidApp(window.Android);
-} else if (window.location.search === "?android") {
-    host = new AndroidApp({
-        getAppVersion: function () { return "fake" },
-        getAndroidVersion: function () { return "1" },
-        setMenu: function (menu) { console.log("Menu set", JSON.parse(menu)); },
-        setLanguage: function (lang) {
-            window.localStorage.setItem("preferences.language", lang);
-        }
-    });
-} else {
-    host = new WebBrowser();
+function createHost() {
+    if ("Android" in window) {
+        return new AndroidApp(window.Android);
+    } else if (window.location.search === "?android") {
+        return new AndroidApp({
+            getAppVersion: function () { return "fake" },
+            getAndroidVersion: function () { return "1" },
+            setMenu: function (menu) { console.log("Menu set", JSON.parse(menu)); },
+            setLanguage: function (lang) {
+                window.localStorage.setItem("preferences.language", lang);
+            }
+        });
+    } else {
+        return new WebBrowser();
+    }
 }
 
-$(function () {
+function applyHostSpecificChanges(viewModel) {
+    var host = createHost();
     host.customizePage();
 
     $("button[data-target='#" + host.browser.name.toLowerCase() + "Instructions']").click();
@@ -321,13 +390,14 @@ $(function () {
             "&browser-version=" + encodeURIComponent(host.browser.version)
         ].join("");
     }
-});
 
-function main(dataUrl, lang) {
-    var viewModel = new ViewModel(window.localStorage);
-    viewModel.language(lang);
-    window.viewModel = viewModel;
-    ko.applyBindings(viewModel);
+    subscribeAndUpdate(viewModel.language, function(lang) {
+        host.setLanguage(lang);
+    });
+}
+
+function loadMap(mapElement) {
+    var dataUrl = mapElement.getAttribute("data-url");
 
     $.get(dataUrl, function (data) {
         data.districts.sort(function (a, b) {
@@ -390,7 +460,7 @@ function main(dataUrl, lang) {
     }));
 
     map.addControl(new maplibregl.FullscreenControl({
-        container: document.getElementById("map")
+        container: mapElement
     }));
 
     map.on("load", function () {
@@ -672,3 +742,5 @@ window.addEventListener("beforeinstallprompt", function (e) {
         window.localStorage.setItem("install-refused", "yes");
     });
 });
+
+document.addEventListener("DOMContentLoaded", main);

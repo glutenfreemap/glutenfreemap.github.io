@@ -36,6 +36,14 @@ languages:
     about: Acerca
     contacts: Reportar problemas
     language: Língua
+  new_changes:
+    title: Atualizações
+    description: A aplicação foi atualizada. Deseja ver as novidades?
+    accept: Sim
+    cancel: Não obrigado
+  changelog:
+    last_update: Última atualização em %Y-%m-%d
+    new_venues: "Novos estabelecimentos adicionados:"
 
 - id: en
   name: English
@@ -53,6 +61,14 @@ languages:
     about: About
     contacts: Report issues
     language: Language
+  new_changes:
+    title: Updates
+    description: The application has been updated. Do you want to see the news?
+    accept: 'Yes'
+    cancel: No thanks
+  changelog:
+    last_update: Last updated on %Y-%m-%d
+    new_venues: "New venues added:"
 
 - id: fr
   name: Français
@@ -70,6 +86,14 @@ languages:
     about: À propos
     contacts: Signaler un problème
     language: Langue
+  new_changes:
+    title: Mises à jour
+    description: L'application a été mise à jour. Voulez-vous voir les nouveautés ?
+    accept: Oui
+    cancel: Non merci
+  changelog:
+    last_update: Dernière mise à jour le %Y-%m-%d
+    new_venues: "Nouveaux établissements ajoutés:"
 
 - id: es
   name: Español
@@ -87,6 +111,14 @@ languages:
     about: Sobre
     contacts: Reportar problemas
     language: Idioma
+  new_changes:
+    title: Actualizaciones
+    description: La aplicación ha sido actualizada. ¿Quieres ver las novedades?
+    accept: Sí
+    cancel: No gracias
+  changelog:
+    last_update: Última actualización el %Y-%m-%d
+    new_venues: "Nuevos establecimientos añadidos:"
 
 defaults:
   - scope:
@@ -100,3 +132,6 @@ defaults:
       type: pages
     values:
       sitemap: true
+
+collections:
+  - changelog

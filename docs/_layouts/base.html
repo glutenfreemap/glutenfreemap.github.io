@@ -43,13 +43,21 @@
 
         <footer class="border-top footer text-muted mt-3 py-3">
             <div class="container d-flex flex-column flex-md-row text-md-start align-items-center">
-                <span class="flex-grow-1">&copy; 2023 <a class="text-secondary" href="https://aaubry.net" target="_blank">Antoine Aubry</a> &amp; Catarina Tavares</span>
+                <span class="flex-grow-1">&copy; 2023 <a class="text-secondary" rel="author" href="https://aaubry.net" target="_blank">Antoine Aubry</a> &amp; Catarina Tavares</span>
+
+                {% assign latest_change = site.changelog | last %}
+                {% assign latest_change_id = latest_change.relative_path | replace: '_changelog/', '' | replace: '.md', '' %}
+                <a id="latest-change" href="/{{ page.lang }}/changes.html" class="btn btn-sm" data-latest-change-id="{{ latest_change_id }}"
+                    data-bind="class: (changelog.isViewed(changelog.latestChange()) ? 'btn-light' : 'btn-info')">
+                    {{ latest_change_id | date: language.changelog.last_update }}
+                </a>
             </div>
         </footer>
     </div>
 
     <script src="/assets/js/jquery-3.6.3.min.js"></script>
     <script src="/assets/js/bootstrap.4.6.2.min.js"></script>
+    <script src="/assets/js/knockout-3.5.0-min.js"></script>
     <script src="{{ 'assets/js/main.js' | relative_url }}?v={{ site.time | date:'%s' }}"></script>
     {% if page.includeScripts != null %}
     {% include {{ page.includeScripts }} %}

@@ -58,10 +58,18 @@ layout: base
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function (event) {
-        host.setLanguage("{{ page.lang }}");
-    });
-</script>
+    <div id="newsPrompt" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="gg-info"></i>
+            &nbsp;<strong class="me-auto">{{ language.new_changes.title }}</strong>
+        </div>
+        <div class="toast-body">
+            {{ language.new_changes.description }}
+            <div class="mt-2 pt-2 border-top">
+                <a href="/{{ page.lang }}/changes.html" class="btn btn-primary btn-sm">{{ language.new_changes.accept }}</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="toast">{{ language.new_changes.cancel }}</button>
+            </div>
+        </div>
+    </div>
+</div>

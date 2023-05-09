@@ -44,7 +44,7 @@
 <div class="container mt-3 results-container">
     <div class="row">
         <div class="col-md-8 results-map">
-            <div id="map">
+            <div id="map" data-url="{{ 'data/data.json' | relative_url }}?v={{ site.time | date:'%s' }}">
                 <div id="map-container"></div>
                 <!-- ko ifnot: mapLoaded -->
                 <div class="map-placeholder">

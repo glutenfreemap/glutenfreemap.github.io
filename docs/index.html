@@ -43,8 +43,15 @@ lang: pt
   </div>
 </div>
 <script>
+  var lastLanguage = null;
+  if (window.localStorage) {
+    lastLanguage = window.localStorage.getItem("preferences.language");
+    if (!lastLanguage) {
+      window.localStorage.setItem("fresh_install", "1");
+    }
+  }
+
   var languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
-  var lastLanguage = window.localStorage.getItem("preferences.language");
   if (lastLanguage) {
     languages = Array.from(languages);
     languages.unshift(lastLanguage);

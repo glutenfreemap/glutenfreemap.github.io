@@ -295,6 +295,21 @@ footer a:hover {
   margin-top: 0.3em;
 }
 
+.toast-body .btn {
+  min-width: 5em;
+}
+
+.changelog .change {
+  margin-bottom: 2rem;
+}
+
+.changelog .change .badge {
+  display: none;
+}
+
+.changelog .change.new .badge {
+  display: inline-block;
+}
 
 /* Info icon - https://css.gg/info */
 .gg-info {
