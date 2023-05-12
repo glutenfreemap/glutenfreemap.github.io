@@ -126,16 +126,28 @@ footer a:hover {
 }
 
 .venue.multiple .name {
-  color: inherit;
+  color: #495057;
   text-decoration: none;
+  padding-left: 0.75em;
 }
 
 .venue.multiple .name::before {
-  content: "⏵";
+  content: " ";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  display: inline-block;
+  position: absolute;
+
+  border-width: 0.25em 0 0.25em 0.433em;
+  border-color: transparent transparent transparent #495057;
+  margin: 0.6em 0 0 -0.75em;
 }
 
 .venue.multiple.expanded .name::before {
-  content: "⏷";
+  border-width: 0.433em 0.25em 0 0.25em;
+  border-color: #495057 transparent transparent transparent;
+  margin-top: 0.7em;
 }
 
 .venue.multiple .subtitle {
