@@ -22,7 +22,8 @@ import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val hostName: String = "glutenfreemap.github.io"
+        const val hostName: String = "glutenfreemap.org"
+        const val oldHostName: String = "glutenfreemap.github.io"
         const val preferencesKey: String = "preferences"
         const val languagePreferenceKey: String = "language"
         const val MY_PERMISSIONS_REQUEST_LOCATION: Int = 99
@@ -42,9 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (0 != applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) {
-            WebView.setWebContentsDebuggingEnabled(true)
-        }
+        WebView.setWebContentsDebuggingEnabled(true)
 
         val browser: WebView = findViewById(R.id.browser)
 
@@ -59,9 +58,17 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences(preferencesKey, Context.MODE_PRIVATE)
         val language = preferences.getString(languagePreferenceKey, null)
         if (language != null) {
-            browser.loadUrl("https://${hostName}/${language}")
+            if (BuildConfig.DEBUG) {
+                browser.loadUrl("http://192.168.99.66:8080/${language}")
+            } else {
+                browser.loadUrl("https://${hostName}/${language}")
+            }
         } else {
-            browser.loadUrl("https://${hostName}")
+            if (BuildConfig.DEBUG) {
+                browser.loadUrl("http://192.168.99.66:8080")
+            } else {
+                browser.loadUrl("https://${hostName}")
+            }
         }
     }
 
@@ -141,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // Marshmallow+ Permission APIs
-                askRuntimePermission(origin, callback);
+                askRuntimePermission(origin, callback)
             } else {
                 callback?.invoke(origin, true, false)
             }
@@ -199,7 +206,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
             val uri = Uri.parse(url)
-            if (uri.authority == hostName) {
+            if (uri.authority == hostName || uri.authority == oldHostName || (uri.authority?.startsWith("192.") == true && BuildConfig.DEBUG)) {
                 // This is my web site, so do not override; let my WebView load the page
                 return false
             }

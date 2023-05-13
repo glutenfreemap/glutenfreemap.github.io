@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace 'net.aaubry.glutenfreemap'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "net.aaubry.glutenfreemap"
         minSdk 21
-        targetSdk 32
-        versionCode 2
-        versionName "1.1"
+        targetSdk 33
+        versionCode 3
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
