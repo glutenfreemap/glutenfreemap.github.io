@@ -620,15 +620,33 @@ function loadMap(mapElement) {
         }
 
         subscribeAndUpdate(viewModel.visiblePlaces, function (places) {
+            var flatPlaces = places.flatMap(function (place) {
+                return place.locations || place;
+            });
+
+            if (flatPlaces.length) {
+                var visiblePlacesBounds = flatPlaces.reduce(
+                    function (a, place) {
+                        return a.extend([place.position.lng, place.position.lat]);
+                    },
+                    new maplibregl.LngLatBounds(flatPlaces[0].position, flatPlaces[0].position)
+                );
+                var mapBounds = map.getBounds();
+                var visiblePlacesAreInMap =
+                    mapBounds.contains(visiblePlacesBounds.getNorthEast()) &&
+                    mapBounds.contains(visiblePlacesBounds.getSouthWest());
+    
+                if (!visiblePlacesAreInMap) {
+                    map.fitBounds(visiblePlacesBounds, {
+                        padding: 50,
+                        maxZoom: 10
+                    });
+                }
+            }
+
             map.getSource("places").setData({
                 type: "FeatureCollection",
-                features: places.flatMap(function (place) {
-                    if (place.locations) {
-                        return place.locations.map(placeToFeature);
-                    } else {
-                        return placeToFeature(place);
-                    }
-                })
+                features: flatPlaces.map(placeToFeature)
             });
         });
 
