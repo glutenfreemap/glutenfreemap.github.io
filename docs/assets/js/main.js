@@ -437,11 +437,11 @@ function loadMap(mapElement) {
         zoom: 6.5,
         style: {
             version: 8,
-            glyphs: "https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf",
+            glyphs: "https://cdn.glutenfreemap.org/fonts/pbf/{fontstack}/{range}.pbf",
             sources: {
                 "protomaps": {
                     type: "vector",
-                    tiles: ["https://api.protomaps.com/tiles/v2/{z}/{x}/{y}.pbf?key=34e1462a1b9ab8a0"],
+                    tiles: ["https://api.glutenfreemap.org/tiles/v2/{z}/{x}/{y}.pbf?key=34e1462a1b9ab8a0"],
                     attribution: 'Protomaps © <a href="https://openstreetmap.org">OpenStreetMap</a>',
                     maxzoom: 14
                 }
