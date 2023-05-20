@@ -32,6 +32,7 @@ strings:
         Para mais informações e certificações: <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/">https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/</a>.
     badge: certificado
   noResults: Sem resultados
+  finalHint: Há algum local em falta?<br/><a href="contacts.html">Diga-nos aqui</a>.
   map:
     viewOnGoogleMaps: Visualize no Google Maps
     centerMap: Centrar na localização corrente
