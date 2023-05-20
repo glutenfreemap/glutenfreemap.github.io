@@ -43,7 +43,6 @@ languages:
     cancel: Não obrigado
   changelog:
     last_update: Última atualização em %Y-%m-%d
-    new_venues: "Novos estabelecimentos adicionados:"
 
 - id: en
   name: English
@@ -68,7 +67,6 @@ languages:
     cancel: No thanks
   changelog:
     last_update: Last updated on %Y-%m-%d
-    new_venues: "New venues added:"
 
 - id: fr
   name: Français
@@ -93,7 +91,6 @@ languages:
     cancel: Non merci
   changelog:
     last_update: Dernière mise à jour le %Y-%m-%d
-    new_venues: "Nouveaux établissements ajoutés:"
 
 - id: es
   name: Español
@@ -118,7 +115,6 @@ languages:
     cancel: No gracias
   changelog:
     last_update: Última actualización el %Y-%m-%d
-    new_venues: "Nuevos establecimientos añadidos:"
 
 defaults:
   - scope:
