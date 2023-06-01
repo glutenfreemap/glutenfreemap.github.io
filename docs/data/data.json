@@ -893,6 +893,12 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Pans and Company",
+            "categories": ["fast-food"],
+            "certified": true,
+            "locations": "pansandcompany.json"
         }
     ]
 }
