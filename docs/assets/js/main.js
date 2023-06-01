@@ -263,6 +263,15 @@ function ViewModel(storage) {
     this.getCategory = function (id) {
         return self.categoriesById()[id];
     };
+
+    this.getGoogleMapsUrl = function (place) {
+        if (place.gid) {
+            // gid is directly from Google Maps
+            return ['https://www.google.com/maps/search/?api=1&query=', encodeURI(place.address.join(',')), '&query_place_id=', encodeURI(place.gid)].join('');
+        } else {
+            return ['https://www.google.com/maps/search/?api=1&query=', encodeURI(place.name), ",", encodeURI(place.address.join(','))].join('');
+        }
+    };
 }
 
 function subscribeAndUpdate(observable, handler) {
@@ -400,32 +409,60 @@ function loadMap(mapElement) {
     var dataUrl = mapElement.getAttribute("data-url");
 
     $.get(dataUrl, function (data) {
-        data.districts.sort(function (a, b) {
-            return compareStringsIgnoreCase(a.name, b.name);
-        });
-        data.places.sort(function (a, b) {
-            return compareStringsIgnoreCase(a.name, b.name);
-        });
 
-        var groupId = 1;
+        var loaders = [];
+
         data.places.forEach(function (p) {
             if (p.locations) {
-                p.locations.sort(function (a, b) {
-                    return compareStringsIgnoreCase(a.subtitle, b.subtitle);
-                });
-                p.locations.forEach(function (l) {
-                    l.group = p;
-                    l.name = p.name;
-                    l.categories = p.categories;
-                    l.certified = p.certified;
-                });
+                if (typeof p.locations === "string") {
+                    var urlSegments = dataUrl.split('/');
+                    var lastSegment = urlSegments.pop()
+                    lastSegment = p.locations + '?' + lastSegment.split('?')[1];
+                    urlSegments.push(lastSegment);
+                    var url = urlSegments.join('/');
 
-                p.id = "group" + groupId++;
+                    loaders.push($.get(url, function(subData) {
+                        p.locations = subData;
+                    }));
+                }
             }
         });
 
-        viewModel.data(data);
-        viewModel.loaded(true);
+        var emptyDescription = { pt: "" };
+
+        $.when.apply($, loaders).then(function() {
+            data.districts.sort(function (a, b) {
+                return compareStringsIgnoreCase(a.name, b.name);
+            });
+            data.places.sort(function (a, b) {
+                return compareStringsIgnoreCase(a.name, b.name);
+            });
+
+            var groupId = 1;
+            data.places.forEach(function (p) {
+                p.description = p.description || emptyDescription;
+                p.id = p.id || p.gid;
+
+                if (p.locations) {
+                    p.id = "gr" + groupId++;
+
+                    p.locations.sort(function (a, b) {
+                        return compareStringsIgnoreCase(a.subtitle, b.subtitle);
+                    });
+                    p.locations.forEach(function (l) {
+                        l.group = p;
+                        l.name = p.name;
+                        l.categories = p.categories;
+                        l.certified = p.certified;
+                        l.description = l.description || emptyDescription;
+                        l.id = p.id + '-' + (l.id || l.gid);
+                    });
+                }
+            });
+
+            viewModel.data(data);
+            viewModel.loaded(true);
+        });
     });
 
     var protocol = new pmtiles.Protocol();

@@ -64,7 +64,7 @@
                             <div class="address-line full-width" data-bind="text: $data"></div>
                         </div>
                         <div class="view-link"> <a target="_blank"
-                                data-bind="attr: { href: ['https://www.google.com/maps/search/?api=1&query=', encodeURI(address.join(',')), '&query_place_id=', encodeURI(id)].join('') }"
+                                data-bind="attr: { href: $root.getGoogleMapsUrl($data) }"
                                 tabindex="0"> <span>{{ page.strings.map.viewOnGoogleMaps }}</span> </a>
                         </div>
                     </div>

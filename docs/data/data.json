@@ -37,6 +37,15 @@
             }
         },
         {
+            "id": "fast-food",
+            "name": {
+                "pt": "Fast-food",
+                "en": "Fast-food",
+                "fr": "Fast-food",
+                "es": "Comida rápida"
+            }
+        },
+        {
             "id": "bakery",
             "name": {
                 "pt": "Pastelaria",
@@ -91,8 +100,8 @@
             "name": "Guarda"
         },
         {
-            "id": "ponta-delgada",
-            "name": "Ponta Delgada"
+            "id": "acores",
+            "name": "Açores"
         },
         {
             "id": "evora",
@@ -105,11 +114,63 @@
         {
             "id": "coimbra",
             "name": "Coimbra"
+        },
+        {
+            "id": "setubal",
+            "name": "Setúbal"
+        },
+        {
+            "id": "braganca",
+            "name": "Bragança"
+        },
+        {
+            "id": "castelo-branco",
+            "name": "Castelo Branco"
+        },
+        {
+            "id": "aveiro",
+            "name": "Aveiro"
+        },
+        {
+            "id": "faro",
+            "name": "Faro"
+        },
+        {
+            "id": "viseu",
+            "name": "Viseu"
+        },
+        {
+            "id": "leiria",
+            "name": "Leiria"
+        },
+        {
+            "id": "viana-do-castelo",
+            "name": "Viana do Castelo"
+        },
+        {
+            "id": "madeira",
+            "name": "Madeira"
+        },
+        {
+            "id": "beja",
+            "name": "Beja"
+        },
+        {
+            "id": "santarem",
+            "name": "Santarém"
+        },
+        {
+            "id": "evora",
+            "name": "Évora"
+        },
+        {
+            "id": "portalegre",
+            "name": "Portalegre"
         }
     ],
     "places": [
         {
-            "id": "ChIJSyuRMHAzGQ0R2TLSnEvPVjE",
+            "gid": "ChIJSyuRMHAzGQ0R2TLSnEvPVjE",
             "name": "La Trattoria",
             "description": {
                 "pt": "",
@@ -132,7 +193,7 @@
             }
         },
         {
-            "id": "ChIJH5RKyQwzGQ0RlxOx3eZow_k",
+            "gid": "ChIJH5RKyQwzGQ0RlxOx3eZow_k",
             "name": "Rice Me",
             "description": {
                 "pt": "",
@@ -155,7 +216,7 @@
             }
         },
         {
-            "id": "ChIJDXzkhwAwHw0RCpQtrjmpMBE",
+            "gid": "ChIJDXzkhwAwHw0RCpQtrjmpMBE",
             "name": "Refúgio do Maneta",
             "description": {
                 "pt": "Restaurante gerido por um celíaco.",
@@ -178,7 +239,7 @@
             }
         },
         {
-            "id": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
+            "gid": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
             "name": "Zarzuela",
             "description": {
                 "pt": "",
@@ -201,7 +262,7 @@
             }
         },
         {
-            "id": "ChIJj22_NUAvHw0RgV6Y_rZyPG8",
+            "gid": "ChIJj22_NUAvHw0RgV6Y_rZyPG8",
             "name": "Talho das Manas",
             "description": {
                 "pt": "",
@@ -224,7 +285,7 @@
             }
         },
         {
-            "id": "ChIJERhzUeQ1GQ0RFaTir5Z8Jy4",
+            "gid": "ChIJERhzUeQ1GQ0RFaTir5Z8Jy4",
             "name": "GROM",
             "description": {
                 "pt": "",
@@ -247,7 +308,7 @@
             }
         },
         {
-            "id": "ChIJH4EKzag0GQ0RQmZkvy9IN-E",
+            "gid": "ChIJH4EKzag0GQ0RQmZkvy9IN-E",
             "name": "The Food for Real Alcântara",
             "description": {
                 "pt": "",
@@ -270,7 +331,7 @@
             }
         },
         {
-            "id": "ChIJ3Q-VS4MzGQ0RvTWx3Xxbl5U",
+            "gid": "ChIJ3Q-VS4MzGQ0RvTWx3Xxbl5U",
             "name": "The Food for Real Entrecampos",
             "description": "",
             "address": [
@@ -288,7 +349,7 @@
             }
         },
         {
-            "id": "ChIJt-y0kxfNHg0RgiaiY6yRp_4",
+            "gid": "ChIJt-y0kxfNHg0RgiaiY6yRp_4",
             "name": "Gelataria Scoop Gelato",
             "description": {
                 "pt": "",
@@ -311,7 +372,7 @@
             }
         },
         {
-            "id": "ChIJx30CuVXLHg0RG2pydX3H6TI",
+            "gid": "ChIJx30CuVXLHg0RG2pydX3H6TI",
             "name": "Naturluv",
             "description": {
                 "pt": "",
@@ -334,7 +395,7 @@
             }
         },
         {
-            "id": "ChIJS7720BjJHg0R_3YPjig13x0",
+            "gid": "ChIJS7720BjJHg0R_3YPjig13x0",
             "name": "Batarda's",
             "description": {
                 "pt": "",
@@ -357,7 +418,7 @@
             }
         },
         {
-            "id": "ChIJTRtXqy_EHg0RpJm6mQok6NQ",
+            "gid": "ChIJTRtXqy_EHg0RpJm6mQok6NQ",
             "name": "Gelateria Italiana Fabio Lupi",
             "description": {
                 "pt": "",
@@ -380,7 +441,7 @@
             }
         },
         {
-            "id": "ChIJx2I1hiozGQ0RMIlpo_DLWaA",
+            "gid": "ChIJx2I1hiozGQ0RMIlpo_DLWaA",
             "name": "Rice Me Deli",
             "description": {
                 "pt": "",
@@ -403,7 +464,7 @@
             }
         },
         {
-            "id": "ChIJf1v-rKgzGQ0RuSyX_dZ7Edo",
+            "gid": "ChIJf1v-rKgzGQ0RuSyX_dZ7Edo",
             "name": "Despensa N.6",
             "description": {
                 "pt": "",
@@ -426,7 +487,7 @@
             }
         },
         {
-            "id": "ChIJTQ_QindlJA0RvmP6i0DDSco",
+            "gid": "ChIJTQ_QindlJA0RvmP6i0DDSco",
             "name": "Celícias",
             "description": {
                 "pt": "",
@@ -449,7 +510,7 @@
             }
         },
         {
-            "id": "ChIJ3RHB6eNkJA0Rg8lLQkCZaB0",
+            "gid": "ChIJ3RHB6eNkJA0Rg8lLQkCZaB0",
             "name": "Com Cuore",
             "description": {
                 "pt": "",
@@ -470,7 +531,7 @@
             }
         },
         {
-            "id": "ChIJV1tMQzpvJA0R4RENcdFBgA8",
+            "gid": "ChIJV1tMQzpvJA0R4RENcdFBgA8",
             "name": "Sergio Crivelli",
             "description": {
                 "pt": "",
@@ -491,7 +552,7 @@
             }
         },
         {
-            "id": "ChIJd3n8GS9nJA0RXXyb6ZMGT_4",
+            "gid": "ChIJd3n8GS9nJA0RXXyb6ZMGT_4",
             "name": "Conessenza",
             "description": {
                 "pt": "",
@@ -512,7 +573,7 @@
             }
         },
         {
-            "id": "ChIJ4zMOGJ0vPQ0RB4g8q4UGpwg",
+            "gid": "ChIJ4zMOGJ0vPQ0RB4g8q4UGpwg",
             "name": "H2otel Congress & Medical Spa",
             "description": {
                 "pt": "",
@@ -535,7 +596,7 @@
             }
         },
         {
-            "id": "ChIJpfiD8v4iPQ0RQKpVDjwEmlA",
+            "gid": "ChIJpfiD8v4iPQ0RQKpVDjwEmlA",
             "name": "Puralã - Wool Valley Hotel & SPA",
             "description": {
                 "pt": "",
@@ -556,7 +617,7 @@
             }
         },
         {
-            "id": "ChIJpfiD8v4iPQ0RD6ebNYZe7I0",
+            "gid": "ChIJpfiD8v4iPQ0RD6ebNYZe7I0",
             "name": "Sport Hotel Gym + SPA",
             "description": {
                 "pt": "",
@@ -577,7 +638,7 @@
             }
         },
         {
-            "id": "ChIJ0ffGYKUrQwsRLkloXQ8xtrM",
+            "gid": "ChIJ0ffGYKUrQwsRLkloXQ8xtrM",
             "name": "Longe da Espiga",
             "description": {
                 "pt": "",
@@ -590,7 +651,7 @@
                 "9500-182 Ponta Delgada"
             ],
             "categories": ["bakery"],
-            "district": "ponta-delgada",
+            "district": "acores",
             "certified": true,
             "position": {
                 "lat": 37.7382685,
@@ -598,7 +659,7 @@
             }
         },
         {
-            "id": "ChIJZek67UjlGQ0RbGmMLu7aMqU",
+            "gid": "ChIJZek67UjlGQ0RbGmMLu7aMqU",
             "name": "O Grão Da Mesma Mó",
             "description": {
                 "pt": "",
@@ -619,7 +680,7 @@
             }
         },
         {
-            "id": "ChIJF_FbJqfTJA0RpkP58j-nPus",
+            "gid": "ChIJF_FbJqfTJA0RpkP58j-nPus",
             "name": "Biclaque",
             "description": {
                 "pt": "",
@@ -640,7 +701,7 @@
             }
         },
         {
-            "id": "ChIJvZQJLGP9JA0R4Vk-oYjbptQ",
+            "gid": "ChIJvZQJLGP9JA0R4Vk-oYjbptQ",
             "name": "Bonna",
             "description": {
                 "pt": "",
@@ -661,7 +722,7 @@
             }
         },
         {
-            "id": "ChIJi4dz8YZGJA0Rlx2J1XpqCUs",
+            "gid": "ChIJi4dz8YZGJA0Rlx2J1XpqCUs",
             "name": "Boca de Leão",
             "description": {
                 "pt": "",
@@ -684,7 +745,7 @@
             }
         },
         {
-            "id": "ChIJJ7y5f6PSJA0Rc0Z5kiqRhjc",
+            "gid": "ChIJJ7y5f6PSJA0Rc0Z5kiqRhjc",
             "name": "Pena Park Hotel",
             "description": {
                 "pt": "",
@@ -705,7 +766,7 @@
             }
         },
         {
-            "id": "ChIJE6bORE_QHg0RPVZoCaLZDCA",
+            "gid": "ChIJE6bORE_QHg0RPVZoCaLZDCA",
             "name": "Churrasqueira Franguito",
             "description": {
                 "pt": "",
@@ -726,7 +787,7 @@
             }
         },
         {
-            "id": "ChIJd_jP04b_JA0RhllYjJ_05nA",
+            "gid": "ChIJd_jP04b_JA0RhllYjJ_05nA",
             "name": "Soul",
             "subtitle": "Alimentação Saudável e do Bem",
             "description": {
@@ -748,7 +809,7 @@
             }
         },
         {
-            "id": "ChIJ5S3L4Ac2GQ0RDHXeaHxuLLA",
+            "gid": "ChIJ5S3L4Ac2GQ0RDHXeaHxuLLA",
             "name": "Gluten'Out",
             "subtitle": "",
             "description": {
@@ -775,7 +836,7 @@
             "certified": false,
             "locations": [
                 {
-                    "id": "ChIJSTggDKAxGQ0RxSCAPAnWbP0",
+                    "gid": "ChIJSTggDKAxGQ0RxSCAPAnWbP0",
                     "subtitle": "Parque das Nações",
                     "description": {
                         "pt": "",
@@ -794,7 +855,7 @@
                     }
                 },
                 {
-                    "id": "ChIJYyyU364zGQ0RbEcR08k89EI",
+                    "gid": "ChIJYyyU364zGQ0RbEcR08k89EI",
                     "subtitle": "Saldanha",
                     "description": {
                         "pt": "",
@@ -813,7 +874,7 @@
                     }
                 },
                 {
-                    "id": "ChIJv2p45R01GQ0RxU1oj2EIgFU",
+                    "gid": "ChIJv2p45R01GQ0RxU1oj2EIgFU",
                     "subtitle": "Santos",
                     "description": {
                         "pt": "",
