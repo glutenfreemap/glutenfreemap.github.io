@@ -899,6 +899,12 @@
             "categories": ["fast-food"],
             "certified": true,
             "locations": "pansandcompany.json"
+        },
+        {
+            "name": "McDonald's",
+            "categories": ["fast-food"],
+            "certified": true,
+            "locations": "mcdonalds.json"
         }
     ]
 }
