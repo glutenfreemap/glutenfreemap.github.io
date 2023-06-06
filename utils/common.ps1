@@ -46,7 +46,7 @@ function Resolve-District($lat, $lng, $districts)
     return $district
 }
 
-function Get-UniqueUnsorted
+function Get-UniqueUnsorted([ScriptBlock]$keyAccessor)
 {
     begin
     {
@@ -54,9 +54,15 @@ function Get-UniqueUnsorted
     }
     process
     {
-        if (-not $uniqueValues.ContainsKey($_))
+        $key = if ($keyAccessor -ne $null) {
+            $keyAccessor.Invoke($_)
+        } else {
+            $_
+        }
+
+        if (-not $uniqueValues.ContainsKey($key))
         {
-            $uniqueValues.Add($_, $null)
+            $uniqueValues.Add($key, $null)
             Write-Output $_
         }
     }

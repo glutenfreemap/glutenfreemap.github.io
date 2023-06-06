@@ -49,8 +49,8 @@ $data = $places `
                     $_.address.Split("`n")
                 }
             position = [ordered]@{
-                lat = $_.latlng[0]
-                lng = $_.latlng[1]
+                lat = [double]$_.latlng[0]
+                lng = [double]$_.latlng[1]
             }
             district = $previous.district
         }

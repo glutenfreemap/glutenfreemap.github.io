@@ -905,6 +905,12 @@
             "categories": ["fast-food"],
             "certified": true,
             "locations": "mcdonalds.json"
+        },
+        {
+            "name": "Telepizza",
+            "categories": ["fast-food"],
+            "certified": true,
+            "locations": "telepizza.json"
         }
     ]
 }
