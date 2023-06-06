@@ -911,6 +911,12 @@
             "categories": ["fast-food"],
             "certified": true,
             "locations": "telepizza.json"
+        },
+        {
+            "name": "Burger King",
+            "categories": ["fast-food"],
+            "certified": true,
+            "locations": "burgerking.json"
         }
     ]
 }
