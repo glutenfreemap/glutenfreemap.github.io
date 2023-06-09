@@ -47,7 +47,7 @@ $data = $places `
                 } else {
                     $previous.address
                 }
-            position = @{
+            position = [ordered]@{
                 lat = $article.Attributes["data-lat"].Value
                 lng = $article.Attributes["data-lng"].Value
             }
