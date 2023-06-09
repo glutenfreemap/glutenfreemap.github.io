@@ -1,9 +1,9 @@
-name: Update McDonald's
+name: Update Telepizza
 
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: '4 8 * * *'
+    - cron: '24 8 * * *'
 
 jobs:
   update:
@@ -22,20 +22,20 @@ jobs:
           cd utils
           nuget restore -PackagesDirectory packages
 
-      - name: Run Update-McDonalds.ps1 script
+      - name: Run Update-Telepizza.ps1 script
         run: |
           cd utils
-          pwsh -File Update-McDonalds.ps1
+          pwsh -File Update-Telepizza.ps1
 
       - name: Check if file has changed
         id: check_changes
         run: |
-          git diff --quiet -- docs/data/mcdonalds.json || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --quiet -- docs/data/telepizza.json || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -a -m "Update McDonald's stores"
+          git commit -a -m "Update Telepizza stores"
           git push
