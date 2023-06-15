@@ -1,5 +1,32 @@
 [
   {
+    "id": "935",
+    "subtitle": "AREEIRO ASA SUL",
+    "address": [
+      "Área de Serviço Aeroporto Galp Norte/ Sul",
+      " Av. Marechal Craveiro Lopes",
+      "1800-111 Lisboa"
+    ],
+    "position": {
+      "lat": 38.779917,
+      "lng": -9.123589
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "984",
+    "subtitle": "Leiria Shopping",
+    "address": [
+      "C.C. LeiriaShopping, Loja R136 IC2 - Alto do Vieiro",
+      "2400-441 Leiria"
+    ],
+    "position": {
+      "lat": 39.7315621,
+      "lng": -8.8249222
+    },
+    "district": "leiria"
+  },
+  {
     "id": "937",
     "subtitle": "Arrábida",
     "address": [
@@ -521,32 +548,5 @@
       "lng": -9.219515046207267
     },
     "district": "lisboa"
-  },
-  {
-    "id": "935",
-    "subtitle": "AREEIRO ASA SUL",
-    "address": [
-      "Área de Serviço Aeroporto Galp Norte/ Sul",
-      " Av. Marechal Craveiro Lopes",
-      "1800-111 Lisboa"
-    ],
-    "position": {
-      "lat": 38.779917,
-      "lng": -9.123589
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "984",
-    "subtitle": "Leiria Shopping",
-    "address": [
-      "C.C. LeiriaShopping, Loja R136 IC2 - Alto do Vieiro",
-      "2400-441 Leiria"
-    ],
-    "position": {
-      "lat": 39.7315621,
-      "lng": -8.8249222
-    },
-    "district": "leiria"
   }
 ]
