@@ -1,200 +1,5 @@
 [
   {
-    "id": "935",
-    "subtitle": "AREEIRO ASA SUL",
-    "address": [
-      "Área de Serviço Aeroporto Galp Norte/ Sul",
-      " Av. Marechal Craveiro Lopes",
-      "1800-111 Lisboa"
-    ],
-    "position": {
-      "lat": 38.779917,
-      "lng": -9.123589
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "984",
-    "subtitle": "Leiria Shopping",
-    "address": [
-      "C.C. LeiriaShopping, Loja R136 IC2 - Alto do Vieiro",
-      "2400-441 Leiria"
-    ],
-    "position": {
-      "lat": 39.7315621,
-      "lng": -8.8249222
-    },
-    "district": "leiria"
-  },
-  {
-    "id": "937",
-    "subtitle": "Arrábida",
-    "address": [
-      "Praceta de Henrique Moreira 244",
-      "4400-436 Vila Nova de Gaia"
-    ],
-    "position": {
-      "lat": 41.14138935,
-      "lng": -8.636928613475156
-    },
-    "district": "porto",
-    "fixes": {
-      "address": [
-        "Praceta de Henrique Moreira 244",
-        "4400-436 Vila Nova de Gaia"
-      ]
-    }
-  },
-  {
-    "id": "986",
-    "subtitle": "Lusoponte Norte",
-    "address": [
-      "Área de Serviço Galp, Acesso Norte - Edifício Discovery, Nova Travessia do Tejo,",
-      "2890-250 Alcochete"
-    ],
-    "position": {
-      "lat": 38.72764625,
-      "lng": -8.988407657869583
-    },
-    "district": "setubal"
-  },
-  {
-    "id": "939",
-    "subtitle": "Bragança",
-    "address": [
-      "Bragança Shopping, Loja 36/37/38",
-      "Av. Dr. Francisco Sá Carneiro, 2",
-      "5300-252 Bragança"
-    ],
-    "position": {
-      "lat": 41.8077671,
-      "lng": -6.7603496
-    },
-    "district": "leiria"
-  },
-  {
-    "id": "994",
-    "subtitle": "Madeira Shopping",
-    "address": [
-      "Loja 1014 Caminho de Santa Quitéria, 45 Santo António",
-      "9024-501 Funchal"
-    ],
-    "position": {
-      "lat": 32.6595631,
-      "lng": -16.950538792380996
-    },
-    "district": "madeira"
-  },
-  {
-    "id": "941",
-    "subtitle": "CascaiShopping",
-    "address": [
-      "Estrada Nacional 9",
-      "Loja 5B",
-      "2645-543 Alcabideche"
-    ],
-    "position": {
-      "lat": 38.7379624,
-      "lng": -9.399246670568445
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "996",
-    "subtitle": "Maia Shopping",
-    "address": [
-      "Loja 106 e 241 Lugar de Ardegães",
-      "4425-500 Águas Santas"
-    ],
-    "position": {
-      "lat": 41.219738,
-      "lng": -8.5617969
-    },
-    "district": "porto"
-  },
-  {
-    "id": "943",
-    "subtitle": "Castelo Branco",
-    "address": [
-      "C.C. Fórum Castelo Branco, Lj. 120",
-      "Cruz do Montalvão",
-      "6000-198 Castelo Branco"
-    ],
-    "position": {
-      "lat": 39.807839799999996,
-      "lng": -7.514801859227127
-    },
-    "district": "castelo-branco"
-  },
-  {
-    "id": "998",
-    "subtitle": "MarShopping",
-    "address": [
-      "Lj 1.052 Av. Arq. Fernando Távora Leça da Palmeira",
-      "4450-337 Matosinhos"
-    ],
-    "position": {
-      "lat": 41.2093239,
-      "lng": -8.6895315
-    },
-    "district": "porto"
-  },
-  {
-    "id": "947",
-    "subtitle": "Colombo",
-    "address": [
-      "C. C. Colombo, Loja 2113",
-      "Av. Lusíada – Letras CC",
-      "1500-392 Lisboa"
-    ],
-    "position": {
-      "lat": 38.75461195,
-      "lng": -9.1888489345051
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "1000",
-    "subtitle": "Modivas Norte",
-    "address": [
-      "Área de Serviço de Sentido Sul/ Norte A28 Km 13",
-      "4485-300 Vila do Conde"
-    ],
-    "position": {
-      "lat": 41.28928545,
-      "lng": -8.70307805
-    },
-    "district": "porto"
-  },
-  {
-    "id": "949",
-    "subtitle": "Covilhã",
-    "address": [
-      "C.C. Serra Shopping, Loja 157",
-      "Av. Europa - Lote 7 Sta. Maria",
-      "6200-546 Covilhã"
-    ],
-    "position": {
-      "lat": 40.271264099999996,
-      "lng": -7.502283244379566
-    },
-    "district": "castelo-branco"
-  },
-  {
-    "id": "1009",
-    "subtitle": "S. João da Madeira",
-    "address": [
-      "C.C. 8ª Avenida Lj. 1039Av. Dr. Renato Araújo",
-      "Aveiro",
-      "3700-346 S. João da Madeira"
-    ],
-    "position": {
-      "lat": 40.8887701,
-      "lng": -8.492176008895807
-    },
-    "district": "aveiro"
-  },
-  {
     "id": "795",
     "subtitle": "A8 Norte",
     "address": [
@@ -548,5 +353,200 @@
       "lng": -9.219515046207267
     },
     "district": "lisboa"
+  },
+  {
+    "id": "935",
+    "subtitle": "AREEIRO ASA SUL",
+    "address": [
+      "Área de Serviço Aeroporto Galp Norte/ Sul",
+      " Av. Marechal Craveiro Lopes",
+      "1800-111 Lisboa"
+    ],
+    "position": {
+      "lat": 38.779917,
+      "lng": -9.123589
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "984",
+    "subtitle": "Leiria Shopping",
+    "address": [
+      "C.C. LeiriaShopping, Loja R136 IC2 - Alto do Vieiro",
+      "2400-441 Leiria"
+    ],
+    "position": {
+      "lat": 39.7315621,
+      "lng": -8.8249222
+    },
+    "district": "leiria"
+  },
+  {
+    "id": "937",
+    "subtitle": "Arrábida",
+    "address": [
+      "Praceta de Henrique Moreira 244",
+      "4400-436 Vila Nova de Gaia"
+    ],
+    "position": {
+      "lat": 41.14138935,
+      "lng": -8.636928613475156
+    },
+    "district": "porto",
+    "fixes": {
+      "address": [
+        "Praceta de Henrique Moreira 244",
+        "4400-436 Vila Nova de Gaia"
+      ]
+    }
+  },
+  {
+    "id": "986",
+    "subtitle": "Lusoponte Norte",
+    "address": [
+      "Área de Serviço Galp, Acesso Norte - Edifício Discovery, Nova Travessia do Tejo,",
+      "2890-250 Alcochete"
+    ],
+    "position": {
+      "lat": 38.72764625,
+      "lng": -8.988407657869583
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "939",
+    "subtitle": "Bragança",
+    "address": [
+      "Bragança Shopping, Loja 36/37/38",
+      "Av. Dr. Francisco Sá Carneiro, 2",
+      "5300-252 Bragança"
+    ],
+    "position": {
+      "lat": 41.8077671,
+      "lng": -6.7603496
+    },
+    "district": "leiria"
+  },
+  {
+    "id": "994",
+    "subtitle": "Madeira Shopping",
+    "address": [
+      "Loja 1014 Caminho de Santa Quitéria, 45 Santo António",
+      "9024-501 Funchal"
+    ],
+    "position": {
+      "lat": 32.6595631,
+      "lng": -16.950538792380996
+    },
+    "district": "madeira"
+  },
+  {
+    "id": "941",
+    "subtitle": "CascaiShopping",
+    "address": [
+      "Estrada Nacional 9",
+      "Loja 5B",
+      "2645-543 Alcabideche"
+    ],
+    "position": {
+      "lat": 38.7379624,
+      "lng": -9.399246670568445
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "996",
+    "subtitle": "Maia Shopping",
+    "address": [
+      "Loja 106 e 241 Lugar de Ardegães",
+      "4425-500 Águas Santas"
+    ],
+    "position": {
+      "lat": 41.219738,
+      "lng": -8.5617969
+    },
+    "district": "porto"
+  },
+  {
+    "id": "943",
+    "subtitle": "Castelo Branco",
+    "address": [
+      "C.C. Fórum Castelo Branco, Lj. 120",
+      "Cruz do Montalvão",
+      "6000-198 Castelo Branco"
+    ],
+    "position": {
+      "lat": 39.807839799999996,
+      "lng": -7.514801859227127
+    },
+    "district": "castelo-branco"
+  },
+  {
+    "id": "998",
+    "subtitle": "MarShopping",
+    "address": [
+      "Lj 1.052 Av. Arq. Fernando Távora Leça da Palmeira",
+      "4450-337 Matosinhos"
+    ],
+    "position": {
+      "lat": 41.2093239,
+      "lng": -8.6895315
+    },
+    "district": "porto"
+  },
+  {
+    "id": "947",
+    "subtitle": "Colombo",
+    "address": [
+      "C. C. Colombo, Loja 2113",
+      "Av. Lusíada – Letras CC",
+      "1500-392 Lisboa"
+    ],
+    "position": {
+      "lat": 38.75461195,
+      "lng": -9.1888489345051
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "1000",
+    "subtitle": "Modivas Norte",
+    "address": [
+      "Área de Serviço de Sentido Sul/ Norte A28 Km 13",
+      "4485-300 Vila do Conde"
+    ],
+    "position": {
+      "lat": 41.28928545,
+      "lng": -8.70307805
+    },
+    "district": "porto"
+  },
+  {
+    "id": "949",
+    "subtitle": "Covilhã",
+    "address": [
+      "C.C. Serra Shopping, Loja 157",
+      "Av. Europa - Lote 7 Sta. Maria",
+      "6200-546 Covilhã"
+    ],
+    "position": {
+      "lat": 40.271264099999996,
+      "lng": -7.502283244379566
+    },
+    "district": "castelo-branco"
+  },
+  {
+    "id": "1009",
+    "subtitle": "S. João da Madeira",
+    "address": [
+      "C.C. 8ª Avenida Lj. 1039Av. Dr. Renato Araújo",
+      "Aveiro",
+      "3700-346 S. João da Madeira"
+    ],
+    "position": {
+      "lat": 40.8887701,
+      "lng": -8.492176008895807
+    },
+    "district": "aveiro"
   }
 ]
