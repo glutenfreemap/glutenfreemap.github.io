@@ -13,32 +13,6 @@
     "district": "lisboa"
   },
   {
-    "id": "951",
-    "subtitle": "El Corte Inglés",
-    "address": [
-      "Av. António Augusto de Aguiar 31",
-      "1069-413 Lisboa"
-    ],
-    "position": {
-      "lat": 38.7335417,
-      "lng": -9.1536869
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "1011",
-    "subtitle": "Seixal",
-    "address": [
-      "Rio Sul Shopping, Loja 1033A Av. Libertadores de Timor Loro Sae Torre da Marinha",
-      "2840-168 Seixal"
-    ],
-    "position": {
-      "lat": 38.6120313,
-      "lng": -9.102686422135047
-    },
-    "district": "setubal"
-  },
-  {
     "id": "905",
     "subtitle": "Alameda Shopping",
     "address": [
@@ -51,32 +25,6 @@
       "lng": -8.5838072503792
     },
     "district": "porto"
-  },
-  {
-    "id": "953",
-    "subtitle": "Espaço Guimarães",
-    "address": [
-      "Rua 25 de Abril 210",
-      "4835-400 Guimarães"
-    ],
-    "position": {
-      "lat": 41.449104750000004,
-      "lng": -8.342677092355206
-    },
-    "district": "braga"
-  },
-  {
-    "id": "1013",
-    "subtitle": "Torres Vedras",
-    "address": [
-      "Arena Shopping, Loja 2,016 Rua António Alves Ferreira, 2",
-      "2560-256 Torres Vedras"
-    ],
-    "position": {
-      "lat": 39.10159915,
-      "lng": -9.253036403956163
-    },
-    "district": "lisboa"
   },
   {
     "id": "911",
@@ -92,33 +40,6 @@
     "district": "setubal"
   },
   {
-    "id": "957",
-    "subtitle": "Forum Algarve",
-    "address": [
-      "km 103, Estrada Nacional 125",
-      "Loja 1.02A",
-      "8000-126 Faro"
-    ],
-    "position": {
-      "lat": 37.02891125,
-      "lng": -7.944478111735955
-    },
-    "district": "faro"
-  },
-  {
-    "id": "1015",
-    "subtitle": "UBBO",
-    "address": [
-      "C. C. UBBO, Lj. 1,057 Avenida Cruzeiro Seixas, 5 e 7",
-      "2650-504 Amadora"
-    ],
-    "position": {
-      "lat": 38.77708,
-      "lng": -9.220195377272727
-    },
-    "district": "lisboa"
-  },
-  {
     "id": "916",
     "subtitle": "Alegro Sintra",
     "address": [
@@ -129,32 +50,6 @@
     "position": {
       "lat": 38.7751032,
       "lng": -9.3401132192272
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "959",
-    "subtitle": "Almada Forum",
-    "address": [
-      " Loja 3,15 Estrada do Caminho Municipal,1011 Vale de Mourelos",
-      "2810-354 Almada"
-    ],
-    "position": {
-      "lat": 38.66001545,
-      "lng": -9.1751852760399
-    },
-    "district": "setubal"
-  },
-  {
-    "id": "1019",
-    "subtitle": "Vasco da Gama",
-    "address": [
-      "C. C. Vasco da Gama, Loja 2.007 Av. D. João II, Lote 1.05.02",
-      "1990-094 Lisboa"
-    ],
-    "position": {
-      "lat": 38.7676497,
-      "lng": -9.09688076106504
     },
     "district": "lisboa"
   },
@@ -172,32 +67,6 @@
     "district": "faro"
   },
   {
-    "id": "972",
-    "subtitle": "Forum Coimbra",
-    "address": [
-      "Loja 2.06 Quinta do Almegue – Vale Gemil Planalto de Santa Clara",
-      "3044-520 Coimbra"
-    ],
-    "position": {
-      "lat": 40.211064449999995,
-      "lng": -8.443178305754289
-    },
-    "district": "coimbra"
-  },
-  {
-    "id": "1021",
-    "subtitle": "Via Catarina Shopping",
-    "address": [
-      "Loja 4.22 R. Santa Catarina, 312/350",
-      "4000-040 Porto"
-    ],
-    "position": {
-      "lat": 41.1492951,
-      "lng": -8.6045604
-    },
-    "district": "porto"
-  },
-  {
     "id": "928",
     "subtitle": "Alma Shopping",
     "address": [
@@ -209,110 +78,6 @@
       "lng": -8.407650183406007
     },
     "district": "coimbra"
-  },
-  {
-    "id": "976",
-    "subtitle": "Gaia Shopping",
-    "address": [
-      "Loja 254 Av. dos Descobrimentos, 549",
-      "4404-503 Vila Nova de Gaia"
-    ],
-    "position": {
-      "lat": 41.1176858,
-      "lng": -8.6225706
-    },
-    "district": "porto"
-  },
-  {
-    "id": "1024",
-    "subtitle": "Viana do Castelo",
-    "address": [
-      "Estação Viana Shopping, Loja 2046Av. Humberto Delgado, 101",
-      "4900-317 Viana do Castelo"
-    ],
-    "position": {
-      "lat": 41.6948402,
-      "lng": -8.832702707938076
-    },
-    "district": "viana-do-castelo"
-  },
-  {
-    "id": "1006",
-    "subtitle": "Parque Atlântico Açores",
-    "address": [
-      "Rua da Juventude, 38 Loja 1005 B",
-      "9500-210 Ponta delgada"
-    ],
-    "position": {
-      "lat": 37.747825,
-      "lng": -25.675652787668547
-    },
-    "district": "acores"
-  },
-  {
-    "id": "978",
-    "subtitle": "Guimarães Shopping",
-    "address": [
-      "Loja 441 Alameda Dr. Mariano Felgueiras, ",
-      "Creixomil 4835-075 Guimarães"
-    ],
-    "position": {
-      "lat": 41.4403652,
-      "lng": -8.302288174496525
-    },
-    "district": "braga"
-  },
-  {
-    "id": "1026",
-    "subtitle": "Vila Real",
-    "address": [
-      "Nosso Shopping, Loja 247 Alameda da Grasse",
-      "5000-703 Vila Real"
-    ],
-    "position": {
-      "lat": 41.2970819,
-      "lng": -7.7351987364881545
-    },
-    "district": "vila-real"
-  },
-  {
-    "id": "1004",
-    "subtitle": "NorteShopping",
-    "address": [
-      "Loja 1103 A R. Sara Afonso, 105/117",
-      "4460-841 Senhora da Hora"
-    ],
-    "position": {
-      "lat": 41.1805163,
-      "lng": -8.6555517
-    },
-    "district": "porto"
-  },
-  {
-    "id": "980",
-    "subtitle": "IKEA Loulé",
-    "address": [
-      "Mar Shopping Loulé LJ 1.33 B Avenida Algarve 5",
-      "8135-182 Almancil"
-    ],
-    "position": {
-      "lat": 37.09866125,
-      "lng": -7.997483267042581
-    },
-    "district": "faro"
-  },
-  {
-    "id": "1028",
-    "subtitle": "Viseu Palácio do Gelo",
-    "address": [
-      "Rua do Palácio do Gelo 3",
-      "3500-606 Viseu"
-    ],
-    "position": {
-      "lat": 40.6441512,
-      "lng": -7.9116236
-    },
-    "district": "viseu"
   },
   {
     "id": "933",
@@ -328,33 +93,6 @@
     "district": "faro"
   },
   {
-    "id": "982",
-    "subtitle": "La Vie Funchal",
-    "address": [
-      "Lj 009 Rua Dr. Brito Câmara, n.º 9",
-      "S. Pedro",
-      "9050-039 Funchal"
-    ],
-    "position": {
-      "lat": 32.64772,
-      "lng": -16.91370154791874
-    },
-    "district": "madeira"
-  },
-  {
-    "id": "1031",
-    "subtitle": "Alegro Alfragide",
-    "address": [
-      "Av. dos Cavaleiros, loja 140",
-      "2794-971 Carnaxide"
-    ],
-    "position": {
-      "lat": 38.72798225,
-      "lng": -9.219515046207267
-    },
-    "district": "lisboa"
-  },
-  {
     "id": "935",
     "subtitle": "AREEIRO ASA SUL",
     "address": [
@@ -367,19 +105,6 @@
       "lng": -9.123589
     },
     "district": "lisboa"
-  },
-  {
-    "id": "984",
-    "subtitle": "Leiria Shopping",
-    "address": [
-      "C.C. LeiriaShopping, Loja R136 IC2 - Alto do Vieiro",
-      "2400-441 Leiria"
-    ],
-    "position": {
-      "lat": 39.7315621,
-      "lng": -8.8249222
-    },
-    "district": "leiria"
   },
   {
     "id": "937",
@@ -401,19 +126,6 @@
     }
   },
   {
-    "id": "986",
-    "subtitle": "Lusoponte Norte",
-    "address": [
-      "Área de Serviço Galp, Acesso Norte - Edifício Discovery, Nova Travessia do Tejo,",
-      "2890-250 Alcochete"
-    ],
-    "position": {
-      "lat": 38.72764625,
-      "lng": -8.988407657869583
-    },
-    "district": "setubal"
-  },
-  {
     "id": "939",
     "subtitle": "Bragança",
     "address": [
@@ -426,19 +138,6 @@
       "lng": -6.7603496
     },
     "district": "leiria"
-  },
-  {
-    "id": "994",
-    "subtitle": "Madeira Shopping",
-    "address": [
-      "Loja 1014 Caminho de Santa Quitéria, 45 Santo António",
-      "9024-501 Funchal"
-    ],
-    "position": {
-      "lat": 32.6595631,
-      "lng": -16.950538792380996
-    },
-    "district": "madeira"
   },
   {
     "id": "941",
@@ -455,19 +154,6 @@
     "district": "lisboa"
   },
   {
-    "id": "996",
-    "subtitle": "Maia Shopping",
-    "address": [
-      "Loja 106 e 241 Lugar de Ardegães",
-      "4425-500 Águas Santas"
-    ],
-    "position": {
-      "lat": 41.219738,
-      "lng": -8.5617969
-    },
-    "district": "porto"
-  },
-  {
     "id": "943",
     "subtitle": "Castelo Branco",
     "address": [
@@ -480,19 +166,6 @@
       "lng": -7.514801859227127
     },
     "district": "castelo-branco"
-  },
-  {
-    "id": "998",
-    "subtitle": "MarShopping",
-    "address": [
-      "Lj 1.052 Av. Arq. Fernando Távora Leça da Palmeira",
-      "4450-337 Matosinhos"
-    ],
-    "position": {
-      "lat": 41.2093239,
-      "lng": -8.6895315
-    },
-    "district": "porto"
   },
   {
     "id": "947",
@@ -509,19 +182,6 @@
     "district": "lisboa"
   },
   {
-    "id": "1000",
-    "subtitle": "Modivas Norte",
-    "address": [
-      "Área de Serviço de Sentido Sul/ Norte A28 Km 13",
-      "4485-300 Vila do Conde"
-    ],
-    "position": {
-      "lat": 41.28928545,
-      "lng": -8.70307805
-    },
-    "district": "porto"
-  },
-  {
     "id": "949",
     "subtitle": "Covilhã",
     "address": [
@@ -536,6 +196,229 @@
     "district": "castelo-branco"
   },
   {
+    "id": "951",
+    "subtitle": "El Corte Inglés",
+    "address": [
+      "Av. António Augusto de Aguiar 31",
+      "1069-413 Lisboa"
+    ],
+    "position": {
+      "lat": 38.7335417,
+      "lng": -9.1536869
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "953",
+    "subtitle": "Espaço Guimarães",
+    "address": [
+      "Rua 25 de Abril 210",
+      "4835-400 Guimarães"
+    ],
+    "position": {
+      "lat": 41.449104750000004,
+      "lng": -8.342677092355206
+    },
+    "district": "braga"
+  },
+  {
+    "id": "957",
+    "subtitle": "Forum Algarve",
+    "address": [
+      "km 103, Estrada Nacional 125",
+      "Loja 1.02A",
+      "8000-126 Faro"
+    ],
+    "position": {
+      "lat": 37.02891125,
+      "lng": -7.944478111735955
+    },
+    "district": "faro"
+  },
+  {
+    "id": "959",
+    "subtitle": "Almada Forum",
+    "address": [
+      " Loja 3,15 Estrada do Caminho Municipal,1011 Vale de Mourelos",
+      "2810-354 Almada"
+    ],
+    "position": {
+      "lat": 38.66001545,
+      "lng": -9.1751852760399
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "972",
+    "subtitle": "Forum Coimbra",
+    "address": [
+      "Loja 2.06 Quinta do Almegue – Vale Gemil Planalto de Santa Clara",
+      "3044-520 Coimbra"
+    ],
+    "position": {
+      "lat": 40.211064449999995,
+      "lng": -8.443178305754289
+    },
+    "district": "coimbra"
+  },
+  {
+    "id": "976",
+    "subtitle": "Gaia Shopping",
+    "address": [
+      "Loja 254 Av. dos Descobrimentos, 549",
+      "4404-503 Vila Nova de Gaia"
+    ],
+    "position": {
+      "lat": 41.1176858,
+      "lng": -8.6225706
+    },
+    "district": "porto"
+  },
+  {
+    "id": "978",
+    "subtitle": "Guimarães Shopping",
+    "address": [
+      "Loja 441 Alameda Dr. Mariano Felgueiras, ",
+      "Creixomil 4835-075 Guimarães"
+    ],
+    "position": {
+      "lat": 41.4403652,
+      "lng": -8.302288174496525
+    },
+    "district": "braga"
+  },
+  {
+    "id": "980",
+    "subtitle": "IKEA Loulé",
+    "address": [
+      "Mar Shopping Loulé LJ 1.33 B Avenida Algarve 5",
+      "8135-182 Almancil"
+    ],
+    "position": {
+      "lat": 37.09866125,
+      "lng": -7.997483267042581
+    },
+    "district": "faro"
+  },
+  {
+    "id": "982",
+    "subtitle": "La Vie Funchal",
+    "address": [
+      "Lj 009 Rua Dr. Brito Câmara, n.º 9",
+      "S. Pedro",
+      "9050-039 Funchal"
+    ],
+    "position": {
+      "lat": 32.64772,
+      "lng": -16.91370154791874
+    },
+    "district": "madeira"
+  },
+  {
+    "id": "984",
+    "subtitle": "Leiria Shopping",
+    "address": [
+      "C.C. LeiriaShopping, Loja R136 IC2 - Alto do Vieiro",
+      "2400-441 Leiria"
+    ],
+    "position": {
+      "lat": 39.7315621,
+      "lng": -8.8249222
+    },
+    "district": "leiria"
+  },
+  {
+    "id": "986",
+    "subtitle": "Lusoponte Norte",
+    "address": [
+      "Área de Serviço Galp, Acesso Norte - Edifício Discovery, Nova Travessia do Tejo,",
+      "2890-250 Alcochete"
+    ],
+    "position": {
+      "lat": 38.72764625,
+      "lng": -8.988407657869583
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "994",
+    "subtitle": "Madeira Shopping",
+    "address": [
+      "Loja 1014 Caminho de Santa Quitéria, 45 Santo António",
+      "9024-501 Funchal"
+    ],
+    "position": {
+      "lat": 32.6595631,
+      "lng": -16.950538792380996
+    },
+    "district": "madeira"
+  },
+  {
+    "id": "996",
+    "subtitle": "Maia Shopping",
+    "address": [
+      "Loja 106 e 241 Lugar de Ardegães",
+      "4425-500 Águas Santas"
+    ],
+    "position": {
+      "lat": 41.219738,
+      "lng": -8.5617969
+    },
+    "district": "porto"
+  },
+  {
+    "id": "998",
+    "subtitle": "MarShopping",
+    "address": [
+      "Lj 1.052 Av. Arq. Fernando Távora Leça da Palmeira",
+      "4450-337 Matosinhos"
+    ],
+    "position": {
+      "lat": 41.2093239,
+      "lng": -8.6895315
+    },
+    "district": "porto"
+  },
+  {
+    "id": "1000",
+    "subtitle": "Modivas Norte",
+    "address": [
+      "Área de Serviço de Sentido Sul/ Norte A28 Km 13",
+      "4485-300 Vila do Conde"
+    ],
+    "position": {
+      "lat": 41.28928545,
+      "lng": -8.70307805
+    },
+    "district": "porto"
+  },
+  {
+    "id": "1004",
+    "subtitle": "NorteShopping",
+    "address": [
+      "Loja 1103 A R. Sara Afonso, 105/117",
+      "4460-841 Senhora da Hora"
+    ],
+    "position": {
+      "lat": 41.1805163,
+      "lng": -8.6555517
+    },
+    "district": "porto"
+  },
+  {
+    "id": "1006",
+    "subtitle": "Parque Atlântico Açores",
+    "address": [
+      "Rua da Juventude, 38 Loja 1005 B",
+      "9500-210 Ponta delgada"
+    ],
+    "position": {
+      "lat": 37.747825,
+      "lng": -25.675652787668547
+    },
+    "district": "acores"
+  },
+  {
     "id": "1009",
     "subtitle": "S. João da Madeira",
     "address": [
@@ -548,5 +431,122 @@
       "lng": -8.492176008895807
     },
     "district": "aveiro"
+  },
+  {
+    "id": "1011",
+    "subtitle": "Seixal",
+    "address": [
+      "Rio Sul Shopping, Loja 1033A Av. Libertadores de Timor Loro Sae Torre da Marinha",
+      "2840-168 Seixal"
+    ],
+    "position": {
+      "lat": 38.6120313,
+      "lng": -9.102686422135047
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "1013",
+    "subtitle": "Torres Vedras",
+    "address": [
+      "Arena Shopping, Loja 2,016 Rua António Alves Ferreira, 2",
+      "2560-256 Torres Vedras"
+    ],
+    "position": {
+      "lat": 39.10159915,
+      "lng": -9.253036403956163
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "1015",
+    "subtitle": "UBBO",
+    "address": [
+      "C. C. UBBO, Lj. 1,057 Avenida Cruzeiro Seixas, 5 e 7",
+      "2650-504 Amadora"
+    ],
+    "position": {
+      "lat": 38.77708,
+      "lng": -9.220195377272727
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "1019",
+    "subtitle": "Vasco da Gama",
+    "address": [
+      "C. C. Vasco da Gama, Loja 2.007 Av. D. João II, Lote 1.05.02",
+      "1990-094 Lisboa"
+    ],
+    "position": {
+      "lat": 38.7676497,
+      "lng": -9.09688076106504
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "1021",
+    "subtitle": "Via Catarina Shopping",
+    "address": [
+      "Loja 4.22 R. Santa Catarina, 312/350",
+      "4000-040 Porto"
+    ],
+    "position": {
+      "lat": 41.1492951,
+      "lng": -8.6045604
+    },
+    "district": "porto"
+  },
+  {
+    "id": "1024",
+    "subtitle": "Viana do Castelo",
+    "address": [
+      "Estação Viana Shopping, Loja 2046Av. Humberto Delgado, 101",
+      "4900-317 Viana do Castelo"
+    ],
+    "position": {
+      "lat": 41.6948402,
+      "lng": -8.832702707938076
+    },
+    "district": "viana-do-castelo"
+  },
+  {
+    "id": "1026",
+    "subtitle": "Vila Real",
+    "address": [
+      "Nosso Shopping, Loja 247 Alameda da Grasse",
+      "5000-703 Vila Real"
+    ],
+    "position": {
+      "lat": 41.2970819,
+      "lng": -7.7351987364881545
+    },
+    "district": "vila-real"
+  },
+  {
+    "id": "1028",
+    "subtitle": "Viseu Palácio do Gelo",
+    "address": [
+      "Rua do Palácio do Gelo 3",
+      "3500-606 Viseu"
+    ],
+    "position": {
+      "lat": 40.6441512,
+      "lng": -7.9116236
+    },
+    "district": "viseu"
+  },
+  {
+    "id": "1031",
+    "subtitle": "Alegro Alfragide",
+    "address": [
+      "Av. dos Cavaleiros, loja 140",
+      "2794-971 Carnaxide"
+    ],
+    "position": {
+      "lat": 38.72798225,
+      "lng": -9.219515046207267
+    },
+    "district": "lisboa"
   }
 ]

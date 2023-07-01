@@ -68,6 +68,6 @@ $data `
     }
 
 Write-Host "Updating the output file"
-$data | ConvertTo-Json -Depth 10 | Set-Content $outputPath
+$data | Sort-Object -Property {[int]$_["id"]} | ConvertTo-Json -Depth 10 | Set-Content $outputPath
 
 Write-Host "Done"
