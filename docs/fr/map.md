@@ -28,9 +28,11 @@ strings:
     filter:
       label: Établissements certifiés seulement
       labelDetails: |
-        Le moyen le plus sûr d'obtenir votre repas est de vous rendre dans des établissements certifiés par le projet sans gluten de l'Association cœliaque portugaise (APC).
+        Le moyen le plus sûr d'obtenir votre repas est de vous rendre dans des établissements certifiés par le projet sans gluten de l'Association cœliaque portugaise (APC), ou les chaînes de restauration qui proposent des produits marqués et validés par l'APC.<br/>
         Pour plus d'informations et certifications : <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/">https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/</a>.
-    badge: certifié
+    badge:
+      certified: certifié
+      validated: validé
   noResults: Pas de résultats
   finalHint: Un endroit manque-t-il?<br/><a href="/en/contacts.html">Dites-le nous ici</a>.
   map:

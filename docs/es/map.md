@@ -28,9 +28,11 @@ strings:
     filter:
       label: Solo establecimientos certificados
       labelDetails: |
-        La forma más segura de conseguir tu comida es acudir a establecimientos certificados por el Proyecto Sin Gluten de la Asociación Portuguesa de Celíacos (APC).
+        La forma más segura de conseguir tu comida es acudir a establecimientos certificados por el Proyecto Sin Gluten de la Asociación Portuguesa de Celíacos (APC), o las cadenas de restauración que ofrecen productos marcados y validados por la APC.<br/>
         Para más información y certificaciones: <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/">https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/</a>.
-    badge: asesorado
+    badge:
+      certified: asesorado
+      validated: validado
   noResults: Sin resultados
   finalHint: Falta algún lugar?<br/><a href="/en/contacts.html">Dinos aquí</a>.
   map:

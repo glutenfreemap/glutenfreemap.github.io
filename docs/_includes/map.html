@@ -105,7 +105,8 @@
                             <small class="category" data-bind="text: $root.getCategory($data)"></small>
                             <!-- /ko -->
                         </div>
-                        <span class="badge badge-success" data-bind="if: certified">{{ page.strings.certified.badge }}</span>
+                        <span class="badge badge-success" data-bind="if: attestation === 'apc-certified'">{{ page.strings.certified.badge.certified }}</span>
+                        <span class="badge badge-success" data-bind="if: attestation === 'apc-validated'">{{ page.strings.certified.badge.validated }}</span>
                     </a>
                     <!-- /ko -->
                     <!-- ko if: $data.locations -->
@@ -128,8 +129,9 @@
                                 </div>
                                 <!-- /ko -->
                             </div>
-                            <span class="badge badge-success" data-bind="if: certified">{{ page.strings.certified.badge }}</span>
-                        </div>
+                            <span class="badge badge-success" data-bind="if: attestation === 'apc-certified'">{{ page.strings.certified.badge.certified }}</span>
+                            <span class="badge badge-success" data-bind="if: attestation === 'apc-validated'">{{ page.strings.certified.badge.validated }}</span>
+                            </div>
                     <!-- /ko -->
                     <!-- /ko -->
                     

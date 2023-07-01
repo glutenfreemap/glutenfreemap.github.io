@@ -129,7 +129,7 @@ function ViewModel(storage) {
             selected: ko.observable(false),
             match: function (place) {
                 var selected = this.selected();
-                return !selected || place.certified;
+                return !selected || place.attestation !== "none";
             }
         }
     };
@@ -191,10 +191,12 @@ function ViewModel(storage) {
             if (place.locations) {
                 var filteredLocations = place.locations.filter(isVisible);
                 if (filteredLocations.length) {
+                    var attestation = (filteredLocations.filter(function(l) { return l.attestation !== "none"; })[0] || filteredLocations[0]).attestation;
+
                     filteredPlaces.push({
                         id: place.id,
                         name: place.name,
-                        certified: filteredLocations.some(function(l) { return l.certified; }),
+                        attestation: attestation,
                         locations: filteredLocations
                     });
                 }
@@ -453,7 +455,7 @@ function loadMap(mapElement) {
                         l.group = p;
                         l.name = p.name;
                         l.categories = p.categories;
-                        l.certified = p.certified;
+                        l.attestation = p.attestation;
                         l.description = l.description || emptyDescription;
                         l.id = p.id + '-' + (l.id || l.gid);
                     });
@@ -651,7 +653,7 @@ function loadMap(mapElement) {
                 },
                 properties: {
                     id: place.id,
-                    certified: place.certified
+                    attestation: place.attestation
                 }
             };
         }
@@ -749,7 +751,7 @@ function loadMap(mapElement) {
                 layout: {
                     "icon-image": [
                         "case",
-                        ["get", "certified"], "certified-marker",
+                        ["!=", ["get", "attestation"], "none"], "certified-marker",
                         "non-certified-marker"
                     ],
                     "icon-anchor": "bottom",
