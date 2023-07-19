@@ -9,5 +9,14 @@ services:
       - bundle-cache:/usr/local/bundle
       - ./docs:/srv/jekyll
 
+  site:
+    image: jekyll/jekyll
+    command: bash -c 'bundle install && bundle exec jekyll serve --host 0.0.0.0 --watch --force_polling'
+    ports:
+      - "8081:4000"
+    volumes:
+      - bundle-cache:/usr/local/bundle
+      - ./site:/srv/jekyll
+
 volumes:
   bundle-cache:

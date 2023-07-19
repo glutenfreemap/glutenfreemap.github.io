@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>GlutenFreeMap</title>
+    
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/img/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    <link rel="manifest" href="/pt/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/assets/img/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Encontre restaurantes, pastelarias, gelatarias, hotéis, etc. sem glúten adequados para celíacos em Portugal.">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.4.6.2.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="/assets/css/main.css?v=1689161568">
+    
+</head>
+
+<body>
+    <div class="main">
+
+        <header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+      <a class="navbar-brand" href="."><img src="/assets/img/icon.svg" alt="Site logo" width="30" height="26" class="d-inline-block align-top">GlutenFreeMap</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="row g-3">
+    <div class="col-12 d-flex justify-content-center">
+      <ul class="nav flex-column my-md-5">
+        
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="lang-pt"
+              href="/pt/">Português</a>
+          </li>
+        
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="lang-en"
+              href="/en/">English</a>
+          </li>
+        
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="lang-fr"
+              href="/fr/">Français</a>
+          </li>
+        
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="lang-es"
+              href="/es/">Español</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+  var lastLanguage = null;
+  if (window.localStorage) {
+    lastLanguage = window.localStorage.getItem("preferences.language");
+    if (!lastLanguage) {
+      window.localStorage.setItem("fresh_install", "1");
+    }
+  }
+
+  var languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
+  if (lastLanguage) {
+    languages = Array.from(languages);
+    languages.unshift(lastLanguage);
+  }
+
+  languages.some(function(l) {
+    var id = "lang-" + l.split("-")[0];
+    var link = document.getElementById(id);
+    if (link) {
+      location.replace(link.getAttribute("href"));
+      return true;
+    }
+    return false;
+  });
+</script>
+
+        <footer class="border-top footer text-muted mt-3 py-3">
+            <div class="container d-flex flex-column flex-md-row text-md-start align-items-center">
+                <span class="flex-grow-1">&copy; 2023 <a class="text-secondary" rel="author" href="https://aaubry.net" target="_blank">Antoine Aubry</a> &amp; Catarina Tavares</span>
+
+                
+                
+                <a id="latest-change" href="/pt/changes.html" class="btn btn-sm" data-latest-change-id="2023-07-01"
+                    data-bind="class: (changelog.isViewed(changelog.latestChange()) ? 'btn-light' : 'btn-info')">
+                    Última atualização em 2023-07-01
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/js/jquery-3.6.3.min.js"></script>
+    <script src="/assets/js/bootstrap.4.6.2.min.js"></script>
+    <script src="/assets/js/knockout-3.5.0-min.js"></script>
+    <script src="/assets/js/main.js?v=1689161568"></script>
+    
+</body>
+
+</html>

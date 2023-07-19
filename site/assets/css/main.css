@@ -1,0 +1,383 @@
+---
+# Copyright 2023 Antoine Aubry, Catarina Tavares
+# 
+# This file is part of GlutenFreeMap.
+# 
+# GlutenFreeMap is free software: you can redistribute it and/or modify it under the terms of
+# the GNU General Public License as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+# 
+# GlutenFreeMap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with GlutenFreeMap.
+# If not, see <https://www.gnu.org/licenses/>.
+---
+@media all and (display-mode: standalone) {
+  .browser-only {
+    display: none !important;
+  }
+}
+
+.android .browser-only {
+  display: none !important;
+}
+
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+body.android {
+  padding-top: 1em;
+}
+
+.android header {
+  display: none;
+}
+
+footer a {
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.main {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.results-container {
+  position: relative;
+  flex: auto;
+}
+
+.results-container > .row {
+  position: relative;
+  height: 100%;
+}
+
+.results-map {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.results-map > * {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+#popup {
+  display: flex;
+  align-items: center;
+}
+
+#popup > .card {
+  margin: auto;
+}
+
+#map {
+  min-height: 20em;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+#map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+@media(min-width: 768px) {
+  .results-list-container {
+    position: relative;
+    height: 100%;
+  }
+
+  .results-list-container > .list-group {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow-y: auto;
+  }
+}
+
+.results-list-item {
+  cursor: pointer;
+}
+
+.results-list-item small + small::before {
+  content: "| ";
+}
+
+.venue.multiple {
+  width: 100%;
+}
+
+.venue.multiple .name {
+  color: #495057;
+  text-decoration: none;
+  padding-left: 0.75em;
+}
+
+.venue.multiple .name::before {
+  content: " ";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  display: inline-block;
+  position: absolute;
+
+  border-width: 0.25em 0 0.25em 0.433em;
+  border-color: transparent transparent transparent #495057;
+  margin: 0.6em 0 0 -0.75em;
+}
+
+.venue.multiple.expanded .name::before {
+  border-width: 0.433em 0.25em 0 0.25em;
+  border-color: #495057 transparent transparent transparent;
+  margin-top: 0.7em;
+}
+
+.venue.multiple .subtitle {
+  font-weight: bold;
+}
+
+.venue .name {
+  font-weight: bold;
+}
+
+.venue .subtitle {
+  font-size: smaller;
+}
+
+.venue .description {
+  font-size: smaller;
+}
+
+.venue .category {
+  color: #6c757d;
+}
+
+.active .category {
+  color: #bdc9d4;
+}
+
+.map-placeholder {
+  background-color: #ccc;
+}
+
+.map-placeholder,
+.results-placeholder {
+  height: 100%;
+  display: flex;
+}
+
+.form-group button {
+  position: relative;
+  top: -0.15em;
+  padding: 0.1em 0.4em 0.25em;
+  margin-left: 0.5em;
+}
+
+.custom-control-label {
+  display: inline;
+}
+
+#certificationDetails {
+  margin-top: 0.5em;
+  font-size: smaller;
+}
+
+#certificationDetails i {
+  margin-top: 0.25em;
+}
+
+#certificationDetails .alert div {
+  margin-left: 1em;
+}
+
+#map .card-body {
+  padding: 0;
+}
+
+#map .card-body h5 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.card-body .description {
+  color: #777;
+  margin-bottom: 1em;
+}
+
+.venue-pin {
+  margin-top: -18px;
+  height: 42px;
+  cursor: pointer;
+}
+
+.tutorial {
+  counter-reset: step;
+}
+
+.tutorial img {
+  width: 10em;
+}
+
+.tutorial li::before {
+  counter-increment: step;
+  content: counter(step) ".";
+  position: absolute;
+  margin-left: -1em;
+  font-weight: bold;
+}
+
+/* loader */
+
+.loading {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: auto;
+}
+
+.loading div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: #aaa;
+  animation: loading 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+.loading div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+
+.loading div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+
+.loading div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+
+@keyframes loading {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+
+  50%,
+  100% {
+    top: 24px;
+    height: 32px;
+  }
+}
+
+.toast .gg-export {
+  margin-top: 0.3em;
+}
+
+.toast-body .btn {
+  min-width: 5em;
+}
+
+.changelog .change {
+  margin-bottom: 2rem;
+}
+
+.changelog .change .badge {
+  display: none;
+}
+
+.changelog .change.new .badge {
+  display: inline-block;
+}
+
+/* Info icon - https://css.gg/info */
+.gg-info {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 40px;
+  min-width: 20px;
+}
+
+.gg-info::after,
+.gg-info::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 3px;
+  width: 2px;
+  background: currentColor;
+  left: 7px
+}
+
+.gg-info::after {
+  bottom: 2px;
+  height: 8px
+}
+
+.gg-info::before {
+  height: 2px;
+  top: 2px
+}
+
+/* Export icon - https://css.gg/export */
+.gg-export {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 18px;
+  height: 14px;
+  border: 2px solid;
+  border-top: 0;
+  box-shadow: -6px -8px 0 -6px, 6px -8px 0 -6px
+}
+.gg-export::after,
+.gg-export::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute
+}
+.gg-export::before {
+  background: currentColor;
+  width: 2px;
+  height: 14px;
+  right: 6px;
+  bottom: 5px
+}
+.gg-export::after {
+  width: 6px;
+  height: 6px;
+  border-left: 2px solid;
+  border-top: 2px solid;
+  right: 4px;
+  bottom: 14px;
+  transform: rotate(45deg)
+}

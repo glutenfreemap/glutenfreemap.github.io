@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>GlutenFreeMap</title>
+    
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/img/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    <link rel="manifest" href="/pt/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/assets/img/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Encontre restaurantes, pastelarias, gelatarias, hotéis, etc. sem glúten adequados para celíacos em Portugal.">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.4.6.2.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="/assets/css/main.css?v=1689161568">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/css/maplibre-gl.2.4.0.css">
+
+    
+</head>
+
+<body>
+    <div class="main">
+
+        
+<header>
+    <nav
+        class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" href="."><img src="/assets/img/icon.svg" alt="Site logo" width="30" height="26" class="d-inline-block align-top">GlutenFreeMap</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark cy-link-map" href="/pt/">Mapa</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark cy-link-about" href="/pt/about.html">Acerca</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark cy-link-contacts" href="/pt/contacts.html">Reportar problemas</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-expanded="false" aria-label="Língua">
+                            Português
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            
+                                <li><a class="dropdown-item" href="/pt/">Português</a></li>
+                            
+                                <li><a class="dropdown-item" href="/en/">English</a></li>
+                            
+                                <li><a class="dropdown-item" href="/fr/">Français</a></li>
+                            
+                                <li><a class="dropdown-item" href="/es/">Español</a></li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container filters">
+    <form class="g-3">
+        <div class="form-row">
+            <div class="form-group col-md-3 col-6">
+                <label for="filter-category" class="form-label">Categoria</label>
+                <select id="filter-category" class="form-control" data-bind="
+                    options: filters.category.values,
+                    value: filters.category.selected,
+                    optionsCaption: '(todas)',
+                    optionsValue: 'id',
+                    optionsText: 'name'">
+                </select>
+            </div>
+            <div class="form-group col-md-3 col-6">
+                <label for="filter-district" class="form-label">Distrito</label>
+                <select id="filter-district" class="form-control" data-bind="
+                    options: filters.district.values,
+                    value: filters.district.selected,
+                    optionsCaption: '(todos)',
+                    optionsValue: 'id',
+                    optionsText: 'name'">
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" id="filter-certified" data-bind="checked: filters.certified.selected" />
+                <label class="custom-control-label" for="filter-certified">
+                    Apenas estabelecimentos certificados pela APC
+                </label>
+                <button type="button" class="btn btn-outline-info btn-sm" data-toggle="collapse" data-target="#certificationDetails">❔</button>
+            </div>
+            <div class="collapse" id="certificationDetails">
+                <div class="alert alert-info d-flex align-items-center" role="alert">
+                    <i class="gg-info align-self-start"></i>
+                    <div>A forma mais segura de obter a sua refeição passa por privilegiar a ida aos estabelecimentos certificados pelo Projeto Gluten Free da Associação Portuguesa de Celíacos (APC), ou a cadeias de restauração que oferecem produtos assinalados e validados pela APC.<br />
+Para mais informações e certificações: <a href="https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/">https://www.celiacos.org.pt/como-certificar-o-seu-estabelecimento/</a>.
+</div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container mt-3 results-container">
+    <div class="row">
+        <div class="col-md-8 results-map">
+            <div id="map" data-url="/data/data.json?v=1689161568">
+                <div id="map-container"></div>
+                <!-- ko ifnot: mapLoaded -->
+                <div class="map-placeholder">
+                    <div class="loading"><div></div><div></div><div></div></div>
+                </div>
+                <!-- /ko -->
+            </div>
+            <div id="popup" style="display: none" data-bind="if: selectedPlace, visible: loaded() &amp;&amp; !mapLoaded()">
+                <div class="poi-info-window gm-style" data-bind="with: selectedPlace, css: { card: !mapLoaded() }">
+                    <!-- ko let: {desc: $root.getTranslatedValue(description)} -->
+                    <div class="card-body">
+                        <h5 class="title full-width card-title" data-bind="text: name"></h5>
+                        <!-- ko if: desc -->
+                        <div class="description card-text" data-bind="text: desc"></div>
+                        <!-- /ko -->
+                        <div class="address card-text" data-bind="foreach: address">
+                            <div class="address-line full-width" data-bind="text: $data"></div>
+                        </div>
+                        <div class="view-link"> <a target="_blank" data-bind="attr: { href: $root.getGoogleMapsUrl($data) }" tabindex="0"> <span>Visualize no Google Maps</span> </a>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div style="display: none">
+                <button id="center-bt" class="center-button" aria-label="Centrar na localização corrente" title="Centrar na localização corrente">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97 97">
+                        <circle cx="48.5" cy="48.5" r="38" />
+                        <rect width="97" height="8.5" x="0" y="44.25" />
+                        <rect width="8.5" height="97" x="44.25" y="0" />
+                        <circle class="animated" style="stroke:#ffffff;stroke-width:28;stroke-miterlimit:4;stroke-dasharray:none;paint-order:stroke fill markers" cx="48.5" cy="48.5" r="18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-4 mt-3 mt-md-0">
+            <div class="results-list-container">
+                <!-- ko ifnot: loaded -->
+                <div class="results-placeholder">
+                    <div class="loading"><div></div><div></div><div></div></div>
+                </div>
+                <!-- /ko -->
+                <div class="list-group" id="results-list" data-bind="visible: loaded" style="display:none">
+                    <!-- ko foreach: visiblePlaces -->
+                    <!-- ko ifnot: $data.locations -->
+                    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-start results-list-item" data-bind="click: $root.gotoPlace, css: { active: $root.isSelected($data) }">
+                        <div class="ms-2 me-auto venue">
+                            <div class="name" data-bind="text: name"></div>
+                            <!-- ko if: $data.subtitle -->
+                            <div class="subtitle" data-bind="text: subtitle"></div>
+                            <!-- /ko -->
+                            <!-- ko foreach: categories -->
+                            <small class="category" data-bind="text: $root.getCategory($data)"></small>
+                            <!-- /ko -->
+                        </div>
+                        <span class="badge badge-success" data-bind="if: attestation === 'apc-certified'">certificado</span>
+                        <span class="badge badge-success" data-bind="if: attestation === 'apc-validated'">validado</span>
+                    </a>
+                    <!-- /ko -->
+                    <!-- ko if: $data.locations -->
+                        <div class="list-group-item d-flex justify-content-between align-items-start results-list-item">
+                            <div class="ms-2 me-auto venue multiple" data-bind="css: { expanded: $root.isExpanded($data) }">
+                                <a href="#" class="name" data-bind="text: name, click: $root.togglePlace"></a>
+
+                                <!-- ko if: $root.isExpanded($data) -->
+                                <div class="list-group list-group-flush" data-bind="foreach: locations">
+                                    <a href="#" class="list-group-item list-group-item-action location" data-bind="click: $root.gotoPlace, css: { active: $root.isSelected($data) }">
+
+                                        <!-- ko if: $data.subtitle -->
+                                        <div class="subtitle" data-bind="text: subtitle"></div>
+                                        <!-- /ko -->
+                                        <!-- ko foreach: categories -->
+                                        <small class="category" data-bind="text: $root.getCategory($data)"></small>
+                                        <!-- /ko -->
+                                    </a>
+                                </div>
+                                <!-- /ko -->
+                            </div>
+                            <span class="badge badge-success" data-bind="if: attestation === 'apc-certified'">certificado</span>
+                            <span class="badge badge-success" data-bind="if: attestation === 'apc-validated'">validado</span>
+                            </div>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    
+                    <!-- ko ifnot: visiblePlaces().length -->
+                    <div style="display:none" data-bind="visible: loaded">
+                        <div class="alert alert-primary d-flex align-items-center" role="alert">
+                            <i class="gg-info"></i>
+                            <span class="pl-2">Sem resultados</span>
+                        </div>
+                    </div>
+                    <!-- /ko -->
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="gg-info"></i>
+                        <span class="pl-2">Há algum local em falta?<br /><a href="/en/contacts.html">Diga-nos aqui</a>.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="installPrompt" class="toast hide browser-only" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="gg-export"></i>
+            &nbsp;<strong class="me-auto">Instalar Aplicação</strong>
+        </div>
+        <div class="toast-body">
+            Adicione esta aplicação ao seu ecrã inicial para que esteja sempre acessível.
+            <div class="mt-2 pt-2 border-top">
+                <button id="installButton" type="button" class="btn btn-primary btn-sm">Instalar</button>
+                <button id="cancelButton" type="button" class="btn btn-secondary btn-sm" data-dismiss="toast">Não obrigado</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="newsPrompt" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <i class="gg-info"></i>
+            &nbsp;<strong class="me-auto">Atualizações</strong>
+        </div>
+        <div class="toast-body">
+            A aplicação foi atualizada. Deseja ver as novidades?
+            <div class="mt-2 pt-2 border-top">
+                <a href="/pt/changes.html" class="btn btn-primary btn-sm">Sim</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="toast">Não obrigado</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <footer class="border-top footer text-muted mt-3 py-3">
+            <div class="container d-flex flex-column flex-md-row text-md-start align-items-center">
+                <span class="flex-grow-1">&copy; 2023 <a class="text-secondary" rel="author" href="https://aaubry.net" target="_blank">Antoine Aubry</a> &amp; Catarina Tavares</span>
+
+                
+                
+                <a id="latest-change" href="/pt/changes.html" class="btn btn-sm" data-latest-change-id="2023-07-01"
+                    data-bind="class: (changelog.isViewed(changelog.latestChange()) ? 'btn-light' : 'btn-info')">
+                    Última atualização em 2023-07-01
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/js/jquery-3.6.3.min.js"></script>
+    <script src="/assets/js/bootstrap.4.6.2.min.js"></script>
+    <script src="/assets/js/knockout-3.5.0-min.js"></script>
+    <script src="/assets/js/main.js?v=1689161568"></script>
+    
+    <script src="/assets/js/maplibre-gl.2.4.0.js"></script>
+<script src="/assets/js/pmtiles.2.4.0.js"></script>
+<script src="/assets/js/protomaps-themes-base.1.3.0.js"></script>
+
+    
+</body>
+
+</html>

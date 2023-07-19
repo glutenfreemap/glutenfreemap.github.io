@@ -1,0 +1,69 @@
+---
+# Copyright 2023 Antoine Aubry, Catarina Tavares
+# 
+# This file is part of GlutenFreeMap.
+# 
+# GlutenFreeMap is free software: you can redistribute it and/or modify it under the terms of
+# the GNU General Public License as published by the Free Software Foundation,
+# either version 3 of the License, or (at your option) any later version.
+# 
+# GlutenFreeMap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with GlutenFreeMap.
+# If not, see <https://www.gnu.org/licenses/>.
+
+layout: base
+sitemap: true
+lang: pt
+---
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+      {% include brand.html %}
+    </div>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="row g-3">
+    <div class="col-12 d-flex justify-content-center">
+      <ul class="nav flex-column my-md-5">
+        {% for language in site.languages %}
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              id="lang-{{ language.id }}"
+              href="/{{ language.id }}/">{{ language.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+<script>
+  var lastLanguage = null;
+  if (window.localStorage) {
+    lastLanguage = window.localStorage.getItem("preferences.language");
+    if (!lastLanguage) {
+      window.localStorage.setItem("fresh_install", "1");
+    }
+  }
+
+  var languages = window.navigator.languages || [window.navigator.language || window.navigator.userLanguage];
+  if (lastLanguage) {
+    languages = Array.from(languages);
+    languages.unshift(lastLanguage);
+  }
+
+  languages.some(function(l) {
+    var id = "lang-" + l.split("-")[0];
+    var link = document.getElementById(id);
+    if (link) {
+      location.replace(link.getAttribute("href"));
+      return true;
+    }
+    return false;
+  });
+</script>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: ' pt' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% if page.title != null %}
+    <title>{{ page.title }} - {{ site.title }}</title>
+    {% else %}
+    <title>{{ site.title }}</title>
+    {% endif %}
+    {% assign language = site.languages | where: "id", page.lang | first %}
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/img/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png">
+    <link rel="manifest" href="/{{ page.lang | default: 'pt' }}/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/assets/img/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="{{ language.info.description }}">
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.4.6.2.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="{{ 'assets/css/main.css' | relative_url }}?v={{ site.time | date:'%s' }}">
+    {% if page.includeCss != null %}
+    {% include {{ page.includeCss }} %}
+    {% endif %}
+</head>
+
+<body>
+    <div class="main">
+
+        {{ content }}
+
+        <footer class="border-top footer text-muted mt-3 py-3">
+            <div class="container d-flex flex-column flex-md-row text-md-start align-items-center">
+                <span class="flex-grow-1">&copy; 2023 <a class="text-secondary" rel="author" href="https://aaubry.net" target="_blank">Antoine Aubry</a> &amp; Catarina Tavares</span>
+
+                {% assign latest_change = site.changelog | last %}
+                {% assign latest_change_id = latest_change.relative_path | replace: '_changelog/', '' | replace: '.md', '' %}
+                <a id="latest-change" href="/{{ page.lang }}/changes.html" class="btn btn-sm" data-latest-change-id="{{ latest_change_id }}"
+                    data-bind="class: (changelog.isViewed(changelog.latestChange()) ? 'btn-light' : 'btn-info')">
+                    {{ latest_change_id | date: language.changelog.last_update }}
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/assets/js/jquery-3.6.3.min.js"></script>
+    <script src="/assets/js/bootstrap.4.6.2.min.js"></script>
+    <script src="/assets/js/knockout-3.5.0-min.js"></script>
+    <script src="{{ 'assets/js/main.js' | relative_url }}?v={{ site.time | date:'%s' }}"></script>
+    {% if page.includeScripts != null %}
+    {% include {{ page.includeScripts }} %}
+    {% endif %}
+</body>
+
+</html>
