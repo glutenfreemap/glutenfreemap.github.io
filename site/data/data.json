@@ -408,7 +408,8 @@
                 "2775-722 Parede"
             ],
             "categories": [
-                "bakery"
+                "bakery",
+                "restaurant"
             ],
             "district": "lisboa",
             "attestation": "apc-certified",
