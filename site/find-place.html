@@ -152,7 +152,7 @@
                             address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
                             categories: [ ],
                             district: "",
-                            certified: false,
+                            attestation: "none|apc-certified|apc-validated",
                             position: place.geometry.location
                         }, null, 4);
                     }

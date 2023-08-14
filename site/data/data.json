@@ -918,6 +918,28 @@
             "categories": ["fast-food"],
             "attestation": "apc-validated",
             "locations": "burgerking.json"
-        }
+        },
+        {
+            "id": "ChIJBUItxlQyGQ0RPQWiret3wPU",
+            "name": "Sam Pastelaria Saudável",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "R. Luís Augusto Palmeirim 1D",
+                "1700-111 Lisboa"
+            ],
+            "categories": ["bakery"],
+            "district": "lisboa",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 38.755404,
+                "lng": -9.1416426
+            }
+        }    
     ]
 }
