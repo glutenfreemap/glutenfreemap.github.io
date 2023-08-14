@@ -7,3 +7,4 @@ tests/cypress/videos
 /docs/.jekyll-metadata
 utils/packages
 /site/.jekyll-cache
+site/_site
