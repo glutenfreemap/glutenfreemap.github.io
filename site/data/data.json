@@ -219,10 +219,10 @@
             "gid": "ChIJDXzkhwAwHw0RCpQtrjmpMBE",
             "name": "Refúgio do Maneta",
             "description": {
-                "pt": "Restaurante gerido por um celíaco.",
-                "en": "",
-                "fr": "",
-                "es": ""
+                "pt": "Restaurante gerido por um celíaco. Recomenda-se avisar na véspera para que possam preparar a comida.",
+                "en": "Restaurant run by a celiac. It is recommended to notify the day before so that they can prepare the food.",
+                "fr": "Restaurant tenu par un coeliaque. Il est recommandé de prévenir la veille afin qu'ils puissent préparer les repas.",
+                "es": "Restaurante regentado por celíaco. Se recomienda avisar el día anterior para que puedan preparar la comida."
             },
             "categories": [
                 "restaurant"
@@ -940,6 +940,28 @@
                 "lat": 38.755404,
                 "lng": -9.1416426
             }
-        }    
+        },
+        {
+            "id": "ChIJB_Vnuis3Iw0RReDhehkPdhs",
+            "name": "DeRaiz",
+            "subtitle": "",
+            "description": {
+                "pt": "Restaurante com possibilidade de adaptar pratos para celíacos. Dispõe de pão sem glúten. Recomenda-se avisar com antecedência para que possam preparar a cozinha.",
+                "en": "Restaurant with the possibility of adapting dishes for celiacs. It has gluten-free bread. It is recommended to notify in advance so that they can prepare the kitchen.",
+                "fr": "Restaurant avec possibilité d'adapter les plats pour les coeliaques. Il contient du pain sans gluten. Il est recommandé de prévenir à l'avance afin qu'ils puissent préparer la cuisine.",
+                "es": "Restaurante con posibilidad de adaptar platos para celíacos. Tiene pan sin gluten. Se recomienda avisar con antelación para que puedan preparar la cocina."
+            },
+            "address": [
+                "R. Capela 13",
+                "3500-898 Viseu"
+            ],
+            "categories": ["restaurant"],
+            "district": "viseu",
+            "attestation": "none",
+            "position": {
+                "lat": 40.6079651,
+                "lng": -7.9358565
+            }
+        }
     ]
 }
