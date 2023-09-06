@@ -17,24 +17,36 @@
 layout: page
 lang: es
 title: Contactos
+emails:
+  error: |
+    Describa el problema aquí y cuál sería el comportamiento esperado:
+    
+    
+    No elimine la siguiente información, que nos ayudará a identificar la causa del problema:
+    
+  missing: |
+    Nombre del establecimiento:
+    
+    Categorías: comida para llevar, restaurante, pastelería, heladería, carnicería, hotel
+    
+    Familiar:
+    Indique la dirección del establecimiento. Si no estás seguro, al menos indica la ubicación.
+
+    Descripción:
+    Dar una breve descripción del establecimiento, y en qué medida es apto para celíacos e intolerantes al gluten.
 ---
 # Contactos
 
 Intentamos asegurarnos de que la información presentada en GlutenFreeMap sea lo más correcta y completa posible. Si encuentra un error, desea sugerir una ubicación que falta o por cualquier otro asunto relacionado con esta aplicación, puede contactarnos e intentaremos integrar sus sugerencias.
 
-La forma recomendada de contactarnos es a través de la plataforma GitHub. Deberá crear una cuenta para poder comunicarse con nosotros. Esto es necesario porque nos permite gestionar de forma más eficiente los contactos que recibimos.
-
 Existen varias formas de contacto, según el tipo de contacto:
 
-- [**Informar errores de aplicación**](https://github.com/glutenfreemap/glutenfreemap.github.io/issues/new?template=en_bug_report.yml){:id="report-error" target=" _blank "}  
+- [**Informar errores de aplicación**](mailto:glutenfreemap@aaubry.net?body={{ page.emails.error | url_encode | replace: "+", "%20" }}){:id="report-error"}  
    Utilice esta opción para cualquier problema que encuentre en la aplicación, desde errores durante el uso hasta inexactitudes en la información mostrada.
 
-- [**Sugerir un lugar que falta**](https://github.com/glutenfreemap/glutenfreemap.github.io/issues/new?template=en_suggest_venue.yml){:target="_blank"}  
+- [**Sugerir un lugar que falta**](mailto:glutenfreemap@aaubry.net?body={{ page.emails.missing | url_encode | replace: "+", "%20" }})  
    Utilice esta opción para sugerir un establecimiento que crea que debería incluirse en esta aplicación.
 
-- [**Otros asuntos**](https://github.com/glutenfreemap/glutenfreemap.github.io/discussions/new?category=general){:target="_blank"}  
+- [**Otros asuntos**](mailto:glutenfreemap@aaubry.net?subject=GlutenFreeMap)  
    Utilice esta opción para sugerencias, comentarios u otros asuntos.
 
-## Contacto alternativo
-
-Si no puede usar la plataforma GitHub, también puede enviar un correo electrónico a [glutenfreemap@aaubry.net](mailto:glutenfreemap@aaubry.net). Sin embargo, daremos menor prioridad a las solicitudes recibidas de esta manera.

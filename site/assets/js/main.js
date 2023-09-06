@@ -394,12 +394,12 @@ function applyHostSpecificChanges(viewModel) {
 
     var reportErrorLink = document.getElementById("report-error");
     if (reportErrorLink) {
-        reportErrorLink.href += [
-            "&os-type=" + encodeURIComponent(host.os.name),
-            "&os-version=" + encodeURIComponent(host.os.version),
-            "&browser-type=" + encodeURIComponent(host.browser.name),
-            "&browser-version=" + encodeURIComponent(host.browser.version)
-        ].join("");
+        reportErrorLink.href += encodeURIComponent([
+            "os-type: " + host.os.name,
+            "os-version: " + host.os.version,
+            "browser-type: " + host.browser.name,
+            "browser-version: " + host.browser.version
+        ].join("\r\n"));
     }
 
     subscribeAndUpdate(viewModel.language, function(lang) {
