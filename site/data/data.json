@@ -962,6 +962,28 @@
                 "lat": 40.6079651,
                 "lng": -7.9358565
             }
+        },
+        {
+            "id": "ChIJ1wQxaK03Iw0RJCgAIIzUe-0",
+            "name": "Palace Viseu",
+            "subtitle": "",
+            "description": {
+                "pt": "Restaurante com pratos sem glúten. Habitualmente tem pão sem glúten produzido de forma artesanal.",
+                "en": "Restaurant with gluten-free dishes. There is usually gluten-free bread produced by hand.",
+                "fr": "Restaurant avec plats sans gluten. Il y a généralement du pain artisanal sans gluten fabriqué.",
+                "es": "Restaurante con platos sin gluten. Suele existir pan sin gluten elaborado de forma artesanal."
+            },
+            "address": [
+                "R. Paulo Emílio 12",
+                "3510-098 Viseu"
+            ],
+            "categories": ["restaurant"],
+            "district": "viseu",
+            "attestation": "none",
+            "position": {
+                "lat": 40.6562608,
+                "lng": -7.9171055
+            }
         }
     ]
 }
