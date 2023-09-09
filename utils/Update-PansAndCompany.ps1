@@ -3,8 +3,8 @@ $url = "https://www.pansandcompany.pt/onde-estamos/"
 . (Join-Path $PSScriptRoot common.ps1)
 
 $rootDir = Join-Path $PSScriptRoot ".." -Resolve
-$outputPath = Join-Path $rootDir "docs" "data" "pansandcompany.json"
-$mainDataPath = Join-Path $rootDir "docs" "data" "data.json"
+$outputPath = Join-Path $rootDir "site" "data" "pansandcompany.json"
+$mainDataPath = Join-Path $rootDir "site" "data" "data.json"
 
 Write-Host "Scraping the page"
 

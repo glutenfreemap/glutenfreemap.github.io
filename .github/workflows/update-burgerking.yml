@@ -1,0 +1,41 @@
+name: Update Burger King
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '34 8 * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '7.x'
+
+      - name: Restore NuGet packages
+        run: |
+          cd utils
+          nuget restore -PackagesDirectory packages
+
+      - name: Run Update-BurgerKing.ps1 script
+        run: |
+          cd utils
+          pwsh -File Update-BurgerKing.ps1
+
+      - name: Check if file has changed
+        id: check_changes
+        run: |
+          git diff --quiet -- docs/data/burgerking.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -a -m "Update BurgerKing stores"
+          git push

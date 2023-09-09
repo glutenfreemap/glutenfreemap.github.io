@@ -6,8 +6,8 @@ $glutenFreeStoresUrl = "https://www.telepizza.pt/info/pizzas-sem-gluten"
 . (Join-Path $PSScriptRoot common.ps1)
 
 $rootDir = Join-Path $PSScriptRoot ".." -Resolve
-$outputPath = Join-Path $rootDir "docs" "data" "telepizza.json"
-$mainDataPath = Join-Path $rootDir "docs" "data" "data.json"
+$outputPath = Join-Path $rootDir "site" "data" "telepizza.json"
+$mainDataPath = Join-Path $rootDir "site" "data" "data.json"
 
 Add-Type -AssemblyName "$PSScriptRoot/packages/HtmlAgilityPack.1.11.46/lib/netstandard2.0/HtmlAgilityPack.dll"
 

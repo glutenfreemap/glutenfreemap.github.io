@@ -1,12 +1,26 @@
+$url = "https://static.burgerkingencasa.es/bkhomewebsite/pt/stores_pt.json"
+
 . (Join-Path $PSScriptRoot common.ps1)
 
 $rootDir = Join-Path $PSScriptRoot ".." -Resolve
-$outputPath = Join-Path $rootDir "docs" "data" "burgerking.json"
-$mainDataPath = Join-Path $rootDir "docs" "data" "data.json"
+$outputPath = Join-Path $rootDir "site" "data" "burgerking.json"
+$mainDataPath = Join-Path $rootDir "site" "data" "data.json"
 
-Write-Host "Parsing the data"
+Write-Host "Loading gluten-free restaurant list"
 
-$places = Get-Content (Join-Path $PSScriptRoot "burguerking.csv") | ConvertFrom-Csv
+$glutenFreeStores = @{}
+Get-Content (Join-Path $PSScriptRoot "BurgerKingGlutenFree.csv") `
+    | ConvertFrom-Csv `
+    | % { $glutenFreeStores.Add([string]$_.id, $_) }
+
+Write-Host "Scraping the page"
+
+$page = Invoke-WebRequest `
+    -UseBasicParsing `
+    -Uri $url `
+    @HttpClientCommonParams
+
+$places = ([System.Text.Encoding]::UTF8.GetString($page.Content) | ConvertFrom-Json).stores
 
 Write-Host "Merging the data"
 
@@ -19,33 +33,44 @@ $previousData = if (Test-Path $outputPath) {
 $mainData = Get-Content $mainDataPath | ConvertFrom-Json
 $districts = $mainData.districts
 
-$data = $places `
-    | % {
-        [string]$id = $_.Nombre
+$data = $places | % {
+    [string]$id = $_.bkcode
+    if ($glutenFreeStores.ContainsKey($id)) {
+        $glutenFreeData = $glutenFreeStores[$id]
+        
         $previous = $previousData | ? { $_.id -eq $id }
+
+        $city = $_.city
+        $city = [regex]::Replace($city, "(\s(?:D[AEO]S?|\w{1,2})\s)", { param($m) $m.Groups[1].Value.ToLower() })
+        $city = [regex]::Replace($city, "((?:^|[^\w])[A-ZÁÀÉÈÍÌÓÒÚÙ])(\w+)", { param($m) $m.Groups[1].Value + $m.Groups[2].Value.ToLower() })
 
         $place = [ordered]@{
             id = $id
-            subtitle = $id
+            gid = $previous.gid
+            subtitle = $glutenFreeData.name
             address =
                 if ($previous.fixes.address -ne $null) {
                     $previous.fixes.address
                 } else {
-                    @(
-                        $_.Morada,
-                        "$($_.CP) $($_.Local)"
-                    )
+                    "$($_.address.Trim(','))","$($_.postalcode -replace ' ','') $city"
                 }
             position = [ordered]@{
-                lat = [double]$_.Latitude
-                lng = [double]$_.Longitude
+                lat = [double]$_.latitude
+                lng = [double]$_.longitude
             }
             district = $previous.district
         }
         if ($previous.fixes -ne $null) { $place.fixes = $previous.fixes }
 
-        Write-Output $place
+        Write-Output $place        
+
+        $glutenFreeStores.Remove($id)
     }
+}
+
+$glutenFreeStores.GetEnumerator() | % {
+    Write-Warning "Did not find restaurant $($_.Value)"
+}
 
 $data `
     | ? { $_.district -eq $null } `
@@ -56,6 +81,6 @@ $data `
     }
 
 Write-Host "Updating the output file"
-$data | ConvertTo-Json -Depth 10 | Set-Content $outputPath
+$data | Sort-Object -Property {[int]$_["id"]} | ConvertTo-Json -Depth 10 | Set-Content $outputPath
 
 Write-Host "Done"

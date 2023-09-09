@@ -81,8 +81,8 @@
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
         function initMap() {
             const map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: -33.8688, lng: 151.2195 },
-                zoom: 13,
+                center: { lat: 39, lng: -8 },
+                zoom: 8,
             });
 
             var places = new google.maps.places.PlacesService(map);
@@ -125,7 +125,7 @@
                 places.getDetails(
                     {
                         placeId: place.place_id,
-                        fields: ['name', 'formatted_address', 'geometry']
+                        fields: ['name', 'formatted_address', 'geometry', 'address_components']
                     },
                     details => {
                         // Set the position of the marker using the place ID and location.
@@ -135,26 +135,63 @@
                         });
                         marker.setVisible(true);
 
+                        var district = details.address_components
+                            .filter(c => c.types.some(t => t === "administrative_area_level_1"))
+                            .map(c => c.long_name)[0] || "";
+
+                        district = district.
+                            replace(" District", "")
+                            .toLowerCase()
+                            .replace(" ", "-")
+                            .replace("ã", "a")
+                            .replace("á", "a")
+                            .replace("à", "a")
+                            .replace("é", "e")
+                            .replace("è", "e")
+                            .replace("í", "i")
+                            .replace("ì", "i")
+                            .replace("õ", "o")
+                            .replace("ó", "o")
+                            .replace("ò", "o")
+                            .replace("ú", "u")
+                            .replace("ù", "u")
+                            .replace("ç", "c");
+
                         console.log(details);
 
                         var addressParts = /^(.*),\s*(\d{4}-\d{3}.*)/.exec(details.formatted_address);
 
+                        var position = {
+                            "lat": parseFloat(place.geometry.location.lat().toFixed(7)),
+                            "lng": parseFloat(place.geometry.location.lng().toFixed(7))
+                        };
+
+                        // infowindowContent.children.namedItem("place-json").textContent = JSON.stringify({
+                        //     gid: place.place_id,
+                        //     name: place.name,
+                        //     subtitle: "",
+                        //     description: {
+                        //         pt: "",
+                        //         en: "",
+                        //         fr: "",
+                        //         es: ""
+                        //     },
+                        //     address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
+                        //     categories: [ ],
+                        //     district: district,
+                        //     attestation: "none|apc-certified|apc-validated",
+                        //     position: position
+                        // }, null, 4);
+                        parseFloat((-8.997198599999999).toFixed(7))
+
                         infowindowContent.children.namedItem("place-json").textContent = JSON.stringify({
-                            id: place.place_id,
-                            name: place.name,
+                            gid: place.place_id,
+                            id: "",
                             subtitle: "",
-                            description: {
-                                pt: "",
-                                en: "",
-                                fr: "",
-                                es: ""
-                            },
                             address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
-                            categories: [ ],
-                            district: "",
-                            attestation: "none|apc-certified|apc-validated",
-                            position: place.geometry.location
-                        }, null, 4);
+                            district: district,
+                            position: position
+                        }, null, 4) + ",";
                     }
                 );
 
@@ -177,7 +214,7 @@
      with https://www.npmjs.com/package/@googlemaps/js-api-loader.
     -->
     <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=places&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmm1g52sRlwGvDlE_BzLK4ZA2dEXeYboA&callback=initMap&libraries=places&v=weekly"
         defer></script>
 </body>
 
