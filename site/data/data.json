@@ -358,8 +358,8 @@
                 "es": ""
             },
             "address": [
-                "R. da Cruz a Caselas 3",
-                "1400-083 Lisboa"
+                "Largo da Princesa 26 A",
+                "1400-303 Lisboa"
             ],
             "categories": [
                 "ice-cream"
@@ -367,8 +367,8 @@
             "district": "lisboa",
             "attestation": "apc-certified",
             "position": {
-                "lat": 38.71555240000001,
-                "lng": -9.2145101
+                "lat": 38.6951041,
+                "lng": -9.2153774
             }
         },
         {
