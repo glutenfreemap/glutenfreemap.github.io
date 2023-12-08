@@ -372,29 +372,6 @@
             }
         },
         {
-            "gid": "ChIJx30CuVXLHg0RG2pydX3H6TI",
-            "name": "Naturluv",
-            "description": {
-                "pt": "",
-                "en": "",
-                "fr": "",
-                "es": ""
-            },
-            "address": [
-                "Av. da República 16B",
-                "1495-107 Algés"
-            ],
-            "categories": [
-                "bakery"
-            ],
-            "district": "lisboa",
-            "attestation": "none",
-            "position": {
-                "lat": 38.7013311,
-                "lng": -9.232755
-            }
-        },
-        {
             "gid": "ChIJS7720BjJHg0R_3YPjig13x0",
             "name": "Batarda's",
             "description": {
