@@ -14,11 +14,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.webkit.*
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONArray
 import org.json.JSONObject
-
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -55,6 +55,14 @@ class MainActivity : AppCompatActivity() {
 
         browser.addJavascriptInterface(this, "Android")
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (browser.canGoBack()) {
+                    browser.goBack()
+                }
+            }
+        })
+
         val preferences = getSharedPreferences(preferencesKey, Context.MODE_PRIVATE)
         val language = preferences.getString(languagePreferenceKey, null)
         if (language != null) {
@@ -71,6 +79,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     @JavascriptInterface
     fun setLanguage(language: String) {
