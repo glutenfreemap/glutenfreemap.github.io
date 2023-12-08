@@ -897,7 +897,7 @@
             "locations": "burgerking.json"
         },
         {
-            "id": "ChIJBUItxlQyGQ0RPQWiret3wPU",
+            "gid": "ChIJBUItxlQyGQ0RPQWiret3wPU",
             "name": "Sam Pastelaria Saudável",
             "subtitle": "",
             "description": {
@@ -919,7 +919,7 @@
             }
         },
         {
-            "id": "ChIJB_Vnuis3Iw0RReDhehkPdhs",
+            "gid": "ChIJB_Vnuis3Iw0RReDhehkPdhs",
             "name": "DeRaiz",
             "subtitle": "",
             "description": {
@@ -941,7 +941,7 @@
             }
         },
         {
-            "id": "ChIJ1wQxaK03Iw0RJCgAIIzUe-0",
+            "gid": "ChIJ1wQxaK03Iw0RJCgAIIzUe-0",
             "name": "Palace Viseu",
             "subtitle": "",
             "description": {
@@ -960,6 +960,28 @@
             "position": {
                 "lat": 40.6562608,
                 "lng": -7.9171055
+            }
+        },
+        {
+            "gid": "ChIJB8JUm-c3Iw0RQji2nIakJDE",
+            "name": "Ciao Bottle",
+            "subtitle": "",
+            "description": {
+                "pt": "Restaurante com pratos sem glúten. Tem sempre massas. Para pizza, tem que se avisar com 24h.",
+                "en": "Restaurant with gluten-free dishes. There's always pasta. For pizza, you have to give 24 hours notice.",
+                "fr": "Restaurant avec plats sans gluten. Il y a toujours des pâtes. Pour la pizza, vous devez donner un préavis de 24 heures.",
+                "es": "Restaurante con platos sin gluten. Siempre hay pasta. Para pizza hay que avisar con 24 horas de antelación."
+            },
+            "address": [
+                "Rua Estevão Lopes Morgado Lote 327 R/C Loja 1",
+                "3500-085 Viseu"
+            ],
+            "categories": ["restaurant"],
+            "district": "viseu",
+            "attestation": "none",
+            "position": {
+                "lat": 40.654159,
+                "lng": -7.9209458
             }
         }
     ]
