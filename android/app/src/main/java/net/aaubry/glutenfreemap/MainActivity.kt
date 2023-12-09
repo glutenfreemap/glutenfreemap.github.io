@@ -30,11 +30,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var menu: Menu? = null
+    private var menuDefinition: JSONArray? = null
     private var geoLocationRequestOrigin: String? = null
     private var geoLocationCallback: GeolocationPermissions.Callback? = null
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         this.menu = menu
+        tryBuildMainMenu()
         return true
     }
 
@@ -80,8 +82,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
     @JavascriptInterface
     fun setLanguage(language: String) {
         runOnUiThread {
@@ -95,10 +95,9 @@ class MainActivity : AppCompatActivity() {
 
     @JavascriptInterface
     fun setMenu(menuJson: String) {
-        val menuDefinition = JSONArray(menuJson)
+        menuDefinition = JSONArray(menuJson)
         runOnUiThread {
-            menu!!.clear()
-            buildMenu(menuDefinition, menu!!)
+            tryBuildMainMenu()
         }
     }
 
@@ -110,6 +109,14 @@ class MainActivity : AppCompatActivity() {
     @JavascriptInterface
     fun getAndroidVersion(): Int {
         return Build.VERSION.SDK_INT
+    }
+
+    private fun tryBuildMainMenu() {
+        if (menu != null && menuDefinition != null) {
+            menu!!.clear()
+            buildMenu(menuDefinition!!, menu!!)
+            menuDefinition = null
+        }
     }
 
     private fun buildMenu(menuDefinition: JSONArray, menu: Menu) {
