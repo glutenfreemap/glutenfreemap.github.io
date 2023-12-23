@@ -239,29 +239,6 @@
             }
         },
         {
-            "gid": "ChIJW79iM3w0GQ0RiKruEiYyXX8",
-            "name": "Zarzuela",
-            "description": {
-                "pt": "",
-                "en": "",
-                "fr": "",
-                "es": ""
-            },
-            "address": [
-                "R. Bernardino Costa 21 23",
-                "1200-052 Lisboa"
-            ],
-            "categories": [
-                "bakery"
-            ],
-            "district": "lisboa",
-            "attestation": "apc-certified",
-            "position": {
-                "lat": 38.706882,
-                "lng": -9.142439999999999
-            }
-        },
-        {
             "gid": "ChIJj22_NUAvHw0RgV6Y_rZyPG8",
             "name": "Talho das Manas",
             "description": {
@@ -982,6 +959,28 @@
             "position": {
                 "lat": 40.654159,
                 "lng": -7.9209458
+            }
+        },
+        {
+            "gid": "ChIJhe1WDsIzGQ0RnhxrS8lsBoo",
+            "name": "Quase-Quase",
+            "subtitle": "",
+            "description": {
+                "pt": "Comida ultra-congelada para levar.",
+                "en": "Ultra-frozen food to go.",
+                "fr": "Nourriture surgelée à emporter.",
+                "es": "Comida ultracongelada para llevar."
+            },
+            "address": [
+                "Av. de Roma 53B",
+                "1700-342 Lisboa"
+            ],
+            "categories": ["take-away"],
+            "district": "lisboa",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 38.7475923,
+                "lng": -9.1413112
             }
         }
     ]

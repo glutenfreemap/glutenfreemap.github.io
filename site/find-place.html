@@ -166,31 +166,31 @@
                             "lng": parseFloat(place.geometry.location.lng().toFixed(7))
                         };
 
-                        // infowindowContent.children.namedItem("place-json").textContent = JSON.stringify({
-                        //     gid: place.place_id,
-                        //     name: place.name,
-                        //     subtitle: "",
-                        //     description: {
-                        //         pt: "",
-                        //         en: "",
-                        //         fr: "",
-                        //         es: ""
-                        //     },
-                        //     address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
-                        //     categories: [ ],
-                        //     district: district,
-                        //     attestation: "none|apc-certified|apc-validated",
-                        //     position: position
-                        // }, null, 4);
-                        parseFloat((-8.997198599999999).toFixed(7))
-
                         infowindowContent.children.namedItem("place-json").textContent = JSON.stringify({
-                            gid: place.place_id,
-                            id: "",
-                            subtitle: "",
-                            address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
-                            district: district,
-                            position: position
+                            place: {
+                                gid: place.place_id,
+                                name: place.name,
+                                subtitle: "",
+                                description: {
+                                    pt: "",
+                                    en: "",
+                                    fr: "",
+                                    es: ""
+                                },
+                                address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
+                                categories: [ ],
+                                district: district,
+                                attestation: "none|apc-certified|apc-validated",
+                                position: position
+                            },
+                            child: {
+                                gid: place.place_id,
+                                id: "",
+                                subtitle: "",
+                                address: addressParts ? [addressParts[1], addressParts[2].replace(", Portugal", "")] : [details.formatted_address],
+                                district: district,
+                                position: position
+                            }
                         }, null, 4) + ",";
                     }
                 );
