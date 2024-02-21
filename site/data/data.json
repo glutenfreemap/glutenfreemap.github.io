@@ -982,6 +982,72 @@
                 "lat": 38.7475923,
                 "lng": -9.1413112
             }
+        },
+        {
+            "gid": "ChIJg73cGebFHg0R3W0m6gN5ziY",
+            "name": "Cozinha por Mim",
+            "subtitle": "",
+            "description": {
+                "pt": "Comida ultra-congelada para levar.",
+                "en": "Ultra-frozen food to go.",
+                "fr": "Nourriture surgelée à emporter.",
+                "es": "Comida ultracongelada para llevar."
+            },
+            "address": [
+                "R. São José 3 B Loja 3",
+                "2750-623 Cascais"
+            ],
+            "categories": ["take-away"],
+            "district": "lisboa",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 38.7095893,
+                "lng": -9.421008
+            }
+        },
+        {
+            "gid": "ChIJp1zfUR81GQ0REue1N2Gd4mg",
+            "name": "Bali do Cais",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "R. Bernardino Costa 21",
+                "1200-052 Lisboa"
+            ],
+            "categories": ["restaurant"],
+            "district": "lisboa",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 38.7068816,
+                "lng": -9.14244
+            }
+        },
+        {
+            "gid": "ChIJtzxXZm1lJA0RadnpAdMMCMI",
+            "name": "Happy Cookie",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "R. Padre Himalaya 76",
+                "4100-553 Porto"
+            ],
+            "categories": ["bakery"],
+            "district": "porto",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 41.1655025,
+                "lng": -8.6488766
+            }
         }
     ]
 }
