@@ -33,6 +33,9 @@ strings:
     badge:
       certified: certified
       validated: validated
+  text:
+    filter:
+      label: filter
   noResults: No results
   finalHint: Is there a missing location?<br/><a href="/en/contacts.html">Tell us here</a>.
   map:

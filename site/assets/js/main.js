@@ -102,27 +102,47 @@ function ViewModel(storage) {
 
     this.filters = {
         category: {
-            values: ko.computed(function () {
-                var lang = self.language();
-                var categories = self.data().categories;
-                if (!lang || !categories) return [];
-
-                return self.data().categories
-                    .map(function (d) { return { id: d.id, name: d.name[lang] }; })
-                    .sort(function (a, b) { return compareStringsIgnoreCase(a.name, b.name); });
-            }),
-            selected: ko.observable(),
+            selected: ko.observableArray(),
             match: function (place) {
                 var selected = this.selected();
-                return selected == null || place.categories.indexOf(selected) != -1;
+                return selected.length == 0 || place.categories.some(function(c) {
+                    return selected.indexOf(c) >= 0;
+                });
+            },
+            toggle: function(category) {
+                var index = self.filters.category.selected.indexOf(category.id);
+                if (index >= 0) {
+                    self.filters.category.selected.splice(index, 1);
+                } else {
+                    self.filters.category.selected.push(category.id);
+                }
             }
         },
         district: {
-            values: ko.computed(function () { return self.data().districts; }),
-            selected: ko.observable(),
+            selected: ko.observableArray(),
             match: function (place) {
                 var selected = this.selected();
-                return selected == null || place.district === selected;
+                return selected.length == 0 || selected.indexOf(place.district) >= 0;
+            },
+            toggle: function(district) {
+                var index = self.filters.district.selected.indexOf(district.id);
+                if (index >= 0) {
+                    self.filters.district.selected.splice(index, 1);
+                } else {
+                    self.filters.district.selected.push(district.id);
+                }
+            }
+        },
+        text: {
+            value: ko.observable().extend({ rateLimit: 500 }),
+            match: function (place) {
+                var value = this.lowerCaseValue();
+                if (value.length == 0) {
+                    return true;
+                }
+
+                const fieldToSearch = place.subtitle || place.name;
+                return fieldToSearch.toLowerCase().indexOf(value) >= 0;
             }
         },
         certified: {
@@ -134,6 +154,76 @@ function ViewModel(storage) {
         }
     };
 
+    this.filters.category.values = ko.computed(function () {
+        var lang = self.language();
+        var categories = self.data().categories;
+        if (!lang || !categories) return [];
+
+        return categories
+            .map(function (d) {
+                return {
+                    id: d.id,
+                    name: d.name[lang],
+                    selected: self.filters.category.selected.indexOf(d.id) >= 0
+                };
+            })
+            .sort(function (a, b) { return compareStringsIgnoreCase(a.name, b.name); });
+    });
+
+    this.filters.category.label = ko.computed(function() {
+        var values = self.filters.category.values().filter(function(c) {
+            return c.selected;
+        });
+
+        switch(values.length) {
+            case 0:
+                return "";
+
+            case 1:
+                return ": " + values[0].name;
+
+            default:
+                return ": " + values[0].name + "(+" + (values.length - 1) + ")";
+        }
+    });
+
+    this.filters.district.values = ko.computed(function () {
+        var districts = self.data().districts;
+        if (!districts) return [];
+        
+        return districts
+            .map(function (d) {
+                return {
+                    id: d.id,
+                    name: d.name,
+                    selected: self.filters.district.selected.indexOf(d.id) >= 0
+                };
+            })
+            .sort(function (a, b) { return compareStringsIgnoreCase(a.id, b.id); });
+    });
+
+    this.filters.district.label = ko.computed(function() {
+        var values = self.filters.district.values().filter(function(c) {
+            return c.selected;
+        });
+
+        switch(values.length) {
+            case 0:
+                return "";
+
+            case 1:
+                return ": " + values[0].name;
+
+            default:
+                return ": " + values[0].name + "(+" + (values.length - 1) + ")";
+        }
+    });
+
+    this.filters.text.lowerCaseValue = ko.computed(function() {
+        var value = self.filters.text.value();
+        return value && value.length ? value.toLowerCase() : "";
+    });
+
     function bindToStorage(observable, key, parser) {
         self.loaded.subscribe(function () {
             var value = storage.getItem(key);
@@ -144,8 +234,12 @@ function ViewModel(storage) {
         });
     }
 
-    bindToStorage(this.filters.category.selected, "filters.category");
-    bindToStorage(this.filters.district.selected, "filters.district");
+    function parseArray(value) {
+        return value && value.length && value !== "undefined" ? value.split(",") : [];
+    }
+
+    bindToStorage(this.filters.category.selected, "filters.category", parseArray);
+    bindToStorage(this.filters.district.selected, "filters.district", parseArray);
     bindToStorage(this.filters.certified.selected, "filters.certified", function(value) { return value === "true"; });
 
     this.categoriesById = ko.computed(function () {

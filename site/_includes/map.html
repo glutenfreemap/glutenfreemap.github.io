@@ -1,35 +1,38 @@
 <div class="container filters">
     <form class="g-3">
         <div class="form-row">
-            <div class="form-group col-md-3 col-6">
-                <label for="filter-category" class="form-label">{{ page.strings.category.label }}</label>
-                <select id="filter-category" class="form-control" data-bind="
-                    options: filters.category.values,
-                    value: filters.category.selected,
-                    optionsCaption: '{{ page.strings.category.all }}',
-                    optionsValue: 'id',
-                    optionsText: 'name'">
-                </select>
-            </div>
-            <div class="form-group col-md-3 col-6">
-                <label for="filter-district" class="form-label">{{ page.strings.district.label }}</label>
-                <select id="filter-district" class="form-control" data-bind="
-                    options: filters.district.values,
-                    value: filters.district.selected,
-                    optionsCaption: '{{ page.strings.district.all }}',
-                    optionsValue: 'id',
-                    optionsText: 'name'">
-                </select>
+            <div class="form-group col-12 d-flex flex-wrap mb-0">
+                <div class="dropdown sel">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"
+                        data-bind="class: filters.category.selected().length ? 'btn-primary' : 'btn-secondary'">
+                        {{ page.strings.category.label }}<span data-bind="text: filters.category.label"></span>
+                    </button>
+                    <div class="dropdown-menu" data-bind="foreach: filters.category.values">
+                        <a class="dropdown-item" href="#" data-bind="text: name, click: $root.filters.category.toggle, css: { sel: selected }"></a>
+                    </div>
+                </div>
+                <div class="dropdown sel">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"
+                        data-bind="class: filters.district.selected().length ? 'btn-primary' : 'btn-secondary'">
+                        {{ page.strings.district.label }}<span data-bind="text: filters.district.label"></span>
+                    </button>
+                    <div class="dropdown-menu" data-bind="foreach: filters.district.values">
+                        <a class="dropdown-item" href="#" data-bind="text: name, click: $root.filters.district.toggle, css: { sel: selected }"></a>
+                    </div>
+                </div>
+                <div class="form-group search">
+                    <input type="text" class="form-control" placeholder="{{ page.strings.text.filter.label }}" data-bind="textInput: filters.text.value">
+                </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="form-group col-12 mb-0">
             <div class="custom-control custom-switch">
                 <input class="custom-control-input" type="checkbox" id="filter-certified"
                     data-bind="checked: filters.certified.selected">
                 <label class="custom-control-label" for="filter-certified">
                     {{ page.strings.certified.filter.label }}
                 </label>
-                <button type="button" class="btn btn-outline-info btn-sm" data-toggle="collapse" data-target="#certificationDetails">❔</button>
+                <button type="button" class="btn btn-outline-info btn-sm info" data-toggle="collapse" data-target="#certificationDetails">❔</button>
             </div>
             <div class="collapse" id="certificationDetails">
                 <div class="alert alert-info d-flex align-items-center" role="alert">

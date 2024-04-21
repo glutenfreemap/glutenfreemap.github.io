@@ -184,7 +184,7 @@ footer a:hover {
   display: flex;
 }
 
-.form-group button {
+.form-group button.info {
   position: relative;
   top: -0.15em;
   padding: 0.1em 0.4em 0.25em;
@@ -242,6 +242,35 @@ footer a:hover {
   position: absolute;
   margin-left: -1em;
   font-weight: bold;
+}
+
+.dropdown {
+  margin: 0 0.5em 0.5em 0;
+}
+
+.dropdown.sel .dropdown-item {
+  display: flex;
+  align-items: baseline;
+}
+
+.dropdown.sel .dropdown-item::before {
+  content: " ";
+  border: solid black 1.5px;
+  width: 0.7em;
+  height: 0.7em;
+  margin-right: 0.2em;
+}
+
+.dropdown.sel .dropdown-item.sel::before {
+  background-color: var(--blue);
+  background-clip: content-box;
+  padding: 2px;
+}
+
+.search {
+  flex: 1;
+  min-width: 7em;
+  max-width: 20em;
 }
 
 /* loader */
