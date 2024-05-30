@@ -1076,6 +1076,28 @@
                 "lat": 38.708802,
                 "lng": -9.1343489
             }
+        },
+        {
+            "gid": "ChIJNZSvtOOAIw0R4DQ3ZSq7tuc",
+            "name": "Cervejaria Norte",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "R. Dr. António Carlos Ferreira Soares",
+                "4520-213 Santa Maria da Feira"
+            ],
+            "categories": ["restaurant"],
+            "district": "aveiro",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 40.926574,
+                "lng": -8.542962
+            }
         }
     ]
 }
