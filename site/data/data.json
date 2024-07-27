@@ -292,7 +292,7 @@
         },
         {
             "gid": "ChIJH4EKzag0GQ0RQmZkvy9IN-E",
-            "name": "The Food for Real Alcântara",
+            "name": "The Food for Real",
             "description": {
                 "pt": "",
                 "en": "",
@@ -311,24 +311,6 @@
             "position": {
                 "lat": 38.70505429999999,
                 "lng": -9.1808102
-            }
-        },
-        {
-            "gid": "ChIJ3Q-VS4MzGQ0RvTWx3Xxbl5U",
-            "name": "The Food for Real Entrecampos",
-            "description": "",
-            "address": [
-                "Praça Carlos Fabião 4B 1600",
-                "1600-316 Lisboa"
-            ],
-            "categories": [
-                "bakery"
-            ],
-            "district": "lisboa",
-            "attestation": "apc-certified",
-            "position": {
-                "lat": 38.74611639999999,
-                "lng": -9.152437099999998
             }
         },
         {
