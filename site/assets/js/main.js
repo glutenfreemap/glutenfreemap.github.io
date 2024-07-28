@@ -662,8 +662,9 @@ function loadMap(mapElement) {
         });
 
         // Create popup
+        var popupOffset = 42;
         var infoWindow = new maplibregl.Popup({
-            offset: 42,
+            offset: popupOffset,
             anchor: "bottom"
         });
 
@@ -719,11 +720,13 @@ function loadMap(mapElement) {
                 var bounds = map.getBounds();
                 if (bounds.contains(coords)) {
                     map.easeTo({
-                        center: coords
+                        center: coords,
+                        offset: [0, popupOffset * 2]
                     });
                 } else {
                     map.flyTo({
                         center: coords,
+                        offset: [0, popupOffset * 2],
                         zoom: Math.max(map.getZoom(), 12)
                     });
                 }
