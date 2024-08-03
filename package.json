@@ -1,0 +1,24 @@
+{
+  "name": "glutenfreemap",
+  "version": "1.0.0",
+  "description": "This is the source code of https://glutenfreemap.org/.",
+  "private": true,
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Antoine Aubry",
+  "license": "GPL-3.0-only",
+  "devDependencies": {
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "maplibre-gl": "^4.5.0",
+    "pmtiles": "^3.0.7",
+    "protomaps-themes-base": "^3.0.1"
+  }
+}

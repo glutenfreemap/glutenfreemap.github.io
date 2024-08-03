@@ -14,6 +14,11 @@
 # You should have received a copy of the GNU General Public License along with GlutenFreeMap.
 # If not, see <https://www.gnu.org/licenses/>.
 */
+import maplibregl from 'maplibre-gl';
+import * as pmtiles from 'pmtiles';
+import layers from 'protomaps-themes-base';
+//import 'maplibre-gl/dist/maplibre-gl.css';
+
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("/sw.js")
@@ -564,6 +569,8 @@ function loadMap(mapElement) {
     var protocol = new pmtiles.Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
 
+    console.log(layers("protomaps", "light"));
+
     var map = new maplibregl.Map({
         container: "map-container",
         center: [-8.267, 39.608],
@@ -571,6 +578,7 @@ function loadMap(mapElement) {
         style: {
             version: 8,
             glyphs: "https://cdn.glutenfreemap.org/fonts/pbf/{fontstack}/{range}.pbf",
+            sprite: "https://protomaps.github.io/basemaps-assets/sprites/v3/light",
             sources: {
                 "protomaps": {
                     type: "vector",
@@ -580,6 +588,7 @@ function loadMap(mapElement) {
                 }
             },
             layers: protomaps_themes_base.default("protomaps", "light")
+            //layers: layers("protomaps", "light")
         }
     });
 

@@ -69,13 +69,13 @@ class MainActivity : AppCompatActivity() {
         val language = preferences.getString(languagePreferenceKey, null)
         if (language != null) {
             if (BuildConfig.DEBUG) {
-                browser.loadUrl("http://192.168.99.66:8080/${language}")
+                browser.loadUrl("http://192.168.99.66:8081/${language}")
             } else {
                 browser.loadUrl("https://${hostName}/${language}")
             }
         } else {
             if (BuildConfig.DEBUG) {
-                browser.loadUrl("http://192.168.99.66:8080")
+                browser.loadUrl("http://192.168.99.66:8081")
             } else {
                 browser.loadUrl("https://${hostName}")
             }
