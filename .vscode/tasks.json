@@ -8,6 +8,12 @@
             "type": "shell",
             "group": "build",
             "command": "docker-compose up"
+        },
+        {
+            "label": "Create release notes",
+            "type": "shell",
+            "group": "build",
+            "command": "pwsh utils/Add-ReleaseNotes.ps1"
         }
     ]
 }
