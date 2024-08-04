@@ -1103,6 +1103,28 @@
                 "lat": 37.0937606,
                 "lng": -8.1999482
             }
+        },
+        {
+            "gid": "ChIJZyNS9aAvHw0ReDX4COiBWaQ",
+            "name": "Pasteis Brasão",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "Rua da Pena Seca, Nº5 Bonabal",
+                "2565-835 Torres Vedras"
+            ],
+            "categories": ["take-away"],
+            "district": "lisboa",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 39.0714793,
+                "lng": -9.3422628
+            }
         }
     ]
 }
