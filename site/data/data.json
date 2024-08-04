@@ -1150,6 +1150,41 @@
                 "lat": 39.0714793,
                 "lng": -9.3422628
             }
+        },
+        {
+            "name": "Ginos",
+            "categories": ["restaurant"],
+            "attestation": "none",
+            "locations": [
+                {
+                    "gid": "ChIJ93zO-d8zGQ0RX397VJXEqIQ",
+                    "id": "",
+                    "subtitle": "Barata Salgueiro",
+                    "address": [
+                        "R. Barata Salgueiro 29A",
+                        "1250-096 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7214984,
+                        "lng": -9.1479969
+                    }
+                },
+                {
+                    "gid": "ChIJSaUx5xwxGQ0RzqOG-ilgtvs",
+                    "id": "",
+                    "subtitle": "Alameda dos Oceanos",
+                    "address": [
+                        "Alameda dos Oceanos 1.06 1.1",
+                        "1990-207 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.769146,
+                        "lng": -9.096012
+                    }
+                }
+            ]
         }
     ]
 }
