@@ -951,26 +951,51 @@
             }
         },
         {
-            "gid": "ChIJhe1WDsIzGQ0RnhxrS8lsBoo",
             "name": "Quase-Quase",
-            "subtitle": "",
-            "description": {
-                "pt": "Comida ultra-congelada para levar.",
-                "en": "Ultra-frozen food to go.",
-                "fr": "Nourriture surgelée à emporter.",
-                "es": "Comida ultracongelada para llevar."
-            },
-            "address": [
-                "Av. de Roma 53B",
-                "1700-342 Lisboa"
-            ],
             "categories": ["take-away"],
-            "district": "lisboa",
             "attestation": "apc-certified",
-            "position": {
-                "lat": 38.7475923,
-                "lng": -9.1413112
-            }
+            "locations": [
+                {
+                    "gid": "ChIJhe1WDsIzGQ0RnhxrS8lsBoo",
+                    "id": "",
+                    "subtitle": "Avenida de Roma",
+                    "description": {
+                        "pt": "Comida ultra-congelada para levar.",
+                        "en": "Ultra-frozen food to go.",
+                        "fr": "Nourriture surgelée à emporter.",
+                        "es": "Comida ultracongelada para llevar."
+                    },
+                    "address": [
+                        "Av. de Roma 53B",
+                        "1700-342 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7475923,
+                        "lng": -9.1413112
+                    }
+                },                
+                {
+                    "gid": "ChIJxTwlf8ozGQ0R-vul4QyPANQ",
+                    "id": "",
+                    "subtitle": "Campo de Ourique",
+                    "description": {
+                        "pt": "Comida ultra-congelada para levar.",
+                        "en": "Ultra-frozen food to go.",
+                        "fr": "Nourriture surgelée à emporter.",
+                        "es": "Comida ultracongelada para llevar."
+                    },
+                    "address": [
+                        "R. Correia Teles 22D",
+                        "1350-243 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7193452,
+                        "lng": -9.1654305
+                    }
+                }
+            ]
         },
         {
             "gid": "ChIJg73cGebFHg0R3W0m6gN5ziY",
