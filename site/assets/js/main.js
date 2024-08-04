@@ -141,7 +141,7 @@ function ViewModel(storage) {
                     return true;
                 }
 
-                const fieldToSearch = place.subtitle || place.name;
+                const fieldToSearch = place.subtitle + " " + place.name;
                 return fieldToSearch.toLowerCase().indexOf(value) >= 0;
             }
         },
