@@ -1,3 +1,5 @@
+$ErrorActionPreference = 'Stop'
+
 $url = "https://static.burgerkingencasa.es/bkhomewebsite/pt/stores_pt.json"
 
 . (Join-Path $PSScriptRoot common.ps1)

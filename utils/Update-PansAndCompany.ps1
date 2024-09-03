@@ -1,3 +1,5 @@
+$ErrorActionPreference = 'Stop'
+
 $url = "https://www.pansandcompany.pt/onde-estamos/"
 
 . (Join-Path $PSScriptRoot common.ps1)

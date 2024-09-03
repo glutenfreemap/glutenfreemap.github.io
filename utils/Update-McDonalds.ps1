@@ -1,5 +1,7 @@
 # nuget restore -PackagesDirectory packages
 
+$ErrorActionPreference = 'Stop'
+
 $url = "https://www.mcdonalds.pt/restaurantes"
 
 . (Join-Path $PSScriptRoot common.ps1)

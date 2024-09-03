@@ -1,7 +1,9 @@
 # nuget restore -PackagesDirectory packages
 
+$ErrorActionPreference = 'Stop'
+
 $storesApiUrl = "https://www.telepizza.pt/General/GetFilteredStores/"
-$glutenFreeStoresUrl = "https://www.telepizza.pt/info/pizzas-sem-gluten"
+$glutenFreeStoresUrl = "https://www.telepizza.pt/pizzas-sem-gluten.html"
 
 . (Join-Path $PSScriptRoot common.ps1)
 
