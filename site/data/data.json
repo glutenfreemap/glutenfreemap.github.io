@@ -308,9 +308,9 @@
                 "restaurant"
             ],
             "district": "lisboa",
-            "attestation": "apc-certified",
+            "attestation": "none",
             "position": {
-                "lat": 38.70505429999999,
+                "lat": 38.7050543,
                 "lng": -9.1808102
             }
         },
