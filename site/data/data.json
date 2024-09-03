@@ -645,27 +645,6 @@
             }
         },
         {
-            "gid": "ChIJvZQJLGP9JA0R4Vk-oYjbptQ",
-            "name": "Bonna",
-            "description": {
-                "pt": "",
-                "en": "",
-                "fr": "",
-                "es": ""
-            },
-            "address": [
-                "R. Dom Paio Mendes 3",
-                "4700-419 Braga"
-            ],
-            "categories": ["bakery"],
-            "district": "braga",
-            "attestation": "apc-certified",
-            "position": {
-                "lat": 41.5495717,
-                "lng": -8.4290593
-            }
-        },
-        {
             "gid": "ChIJi4dz8YZGJA0Rlx2J1XpqCUs",
             "name": "Boca de Leão",
             "description": {
