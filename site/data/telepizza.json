@@ -1,32 +1,6 @@
 [
   {
-    "id": "378",
-    "subtitle": "5 De Outubro",
-    "address": [
-      "Av 5 Outubro 24",
-      "1050-065 Lisboa"
-    ],
-    "position": {
-      "lat": 38.74334,
-      "lng": -9.14906
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "411",
-    "subtitle": "Aboboda",
-    "address": [
-      "En 249 Zi Trajouce, Aboboda",
-      "2785-035 Aboboda"
-    ],
-    "position": {
-      "lat": 38.72992,
-      "lng": -9.33605
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "461",
+    "id": "241332460",
     "subtitle": "Abrantes",
     "address": [
       "Pq Do Alto De Sto Antonio S/N",
@@ -39,7 +13,7 @@
     "district": "santarem"
   },
   {
-    "id": "517",
+    "id": "210546000",
     "subtitle": "Alcabideche",
     "address": [
       "R Cesaltina Fialho Gouveia 35",
@@ -52,20 +26,21 @@
     "district": "lisboa"
   },
   {
-    "id": "476",
-    "subtitle": "Alcobaca",
+    "gid": "ChIJBzisJ_iRGA0RBeOlym9zG3Q",
+    "id": "249247888",
+    "subtitle": "Alcanena",
     "address": [
-      "R Afonso Albuquerque Intermarche",
-      "2460-020 Alcobaca"
+      "R. João da Silva Nazário 253",
+      "2380-092 Alcanena"
     ],
+    "district": "santarém",
     "position": {
-      "lat": 39.55286,
-      "lng": -8.96901
-    },
-    "district": "leiria"
+      "lat": 39.4569168,
+      "lng": -8.6689586
+    }
   },
   {
-    "id": "502",
+    "id": "210513888",
     "subtitle": "Alcochete",
     "address": [
       "R Carlos Manuel Rodrigues Francisco 285",
@@ -78,7 +53,7 @@
     "district": "setubal"
   },
   {
-    "id": "384",
+    "id": "212747022",
     "subtitle": "Almada",
     "address": [
       "R D Sancho I 1",
@@ -91,7 +66,7 @@
     "district": "setubal"
   },
   {
-    "id": "522",
+    "id": "243248174",
     "subtitle": "Almeirim",
     "address": [
       "Rua De Alpiarça 23",
@@ -104,20 +79,7 @@
     "district": "santarem"
   },
   {
-    "id": "404",
-    "subtitle": "Almirante Reis",
-    "address": [
-      "Rua Antonio Pedro 46",
-      "1000-039 Lisboa"
-    ],
-    "position": {
-      "lat": 38.73175,
-      "lng": -9.13509
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "427",
+    "id": "219938840",
     "subtitle": "Alverca Do Ribatejo",
     "address": [
       "Ubr Varzea Do Brejo Lt N Loja Lj R/C",
@@ -130,46 +92,7 @@
     "district": "lisboa"
   },
   {
-    "id": "381",
-    "subtitle": "Amadora",
-    "address": [
-      "Av Pedro Alvares Cabral 3A-3B",
-      "2700-646 Amadora"
-    ],
-    "position": {
-      "lat": 38.76201,
-      "lng": -9.24011
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "505",
-    "subtitle": "Belas",
-    "address": [
-      "Pr 5 De Outubro Lj 15-16",
-      "2605-021 Belas"
-    ],
-    "position": {
-      "lat": 38.775717,
-      "lng": -9.263601
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "468",
-    "subtitle": "Amarante",
-    "address": [
-      "Av Alexandre Herculano 25",
-      "4600-015 Amarante"
-    ],
-    "position": {
-      "lat": 41.27205,
-      "lng": -8.07202
-    },
-    "district": "porto"
-  },
-  {
-    "id": "414",
+    "id": "228328034",
     "subtitle": "Amial",
     "address": [
       "Rua Do Amial 283",
@@ -182,7 +105,7 @@
     "district": "porto"
   },
   {
-    "id": "382",
+    "id": "225105843",
     "subtitle": "Antas",
     "address": [
       "Rua Do Amparo 217",
@@ -195,7 +118,7 @@
     "district": "porto"
   },
   {
-    "id": "486",
+    "id": "210437874",
     "subtitle": "Areeiro",
     "address": [
       "Pr Francisco Sa Carneiro 4-A",
@@ -208,33 +131,7 @@
     "district": "lisboa"
   },
   {
-    "id": "508",
-    "subtitle": "Areosa",
-    "address": [
-      "R. Santa Justa 228",
-      "4200-479 Porto"
-    ],
-    "position": {
-      "lat": 41.1745444,
-      "lng": -8.5850913
-    },
-    "district": "porto"
-  },
-  {
-    "id": "481",
-    "subtitle": "Arruda",
-    "address": [
-      "Arruda Dos Vinhos Intermarche",
-      "2630-358 Arruda Dos Vinhos"
-    ],
-    "position": {
-      "lat": 38.99809,
-      "lng": -9.08473
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "425",
+    "id": "212274097",
     "subtitle": "Arrentela",
     "address": [
       "Av. Carlos De Oliveira 6",
@@ -247,7 +144,20 @@
     "district": "setubal"
   },
   {
-    "id": "403",
+    "id": "263247148",
+    "subtitle": "Arruda Dos Vinhos",
+    "address": [
+      "Arruda dos Vinhos Intermarche",
+      "2630-358 Arruda dos Vinhos"
+    ],
+    "position": {
+      "lat": 38.99809,
+      "lng": -9.08473
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "234381800",
     "subtitle": "Aveiro",
     "address": [
       "R Jose Rabumba 7",
@@ -260,8 +170,8 @@
     "district": "aveiro"
   },
   {
-    "id": "521",
-    "subtitle": "Azeitao",
+    "id": "210543860",
+    "subtitle": "Azeitão",
     "address": [
       "Rua Luisa Tody 128",
       "2925-568 Bejos De Azaetão"
@@ -273,34 +183,50 @@
     "district": "setubal"
   },
   {
-    "id": "426",
-    "subtitle": "Baixa Da Banheira",
+    "gid": "ChIJERLIFR1jJA0RTb-jdM5wJHw",
+    "id": "229766344",
+    "subtitle": "Baguim - Valongo",
     "address": [
-      "Estrada Nacional 11 12 E 12B",
-      "2835-172 Baixa Da Banheira"
+      "R. Dom João de Castro nº 796",
+      "4510-546 Baguim do Monte"
     ],
+    "district": "porto",
     "position": {
-      "lat": 38.6611,
-      "lng": -9.05017
-    },
-    "district": "setubal"
+      "lat": 41.1841572,
+      "lng": -8.5265429
+    }
   },
   {
-    "id": "392",
-    "subtitle": "Barreiro",
+    "gid": "ChIJnwYl0MJTJA0RrE7QY7x1cdk",
+    "id": "253834439",
+    "subtitle": "Barcelos",
     "address": [
-      "Rua Miguel Bombarda 224-B",
-      "2830-289 Barreiro"
+      "Av. da Liberdade 64",
+      "4750-312 Barcelos"
     ],
+    "district": "braga",
     "position": {
-      "lat": 38.65451,
-      "lng": -9.06784
-    },
-    "district": "setubal"
+      "lat": 41.5331122,
+      "lng": -8.6194101
+    }
   },
   {
-    "id": "405",
-    "subtitle": "Belem",
+    "gid": "ChIJX3Zroi7lPA0RUG9DgITnD5E",
+    "id": "244245933",
+    "subtitle": "Batalha",
+    "address": [
+      "R. Batalha Reis 1",
+      "6300-668 Guarda"
+    ],
+    "district": "distrito-da guarda",
+    "position": {
+      "lat": 40.5341932,
+      "lng": -7.2711196
+    }
+  },
+  {
+    "id": "213619130",
+    "subtitle": "Belém",
     "address": [
       "Rua Da Junqueira 470",
       "1300-341 Lisboa"
@@ -312,7 +238,7 @@
     "district": "lisboa"
   },
   {
-    "id": "475",
+    "id": "263517300",
     "subtitle": "Benavente",
     "address": [
       "En 118 Intermarche Benavente",
@@ -325,20 +251,7 @@
     "district": "santarem"
   },
   {
-    "id": "387",
-    "subtitle": "Benfica",
-    "address": [
-      "Rua Maria Lamas 4",
-      "1500-438 Lisboa"
-    ],
-    "position": {
-      "lat": 38.75607,
-      "lng": -9.20538
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "397",
+    "id": "228304500",
     "subtitle": "Boavista",
     "address": [
       "R O 1. Janeiro 132-C",
@@ -351,7 +264,7 @@
     "district": "porto"
   },
   {
-    "id": "413",
+    "id": "219947260",
     "subtitle": "Bobadela",
     "address": [
       "Pcta Jose Regio 7",
@@ -364,59 +277,20 @@
     "district": "lisboa"
   },
   {
-    "id": "380",
-    "subtitle": "Braamcamp",
+    "id": "253213980",
+    "subtitle": "Braga Shopping",
     "address": [
-      "Rua Braancamp 9",
-      "1250-048 Lisboa"
+      "R St Andre, Braga Shopping",
+      "4710-308 Braga"
     ],
     "position": {
-      "lat": 38.72285,
-      "lng": -9.15141
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "383",
-    "subtitle": "Braga",
-    "address": [
-      "Rua Araujo Caranda 14",
-      "4715-005 Braga"
-    ],
-    "position": {
-      "lat": 41.54502,
-      "lng": -8.41878
+      "lat": 41.55193,
+      "lng": -8.42195
     },
     "district": "braga"
   },
   {
-    "id": "482",
-    "subtitle": "Braga Retail",
-    "address": [
-      "Qt Passos S Vitor Bragaretail",
-      "4710-426 Braga"
-    ],
-    "position": {
-      "lat": 41.5648,
-      "lng": -8.40634
-    },
-    "district": "braga"
-  },
-  {
-    "id": "407",
-    "subtitle": "Cacem",
-    "address": [
-      "Av D Nuno Alvares Pereira 22-24",
-      "2735-147 Agualva-Cacem"
-    ],
-    "position": {
-      "lat": 38.76785,
-      "lng": -9.29644
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "435",
+    "id": "262823212",
     "subtitle": "Caldas Da Rainha",
     "address": [
       "R Belchior Matos 11, C Com Vivaci",
@@ -429,7 +303,7 @@
     "district": "leiria"
   },
   {
-    "id": "420",
+    "id": "263854364",
     "subtitle": "Campera Carregado",
     "address": [
       "Outlet Campera - 1º Lojas 1,2,3",
@@ -442,20 +316,7 @@
     "district": "lisboa"
   },
   {
-    "id": "410",
-    "subtitle": "Campo De Ourique",
-    "address": [
-      "R 4 De Infantaria 46",
-      "1350-274 Lisboa"
-    ],
-    "position": {
-      "lat": 38.71941,
-      "lng": -9.16473
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "466",
+    "id": "227652444",
     "subtitle": "Canedo",
     "address": [
       "R Principal Mosteiro Cc Intermarche",
@@ -468,7 +329,7 @@
     "district": "aveiro"
   },
   {
-    "id": "471",
+    "id": "231420401",
     "subtitle": "Cantanhede",
     "address": [
       "Av Cmd X G Gama U Qt S Mateus, Bl3E",
@@ -481,7 +342,7 @@
     "district": "coimbra"
   },
   {
-    "id": "487",
+    "id": "263710300",
     "subtitle": "Carregado",
     "address": [
       "Qt Colonia Ed Intermache, Lt 2",
@@ -494,20 +355,35 @@
     "district": "lisboa"
   },
   {
-    "id": "447",
-    "subtitle": "Casal De Cambra",
+    "gid": "ChIJNduEtGLoGA0RnTg4yeo_w-g",
+    "id": "243249049",
+    "subtitle": "Cartaxo",
     "address": [
-      "Avenida Do Brasil 29-A",
-      "2605-729 Casal De Cambra"
+      "Rua Batalhoz 98",
+      "2070-071 Cartaxo"
     ],
+    "district": "santarém",
     "position": {
-      "lat": 38.80242,
-      "lng": -9.22941
-    },
-    "district": "lisboa"
+      "lat": 39.16494,
+      "lng": -8.7926236
+    }
   },
   {
-    "id": "419",
+    "gid": "ChIJpezYJYl7JA0RopPU2lPSE68",
+    "id": "227845063",
+    "subtitle": "Carvalhos",
+    "address": [
+      "Av. Dr. Moreira Sousa 529B",
+      "4415-383 Pedroso"
+    ],
+    "district": "porto",
+    "position": {
+      "lat": 41.0689636,
+      "lng": -8.5768987
+    }
+  },
+  {
+    "id": "272321999",
     "subtitle": "Castelo Branco",
     "address": [
       "Rua Pedro Da Fonseca 10",
@@ -520,34 +396,8 @@
     "district": "castelo-branco"
   },
   {
-    "id": "434",
-    "subtitle": "Charneca Da Caparica",
-    "address": [
-      "Rua Pedro Costa 1206",
-      "2820-185 Charneca De Caparica"
-    ],
-    "position": {
-      "lat": 38.60949,
-      "lng": -9.1881
-    },
-    "district": "setubal"
-  },
-  {
-    "id": "424",
-    "subtitle": "Fernao De Magalhaes",
-    "address": [
-      "Rua Padre Estevao Cabral 18",
-      "3000-316 Coimbra"
-    ],
-    "position": {
-      "lat": 40.21584,
-      "lng": -8.43535
-    },
-    "district": "coimbra"
-  },
-  {
-    "id": "479",
-    "subtitle": "Coimbra-Solum",
+    "id": "239401251",
+    "subtitle": "Coimbra - Solum",
     "address": [
       "R Brasil 492",
       "3030-775 Coimbra"
@@ -559,7 +409,7 @@
     "district": "coimbra"
   },
   {
-    "id": "477",
+    "id": "239249280",
     "subtitle": "Condeixa",
     "address": [
       "Lugar Barreira Intermarche Condeixa",
@@ -572,7 +422,7 @@
     "district": "coimbra"
   },
   {
-    "id": "412",
+    "id": "212549998",
     "subtitle": "Corroios",
     "address": [
       "Av 25 De Abril 68A E 68B",
@@ -585,8 +435,8 @@
     "district": "setubal"
   },
   {
-    "id": "399",
-    "subtitle": "Covilha",
+    "id": "275314999",
+    "subtitle": "Covilhã",
     "address": [
       "Parque Goldra 9004",
       "6200-060 Covilha"
@@ -598,7 +448,7 @@
     "district": "castelo-branco"
   },
   {
-    "id": "459",
+    "id": "268623033",
     "subtitle": "Elvas",
     "address": [
       "Sitio Do Morgadinho S/N",
@@ -611,46 +461,7 @@
     "district": "portalegre"
   },
   {
-    "id": "454",
-    "subtitle": "Espinho",
-    "address": [
-      "Rua 16 757",
-      "4500-241 Espinho"
-    ],
-    "position": {
-      "lat": 41.00685,
-      "lng": -8.64141
-    },
-    "district": "aveiro"
-  },
-  {
-    "id": "416",
-    "subtitle": "Estoril",
-    "address": [
-      "Av Biarritz 4, Edif S.Rafael",
-      "2765-200 Estoril"
-    ],
-    "position": {
-      "lat": 38.7038,
-      "lng": -9.39536
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "473",
-    "subtitle": "Estremoz",
-    "address": [
-      "Zona Industrial Piso 0",
-      "7100-147 Estremoz"
-    ],
-    "position": {
-      "lat": 38.84673,
-      "lng": -7.5809
-    },
-    "district": "evora"
-  },
-  {
-    "id": "458",
+    "id": "261865870",
     "subtitle": "Ericeira",
     "address": [
       "En 247 Km 49,4",
@@ -663,21 +474,21 @@
     "district": "lisboa"
   },
   {
-    "id": "438",
-    "subtitle": "Ermesinde",
+    "id": "227320163",
+    "subtitle": "Espinho",
     "address": [
-      "Av Eng Duarte Pacheco 568",
-      "4445-416 Ermesinde"
+      "Rua 16 757",
+      "4500-241 Espinho"
     ],
     "position": {
-      "lat": 41.20479,
-      "lng": -8.55042
+      "lat": 41.00685,
+      "lng": -8.64141
     },
-    "district": "porto"
+    "district": "aveiro"
   },
   {
-    "id": "440",
-    "subtitle": "Evora",
+    "id": "266785201",
+    "subtitle": "Évora",
     "address": [
       "Cc S Domingos 12 A 19A",
       "7000-510 Evora"
@@ -689,47 +500,8 @@
     "district": "evora"
   },
   {
-    "id": "431",
-    "subtitle": "Falagueira",
-    "address": [
-      "Av Cmd Luis Ant Da Silva 11-C",
-      "2700-201 Amadora"
-    ],
-    "position": {
-      "lat": 38.75902,
-      "lng": -9.22911
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "504",
-    "subtitle": "Famoes",
-    "address": [
-      "R Major Joao Luis De Moura Lj A/N",
-      "1689-019 Famoes"
-    ],
-    "position": {
-      "lat": 38.7857,
-      "lng": -9.21027
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "401",
-    "subtitle": "Faro",
-    "address": [
-      "En 125 Sitio Das Figuras",
-      "8005-328 Faro"
-    ],
-    "position": {
-      "lat": 37.02633,
-      "lng": -7.94419
-    },
-    "district": "faro"
-  },
-  {
-    "id": "493",
-    "subtitle": "Fernao Ferro",
+    "id": "210521650",
+    "subtitle": "Fernão Ferro",
     "address": [
       "Av 25 Abril Lt 505",
       "2865-039 Fernao Ferro"
@@ -741,59 +513,35 @@
     "district": "setubal"
   },
   {
-    "id": "394",
-    "subtitle": "Fitares",
+    "gid": "ChIJZdRYZ5Y3Ig0R3CeRpjkLPwc",
+    "id": "233423505",
+    "subtitle": "Figueira Da Foz",
     "address": [
-      "Est. Marques De Pombal 28",
-      "2635-301 Rio De Mouro"
+      "R. Dr. Calado 82",
+      "3080-153 Figueira da Foz"
     ],
+    "district": "coimbra",
     "position": {
-      "lat": 38.78505,
-      "lng": -9.31532
-    },
-    "district": "lisboa"
+      "lat": 40.1505007,
+      "lng": -8.8654462
+    }
   },
   {
-    "id": "409",
-    "subtitle": "Flamenga",
+    "gid": "ChIJq0mjmEw2Iw0R3XxeQ2n-LJg",
+    "id": "232094363",
+    "subtitle": "Forum Viseu ( local)",
     "address": [
-      "Al Salgueiro Maia 4",
-      "2660-329 Santo Antonio Dos Cavalei"
+      "Fórum Viseu, Rua Dom José da Cruz Moreira Pinto, Piso 2, loja nº 2.19",
+      "3514-078 Viseu"
     ],
+    "district": "viseu",
     "position": {
-      "lat": 38.80803,
-      "lng": -9.15778
-    },
-    "district": "lisboa"
+      "lat": 40.6618393,
+      "lng": -7.9144639
+    }
   },
   {
-    "id": "396",
-    "subtitle": "Forte Da Casa",
-    "address": [
-      "Rua Do Leziria Park 20",
-      "2625-441 Forte Da Casa"
-    ],
-    "position": {
-      "lat": 38.87354,
-      "lng": -9.05372
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "395",
-    "subtitle": "Viseu",
-    "address": [
-      "Palacio Do Gelo 3",
-      "3500-606 Viseu"
-    ],
-    "position": {
-      "lat": 40.64425,
-      "lng": -7.9105
-    },
-    "district": "viseu"
-  },
-  {
-    "id": "439",
+    "id": "291143085",
     "subtitle": "Funchal",
     "address": [
       "Alameda Danilo Gouveia Bl 2",
@@ -806,8 +554,22 @@
     "district": "madeira"
   },
   {
-    "id": "513",
-    "subtitle": "Gafanha Da Nazare",
+    "gid": "ChIJ9fpQZpk_PQ0RlOuULqvcboE",
+    "id": "275247536",
+    "subtitle": "Fundão",
+    "address": [
+      "R. Jornal do Fundão 25",
+      "6230-338 Fundão"
+    ],
+    "district": "castelo-branco",
+    "position": {
+      "lat": 40.1382311,
+      "lng": -7.4994745
+    }
+  },
+  {
+    "id": "234245360",
+    "subtitle": "Gafanha Da Nazaré",
     "address": [
       "Av Jose Estevao 451",
       "3830-556 Ilhavo"
@@ -819,8 +581,8 @@
     "district": "aveiro"
   },
   {
-    "id": "393",
-    "subtitle": "Gaia",
+    "id": "227721928",
+    "subtitle": "Gaia Canidelo",
     "address": [
       "Av Beira-Mar 1827",
       "4400-382 Vila Nova De Gaia"
@@ -832,7 +594,7 @@
     "district": "porto"
   },
   {
-    "id": "417",
+    "id": "224649459",
     "subtitle": "Gondomar",
     "address": [
       "R Dr Severiano 274",
@@ -845,7 +607,21 @@
     "district": "porto"
   },
   {
-    "id": "433",
+    "gid": "ChIJvQZBtyzTGw0RgvcGtHv9Il0",
+    "id": "269249760",
+    "subtitle": "Grândola",
+    "address": [
+      "R. São João de Deus 21",
+      "7570-270 Grândola"
+    ],
+    "district": "setúbal",
+    "position": {
+      "lat": 38.1753965,
+      "lng": -8.5639457
+    }
+  },
+  {
+    "id": "271221399",
     "subtitle": "Guarda",
     "address": [
       "R Batalha Reis 1",
@@ -858,21 +634,8 @@
     "district": "guarda"
   },
   {
-    "id": "418",
-    "subtitle": "Guia",
-    "address": [
-      "Rua Da Torre Edif.Neptuno, Bloco A,B,C",
-      "2750-762 Cascais"
-    ],
-    "position": {
-      "lat": 38.69629,
-      "lng": -9.44157
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "497",
-    "subtitle": "Guimaraes",
+    "id": "253146936",
+    "subtitle": "Guimarães",
     "address": [
       "R Conego Manuel Faria Lj 7",
       "4800-321 Guimaraes"
@@ -884,7 +647,7 @@
     "district": "braga"
   },
   {
-    "id": "511",
+    "id": "210544300",
     "subtitle": "Infantado",
     "address": [
       "Rua Pedro Alvares Cabral 6-A",
@@ -897,7 +660,7 @@
     "district": "lisboa"
   },
   {
-    "id": "406",
+    "id": "244822892",
     "subtitle": "Leiria",
     "address": [
       "Av N S Fatima Lt 15",
@@ -910,8 +673,8 @@
     "district": "leiria"
   },
   {
-    "id": "494",
-    "subtitle": "Lourinha",
+    "id": "261243404",
+    "subtitle": "Lourinhã",
     "address": [
       "Pq Varzea Ed V Park",
       "2530-921 Lourinha"
@@ -923,33 +686,21 @@
     "district": "lisboa"
   },
   {
-    "id": "415",
-    "subtitle": "Lumiar",
+    "gid": "ChIJTyXIIFpmJA0RBEiJMqsoYA4",
+    "id": "229443148",
+    "subtitle": "Maia",
     "address": [
-      "Rua Joaquim Agostinho 18-C",
-      "1750-126 Lisboa"
+      "Praça Almada Negreiros, 168, R/C Loja 4",
+      "4470-133 Maia"
     ],
+    "district": "porto",
     "position": {
-      "lat": 38.76526,
-      "lng": -9.15561
-    },
-    "district": "lisboa"
+      "lat": 41.2279351,
+      "lng": -8.6218107
+    }
   },
   {
-    "id": "450",
-    "subtitle": "Mafra",
-    "address": [
-      "Av 25 De Abril S/N",
-      "2640-456 Mafra"
-    ],
-    "position": {
-      "lat": 38.9411,
-      "lng": -9.33
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "452",
+    "id": "2105329005",
     "subtitle": "Malveira",
     "address": [
       "En8 Intermarche Malveira",
@@ -962,20 +713,21 @@
     "district": "lisboa"
   },
   {
-    "id": "390",
-    "subtitle": "Massama",
+    "gid": "ChIJo17F8Q9rIg0RaUQFnmigXCM",
+    "id": "236147372",
+    "subtitle": "Marinha Da Guia",
     "address": [
-      "Av 25 De Abril 47",
-      "2745-384 Queluz"
+      "Rua Serrado da Estrada 24",
+      "3105-063"
     ],
+    "district": "leiria",
     "position": {
-      "lat": 38.7517678,
-      "lng": -9.2794926
-    },
-    "district": "lisboa"
+      "lat": 39.968417,
+      "lng": -8.7928467
+    }
   },
   {
-    "id": "398",
+    "id": "229374137",
     "subtitle": "Matosinhos",
     "address": [
       "Av D Afonso Henriques 1136",
@@ -988,7 +740,7 @@
     "district": "porto"
   },
   {
-    "id": "516",
+    "id": "231247317",
     "subtitle": "Mealhada",
     "address": [
       "Intermarche Lugar Das Pedrinhas S/N",
@@ -1001,33 +753,7 @@
     "district": "aveiro"
   },
   {
-    "id": "489",
-    "subtitle": "Mem Martins",
-    "address": [
-      "Av Chaby Pinheiro 27 A 31B",
-      "2725-264 Mem Martins"
-    ],
-    "position": {
-      "lat": 38.79658,
-      "lng": -9.34472
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "400",
-    "subtitle": "Miraflores",
-    "address": [
-      "Av Gen Norton De Matos 67-A",
-      "1495-148 Alges"
-    ],
-    "position": {
-      "lat": 38.71284,
-      "lng": -9.22549
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "484",
+    "id": "265249924",
     "subtitle": "Moita",
     "address": [
       "R Gen Humberto Delgado 4",
@@ -1040,20 +766,7 @@
     "district": "setubal"
   },
   {
-    "id": "501",
-    "subtitle": "Monte Da Caparica",
-    "address": [
-      "Pr Qt Facho 4",
-      "2825-146 Caparica"
-    ],
-    "position": {
-      "lat": 38.66599,
-      "lng": -9.19719
-    },
-    "district": "setubal"
-  },
-  {
-    "id": "402",
+    "id": "212326800",
     "subtitle": "Montijo",
     "address": [
       "Av Corregedor Rodrigo Dias 3",
@@ -1066,47 +779,50 @@
     "district": "setubal"
   },
   {
-    "id": "386",
-    "subtitle": "Odivelas",
+    "gid": "ChIJTRp7_bK_EA0RxUtM2T7rr_o",
+    "id": "284249828",
+    "subtitle": "Moura",
     "address": [
-      "R Alfredo Costa 68",
-      "2675-634 Odivelas"
+      "R. Manuel Mendes 2",
+      "7860-193 Moura"
     ],
+    "district": "beja",
     "position": {
-      "lat": 38.789125,
-      "lng": -9.191234
-    },
-    "district": "lisboa"
+      "lat": 38.141904,
+      "lng": -7.4516705
+    }
   },
   {
-    "id": "388",
-    "subtitle": "Oeiras",
+    "gid": "ChIJRzIkNcBVBQ0Rrrn41XUDdNE",
+    "id": "289241200",
+    "subtitle": "Olhão",
     "address": [
-      "Av Do Brasil 13",
-      "2780-315 Oeiras"
+      "Urbanização Marina Village 19",
+      "8700-292 Olhão"
     ],
+    "district": "faro",
     "position": {
-      "lat": 38.68724,
-      "lng": -9.31204
-    },
-    "district": "lisboa"
+      "lat": 37.0242912,
+      "lng": -7.8490203
+    }
   },
   {
-    "id": "391",
-    "subtitle": "Paivas",
+    "gid": "ChIJOxi5JAqDGA0Ri0PDiLPTrLQ",
+    "id": "249247794",
+    "subtitle": "Ourém",
     "address": [
-      "Rua Das Flores Lt 11-B",
-      "2845-367 Paivas"
+      "R. 5 de Outubro 35 RC Dto",
+      "2490-508 Ourém"
     ],
+    "district": "santarém",
     "position": {
-      "lat": 38.61978,
-      "lng": -9.1127
-    },
-    "district": "setubal"
+      "lat": 39.6562723,
+      "lng": -8.581694
+    }
   },
   {
-    "id": "523",
-    "subtitle": "Pacos De Ferreira",
+    "id": "255246193",
+    "subtitle": "Paços De Ferreira",
     "address": [
       "Avenida Dos Templários 454",
       "4590-509 Paços De Ferreira"
@@ -1118,7 +834,7 @@
     "district": "porto"
   },
   {
-    "id": "429",
+    "id": "214586489",
     "subtitle": "Parede",
     "address": [
       "Rua Machado Dos Santos 482-D",
@@ -1131,20 +847,7 @@
     "district": "lisboa"
   },
   {
-    "id": "385",
-    "subtitle": "Parque Das Nacoes",
-    "address": [
-      "Av D Joao Ii 46",
-      "1990-095 Lisboa"
-    ],
-    "position": {
-      "lat": 38.76978,
-      "lng": -9.09746
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "467",
+    "id": "255863444",
     "subtitle": "Penafiel",
     "address": [
       "Ed Kriptonite Figuras",
@@ -1157,7 +860,7 @@
     "district": "porto"
   },
   {
-    "id": "525",
+    "id": "262243125",
     "subtitle": "Peniche",
     "address": [
       "Rua Alexandre Herculano 26 A 28",
@@ -1170,7 +873,7 @@
     "district": "leiria"
   },
   {
-    "id": "453",
+    "id": "212384343",
     "subtitle": "Pinhal Novo",
     "address": [
       "Em 533 Es Repsol",
@@ -1183,8 +886,8 @@
     "district": "setubal"
   },
   {
-    "id": "492",
-    "subtitle": "Poco Mouro",
+    "id": "265247355",
+    "subtitle": "Poço Mouro",
     "address": [
       "En 10 Km42",
       "2910-298 Pontes"
@@ -1196,7 +899,7 @@
     "district": "setubal"
   },
   {
-    "id": "503",
+    "id": "236149960",
     "subtitle": "Pombal",
     "address": [
       "R Dr Carlos Mota Pinto Lj-34",
@@ -1209,20 +912,7 @@
     "district": "leiria"
   },
   {
-    "id": "474",
-    "subtitle": "Ponta Delgada",
-    "address": [
-      "R P Joao Batista Valles (Proj Av Joao Iii) 1",
-      "9500-791 Ponta Delgada"
-    ],
-    "position": {
-      "lat": 37.746289,
-      "lng": -25.656959
-    },
-    "district": "acores"
-  },
-  {
-    "id": "456",
+    "id": "245328449",
     "subtitle": "Portalegre",
     "address": [
       "R 1 Maio Lj 75",
@@ -1235,7 +925,7 @@
     "district": "portalegre"
   },
   {
-    "id": "483",
+    "id": "282411623",
     "subtitle": "Praia Da Rocha",
     "address": [
       "Av Comunidades, V3 Ed Jardins Rocha",
@@ -1248,7 +938,7 @@
     "district": "faro"
   },
   {
-    "id": "490",
+    "id": "289245821",
     "subtitle": "Quarteira",
     "address": [
       "Av Ceuta Ed Grade",
@@ -1261,20 +951,7 @@
     "district": "faro"
   },
   {
-    "id": "500",
-    "subtitle": "Queijas",
-    "address": [
-      "R Cesario Verde 35",
-      "2790-491 Queijas"
-    ],
-    "position": {
-      "lat": 38.71951,
-      "lng": -9.25538
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "509",
+    "id": "210529057",
     "subtitle": "Quinta Do Anjo",
     "address": [
       "Rua João Vaz Corte Real Lote 163",
@@ -1287,8 +964,22 @@
     "district": "setubal"
   },
   {
-    "id": "512",
-    "subtitle": "Rio Maior II",
+    "gid": "ChIJk-gJschIGQ0RKST4hGt35b8",
+    "id": "212105326",
+    "subtitle": "Quinta Do Conde",
+    "address": [
+      "R. Piteira Santos Nº11",
+      "2975-330 Q.ta do Conde"
+    ],
+    "district": "setúbal",
+    "position": {
+      "lat": 38.5640468,
+      "lng": -9.0400837
+    }
+  },
+  {
+    "id": "243247907",
+    "subtitle": "Rio Maior",
     "address": [
       "Rua Poeta Ruy Belo 21",
       "2040-323 Rio Maior"
@@ -1300,34 +991,8 @@
     "district": "santarem"
   },
   {
-    "id": "379",
-    "subtitle": "Roma",
-    "address": [
-      "Av Oscar Monteiro Torres 61",
-      "1000-218 Lisboa"
-    ],
-    "position": {
-      "lat": 38.74394,
-      "lng": -9.13969
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "428",
-    "subtitle": "S Dom Benfica",
-    "address": [
-      "R Prof Reinaldo Dos Santos 22-C",
-      "1500-506 Lisboa"
-    ],
-    "position": {
-      "lat": 38.74956,
-      "lng": -9.18829
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "444",
-    "subtitle": "S Joao Da Madeira",
+    "id": "256887083",
+    "subtitle": "S. João Da Madeira",
     "address": [
       "Av Renato Araujo 1876",
       "3700-241 Sao Joao Da Madeira"
@@ -1339,8 +1004,8 @@
     "district": "aveiro"
   },
   {
-    "id": "408",
-    "subtitle": "Santarem",
+    "id": "243321000",
+    "subtitle": "Santarém",
     "address": [
       "Av D Afonso Henriques 39",
       "2000-179 Santarem"
@@ -1352,59 +1017,21 @@
     "district": "santarem"
   },
   {
-    "id": "510",
-    "subtitle": "Santa Marta",
+    "gid": "ChIJ27Yc6Cx7JA0Rl9RamC8ouGo",
+    "id": "223743805",
+    "subtitle": "Santo Ovídio",
     "address": [
-      "R. Manuel Ferreira 25-A",
-      "2855-597 Corroios"
+      "R. de Soares dos Reis 528",
+      "4400-315 Porto"
     ],
+    "district": "porto",
     "position": {
-      "lat": 38.6277535,
-      "lng": -9.1539308
-    },
-    "district": "setubal"
+      "lat": 41.118038,
+      "lng": -8.6084916
+    }
   },
   {
-    "id": "499",
-    "subtitle": "S Maria Feira",
-    "address": [
-      "Av Dr Domingos Caetano Sousa 546",
-      "4520-176 Sta Maria Da Feira"
-    ],
-    "position": {
-      "lat": 40.92576,
-      "lng": -8.55228
-    },
-    "district": "aveiro"
-  },
-  {
-    "id": "432",
-    "subtitle": "Santo Ovidio",
-    "address": [
-      "R Soares Dos Reis 528",
-      "4400-312 Vila Nova De Gaia"
-    ],
-    "position": {
-      "lat": 41.11793,
-      "lng": -8.60849
-    },
-    "district": "porto"
-  },
-  {
-    "id": "485",
-    "subtitle": "S Marcos",
-    "address": [
-      "Alameda S. Marcos Cc S. Marcos",
-      "2735-010 Agualva-Cacem"
-    ],
-    "position": {
-      "lat": 38.74865,
-      "lng": -9.29925
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "519",
+    "id": "252143921",
     "subtitle": "Santo Tirso",
     "address": [
       "Lr Cor Baptista Coelho 47",
@@ -1417,20 +1044,61 @@
     "district": "porto"
   },
   {
-    "id": "389",
-    "subtitle": "Setubal",
+    "id": "212699146",
+    "subtitle": "São Marcos",
     "address": [
-      "Av Dr Rodrigues Manito 97-B",
-      "2900-068 Setubal"
+      "Alameda S. Marcos Cc S. Marcos",
+      "2735-010 Agualva-Cacem"
     ],
     "position": {
-      "lat": 38.5373,
-      "lng": -8.89472
+      "lat": 38.74865,
+      "lng": -9.29925
     },
-    "district": "setubal"
+    "district": "lisboa"
   },
   {
-    "id": "518",
+    "gid": "ChIJifbWliRNGQ0R0bTJ66RCV28",
+    "id": "265247712",
+    "subtitle": "Sesimbra",
+    "address": [
+      "Rua da Almoínha 6",
+      "2970-037 Santana"
+    ],
+    "district": "setúbal",
+    "position": {
+      "lat": 38.462204,
+      "lng": -9.1046307
+    }
+  },
+  {
+    "gid": "ChIJKWbtlruVGw0R7gh4250xGK0",
+    "id": "269249750",
+    "subtitle": "Sines",
+    "address": [
+      "Alameda da Paz n43",
+      "7520-110 Sines"
+    ],
+    "district": "setúbal",
+    "position": {
+      "lat": 37.9585373,
+      "lng": -8.8668416
+    }
+  },
+  {
+    "id": "256248752",
+    "subtitle": "St. Maria Da Feira",
+    "address": [
+      "Av Dr Domingos Caetano Sousa 546",
+      "4520-176 Sta Maria Da Feira"
+    ],
+    "position": {
+      "lat": 40.92576,
+      "lng": -8.55228
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "239246444",
     "subtitle": "Taveiro",
     "address": [
       "Mondego Retail Park S/N",
@@ -1443,20 +1111,7 @@
     "district": "coimbra"
   },
   {
-    "id": "377",
-    "subtitle": "Telheiras",
-    "address": [
-      "Rua Prof. Francisco Gentil 27-C",
-      "1600-622 Lisboa"
-    ],
-    "position": {
-      "lat": 38.76042,
-      "lng": -9.16836
-    },
-    "district": "lisboa"
-  },
-  {
-    "id": "442",
+    "id": "249812214",
     "subtitle": "Tomar",
     "address": [
       "R Marques De Pombal 34 A 38",
@@ -1469,7 +1124,21 @@
     "district": "santarem"
   },
   {
-    "id": "422",
+    "gid": "ChIJT9NRAn89Iw0R2srodg4lwCw",
+    "id": "232245613",
+    "subtitle": "Tondela",
+    "address": [
+      "R. Lannemezan 46 R/C Esquerda",
+      "3460-606 Tondela"
+    ],
+    "district": "viseu",
+    "position": {
+      "lat": 40.5182456,
+      "lng": -8.081685
+    }
+  },
+  {
+    "id": "261338900",
     "subtitle": "Torres Vedras",
     "address": [
       "Av Gen Humberto Delgado 12 E 12-A",
@@ -1482,7 +1151,21 @@
     "district": "lisboa"
   },
   {
-    "id": "488",
+    "gid": "ChIJd1fiy1VYJA0Rqks2AgFKz3c",
+    "id": "252371047",
+    "subtitle": "V. N. Famalicão",
+    "address": [
+      "Av. 25 de Abril 188",
+      "4760-281 Vila Nova de Famalicão"
+    ],
+    "district": "braga",
+    "position": {
+      "lat": 41.4080209,
+      "lng": -8.5216593
+    }
+  },
+  {
+    "id": "265247270",
     "subtitle": "Vendas Novas",
     "address": [
       "R Sarmento Vieira 61 A 71",
@@ -1495,20 +1178,7 @@
     "district": "evora"
   },
   {
-    "id": "464",
-    "subtitle": "Viana Do Castelo",
-    "address": [
-      "R Eng Joao Branco 73",
-      "4900-299 Viana Do Castelo"
-    ],
-    "position": {
-      "lat": 41.70092,
-      "lng": -8.82778
-    },
-    "district": "viana-do-castelo"
-  },
-  {
-    "id": "498",
+    "id": "210513355",
     "subtitle": "Vialonga",
     "address": [
       "Est Dos Canicos 253 Intermarche",
@@ -1521,29 +1191,57 @@
     "district": "lisboa"
   },
   {
-    "id": "437",
-    "subtitle": "Vila Do Conde",
+    "id": "258247093",
+    "subtitle": "Viana Do Castelo",
     "address": [
-      "R 5 Outubro 1907 E 1909, Ed Alta Vila",
-      "4480-739 Vila Do Conde"
+      "R Eng Joao Branco 73",
+      "4900-299 Viana Do Castelo"
     ],
     "position": {
-      "lat": 41.36762,
-      "lng": -8.75085
+      "lat": 41.70092,
+      "lng": -8.82778
     },
-    "district": "porto"
+    "district": "viana-do-castelo"
   },
   {
-    "id": "446",
-    "subtitle": "Vila Franca Xira",
+    "gid": "ChIJHd5y078nGQ0R3sAdn0y-fBs",
+    "id": "263288589",
+    "subtitle": "Vila Franca De Xira",
     "address": [
-      "Rua 1º De Dezembro 59",
-      "2600-225 Vila Franca De Xira"
+      "R. 1º de Dezembro 59",
+      "2600-135 Vila Franca de Xira"
+    ],
+    "district": "lisboa",
+    "position": {
+      "lat": 38.9529561,
+      "lng": -8.9882112
+    }
+  },
+  {
+    "gid": "ChIJOfopFBxLOw0R-PiQ8srumig",
+    "id": "259248060",
+    "subtitle": "Vila Real",
+    "address": [
+      "R. da Tenaria 6",
+      "5000-519 Vila Real"
+    ],
+    "district": "vila-real",
+    "position": {
+      "lat": 41.2983297,
+      "lng": -7.7508703
+    }
+  },
+  {
+    "id": "232460510",
+    "subtitle": "Viseu",
+    "address": [
+      "Palacio Do Gelo 3",
+      "3500-606 Viseu"
     ],
     "position": {
-      "lat": 38.95293,
-      "lng": -8.98816
+      "lat": 40.64425,
+      "lng": -7.9105
     },
-    "district": "lisboa"
+    "district": "viseu"
   }
 ]
