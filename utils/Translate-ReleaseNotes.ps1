@@ -12,7 +12,7 @@ $response = Invoke-WebRequest -UseBasicParsing `
         messages = @(
             @{
                 role = "system"
-                content = "Add the missing translations. Output only the YAML, without any other text or markdown tags and preserve newlines."
+                content = "Add the missing translations. Do not translate the names of the establishments. Output only the YAML, without any other text or markdown tags and preserve newlines."
             },
             @{
                 role = "user"

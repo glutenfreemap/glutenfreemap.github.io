@@ -1164,6 +1164,50 @@
                     }
                 }
             ]
+        },
+        {
+            "gid": "ChIJ9ccK3gb5Ig0RyBpTlRIX5Jg",
+            "name": "Bresca",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "R. Visc. da Luz 80 86",
+                "3000-414 Coimbra"
+            ],
+            "categories": [],
+            "district": "coimbra",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 40.2098913,
+                "lng": -8.4291748
+            }
+        },
+        {
+            "gid": "ChIJvZQJLGP9JA0R4Vk-oYjbptQ",
+            "name": "A Melhor",
+            "subtitle": "",
+            "description": {
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
+            },
+            "address": [
+                "R. Dom Paio Mendes 3",
+                "4700-419 Braga"
+            ],
+            "categories": [],
+            "district": "braga",
+            "attestation": "apc-certified",
+            "position": {
+                "lat": 41.5495717,
+                "lng": -8.4290593
+            }
         }
     ]
 }
