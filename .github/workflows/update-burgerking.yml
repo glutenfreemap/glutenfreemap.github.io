@@ -15,7 +15,7 @@ jobs:
       - name: Install mono
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y mono-runtime
+          sudo apt-get install --no-install-recommends -y mono-complete
 
       - name: Setup NuGet.exe for use with actions
         uses: NuGet/setup-nuget@v2.0.0
