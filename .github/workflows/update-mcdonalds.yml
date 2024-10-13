@@ -12,12 +12,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v1
+      - name: Cache NuGet packages
+        id: cache-nuget
+        uses: actions/cache@v4.1.1
         with:
-          dotnet-version: '7.x'
+          path: utils/packages
+          # An explicit key for restoring and saving the cache
+          key: ${{ runner.os }}-nuget-${{ hashFiles('utils/packages.config') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
+      - name: Install mono
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y mono-complete
+
+      - name: Setup NuGet.exe for use with actions
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        uses: NuGet/setup-nuget@v2.0.0
+              
       - name: Restore NuGet packages
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: |
           cd utils
           nuget restore -PackagesDirectory packages
