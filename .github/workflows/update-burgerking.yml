@@ -17,9 +17,6 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      #- name: Setup NuGet.exe for use with actions
-      #  uses: NuGet/setup-nuget@v2.0.0
-
       - name: Restore NuGet packages
         run: |
           cd utils
