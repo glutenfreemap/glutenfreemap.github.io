@@ -16,7 +16,7 @@ jobs:
         id: cache-nuget
         uses: actions/cache@v4.1.1
         with:
-          path:  packages
+          path: utils/packages
           # An explicit key for restoring and saving the cache
           key: ${{ runner.os }}-nuget-${{ hashFiles('utils/packages.config') }}
           restore-keys: |
