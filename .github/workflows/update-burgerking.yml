@@ -12,11 +12,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install nuget
+      - name: Install mono
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y mono-runtime
 
+      - name: Setup NuGet.exe for use with actions
+        uses: NuGet/setup-nuget@v2.0.0
+              
       - name: Restore NuGet packages
         run: |
           cd utils
