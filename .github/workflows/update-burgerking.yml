@@ -14,7 +14,8 @@ jobs:
 
       - name: Install nuget
         run: |
-          apt-get install -y nuget
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y nuget
 
       - name: Restore NuGet packages
         run: |
