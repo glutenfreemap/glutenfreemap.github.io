@@ -12,13 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4.0.1
-        with:
-          dotnet-version: '8.x'
-
-      - name: Setup NuGet.exe for use with actions
-        uses: NuGet/setup-nuget@v2.0.0
+      - name: Install nuget
+        run: |
+          apt-get install -y nuget
 
       - name: Restore NuGet packages
         run: |
