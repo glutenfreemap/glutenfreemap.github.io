@@ -1021,26 +1021,50 @@
             }
         },
         {
-            "gid": "ChIJtzxXZm1lJA0RadnpAdMMCMI",
             "name": "Happy Cookie",
-            "subtitle": "",
-            "description": {
-                "pt": "",
-                "en": "",
-                "fr": "",
-                "es": ""
-            },
-            "address": [
-                "R. Padre Himalaya 76",
-                "4100-553 Porto"
-            ],
             "categories": ["bakery"],
-            "district": "porto",
             "attestation": "apc-certified",
-            "position": {
-                "lat": 41.1655025,
-                "lng": -8.6488766
-            }
+            "locations": [
+                {
+                    "gid": "ChIJtzxXZm1lJA0RadnpAdMMCMI",
+                    "subtitle": "Happy Cookie Lab",
+                    "address": [
+                        "R. Padre Himalaya 76",
+                        "4100-553 Porto"
+                    ],
+                    "district": "porto",
+                    "position": {
+                        "lat": 41.1655025,
+                        "lng": -8.6488766
+                    }
+                },
+                {
+                    "gid": "ChIJG3W6aMllJA0RT2BsC5LRnME",
+                    "subtitle": "Stand Norte Shopping",
+                    "address": [
+                        "R. Sara Afonso 4460-841",
+                        "4460-282 Sra. da Hora"
+                    ],
+                    "district": "porto",
+                    "position": {
+                        "lat": 41.1809736,
+                        "lng": -8.6549289
+                    }
+                },
+                {
+                    "gid": "ChIJzQqdVDcxGQ0RbFCFjbWTp9k",
+                    "subtitle": "Stand Centro Comercial Vasco da Gama",
+                    "address": [
+                        "Av. Dom João II 40",
+                        "1990-036 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7677295,
+                        "lng": -9.0971405
+                    }
+                }
+            ]
         },
         {
             "gid": "ChIJY5pKVHc0GQ0RjRspsCwgXnc",
