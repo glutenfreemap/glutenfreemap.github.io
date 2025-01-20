@@ -170,19 +170,6 @@
     "district": "aveiro"
   },
   {
-    "id": "210543860",
-    "subtitle": "Azeitão",
-    "address": [
-      "Rua Luisa Tody 128",
-      "2925-568 Bejos De Azaetão"
-    ],
-    "position": {
-      "lat": 38.54509,
-      "lng": -9.0307
-    },
-    "district": "setubal"
-  },
-  {
     "gid": "ChIJERLIFR1jJA0RTb-jdM5wJHw",
     "id": "229766344",
     "subtitle": "Baguim - Valongo",
@@ -208,20 +195,6 @@
     "position": {
       "lat": 41.5331122,
       "lng": -8.6194101
-    }
-  },
-  {
-    "gid": "ChIJX3Zroi7lPA0RUG9DgITnD5E",
-    "id": "244245933",
-    "subtitle": "Batalha",
-    "address": [
-      "R. Batalha Reis 1",
-      "6300-668 Guarda"
-    ],
-    "district": "distrito-da guarda",
-    "position": {
-      "lat": 40.5341932,
-      "lng": -7.2711196
     }
   },
   {
@@ -277,17 +250,18 @@
     "district": "lisboa"
   },
   {
-    "id": "253213980",
+    "gid": "ChIJXxD-Ner-JA0RtzFMlTAx1uA",
+    "id": "253149767",
     "subtitle": "Braga Shopping",
     "address": [
-      "R St Andre, Braga Shopping",
+      "Shopping loja 113, R. de Santo André",
       "4710-308 Braga"
     ],
+    "district": "braga",
     "position": {
-      "lat": 41.55193,
-      "lng": -8.42195
-    },
-    "district": "braga"
+      "lat": 41.5528694,
+      "lng": -8.4226707
+    }
   },
   {
     "id": "262823212",
@@ -329,17 +303,18 @@
     "district": "aveiro"
   },
   {
-    "id": "231420401",
+    "gid": "ChIJV4sQOI2sIw0R7lbICjKOH1c",
+    "id": "231422702",
     "subtitle": "Cantanhede",
     "address": [
-      "Av Cmd X G Gama U Qt S Mateus, Bl3E",
+      "Av. Comandante Xavier Gomes Gama bloco 3",
       "3060-209 Cantanhede"
     ],
+    "district": "coimbra",
     "position": {
-      "lat": 40.34965,
-      "lng": -8.59196
-    },
-    "district": "coimbra"
+      "lat": 40.3468671,
+      "lng": -8.5843325
+    }
   },
   {
     "id": "263710300",
@@ -487,17 +462,18 @@
     "district": "aveiro"
   },
   {
-    "id": "266785201",
+    "gid": "ChIJuSBNqN_kGQ0RbDDGSOklKLo",
+    "id": "266781086",
     "subtitle": "Évora",
     "address": [
-      "Cc S Domingos 12 A 19A",
-      "7000-510 Evora"
+      "Rua Joaquim António Aguiar C.Comercial S. Domingues, Lote 31, Nº 12-A a 19-A",
+      "7000-000 Évora"
     ],
+    "district": "evora",
     "position": {
-      "lat": 38.57303,
-      "lng": -7.91337
-    },
-    "district": "evora"
+      "lat": 38.5731577,
+      "lng": -7.9137028
+    }
   },
   {
     "id": "210521650",
@@ -539,19 +515,6 @@
       "lat": 40.6618393,
       "lng": -7.9144639
     }
-  },
-  {
-    "id": "291143085",
-    "subtitle": "Funchal",
-    "address": [
-      "Alameda Danilo Gouveia Bl 2",
-      "9000-765 Funchal"
-    ],
-    "position": {
-      "lat": 32.64869,
-      "lng": -16.93215
-    },
-    "district": "madeira"
   },
   {
     "gid": "ChIJ9fpQZpk_PQ0RlOuULqvcboE",
@@ -700,17 +663,18 @@
     }
   },
   {
-    "id": "2105329005",
+    "gid": "ChIJfRd1wQ4nHw0RNt01lOfC8NM",
+    "id": "210532900",
     "subtitle": "Malveira",
     "address": [
-      "En8 Intermarche Malveira",
+      "Intermarché, Estrada Nacional 8, Alto da Lagoa",
       "2665-297 Malveira"
     ],
+    "district": "lisboa",
     "position": {
-      "lat": 38.94056,
-      "lng": -9.25194
-    },
-    "district": "lisboa"
+      "lat": 38.9405975,
+      "lng": -9.2517925
+    }
   },
   {
     "gid": "ChIJo17F8Q9rIg0RaUQFnmigXCM",
@@ -912,17 +876,18 @@
     "district": "leiria"
   },
   {
-    "id": "245328449",
+    "gid": "ChIJz51z_Ky9Fw0RmO6NPB5NiHM",
+    "id": "245249369",
     "subtitle": "Portalegre",
     "address": [
-      "R 1 Maio Lj 75",
+      "R. 1º de Maio 81 loja nº75",
       "7300-205 Portalegre"
     ],
+    "district": "portalegre",
     "position": {
-      "lat": 39.29364,
-      "lng": -7.43253
-    },
-    "district": "portalegre"
+      "lat": 39.2937545,
+      "lng": -7.4326462
+    }
   },
   {
     "id": "282411623",
@@ -1004,19 +969,6 @@
     "district": "aveiro"
   },
   {
-    "id": "243321000",
-    "subtitle": "Santarém",
-    "address": [
-      "Av D Afonso Henriques 39",
-      "2000-179 Santarem"
-    ],
-    "position": {
-      "lat": 39.23067,
-      "lng": -8.687
-    },
-    "district": "santarem"
-  },
-  {
     "gid": "ChIJ27Yc6Cx7JA0Rl9RamC8ouGo",
     "id": "223743805",
     "subtitle": "Santo Ovídio",
@@ -1042,19 +994,6 @@
       "lng": -8.47435
     },
     "district": "porto"
-  },
-  {
-    "id": "212699146",
-    "subtitle": "São Marcos",
-    "address": [
-      "Alameda S. Marcos Cc S. Marcos",
-      "2735-010 Agualva-Cacem"
-    ],
-    "position": {
-      "lat": 38.74865,
-      "lng": -9.29925
-    },
-    "district": "lisboa"
   },
   {
     "gid": "ChIJifbWliRNGQ0R0bTJ66RCV28",
@@ -1111,17 +1050,18 @@
     "district": "coimbra"
   },
   {
-    "id": "249812214",
+    "gid": "ChIJC5K_KqV-GA0RUh8KvPadLMI",
+    "id": "249320320",
     "subtitle": "Tomar",
     "address": [
-      "R Marques De Pombal 34 A 38",
+      "R. Marquês de Pombal 34",
       "2300-510 Tomar"
     ],
+    "district": "santarém",
     "position": {
-      "lat": 39.60469,
-      "lng": -8.4101
-    },
-    "district": "santarem"
+      "lat": 39.6047393,
+      "lng": -8.4100539
+    }
   },
   {
     "gid": "ChIJT9NRAn89Iw0R2srodg4lwCw",
