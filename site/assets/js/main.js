@@ -760,6 +760,17 @@ function loadMap(mapElement) {
                 return place.locations || place;
             });
 
+            map.getSource("places").setData({
+                type: "FeatureCollection",
+                features: flatPlaces.map(placeToFeature)
+            });
+        });
+
+        viewModel.filters.district.selected.subscribe(function() {
+            var flatPlaces = viewModel.visiblePlaces().flatMap(function (place) {
+                return place.locations || place;
+            });
+
             if (flatPlaces.length) {
                 var visiblePlacesBounds = flatPlaces.reduce(
                     function (a, place) {
@@ -779,11 +790,6 @@ function loadMap(mapElement) {
                     });
                 }
             }
-
-            map.getSource("places").setData({
-                type: "FeatureCollection",
-                features: flatPlaces.map(placeToFeature)
-            });
         });
 
         viewModel.mapLoaded(true);
