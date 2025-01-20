@@ -1232,6 +1232,28 @@
                 "lat": 41.5495717,
                 "lng": -8.4290593
             }
+        },
+        {
+            "gid": "ChIJzbO82yA1GQ0RI336lUNtcJo",
+            "name": "Potato Project",
+            "subtitle": "",
+            "description": {
+                "pt": "De acordo com a empresa, todas as batatas fritas são certificadas como sem glúten e sem lactose.<br/><b>O molho maionese pesto e do topping cebola crocante contêm glúten</b>.<br>O resto do menu é adequado para celíacos.",
+                "en": "According to the company, all fries are certified gluten-free and lactose-free.<br/><b>The pesto mayonnaise sauce and crispy onion topping contain gluten</b>.<br>The rest of the menu is suitable for celiacs.",
+                "fr": "Selon l'entreprise, toutes les frites sont certifiées sans gluten et sans lactose.<br/><b>La sauce mayonnaise au pesto et le nappage d'oignons croustillants contiennent du gluten</b>.<br>Le reste du menu convient aux cœliaques.",
+                "es": "Según la empresa, todas las papas fritas están certificadas como sin gluten y sin lactosa.<br/><b>La salsa de mayonesa al pesto y el topping de cebolla crujiente contienen gluten</b>.<br>El resto del menú es apto para celíacos."
+            },
+            "address": [
+                "Rua da Conceição 8",
+                "1100-226 Lisboa"
+            ],
+            "categories": ["take-away"],
+            "district": "lisboa",
+            "attestation": "none",
+            "position": {
+                "lat": 38.71011,
+                "lng": -9.1354185
+            }
         }
     ]
 }

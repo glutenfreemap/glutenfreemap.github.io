@@ -61,7 +61,7 @@
                     <div class="card-body">
                         <h5 class="title full-width card-title" data-bind="text: name"></h5>
                         <!-- ko if: desc -->
-                        <div class="description card-text" data-bind="text: desc"></div>
+                        <div class="description card-text" data-bind="html: desc"></div>
                         <!-- /ko -->
                         <div class="address card-text" data-bind="foreach: address">
                             <div class="address-line full-width" data-bind="text: $data"></div>
