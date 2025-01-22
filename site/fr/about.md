@@ -30,7 +30,7 @@ Tout le code de GlutenFreeMap est ouvert et peut être librement consulté sur [
 <div class="browser-only">
     <h2>Installation</h2>
     <p>
-        Cette application peut être utilisée directement dans un navigateur Web à l'adresse https://glutenfreemap.github.io/pt mais, si vous souhaitez l'avoir toujours à portée de main, vous pouvez l'installer sur votre téléphone mobile/tablette. La méthode varie selon le navigateur, selon les instructions ci-dessous :
+        Cette application peut être utilisée directement dans un navigateur Web à l'adresse https://glutenfreemap.org/fr mais, si vous souhaitez l'avoir toujours à portée de main, vous pouvez l'installer sur votre téléphone mobile/tablette. La méthode varie selon le navigateur, selon les instructions ci-dessous :
     </p>
     <div class="accordion mb-4" id="tutorial">
         <div class="card">
