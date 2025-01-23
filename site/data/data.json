@@ -1256,6 +1256,83 @@
                 "lat": 38.71011,
                 "lng": -9.1354185
             }
+        },
+        {
+            "name": "Arte do Pão",
+            "categories": ["bakery"],
+            "attestation": "apc-certified",
+            "locations": [
+                {
+                    "gid": "ChIJzd2HgQcuGQ0RhCmyvdDFBtA",
+                    "id": "",
+                    "subtitle": "Bobadela",
+                    "address": [
+                        "R. Luís de Camões 2A",
+                        "2695-052 Bobadela"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.8073475,
+                        "lng": -9.1010886
+                    }
+                },
+                {
+                    "gid": "ChIJ8bQsGCIyGQ0Rm6WxK6jXHIg",
+                    "id": "",
+                    "subtitle": "Moscavide",
+                    "address": [
+                        "R. Dr. Filipe Araújo",
+                        "1885-094 Moscavide"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7767288,
+                        "lng": -9.108111
+                    }
+                },
+                {
+                    "gid": "ChIJg4Inq3YuGQ0RekBhH_IvlYU",
+                    "id": "",
+                    "subtitle": "São João da Talha",
+                    "address": [
+                        "R. Heróis da Grande Guerra",
+                        "2695-562 São João da Talha"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.8259212,
+                        "lng": -9.0958998
+                    }
+                },
+                {
+                    "gid": "ChIJQyF3rN0uGQ0RITqACyya5hM",
+                    "id": "",
+                    "subtitle": "Póvoa de Santa Iria (1)",
+                    "address": [
+                        "R. António França Borges 18",
+                        "2625-209 Póvoa de Santa Iria"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.8668963,
+                        "lng": -9.0649806
+                    }
+                },
+                {
+                    "gid": "ChIJn_1m1-suGQ0Rk9f3q-mmjXs",
+                    "id": "",
+                    "subtitle": "Póvoa de Santa Iria (2)",
+                    "address": [
+                        "Av. Dom Vicente Afonso Valente 8A",
+                        "2625-162 Póvoa de Santa Iria"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.8605629,
+                        "lng": -9.0739427
+                    }
+                }
+            ]
         }
     ]
 }
