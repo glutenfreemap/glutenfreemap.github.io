@@ -224,6 +224,10 @@ function ViewModel(storage) {
         return value && value.length ? value.toLowerCase() : "";
     });
 
+    this.preventEnter = function(_data, evt) {
+        return evt.key !==  "Enter";
+    }
+
     function bindToStorage(observable, key, parser) {
         self.loaded.subscribe(function () {
             var value = storage.getItem(key);
@@ -337,7 +341,7 @@ function ViewModel(storage) {
 
     this.gotoPlace = function (place, evt) {
         evt.stopPropagation();
-        
+
         var map = document.getElementById("map");
         var rect = map.getBoundingClientRect();
 
