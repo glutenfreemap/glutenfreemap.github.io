@@ -335,7 +335,9 @@ function ViewModel(storage) {
         return self.selectedPlace() === place;
     }
 
-    this.gotoPlace = function (place) {
+    this.gotoPlace = function (place, evt) {
+        evt.stopPropagation();
+        
         var map = document.getElementById("map");
         var rect = map.getBoundingClientRect();
 
@@ -549,7 +551,7 @@ function loadMap(mapElement) {
                         l.group = p;
                         l.name = p.name;
                         l.categories = p.categories;
-                        l.attestation = p.attestation;
+                        l.attestation = l.attestation || p.attestation;
                         l.description = l.description || emptyDescription;
                         l.id = p.id + '-' + (l.id || l.gid);
                     });

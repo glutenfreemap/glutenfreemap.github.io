@@ -772,6 +772,7 @@
                         "Alameda dos Oceanos 41F",
                         "1990-203 Lisboa"
                     ],
+                    "attestation": "apc-certified",
                     "district": "lisboa",
                     "position": {
                         "lat": 38.7632256,

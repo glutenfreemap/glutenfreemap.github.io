@@ -113,27 +113,31 @@
                     </a>
                     <!-- /ko -->
                     <!-- ko if: $data.locations -->
-                        <div class="list-group-item d-flex justify-content-between align-items-start results-list-item">
+                        <div class="list-group-item d-flex justify-content-between align-items-start results-list-item" data-bind="click: $root.togglePlace">
                             <div class="ms-2 me-auto venue multiple" data-bind="css: { expanded: $root.isExpanded($data) }">
-                                <a href="#" class="name" data-bind="text: name, click: $root.togglePlace"></a>
+                                <a href="#" class="name" data-bind="text: name"></a>
 
                                 <!-- ko if: $root.isExpanded($data) -->
                                 <div class="list-group list-group-flush" data-bind="foreach: locations">
-                                    <a href="#" class="list-group-item list-group-item-action location"
+                                    <a href="#" class="list-group-item d-flex justify-content-between align-items-start list-group-item-action location"
                                         data-bind="click: $root.gotoPlace, css: { active: $root.isSelected($data) }">
 
-                                        <!-- ko if: $data.subtitle -->
-                                        <div class="subtitle" data-bind="text: subtitle"></div>
-                                        <!-- /ko -->
-                                        <!-- ko foreach: categories -->
-                                        <small class="category" data-bind="text: $root.getCategory($data)"></small>
-                                        <!-- /ko -->
+                                        <div class="ms-2 me-auto venue">
+                                            <!-- ko if: $data.subtitle -->
+                                            <div class="subtitle" data-bind="text: subtitle"></div>
+                                            <!-- /ko -->
+                                            <!-- ko foreach: categories -->
+                                            <small class="category" data-bind="text: $root.getCategory($data)"></small>
+                                            <!-- /ko -->
+                                        </div>
+                                        <span class="badge badge-success" data-bind="if: attestation === 'apc-certified'">{{ page.strings.certified.badge.certified }}</span>
+                                        <span class="badge badge-success" data-bind="if: attestation === 'apc-validated'">{{ page.strings.certified.badge.validated }}</span>
                                     </a>
                                 </div>
                                 <!-- /ko -->
                             </div>
-                            <span class="badge badge-success" data-bind="if: attestation === 'apc-certified'">{{ page.strings.certified.badge.certified }}</span>
-                            <span class="badge badge-success" data-bind="if: attestation === 'apc-validated'">{{ page.strings.certified.badge.validated }}</span>
+                            <span class="badge badge-success" data-bind="if: !$root.isExpanded($data) && attestation === 'apc-certified'">{{ page.strings.certified.badge.certified }}</span>
+                            <span class="badge badge-success" data-bind="if: !$root.isExpanded($data) && attestation === 'apc-validated'">{{ page.strings.certified.badge.validated }}</span>
                             </div>
                     <!-- /ko -->
                     <!-- /ko -->
