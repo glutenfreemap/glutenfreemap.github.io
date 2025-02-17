@@ -39,7 +39,7 @@ strings:
   noResults: Pas de résultats
   finalHint: Un endroit manque-t-il?<br/><a href="/en/contacts.html">Dites-le nous ici</a>.
   map:
-    viewOnGoogleMaps: Voir sur Google Maps
+    viewOnMaps: Ouvrir avec une autre carte
     centerMap: Centrer sur la localisation courrante
 ---
 {% include map.html %}

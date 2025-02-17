@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -14,16 +15,20 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.webkit.*
+import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
 import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     companion object {
-        const val hostName: String = "glutenfreemap.org"
-        const val oldHostName: String = "glutenfreemap.github.io"
         const val preferencesKey: String = "preferences"
         const val languagePreferenceKey: String = "language"
         const val MY_PERMISSIONS_REQUEST_LOCATION: Int = 99
@@ -68,17 +73,9 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences(preferencesKey, Context.MODE_PRIVATE)
         val language = preferences.getString(languagePreferenceKey, null)
         if (language != null) {
-            if (BuildConfig.DEBUG) {
-                browser.loadUrl("http://192.168.99.66:8080/${language}")
-            } else {
-                browser.loadUrl("https://${hostName}/${language}")
-            }
+            browser.loadUrl("${BuildConfig.BASE_URL}/${language}/")
         } else {
-            if (BuildConfig.DEBUG) {
-                browser.loadUrl("http://192.168.99.66:8080")
-            } else {
-                browser.loadUrl("https://${hostName}")
-            }
+            browser.loadUrl(BuildConfig.BASE_URL)
         }
     }
 
@@ -214,6 +211,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private class MyWebViewClient(private val owner: MainActivity) : WebViewClient() {
+        private var allowedDomain: String = Uri.parse(BuildConfig.BASE_URL).authority!!
 
         override fun onPageFinished(view: WebView?, url: String?) {
             super.onPageFinished(view, url)
@@ -223,14 +221,18 @@ class MainActivity : AppCompatActivity() {
 
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
             val uri = Uri.parse(url)
-            if (uri.authority == hostName || uri.authority == oldHostName || (uri.authority?.startsWith("192.") == true && BuildConfig.DEBUG)) {
+            if (allowedDomain == uri.authority) {
                 // This is my web site, so do not override; let my WebView load the page
                 return false
             }
 
             // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
-            Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                owner.startActivity(this)
+            if (uri.scheme == "geo") {
+                owner.openGeoUri(uri);
+            } else {
+                Intent(Intent.ACTION_VIEW, uri).apply {
+                    owner.startActivity(this)
+                }
             }
             return true
         }
@@ -254,5 +256,66 @@ class MainActivity : AppCompatActivity() {
         ) {
             Log.e("HTTP error", "${request?.url}: ${errorResponse?.statusCode} ${errorResponse?.reasonPhrase}")
         }
+    }
+
+    fun openGeoUri(uri: Uri) {
+        val keyValues = uri.query!!.split("&").associate {
+            val (key, value) = it.split("=")
+            key to value
+        }
+
+        // Get the list of activities that can handle the intent
+        val activities = this.packageManager.queryIntentActivities(Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0")), 0)
+
+        if (activities.size > 1) {
+            showChooserDialog(activities) { packageName ->
+                launchGeoUriIntent(keyValues, packageName)
+            }
+        } else if (activities.size == 1) {
+            launchGeoUriIntent(keyValues, activities.first().resolvePackageName)
+        } else {
+            launchGeoUriIntent(keyValues, null)
+        }
+    }
+
+    private fun launchGeoUriIntent(keyValues: Map<String, String>, packageName: String?) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            if (packageName == "com.google.android.apps.maps" || packageName == null) {
+                // Modify intent for Google Maps
+                val url = if (keyValues.containsKey("gid"))
+                    "https://www.google.com/maps/search/?api=1&query=${keyValues["addr"]}&query_place_id=${keyValues["gid"]}"
+                    else "https://www.google.com/maps/search/?api=1&query=${keyValues["name"]},${keyValues["addr"]}"
+
+                data = Uri.parse(url)
+            } else {
+                data = Uri.parse("geo:0,0?q=${keyValues["q"]}(${keyValues["name"]})")
+            }
+            if (packageName != null) {
+                setPackage(packageName)
+            }
+        }
+
+        // Launch the selected application
+        startActivity(intent)
+    }
+
+    private fun showChooserDialog(activities: List<ResolveInfo>, onAppSelected: (String) -> Unit) {
+        val packageManager = packageManager
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_app_chooser, null)
+        val dialog = AlertDialog.Builder(this)
+            .setTitle(getString(R.string.choose_application))
+            .setView(dialogView)
+            .create()
+
+        val recyclerView: RecyclerView = dialogView.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = AppAdapter(activities, packageManager) { selectedActivity ->
+            val packageName = selectedActivity.activityInfo.packageName
+            dialog.dismiss()
+            onAppSelected(packageName)
+        }
+
+        dialog.show()
     }
 }

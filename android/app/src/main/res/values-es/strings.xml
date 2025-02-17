@@ -1,0 +1,5 @@
+<resources>
+    <string name="permission_location_rationale">Necesitas permitir el acceso a la ubicación si deseas ver tu ubicación actual en el mapa.</string>
+    <string name="app_icon">Ícono de la aplicación</string>
+    <string name="choose_application">Elige una aplicación de mapas</string>
+</resources>

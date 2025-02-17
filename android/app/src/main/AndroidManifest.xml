@@ -35,4 +35,11 @@
 
     <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
 
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="geo" />
+        </intent>
+    </queries>
+
 </manifest>

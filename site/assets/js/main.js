@@ -14,6 +14,72 @@
 # You should have received a copy of the GNU General Public License along with GlutenFreeMap.
 # If not, see <https://www.gnu.org/licenses/>.
 */
+/**
+ * @typedef {Object} Position
+ * @property {Number} lat
+ * @property {Number} lng
+ */
+/**
+ * @typedef {Object} LocalizedString
+ * @property {String} pt
+ * @property {String} en
+ * @property {String} fr
+ * @property {String} es
+ */
+/**
+ * @typedef {Object} Place
+ * @property {String} id
+ * @property {String} [gid]
+ * @property {String} [name]
+ * @property {String} [subtitle]
+ * @property {LocalizedString} [description]
+ * @property {String[]} [categories]
+ * @property {String[]} address
+ * @property {Position} position
+ * @property {String} district
+ * @property {('apc-certified'|'apc-validated'|'none'))} attestation
+ * @property {Place[]} [locations]
+ */
+/**
+ * @callback FnGetVersion
+ * @returns {String}
+ */
+/**
+ * @callback FnSetMenu
+ * @param {String} menuJson
+ */
+/**
+ * @callback FnSetLanguage
+ * @param {String} lang
+ */
+/**
+ * @typedef {Object} AndroidNativeInterface
+ * @property {FnGetVersion} getAppVersion
+ * @property {FnGetVersion} getAndroidVersion
+ * @property {FnSetMenu} setMenu
+ * @property {FnSetLanguage} setLanguage
+ */
+/**
+ * @callback FnCustomizePage
+ */
+/**
+ * @callback FnGetMapsUrl
+ * @param {Place} place
+ * @returns {String}
+ */
+/**
+ * @typedef {Object} Version
+ * @property {String} name
+ * @property {String} version
+ */
+/**
+ * @typedef Host
+ * @property {Version} browser
+ * @property {Version} os
+ * @property {FnCustomizePage} customizePage
+ * @property {FnSetLanguage} setLanguage
+ * @property {FnGetMapsUrl} getMapsUrl
+ */
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker
         .register("/sw.js")
@@ -34,6 +100,9 @@ if ("serviceWorker" in navigator) {
     console.log("Service workers not available")
 }
 
+/**
+ * @param {Storage} storage 
+ */
 function Changelog(storage) {
     var changeKeyPrefix = "change_viewed_";
     
@@ -87,6 +156,9 @@ function Changelog(storage) {
     }
 }
 
+/**
+ * @param {Storage} storage 
+ */
 function ViewModel(storage) {
     var self = this;
 
@@ -366,14 +438,10 @@ function ViewModel(storage) {
         return self.categoriesById()[id];
     };
 
-    this.getGoogleMapsUrl = function (place) {
-        if (place.gid) {
-            // gid is directly from Google Maps
-            return ['https://www.google.com/maps/search/?api=1&query=', encodeURI(place.address.join(',')), '&query_place_id=', encodeURI(place.gid)].join('');
-        } else {
-            return ['https://www.google.com/maps/search/?api=1&query=', encodeURI(place.name), ",", encodeURI(place.address.join(','))].join('');
-        }
-    };
+    /**
+     * @param {Place} place 
+     */
+    this.getMapsUrl = function (place) {};
 }
 
 function subscribeAndUpdate(observable, handler) {
@@ -381,6 +449,11 @@ function subscribeAndUpdate(observable, handler) {
     handler(observable());
 }
 
+/**
+ * @param {String} a 
+ * @param {String} b 
+ * @returns {Number}
+ */
 function compareStringsIgnoreCase(a, b) {
     var lowerA = a.toLowerCase();
     var lowerB = b.toLowerCase();
@@ -401,7 +474,39 @@ function main() {
     }
 }
 
+
+/**
+ * @param {Place} place 
+ */
+function fallbackGetMapsUrl(place) {
+    if (place.gid) {
+        // gid is directly from Google Maps
+        return [
+            "https://www.google.com/maps/search/?api=1&query=",
+            encodeURIComponent(place.address.join(',')),
+            '&query_place_id=',
+            encodeURIComponent(place.gid),
+            
+        ].join("");
+    } else {
+        return [
+            "https://www.google.com/maps/search/?api=1&query=",
+            encodeURIComponent(place.name),
+            ",",
+            encodeURIComponent(place.address.join(','))
+        ].join("");
+    }
+}
+
+/**
+ * @implements {Host}
+ */
 function WebBrowser() {
+    /**
+     * @param {String} userAgent 
+     * @param {Object[]} patterns 
+     * @returns {Version}
+     */
     function matchUserAgent(userAgent, patterns) {
         var result = { name: "", version: "" };
         for (var i = 0; i < patterns.length; ++i) {
@@ -436,11 +541,21 @@ function WebBrowser() {
     this.setLanguage = function (lang) {
         window.localStorage.setItem("preferences.language", lang);
     }
+
+    /**
+     * @param {Place} place 
+     */
+    this.getMapsUrl = fallbackGetMapsUrl;
 }
 
+/**
+ * @implements {Host}
+ * @param {AndroidNativeInterface} nativeInterface 
+ */
 function AndroidApp(nativeInterface) {
-    this.browser = { name: "Android App", version: nativeInterface.getAppVersion() };
-    
+    var version = Number(nativeInterface.getAppVersion());
+    this.browser = { name: "Android App", version: version };
+
     var androidVersion = nativeInterface.getAndroidVersion();
     this.os = { name: "Android", version: androidVersion };
 
@@ -467,8 +582,37 @@ function AndroidApp(nativeInterface) {
     this.setLanguage = function (lang) {
         nativeInterface.setLanguage(lang);
     }
+
+    if (version >= 7) {
+        /**
+         * @param {Place} place
+         */
+        this.getMapsUrl = function (place) {
+            var parts = [
+                "geo:0,0?q=",
+                place.position.lat,
+                ",",
+                place.position.lng,
+                "&name=",
+                encodeURIComponent(place.name),
+                "&addr=",
+                encodeURIComponent(place.address)
+            ];
+
+            if (place.gid) {
+                parts.push("&gid=", encodeURIComponent(place.gid));
+            }
+
+            return parts.join("");
+        }
+    } else {
+        this.getMapsUrl = fallbackGetMapsUrl;
+    }
 }
 
+/**
+ * @returns {Host}
+ */
 function createHost() {
     if ("Android" in window) {
         return new AndroidApp(window.Android);
@@ -486,9 +630,13 @@ function createHost() {
     }
 }
 
+/**
+ * @param {ViewModel} viewModel 
+ */
 function applyHostSpecificChanges(viewModel) {
     var host = createHost();
     host.customizePage();
+    viewModel.getMapsUrl = host.getMapsUrl;
 
     $("button[data-target='#" + host.browser.name.toLowerCase() + "Instructions']").click();
 
@@ -507,6 +655,9 @@ function applyHostSpecificChanges(viewModel) {
     });
 }
 
+/**
+ * @param {HTMLElement} mapElement 
+ */
 function loadMap(mapElement) {
     var dataUrl = mapElement.getAttribute("data-url");
 

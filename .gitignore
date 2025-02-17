@@ -8,3 +8,4 @@ tests/cypress/videos
 utils/packages
 /site/.jekyll-cache
 site/_site
+*.aab

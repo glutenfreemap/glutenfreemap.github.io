@@ -1,0 +1,5 @@
+<resources>
+    <string name="permission_location_rationale">Vous devez autoriser l\'accès à la localisation si vous souhaitez voir votre position actuelle sur la carte.</string>
+    <string name="app_icon">Icône de l\'application</string>
+    <string name="choose_application">Choisissez une application de carte</string>
+</resources>
