@@ -10,11 +10,6 @@ $mainDataPath = Join-Path $rootDir "site" "data" "data.json"
 
 Write-Host "Loading gluten-free restaurant list"
 
-$glutenFreeStores = @{}
-Get-Content (Join-Path $PSScriptRoot "BurgerKingGlutenFree.csv") `
-    | ConvertFrom-Csv `
-    | % { $glutenFreeStores.Add([string]$_.id, $_) }
-
 Write-Host "Scraping the page"
 
 $page = Invoke-WebRequest `
@@ -37,41 +32,32 @@ $districts = $mainData.districts
 
 $data = $places | % {
     [string]$id = $_.bkcode
-    if ($glutenFreeStores.ContainsKey($id)) {
-        $glutenFreeData = $glutenFreeStores[$id]
-        
-        $previous = $previousData | ? { $_.id -eq $id }
+    
+    $previous = $previousData | ? { $_.id -eq $id }
 
-        $city = $_.city
-        $city = [regex]::Replace($city, "(\s(?:D[AEO]S?|\w{1,2})\s)", { param($m) $m.Groups[1].Value.ToLower() })
-        $city = [regex]::Replace($city, "((?:^|[^\w])[A-ZÁÀÉÈÍÌÓÒÚÙ])(\w+)", { param($m) $m.Groups[1].Value + $m.Groups[2].Value.ToLower() })
+    $city = $_.city
+    $city = [regex]::Replace($city, "(\s(?:D[AEO]S?|\w{1,2})\s)", { param($m) $m.Groups[1].Value.ToLower() })
+    $city = [regex]::Replace($city, "((?:^|[^\w])[A-ZÁÀÉÈÍÌÓÒÚÙ])(\w+)", { param($m) $m.Groups[1].Value + $m.Groups[2].Value.ToLower() })
 
-        $place = [ordered]@{
-            id = $id
-            gid = $previous.gid
-            subtitle = $glutenFreeData.name
-            address =
-                if ($previous.fixes.address -ne $null) {
-                    $previous.fixes.address
-                } else {
-                    "$($_.address.Trim(','))","$($_.postalcode -replace ' ','') $city"
-                }
-            position = [ordered]@{
-                lat = [double]$_.latitude
-                lng = [double]$_.longitude
+    $place = [ordered]@{
+        id = $id
+        gid = $previous.gid
+        subtitle = $_.address.Trim(',')
+        address =
+            if ($previous.fixes.address -ne $null) {
+                $previous.fixes.address
+            } else {
+                "$($_.address.Trim(','))","$($_.postalcode -replace ' ','') $city"
             }
-            district = $previous.district
+        position = [ordered]@{
+            lat = [double]$_.latitude
+            lng = [double]$_.longitude
         }
-        if ($previous.fixes -ne $null) { $place.fixes = $previous.fixes }
-
-        Write-Output $place        
-
-        $glutenFreeStores.Remove($id)
+        district = $previous.district
     }
-}
+    if ($previous.fixes -ne $null) { $place.fixes = $previous.fixes }
 
-$glutenFreeStores.GetEnumerator() | % {
-    Write-Warning "Did not find restaurant $($_.Value)"
+    Write-Output $place        
 }
 
 $data `

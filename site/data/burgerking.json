@@ -2,7 +2,7 @@
   {
     "id": "13792",
     "gid": "ChIJOxpfSvFlJA0R7N34h1ZXSmo",
-    "subtitle": "BK NORTESHOPPING",
+    "subtitle": "CC NorteShopping R. Sara Afonso, 105/117 loja 1129",
     "address": [
       "CC NorteShopping R. Sara Afonso, 105/117 loja 1129",
       "4460-841 Matosinhos"
@@ -16,7 +16,7 @@
   {
     "id": "13793",
     "gid": "ChIJddMkw9QyGQ0R_3L302o6yls",
-    "subtitle": "BK COLOMBO",
+    "subtitle": "AV. LUSÍADA, CENTRO COMERCIAL COLOMBO LOJA 2023/2023A",
     "address": [
       "AV. LUSÍADA, CENTRO COMERCIAL COLOMBO LOJA 2023/2023A",
       "1500-392 Lisboa"
@@ -30,7 +30,7 @@
   {
     "id": "13863",
     "gid": "ChIJU_eAFk_OGg0R0b994vdKmws",
-    "subtitle": "BK ALGARVE SHOPPING",
+    "subtitle": "AlgarveShopping Lanka Parque Com. e Ind. do Algarve, Lote R - Fração 3; Lj 1.302",
     "address": [
       "AlgarveShopping Lanka Parque Com. e Ind. do Algarve, Lote R - Fração 3; Lj 1.302",
       "8201-878 Guia"
@@ -44,7 +44,7 @@
   {
     "id": "13864",
     "gid": "ChIJPeRc_rJSBQ0Ro02nX37tD1w",
-    "subtitle": "BK FORUM ALGARVE",
+    "subtitle": "Forum Algarve Loja 1.03, EN 125-km 103 Sítio da má vontade",
     "address": [
       "Forum Algarve Loja 1.03, EN 125-km 103 Sítio da má vontade",
       "8000-126 Faro"
@@ -58,7 +58,7 @@
   {
     "id": "13865",
     "gid": "ChIJhZiwCSVfYAwR-y22pIbI1Mg",
-    "subtitle": "BK MADEIRA SHOPPING",
+    "subtitle": "MadeiraShopping Caminho de Santa Quitéria 44",
     "address": [
       "MadeiraShopping Caminho de Santa Quitéria 44",
       "9020-119 Funchal"
@@ -70,9 +70,23 @@
     "district": "madeira"
   },
   {
+    "id": "14384",
+    "gid": null,
+    "subtitle": "Av. Eng. João Meireles 23",
+    "address": [
+      "Av. Eng. João Meireles 23",
+      "8125-507 Quarteira"
+    ],
+    "position": {
+      "lat": 37.082784,
+      "lng": -8.117198
+    },
+    "district": "faro"
+  },
+  {
     "id": "14495",
     "gid": "ChIJe2Ez7yQ1GQ0RdibBkU8bnXU",
-    "subtitle": "BK FORUM ALMADA",
+    "subtitle": "Fórum Almada loja 3,31, estrada do caminho municipal 1011-Vale Mourelos",
     "address": [
       "Fórum Almada loja 3,31, estrada do caminho municipal 1011-Vale Mourelos",
       "2813-741 Almada"
@@ -84,9 +98,79 @@
     "district": "setubal"
   },
   {
+    "id": "14511",
+    "gid": null,
+    "subtitle": "AV. CIDADE DO PORTO, AREA SERVIÇO GALP SENTIDO SUL/NORTE",
+    "address": [
+      "AV. CIDADE DO PORTO, AREA SERVIÇO GALP SENTIDO SUL/NORTE",
+      "1800-111 Lisboa"
+    ],
+    "position": {
+      "lat": 38.779886,
+      "lng": -9.122606
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "14608",
+    "gid": null,
+    "subtitle": "CC Strada outlet – loja 2044, Estrada da Paiã, 1107",
+    "address": [
+      "CC Strada outlet – loja 2044, Estrada da Paiã, 1107",
+      "2675-626 Odivelas"
+    ],
+    "position": {
+      "lat": 38.781911,
+      "lng": -9.192041
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "14763",
+    "gid": null,
+    "subtitle": "Estrada Exterior da Circunvalação CC PQ Nascente loja 503 Rio Tinto",
+    "address": [
+      "Estrada Exterior da Circunvalação CC PQ Nascente loja 503 Rio Tinto",
+      "4435-182 Rio Tinto"
+    ],
+    "position": {
+      "lat": 41.103197,
+      "lng": -8.335239
+    },
+    "district": "porto"
+  },
+  {
+    "id": "14787",
+    "gid": null,
+    "subtitle": "Rua da Juventude, 38 CC Parque Atlantico Loja 1005A",
+    "address": [
+      "Rua da Juventude, 38 CC Parque Atlantico Loja 1005A",
+      "9500-243 Ponta Delgada"
+    ],
+    "position": {
+      "lat": 37.747684,
+      "lng": -25.675701
+    },
+    "district": "acores"
+  },
+  {
+    "id": "14811",
+    "gid": null,
+    "subtitle": "A28, Km 12, Labruge",
+    "address": [
+      "A28, Km 12, Labruge",
+      "4485-300 Vila do Conde"
+    ],
+    "position": {
+      "lat": 41.289,
+      "lng": -8.704361
+    },
+    "district": "porto"
+  },
+  {
     "id": "15130",
     "gid": "ChIJgWHJGaxLOw0R0AdkfSHAFFw",
-    "subtitle": "BK VILA REAL",
+    "subtitle": "Centro Comercial Nosso Shopping, Alameda de Grasse",
     "address": [
       "Centro Comercial Nosso Shopping, Alameda de Grasse",
       "5000-703 Vila Real"
@@ -100,7 +184,7 @@
   {
     "id": "15302",
     "gid": "ChIJU44l35z5Ig0RN60VjCuMiAU",
-    "subtitle": "BK COIMBRA DV",
+    "subtitle": "Rua General Humberto Delgado 207/211",
     "address": [
       "Rua General Humberto Delgado 207/211",
       "3030-327 Coimbra"
@@ -114,7 +198,7 @@
   {
     "id": "15303",
     "gid": "ChIJZ9tlJGNkJA0RBAAu8iDMgMg",
-    "subtitle": "BK ANTAS DV",
+    "subtitle": "CC Alameda, Loja 408 Av. Dos Campeões Europeus Viena 87 nºs 28,34,140,168 e 198",
     "address": [
       "CC Alameda, Loja 408 Av. Dos Campeões Europeus Viena 87 nºs 28,34,140,168 e 198",
       "4350-414 Porto"
@@ -128,7 +212,7 @@
   {
     "id": "15310",
     "gid": "ChIJSYfSHYY5GQ0RQy5e_fUxOsE",
-    "subtitle": "BK FORUM MONTIJO",
+    "subtitle": "Zona Industrial do Pau Queimado - R. da Azinheira, Afonsoeeiro - Forum Montijo Loja 1.22",
     "address": [
       "Zona Industrial do Pau Queimado - R. da Azinheira, Afonsoeeiro - Forum Montijo Loja 1.22",
       "2870-100 Montijo - Setubal"
@@ -142,7 +226,7 @@
   {
     "id": "15469",
     "gid": "ChIJG7uEKx0tGQ0RfFnktu85Gv4",
-    "subtitle": "BK LOURESHOPPING",
+    "subtitle": "CC LOURES SHOPPING , Av. Descobertas 93",
     "address": [
       "CC LOURES SHOPPING , Av. Descobertas 93",
       "2670-390 Loures"
@@ -156,7 +240,7 @@
   {
     "id": "15471",
     "gid": "ChIJebKKoN8jPQ0RLn2tWoYVWP0",
-    "subtitle": "BK COVILHA",
+    "subtitle": "Serra Shopping Av Europa lote 7 loja 1,55 Santa Maria",
     "address": [
       "Serra Shopping Av Europa lote 7 loja 1,55 Santa Maria",
       "6200-546 Covilhã"
@@ -168,9 +252,23 @@
     "district": "castelo-branco"
   },
   {
+    "id": "15607",
+    "gid": null,
+    "subtitle": "Fórum Coimbra, Av. José Bonifácio de Andrade e Silva 1",
+    "address": [
+      "Fórum Coimbra, Av. José Bonifácio de Andrade e Silva 1",
+      "3040-389 Coimbra"
+    ],
+    "position": {
+      "lat": 40.211081,
+      "lng": -8.443828
+    },
+    "district": "coimbra"
+  },
+  {
     "id": "15644",
     "gid": "ChIJm3BjHewzGQ0Rp12aBSDnBrE",
-    "subtitle": "BK CAMPO PEQUENO",
+    "subtitle": "Centro de Lazer Campo Pequeno, Burger King Loja 146",
     "address": [
       "Centro de Lazer Campo Pequeno, Burger King Loja 146",
       "1000-082 Lisboa"
@@ -184,7 +282,7 @@
   {
     "id": "15986",
     "gid": "ChIJv9puNIiYIw0Ry2vWJ9jQ2zc",
-    "subtitle": "BK AVEIRO CARREFOUR",
+    "subtitle": "Aveiro Center - Estr. da Taboeira 49, 68, Esgueira",
     "address": [
       "Aveiro Center - Estr. da Taboeira 49, 68, Esgueira",
       "3800-901 Aveiro"
@@ -198,7 +296,7 @@
   {
     "id": "15987",
     "gid": "ChIJeaiXcoYxGQ0RCcdm-2NvKgg",
-    "subtitle": "BK VASCO GAMA",
+    "subtitle": "Avenida Dº João II, nº40 – 1990-094 Centro Comercial Vasco da Gama nº2041",
     "address": [
       "Avenida Dº João II, nº40 – 1990-094 Centro Comercial Vasco da Gama nº2041",
       "1990-094 Lisboa"
@@ -212,7 +310,7 @@
   {
     "id": "15988",
     "gid": "ChIJwzr3aN-FIw0RXMa_iAmYntY",
-    "subtitle": "BK DV OVAR",
+    "subtitle": "Av. Dom Manuel I 2030, 3880-109 Ovar",
     "address": [
       "Av. Dom Manuel I 2030, 3880-109 Ovar",
       "3880-109 Ovar"
@@ -224,9 +322,23 @@
     "district": "aveiro"
   },
   {
+    "id": "15998",
+    "gid": null,
+    "subtitle": "A29, Km 48, Vilar do Paraíso",
+    "address": [
+      "A29, Km 48, Vilar do Paraíso",
+      "4409-501 Vila Nova de Gaia"
+    ],
+    "position": {
+      "lat": 41.085139,
+      "lng": -8.617667
+    },
+    "district": "porto"
+  },
+  {
     "id": "16193",
     "gid": "ChIJDwXlnfiBIw0RNJjZg3qgVsA",
-    "subtitle": "BK SJOAO MADEIRA",
+    "subtitle": "Centro Comercial 8.ª Avenida – Loja 1.038 – Avenida Dr. Renato Araújo, 1625",
     "address": [
       "Centro Comercial 8.ª Avenida – Loja 1.038 – Avenida Dr. Renato Araújo, 1625",
       "3700-346 São João da Madeira"
@@ -240,7 +352,7 @@
   {
     "id": "16204",
     "gid": "ChIJ09xWZbBePQ0RvwjCDa2p7MU",
-    "subtitle": "BK CASTELO BRANCO",
+    "subtitle": "Fórum Castelo Branco – loja 1.21 – Avenida Professor Dr. Egas Moniz",
     "address": [
       "Fórum Castelo Branco – loja 1.21 – Avenida Professor Dr. Egas Moniz",
       "6000-901 Castelo Branco"
@@ -254,7 +366,7 @@
   {
     "id": "16264",
     "gid": "ChIJi10s6eJfYAwRRfbrLQpTva4",
-    "subtitle": "BK DV FUNCHAL",
+    "subtitle": "Centro Comercial La Vie Funchal – Rua Dr. Brito Câmara,9 S. Pedro",
     "address": [
       "Centro Comercial La Vie Funchal – Rua Dr. Brito Câmara,9 S. Pedro",
       "9050-039 Funchal"
@@ -268,7 +380,7 @@
   {
     "id": "16265",
     "gid": "ChIJc2f7XZQtHw0RuXpWVwao5GY",
-    "subtitle": "BK TORRES VEDRAS",
+    "subtitle": "C. C. Arena shopping, loja 2017",
     "address": [
       "C. C. Arena shopping, loja 2017",
       "2560-256 Torres Vedras"
@@ -282,7 +394,7 @@
   {
     "id": "16616",
     "gid": "ChIJjUPWub7VXAsRaKApL-b0adQ",
-    "subtitle": "BK PORTAS DO MAR",
+    "subtitle": "Avenida Marginal de Ponta Delgada – Galerias Comerciais Portas do Mar Loja 7",
     "address": [
       "Avenida Marginal de Ponta Delgada – Galerias Comerciais Portas do Mar Loja 7",
       "9500-247 Ponta Delgada"
@@ -296,7 +408,7 @@
   {
     "id": "16675",
     "gid": "ChIJg1DDXsFoJA0RPKtgJbqr-xg",
-    "subtitle": "BK IKEA MATOSINHOS",
+    "subtitle": "Centro Comercial MarShopping Av. Dr. Óscar Lopes, Loja 1.055",
     "address": [
       "Centro Comercial MarShopping Av. Dr. Óscar Lopes, Loja 1.055",
       "4450-337 Matosinhos"
@@ -310,7 +422,7 @@
   {
     "id": "16933",
     "gid": "ChIJvQUc-HtGJA0R0gs0lB2QCMs",
-    "subtitle": "BK PRIO POVOA",
+    "subtitle": "Rua 25 de Abril, 218",
     "address": [
       "Rua 25 de Abril, 218",
       "4490-479 Povoa de Varzim"
@@ -322,9 +434,37 @@
     "district": "porto"
   },
   {
+    "id": "16944",
+    "gid": null,
+    "subtitle": "A41, Km 4,6, Moreira da Maia",
+    "address": [
+      "A41, Km 4,6, Moreira da Maia",
+      "4470-372 Maia"
+    ],
+    "position": {
+      "lat": 41.236722,
+      "lng": -8.652389
+    },
+    "district": "porto"
+  },
+  {
+    "id": "16982",
+    "gid": null,
+    "subtitle": "A4, Km 3,4, Custoias",
+    "address": [
+      "A4, Km 3,4, Custoias",
+      "4460-739 Matosinhos"
+    ],
+    "position": {
+      "lat": 41.204583,
+      "lng": -8.639556
+    },
+    "district": "porto"
+  },
+  {
     "id": "17079",
     "gid": "ChIJ267d_G7NHg0RirJzYmhhvYA",
-    "subtitle": "BK DV TEJO",
+    "subtitle": "CC DOLCE VITA TEJO , Avenida José Garces",
     "address": [
       "CC DOLCE VITA TEJO , Avenida José Garces",
       "2650-435 Amadora"
@@ -338,7 +478,7 @@
   {
     "id": "17152",
     "gid": "ChIJ2yneuW7EHg0R9Y4boT_Z4zk",
-    "subtitle": "BK CASCAIS",
+    "subtitle": "Rua das tulipas nº26",
     "address": [
       "Rua das tulipas nº26",
       "2750-272 Cascais"
@@ -352,7 +492,7 @@
   {
     "id": "17333",
     "gid": "ChIJXUCZbDdlJA0RvF3KVjLrhqw",
-    "subtitle": "BK NO DO FOJO",
+    "subtitle": "Rua da Bélgica e Rua Nova do Fojo",
     "address": [
       "Rua da Bélgica e Rua Nova do Fojo",
       "4400-232 Vila Nova de Gaia"
@@ -366,7 +506,7 @@
   {
     "id": "17374",
     "gid": "ChIJaZAXwXrwJA0RCoBs8nyjXfk",
-    "subtitle": "BK ESPACO GUIMARAES",
+    "subtitle": "R. 25 de Abril 210",
     "address": [
       "R. 25 de Abril 210",
       "4835-400 Guimarães"
@@ -380,7 +520,7 @@
   {
     "id": "17491",
     "gid": "ChIJtx_78VlzIg0RD3FxjKZqhow",
-    "subtitle": "BK LEIRIASHOPPING",
+    "subtitle": "IC2, Alto do Vieiro Loja R137",
     "address": [
       "IC2, Alto do Vieiro Loja R137",
       "2400-441 Leiria"
@@ -394,7 +534,7 @@
   {
     "id": "19430",
     "gid": "ChIJNVjg-iPQHg0R7Ctny845alM",
-    "subtitle": "BK MEM MARTINS",
+    "subtitle": "Rua António Feijó, Edificio Burger King",
     "address": [
       "Rua António Feijó, Edificio Burger King",
       "2635-198 Rio de Mouro"
@@ -408,7 +548,7 @@
   {
     "id": "19567",
     "gid": "ChIJbYk7cUdvJA0RHEgonVVCG7E",
-    "subtitle": "BK MATOSINHOS",
+    "subtitle": "Rua Silva Pinheiro, nr. 881",
     "address": [
       "Rua Silva Pinheiro, nr. 881",
       "4450-031 Matosinhos"
@@ -422,7 +562,7 @@
   {
     "id": "19568",
     "gid": "ChIJAQKB0RDPHg0RUYZjHWwhix4",
-    "subtitle": "BK ABOBODA",
+    "subtitle": "Av Salgueiro Maia 1139 B Abóboda",
     "address": [
       "Av Salgueiro Maia 1139 B Abóboda",
       "2785-501 S. Domingos de Rana"
@@ -436,7 +576,7 @@
   {
     "id": "19569",
     "gid": "ChIJn7_o028tGQ0R_dXMV5Rk1mQ",
-    "subtitle": "BK FLAMENGA",
+    "subtitle": "Rua Almirante gago Coutinho",
     "address": [
       "Rua Almirante gago Coutinho",
       "2660-000 Loures"
@@ -448,9 +588,37 @@
     "district": "lisboa"
   },
   {
+    "id": "20243",
+    "gid": null,
+    "subtitle": "Avenida Fontes Pereira de Melo N6A",
+    "address": [
+      "Avenida Fontes Pereira de Melo N6A",
+      "1050-121 Lisboa"
+    ],
+    "position": {
+      "lat": 38.726733,
+      "lng": -9.148874
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "20512",
+    "gid": null,
+    "subtitle": "AEROPORTO FRANCISCO SÁ CARNEIRO",
+    "address": [
+      "AEROPORTO FRANCISCO SÁ CARNEIRO",
+      "4470-558 Oporto"
+    ],
+    "position": {
+      "lat": 41.2421,
+      "lng": -8.6786
+    },
+    "district": "porto"
+  },
+  {
     "id": "20551",
     "gid": "ChIJR9DWebjVXAsRRjx8beY3saE",
-    "subtitle": "BK FAJA",
+    "subtitle": "Rua do loreto 1 452, Ponta Delgada",
     "address": [
       "Rua do loreto 1 452, Ponta Delgada",
       "9500-452 Ponta Delgada"
@@ -464,7 +632,7 @@
   {
     "id": "20597",
     "gid": "ChIJN_IZfKj-JA0RJrSqRK6vBW4",
-    "subtitle": "BK BRAGA MEDIA MARKET",
+    "subtitle": "Avenida D. João II 394",
     "address": [
       "Avenida D. João II 394",
       "4715-213 Braga"
@@ -476,9 +644,23 @@
     "district": "braga"
   },
   {
+    "id": "20818",
+    "gid": null,
+    "subtitle": "Rua do Carmo N 97",
+    "address": [
+      "Rua do Carmo N 97",
+      "1200-093 Lisboa"
+    ],
+    "position": {
+      "lat": 38.712648,
+      "lng": -9.139744
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "21078",
     "gid": "ChIJJaIvokw2Iw0R7A_BIbsLtIU",
-    "subtitle": "BK FORUM VISEU",
+    "subtitle": "C:C. Fórum Viseu loja 2.02;Rua D.José da Cruz Moreira Pinto nº 32",
     "address": [
       "C:C. Fórum Viseu loja 2.02;Rua D.José da Cruz Moreira Pinto nº 32",
       "3510-078 Viseu"
@@ -492,7 +674,7 @@
   {
     "id": "21359",
     "gid": "ChIJ_ysyn8J-RgsRcw4wfcObqWk",
-    "subtitle": "BK TERCEIRA",
+    "subtitle": "Rua Capitão João de Ávila, Circular Externa, Angra do Heroismo",
     "address": [
       "Rua Capitão João de Ávila, Circular Externa, Angra do Heroismo",
       "9700-042 Angra do Heroismo"
@@ -506,7 +688,7 @@
   {
     "id": "21361",
     "gid": "ChIJ35McT8vOHg0RtkcTpQ3ahEc",
-    "subtitle": "BK OEIRAS",
+    "subtitle": "Rua Coro de Santo Amaro de Oeiras - Lote E",
     "address": [
       "Rua Coro de Santo Amaro de Oeiras - Lote E",
       "2780-379 Oeiras"
@@ -518,9 +700,23 @@
     "district": "lisboa"
   },
   {
+    "id": "21540",
+    "gid": null,
+    "subtitle": "Avenida Cidade do Porto N230",
+    "address": [
+      "Avenida Cidade do Porto N230",
+      "4705-084 Braga"
+    ],
+    "position": {
+      "lat": 41.534615,
+      "lng": -8.437701
+    },
+    "district": "braga"
+  },
+  {
     "id": "21546",
     "gid": "ChIJV7dND3NKGQ0RheikU46NWRc",
-    "subtitle": "BK CRUZ DE PAU",
+    "subtitle": "Praceta Quinta dos Pinheiros e Girassois",
     "address": [
       "Praceta Quinta dos Pinheiros e Girassois",
       "2845-547 Amora"
@@ -534,7 +730,7 @@
   {
     "id": "21547",
     "gid": "ChIJ-QDAAjHOHg0Rrz3NbNeJ0Oc",
-    "subtitle": "BK CACEM",
+    "subtitle": "Rua da Ilha Terceira, IC19 Saída Cacém Poente / Paiões",
     "address": [
       "Rua da Ilha Terceira, IC19 Saída Cacém Poente / Paiões",
       "2735-479 Cacém"
@@ -548,7 +744,7 @@
   {
     "id": "21548",
     "gid": "ChIJITj1VAizGA0RmJzg4chp1kE",
-    "subtitle": "BK CALDAS DA RAINHA",
+    "subtitle": "Rua do comercio nº1 Quinta do Salgado aguas Santas",
     "address": [
       "Rua do comercio nº1 Quinta do Salgado aguas Santas",
       "2504-915 Caldas da Rainha"
@@ -562,7 +758,7 @@
   {
     "id": "21595",
     "gid": "ChIJxSuPd_9mJA0RwpXIIjblN1o",
-    "subtitle": "BK MAIA",
+    "subtitle": "Avenida Dom Manuel II 1385, Lugar de Real",
     "address": [
       "Avenida Dom Manuel II 1385, Lugar de Real",
       "4470-334 Maia"
@@ -574,9 +770,51 @@
     "district": "porto"
   },
   {
+    "id": "21604",
+    "gid": null,
+    "subtitle": "Portimão Retail Center, Rua de São Pedro N 133",
+    "address": [
+      "Portimão Retail Center, Rua de São Pedro N 133",
+      "8500-513 Portimão"
+    ],
+    "position": {
+      "lat": 37.148115,
+      "lng": -8.547475
+    },
+    "district": "faro"
+  },
+  {
+    "id": "21681",
+    "gid": null,
+    "subtitle": "Alameda Hermano Patrone N 5",
+    "address": [
+      "Alameda Hermano Patrone N 5",
+      "1495-064 Algés"
+    ],
+    "position": {
+      "lat": 38.69908,
+      "lng": -9.232885
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "21686",
+    "gid": null,
+    "subtitle": "Avenida Emídio Navarro N 36",
+    "address": [
+      "Avenida Emídio Navarro N 36",
+      "3000-150 Coimbra"
+    ],
+    "position": {
+      "lat": 40.206731,
+      "lng": -8.428811
+    },
+    "district": "coimbra"
+  },
+  {
     "id": "21769",
     "gid": "ChIJr6Z7DR5EJA0RppqiHyeEdIA",
-    "subtitle": "BK VILA CONDE",
+    "subtitle": "Rua 5 de Outubro",
     "address": [
       "Rua 5 de Outubro",
       "4480-732 Vila do conde"
@@ -590,7 +828,7 @@
   {
     "id": "21809",
     "gid": "ChIJg7kbG1KdJQ0RpGDFyRqugT4",
-    "subtitle": "BK MONCAO",
+    "subtitle": "Monte da Mina, Lugar da Lodeira 850, Monção, Portugal",
     "address": [
       "Monte da Mina, Lugar da Lodeira 850, Monção, Portugal",
       "4950-850 Monção"
@@ -604,7 +842,7 @@
   {
     "id": "21815",
     "gid": "ChIJtWqrOm9mIg0RiNe3QM3evOw",
-    "subtitle": "BK POMBAL",
+    "subtitle": "Rua professor Carlos Alberto Mota Pinto, 79",
     "address": [
       "Rua professor Carlos Alberto Mota Pinto, 79",
       "3100-492 Pombal"
@@ -618,7 +856,7 @@
   {
     "id": "21816",
     "gid": "ChIJ70tgnfdYJA0RzmcQZvIuHFc",
-    "subtitle": "BK FAMALICAO",
+    "subtitle": "Av. Mal. Humberto Delgado 91",
     "address": [
       "Av. Mal. Humberto Delgado 91",
       "4760-012 Vila Nova Famalicão"
@@ -630,9 +868,23 @@
     "district": "braga"
   },
   {
+    "id": "21966",
+    "gid": null,
+    "subtitle": "Rua Visconde da Luz N 17",
+    "address": [
+      "Rua Visconde da Luz N 17",
+      "2750-415 Cascais"
+    ],
+    "position": {
+      "lat": 38.698947,
+      "lng": -9.421099
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "22117",
     "gid": "ChIJs-qxz2YzGQ0RLcApWF0jxdk",
-    "subtitle": "BK FERREIRA BORGES",
+    "subtitle": "Rua Ferreira Borges, 75",
     "address": [
       "Rua Ferreira Borges, 75",
       "1350-266 Lisboa"
@@ -646,7 +898,7 @@
   {
     "id": "22471",
     "gid": "ChIJY7QnEV__JA0RZgJ-jkTG5Vo",
-    "subtitle": "BK BRAGA ARCADA",
+    "subtitle": "Avenida de Lamas 100",
     "address": [
       "Avenida de Lamas 100",
       "4700-068 Braga"
@@ -658,9 +910,23 @@
     "district": "braga"
   },
   {
+    "id": "22660",
+    "gid": null,
+    "subtitle": "Avenida de Roma, 74B",
+    "address": [
+      "Avenida de Roma, 74B",
+      "1700-333 Lisboa"
+    ],
+    "position": {
+      "lat": 38.751153,
+      "lng": -9.142677
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "22764",
     "gid": "ChIJB9gQMWBhJA0RQ_aEc95nvs0",
-    "subtitle": "BK ERMESINDE",
+    "subtitle": "R. Nossa Sra. Mão Poderosa 220",
     "address": [
       "R. Nossa Sra. Mão Poderosa 220",
       "4445-416 Porto"
@@ -674,7 +940,7 @@
   {
     "id": "22813",
     "gid": "ChIJ04gjoAjOHg0RDVGfJTvUm1E",
-    "subtitle": "BK ANTA",
+    "subtitle": "Rua General Joaquim Filipe Nery Delgado",
     "address": [
       "Rua General Joaquim Filipe Nery Delgado",
       "2735-582 Cacem"
@@ -688,7 +954,7 @@
   {
     "id": "22942",
     "gid": "ChIJuxezDui9Fw0R_hyXCb9Qd4I",
-    "subtitle": "BK PORTALEGRE",
+    "subtitle": "Rua do Joinal S/N, Lugar do Gaveto",
     "address": [
       "Rua do Joinal S/N, Lugar do Gaveto",
       "7300-526 Portalegre"
@@ -700,9 +966,23 @@
     "district": "portalegre"
   },
   {
+    "id": "23497",
+    "gid": null,
+    "subtitle": "CC Alvaláxia, Rua Prof. Fernando Da Fonseca, Loja FAN LAB Piso 0",
+    "address": [
+      "CC Alvaláxia, Rua Prof. Fernando Da Fonseca, Loja FAN LAB Piso 0",
+      "1600-617 Lisboa"
+    ],
+    "position": {
+      "lat": 38.761158,
+      "lng": -9.159411
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "23516",
     "gid": "ChIJR9jLSY_5Ig0RI_TV6F6VF2Y",
-    "subtitle": "BK COIMBRA",
+    "subtitle": "Estrada da Beira nª485",
     "address": [
       "Estrada da Beira nª485",
       "3030-173 Coimbra"
@@ -716,7 +996,7 @@
   {
     "id": "23517",
     "gid": "ChIJqbJP78SRJA0R_uyvYUci5-w",
-    "subtitle": "BK PENAFIEL",
+    "subtitle": "R. Fonte da Cruz 24",
     "address": [
       "R. Fonte da Cruz 24",
       "4560-595 Penafiel"
@@ -730,7 +1010,7 @@
   {
     "id": "23518",
     "gid": "ChIJ_VpplcRlJA0ROlFZistHPR8",
-    "subtitle": "BK MONTES BURGOS",
+    "subtitle": "Rua Nova do Seixo, nº 780",
     "address": [
       "Rua Nova do Seixo, nº 780",
       "4465-216 Matosinhos"
@@ -744,7 +1024,7 @@
   {
     "id": "23524",
     "gid": "ChIJm9B-_pljJA0RwiETi8sfqbI",
-    "subtitle": "BK RIO TINTO",
+    "subtitle": "Av. Conduta",
     "address": [
       "Av. Conduta",
       "4435-485 Rio Tinto"
@@ -758,7 +1038,7 @@
   {
     "id": "23525",
     "gid": "ChIJ2Q2qo8w3Iw0RdmQ-Z3wKIOM",
-    "subtitle": "BK VISEU",
+    "subtitle": "Estrada Velhas de Abraveses, 147",
     "address": [
       "Estrada Velhas de Abraveses, 147",
       "3515-115 Viseu"
@@ -770,9 +1050,23 @@
     "district": "viseu"
   },
   {
+    "id": "23770",
+    "gid": null,
+    "subtitle": "Avenida Professor Egas Moniz N 16",
+    "address": [
+      "Avenida Professor Egas Moniz N 16",
+      "1649-035 Lisboa"
+    ],
+    "position": {
+      "lat": 38.750424,
+      "lng": -9.164885
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "23840",
     "gid": "ChIJ79lvf0TeOg0RzMXe4RZf6PM",
-    "subtitle": "BK CHAVES",
+    "subtitle": "Gaveto Rua Raio X e AV. D.Joao",
     "address": [
       "Gaveto Rua Raio X e AV. D.Joao",
       "5400-323 Chaves"
@@ -784,9 +1078,23 @@
     "district": "vila-real"
   },
   {
+    "id": "23842",
+    "gid": null,
+    "subtitle": "AEROPORTO DE FARO",
+    "address": [
+      "AEROPORTO DE FARO",
+      "8005-146 Faro"
+    ],
+    "position": {
+      "lat": 37.008667,
+      "lng": -7.959496
+    },
+    "district": "faro"
+  },
+  {
     "id": "23953",
     "gid": "ChIJ--WnadXkGQ0RS0xSOH2qoDs",
-    "subtitle": "BK EVORA",
+    "subtitle": "Rua Horta das Figueiras",
     "address": [
       "Rua Horta das Figueiras",
       "7005-212 Évora"
@@ -800,7 +1108,7 @@
   {
     "id": "24052",
     "gid": "ChIJ64-OO7YxGw0R1LbMEut5lNI",
-    "subtitle": "BK LAGOS",
+    "subtitle": "LUGAR DA PEDRA ALÇADA - SÃO SEBASTIÃO",
     "address": [
       "LUGAR DA PEDRA ALÇADA - SÃO SEBASTIÃO",
       "8600-546 Lagos"
@@ -812,9 +1120,37 @@
     "district": "faro"
   },
   {
+    "id": "24121",
+    "gid": null,
+    "subtitle": "Fórum Barreiro, Rua Stara-Zagora N1",
+    "address": [
+      "Fórum Barreiro, Rua Stara-Zagora N1",
+      "2830-364 Barreiro"
+    ],
+    "position": {
+      "lat": 38.662387,
+      "lng": -9.073593
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "24144",
+    "gid": null,
+    "subtitle": "Bragança Shopping, Avenida Sá Carneiro 2, Lj 41 e 42",
+    "address": [
+      "Bragança Shopping, Avenida Sá Carneiro 2, Lj 41 e 42",
+      "5300-021 Bragança"
+    ],
+    "position": {
+      "lat": 41.807833,
+      "lng": -6.760322
+    },
+    "district": "braganca"
+  },
+  {
     "id": "24193",
     "gid": "ChIJvUtaam9BGQ0RRyUqLfwSzl0",
-    "subtitle": "BK PALMELA",
+    "subtitle": "Avenida Visconde do Tojal 3",
     "address": [
       "Avenida Visconde do Tojal 3",
       "2950-780 Palmela"
@@ -828,7 +1164,7 @@
   {
     "id": "24277",
     "gid": "ChIJy8wA_wJLOw0REp17XUIEaL0",
-    "subtitle": "BK DRIVE VILA REAL",
+    "subtitle": "Rua da Fonte Nova",
     "address": [
       "Rua da Fonte Nova",
       "5000-540 Vila Real"
@@ -840,9 +1176,23 @@
     "district": "vila-real"
   },
   {
+    "id": "24422",
+    "gid": null,
+    "subtitle": "CC Mira Maia - Estrada Real N 95, L 1.062",
+    "address": [
+      "CC Mira Maia - Estrada Real N 95, L 1.062",
+      "4470-274 Porto"
+    ],
+    "position": {
+      "lat": 41.256252,
+      "lng": -8.653363
+    },
+    "district": "porto"
+  },
+  {
     "id": "24521",
     "gid": "ChIJp9w3i1pCGQ0RiQdP0rOZf9w",
-    "subtitle": "BK SETUBAL",
+    "subtitle": "Praça da Independência 18, 2910-618",
     "address": [
       "Praça da Independência 18, 2910-618",
       "2910-618 Setubal"
@@ -856,7 +1206,7 @@
   {
     "id": "24693",
     "gid": "ChIJmxnzWM1kJA0R5zCvnGPtlPY",
-    "subtitle": "BK GAIA",
+    "subtitle": "Rúa Joaquim Nicolau de Almeida",
     "address": [
       "Rúa Joaquim Nicolau de Almeida",
       "4430-117 Porto"
@@ -870,7 +1220,7 @@
   {
     "id": "24903",
     "gid": "ChIJM6zPFoRlJA0Re6MIynr9Orw",
-    "subtitle": "BK BOAVISTA",
+    "subtitle": "Avenida Boavista, nº 2586",
     "address": [
       "Avenida Boavista, nº 2586",
       "4100-119 Porto"
@@ -882,9 +1232,37 @@
     "district": "porto"
   },
   {
+    "id": "25155",
+    "gid": null,
+    "subtitle": "Aeroporto de Lisboa (antes da Segurança - T1)",
+    "address": [
+      "Aeroporto de Lisboa (antes da Segurança - T1)",
+      "1700-111 Lisboa"
+    ],
+    "position": {
+      "lat": 38.770243,
+      "lng": -9.138115
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "25194",
+    "gid": null,
+    "subtitle": "Estacão de Serviço Ponte Vasco da Gama – acesso Sul Nova travessia do tejo Km 13,7",
+    "address": [
+      "Estacão de Serviço Ponte Vasco da Gama – acesso Sul Nova travessia do tejo Km 13,7",
+      "2890-239 Samouco"
+    ],
+    "position": {
+      "lat": 38.725769,
+      "lng": -8.987405
+    },
+    "district": "setubal"
+  },
+  {
     "id": "25211",
     "gid": "ChIJ337lcNdhJA0Rtwf8sk_fVMA",
-    "subtitle": "BK ALFENA",
+    "subtitle": "Rua Primeiro de Maio, n 430",
     "address": [
       "Rua Primeiro de Maio, n 430",
       "4445-245 Alfena"
@@ -896,9 +1274,37 @@
     "district": "porto"
   },
   {
+    "id": "25592",
+    "gid": null,
+    "subtitle": "Avenida Dr Julio Filipe Almeida Carrapato N 121-A",
+    "address": [
+      "Avenida Dr Julio Filipe Almeida Carrapato N 121-A",
+      "8000-064 Faro"
+    ],
+    "position": {
+      "lat": 37.020494,
+      "lng": -7.923747
+    },
+    "district": "faro"
+  },
+  {
+    "id": "25595",
+    "gid": null,
+    "subtitle": "Burger King Estrada Exterior da Circunvalação N 7446",
+    "address": [
+      "Burger King Estrada Exterior da Circunvalação N 7446",
+      "4200-162 Porto"
+    ],
+    "position": {
+      "lat": 41.18306,
+      "lng": -8.598851
+    },
+    "district": "porto"
+  },
+  {
     "id": "25860",
     "gid": "ChIJfbGxbRZ1Gg0RmOoJJ2NelYM",
-    "subtitle": "BK BEJA",
+    "subtitle": "GAVETO DA ESTRADA DAS POLINÁRIAS EN 260",
     "address": [
       "GAVETO DA ESTRADA DAS POLINÁRIAS EN 260",
       "7800-050 Beja"
@@ -912,7 +1318,7 @@
   {
     "id": "25862",
     "gid": "ChIJ1dSTMNfzJA0R1IkWTIK25JU",
-    "subtitle": "BK VIZELA",
+    "subtitle": "Rua Comendador Joaquim Sousa Oliveira, 338",
     "address": [
       "Rua Comendador Joaquim Sousa Oliveira, 338",
       "4815-401 Vizela"
@@ -926,7 +1332,7 @@
   {
     "id": "26042",
     "gid": "ChIJMSkM5mXvGA0RBWYVF3Mdma4",
-    "subtitle": "BK SANTAREM",
+    "subtitle": "Av. Prof. Dr. Joaquim Verissimo Serrao",
     "address": [
       "Av. Prof. Dr. Joaquim Verissimo Serrao",
       "2005-000 Santarém"
@@ -938,9 +1344,23 @@
     "district": "santarem"
   },
   {
+    "id": "26046",
+    "gid": null,
+    "subtitle": "Rua São Paulo da Cruz",
+    "address": [
+      "Rua São Paulo da Cruz",
+      "4520-249 Santa Maria da Feira"
+    ],
+    "position": {
+      "lat": 40.925826,
+      "lng": -8.559796
+    },
+    "district": "aveiro"
+  },
+  {
     "id": "26047",
     "gid": "ChIJMzLSisSdIw0RYH-Aqm7Q51o",
-    "subtitle": "BK ESTARREJA",
+    "subtitle": "Rua da Arrotinha EN109",
     "address": [
       "Rua da Arrotinha EN109",
       "3860-207 Estarreja"
@@ -954,7 +1374,7 @@
   {
     "id": "26048",
     "gid": "ChIJX1aAXlpLOg0RruBeHMzVXUY",
-    "subtitle": "BK DRIVE BRAGANCA",
+    "subtitle": "Rua Arquitecto Viana de Lima nº 2",
     "address": [
       "Rua Arquitecto Viana de Lima nº 2",
       "5300-107 Bragança"
@@ -968,7 +1388,7 @@
   {
     "id": "26060",
     "gid": "ChIJYWQ_ZJRJGQ0RqQMIKNAGK7g",
-    "subtitle": "BK QUINTA DO CONDE",
+    "subtitle": "N10, Estrada dos Quatro Castelos, freguesia Quinta do Conde",
     "address": [
       "N10, Estrada dos Quatro Castelos, freguesia Quinta do Conde",
       "2975-403 Quinta do Conde"
@@ -982,7 +1402,7 @@
   {
     "id": "26368",
     "gid": "ChIJ-fxLPxzVHg0R0wQVO0SxFSM",
-    "subtitle": "BK MALVEIRA",
+    "subtitle": "Estrada Nacional nº 8 Malveira",
     "address": [
       "Estrada Nacional nº 8 Malveira",
       "2665-218 Malveira"
@@ -996,7 +1416,7 @@
   {
     "id": "26370",
     "gid": "ChIJEy-E1nP1JA0RGyplUrKZwDk",
-    "subtitle": "BK SANTO TIRSO",
+    "subtitle": "Rua das Rãs",
     "address": [
       "Rua das Rãs",
       "4780-219 Santo Tirso"
@@ -1010,7 +1430,7 @@
   {
     "id": "26397",
     "gid": "ChIJtT4bTvbpJA0RIfmA7dGAUHo",
-    "subtitle": "BK FAFE",
+    "subtitle": "Rua Cidade Guimarães Nº 200",
     "address": [
       "Rua Cidade Guimarães Nº 200",
       "4820-178 Fafe"
@@ -1024,7 +1444,7 @@
   {
     "id": "26400",
     "gid": "ChIJCVUmrrN5JA0RwI8rJZGaUuM",
-    "subtitle": "BK ESPINHO",
+    "subtitle": "Rua de Santa Cruz, N109, Nº. 68 - Burger King Espinho",
     "address": [
       "Rua de Santa Cruz, N109, Nº. 68 - Burger King Espinho",
       "4500-646 Espinho"
@@ -1038,7 +1458,7 @@
   {
     "id": "26607",
     "gid": "ChIJFyPuX1ZlJA0Rz-6uBI3BE9k",
-    "subtitle": "BK GAIA JARDIM",
+    "subtitle": "Rua Avenida dos Escultores 119 ( Centro Comercial Gaia Jardim loja 27)",
     "address": [
       "Rua Avenida dos Escultores 119 ( Centro Comercial Gaia Jardim loja 27)",
       "4400-139 Vila Nova de Gaia"
@@ -1052,7 +1472,7 @@
   {
     "id": "26629",
     "gid": "ChIJC3vLus0zGQ0REQ2tZ09dxGY",
-    "subtitle": "BK TELHEIRAS",
+    "subtitle": "Rua Frederico Jorge Eixo Norte Sul Area de serviço Galp sentido Norte",
     "address": [
       "Rua Frederico Jorge Eixo Norte Sul Area de serviço Galp sentido Norte",
       "1600-468 Lisboa"
@@ -1066,7 +1486,7 @@
   {
     "id": "26730",
     "gid": "ChIJEwWPUDf_JA0Re7NrSLZ9Y6E",
-    "subtitle": "BK BRAGA REAL",
+    "subtitle": "Rua do Feital, Nº 10",
     "address": [
       "Rua do Feital, Nº 10",
       "4700-287 Braga (Frossos/Real)"
@@ -1080,7 +1500,7 @@
   {
     "id": "26731",
     "gid": "ChIJL4Z3YL5nIg0R2DEumxpPEeY",
-    "subtitle": "BK ALBERGARIA",
+    "subtitle": "EN1- Vale da Lage (Junto ao Pingo Doce)",
     "address": [
       "EN1- Vale da Lage (Junto ao Pingo Doce)",
       "3850-184 Albergaria-a-Velha"
@@ -1094,7 +1514,7 @@
   {
     "id": "26750",
     "gid": "ChIJB2D_iodvJA0RErzAbkejCYg",
-    "subtitle": "BKP MATOSINHOS",
+    "subtitle": "RUA DE SOUSA AROSO Nº22-24",
     "address": [
       "RUA DE SOUSA AROSO Nº22-24",
       "44450-208 Matosinhos"
@@ -1108,7 +1528,7 @@
   {
     "id": "26763",
     "gid": "ChIJUb_m6mtlJA0RkB4F46k_QUM",
-    "subtitle": "BKP SAO MAMEDE",
+    "subtitle": "R. Laranjeiras 891",
     "address": [
       "R. Laranjeiras 891",
       "4465-185 São Mamede Infesta"
@@ -1122,7 +1542,7 @@
   {
     "id": "26900",
     "gid": "ChIJieM0GisnGQ0RteQPdZV1E9g",
-    "subtitle": "BKP VILAFRANCA DE XIRA",
+    "subtitle": "Quinta do Cabo, povos, 2600-277, Vila Franca de Xira, Portugal",
     "address": [
       "Quinta do Cabo, povos, 2600-277, Vila Franca de Xira, Portugal",
       "2600-277 Vila Franca de Xira"
@@ -1136,7 +1556,7 @@
   {
     "id": "26980",
     "gid": "ChIJ48XZKXSjIw0R9WxJhvzR4AQ",
-    "subtitle": "BKP VERDEMILHO",
+    "subtitle": "Estrada Nacional 109 com interseçao dRua Conselheiro Queiros",
     "address": [
       "Estrada Nacional 109 com interseçao dRua Conselheiro Queiros",
       "3810-414 Verdemilho"
@@ -1150,7 +1570,7 @@
   {
     "id": "27052",
     "gid": "ChIJH6EJIOozGQ0Ra5cLBhvmXWQ",
-    "subtitle": "BKP ALTO DE LISBOA",
+    "subtitle": "R. Hermínio da Palma Inácio Lote 29.02",
     "address": [
       "R. Hermínio da Palma Inácio Lote 29.02",
       "1750-224 Lisboa"
@@ -1164,7 +1584,7 @@
   {
     "id": "27053",
     "gid": "ChIJvRVqNqgnHw0RyIcZk4N9NhE",
-    "subtitle": "BKP ERICEIRA",
+    "subtitle": "Estrada Nacional 116, 2655-454 Ericeira, Portugal",
     "address": [
       "Estrada Nacional 116, 2655-454 Ericeira, Portugal",
       "2655-454 Ericeira"
@@ -1176,9 +1596,23 @@
     "district": "lisboa"
   },
   {
+    "id": "27054",
+    "gid": null,
+    "subtitle": "Via Dom Pedro I, 4990-011 Pte. de Lima",
+    "address": [
+      "Via Dom Pedro I, 4990-011 Pte. de Lima",
+      "4990-150 Ponte de Lima"
+    ],
+    "position": {
+      "lat": 41.757821,
+      "lng": -8.588182
+    },
+    "district": "viana-do-castelo"
+  },
+  {
     "id": "27115",
     "gid": "ChIJMWnTsDvRRQsRo17LZ8wTO7Q",
-    "subtitle": "BK PRAIA DA VITORIA",
+    "subtitle": "Estrada da Circunvalação",
     "address": [
       "Estrada da Circunvalação",
       "9760-400 Praia da Vitória (Açores)"
@@ -1192,7 +1626,7 @@
   {
     "id": "27136",
     "gid": "ChIJ3dxYDWWPJA0REtFgDKKqGxg",
-    "subtitle": "BK PAREDES",
+    "subtitle": "Rua da Igreja Velha  Paredes",
     "address": [
       "Rua da Igreja Velha  Paredes",
       "4580-113 Paredes"
@@ -1206,7 +1640,7 @@
   {
     "id": "27203",
     "gid": "ChIJgf7pqCy3JQ0Rc7oaPZzkhfU",
-    "subtitle": "BK VIANA DRIVE",
+    "subtitle": "Quinta de S. Brás, E.N. 13, Lugar De Santoinho, Darque",
     "address": [
       "Quinta de S. Brás, E.N. 13, Lugar De Santoinho, Darque",
       "4935-052 Viana Castelo"
@@ -1220,7 +1654,7 @@
   {
     "id": "27411",
     "gid": "ChIJ0_JUxc6XJQ0RfrKISxYa8vo",
-    "subtitle": "BK VILA NOVA DE CERVEIRA",
+    "subtitle": "Rua Martins Vicente, União das freguesias Vila Nova de Cerveira e Lovelhe",
     "address": [
       "Rua Martins Vicente, União das freguesias Vila Nova de Cerveira e Lovelhe",
       "4920-273 V. N. Cerveira"
@@ -1234,7 +1668,7 @@
   {
     "id": "27601",
     "gid": "ChIJvWBfGtn_JA0Rmrmr5G_p4Hw",
-    "subtitle": "BKP BRAGA NORTE",
+    "subtitle": "Rua Américo Barbosa Lote X1",
     "address": [
       "Rua Américo Barbosa Lote X1",
       "4710-007 São Vicente, Braga, Portugal"
@@ -1248,7 +1682,7 @@
   {
     "id": "27602",
     "gid": "ChIJZxGANeg3GQ0R4z-32BRrtok",
-    "subtitle": "BK BARREIRO",
+    "subtitle": "AVENIDA MOVIMENTO DAS FORÇAS ARMADAS",
     "address": [
       "AVENIDA MOVIMENTO DAS FORÇAS ARMADAS",
       "2830-003 Barreiro"
@@ -1262,7 +1696,7 @@
   {
     "id": "27603",
     "gid": "ChIJRyFEJbbJHg0RTK2uOxGPFeI",
-    "subtitle": "BK QUINTA DO MARQUES",
+    "subtitle": "Rua Norton de Matos Quinta do Marquês Continente Bom dia",
     "address": [
       "Rua Norton de Matos Quinta do Marquês Continente Bom dia",
       "2780-155 Oeiras"
@@ -1276,7 +1710,7 @@
   {
     "id": "27604",
     "gid": "ChIJE_KGEYchGQ0RHWRpSDt8uY0",
-    "subtitle": "BKP PORTOALTO",
+    "subtitle": "Avenida das Nações Unidas Nº 37, 2135-114 Samora Correia",
     "address": [
       "Avenida das Nações Unidas Nº 37, 2135-114 Samora Correia",
       "2135-114 Porto Alto"
@@ -1290,7 +1724,7 @@
   {
     "id": "27605",
     "gid": "ChIJW0eJkI03Hw0R9QglKzarvlw",
-    "subtitle": "BK LOURINHA",
+    "subtitle": "Avenida António José de Almeida nº 24",
     "address": [
       "Avenida António José de Almeida nº 24",
       "2530-921 Lourinha"
@@ -1304,7 +1738,7 @@
   {
     "id": "27726",
     "gid": "ChIJJ4-yKRadGA0R19XpD9nniZg",
-    "subtitle": "BKP FATIMA",
+    "subtitle": "Av. de Dom José Alves Correia da Silva",
     "address": [
       "Av. de Dom José Alves Correia da Silva",
       "2495-402 Fatima"
@@ -1318,7 +1752,7 @@
   {
     "id": "27909",
     "gid": "ChIJpd_1BYmJGA0RreRaOiNl58w",
-    "subtitle": "BKP Torres Novas",
+    "subtitle": "Avenida Xanana Gusmão",
     "address": [
       "Avenida Xanana Gusmão",
       "2350-754 Torres Novas"
@@ -1332,7 +1766,7 @@
   {
     "id": "27910",
     "gid": "ChIJe2DCGADXHg0RjU_sxX81f-U",
-    "subtitle": "BKP MAFRA",
+    "subtitle": "R. Alm. Gago Coutinho n. 7, 2640-487 Mafra, Portugal",
     "address": [
       "R. Alm. Gago Coutinho n. 7, 2640-487 Mafra, Portugal",
       "2640-487 Mafra"
@@ -1346,7 +1780,7 @@
   {
     "id": "27911",
     "gid": "ChIJm1kREvoxGQ0R9PBjjszXNpw",
-    "subtitle": "BKP MONTIJO",
+    "subtitle": "Estrada Nacional 5 Alto Estanqueiro, Alto Do Estanqueiro",
     "address": [
       "Estrada Nacional 5 Alto Estanqueiro, Alto Do Estanqueiro",
       "2870-803 Montijo"
@@ -1358,9 +1792,23 @@
     "district": "setubal"
   },
   {
+    "id": "28060",
+    "gid": null,
+    "subtitle": "Aeroporto da Madeira, lado Terra, Aerogare Piso 0",
+    "address": [
+      "Aeroporto da Madeira, lado Terra, Aerogare Piso 0",
+      "9100-105 Santa Cruz"
+    ],
+    "position": {
+      "lat": 32.6907,
+      "lng": -16.7939
+    },
+    "district": "madeira"
+  },
+  {
     "id": "28061",
     "gid": "ChIJjXIDZjeVGQ0RxRtBPGNS2us",
-    "subtitle": "BK MONTEMOR O NOVO",
+    "subtitle": "Gaveto da estrada Nacional N4 com a N114",
     "address": [
       "Gaveto da estrada Nacional N4 com a N114",
       "7050-243 Montemor"
@@ -1374,7 +1822,7 @@
   {
     "id": "28062",
     "gid": "ChIJRzg9o7CNJA0RBsDC1MeNoS8",
-    "subtitle": "BK PACOS DE FERREIRA",
+    "subtitle": "Rua D. Afonso III",
     "address": [
       "Rua D. Afonso III",
       "4590-136 Paços de Ferreira"
@@ -1388,7 +1836,7 @@
   {
     "id": "28115",
     "gid": "ChIJYRIYqIC_JA0RCqr_Bc34zbc",
-    "subtitle": "BK AMARANTE",
+    "subtitle": "Via Tâmega Pinheiro Manso, Campo de Relas",
     "address": [
       "Via Tâmega Pinheiro Manso, Campo de Relas",
       "4600-611 Amarante"
@@ -1402,7 +1850,7 @@
   {
     "id": "28119",
     "gid": "ChIJnx6vNuR5Iw0RgE3Qrll8g18",
-    "subtitle": "BKP OLIVEIRA DE AZEMEIS",
+    "subtitle": "Av. Eng. Arantes de Oliveira",
     "address": [
       "Av. Eng. Arantes de Oliveira",
       "3720-253 Oliveira de Azemeis"
@@ -1416,7 +1864,7 @@
   {
     "id": "28121",
     "gid": "ChIJnZRB0l-XJA0RB-qqe33n-I4",
-    "subtitle": "BK MARCO CANAVESES",
+    "subtitle": "Av. Santa Tereza do Menino Jesus 4630-203  Portugal",
     "address": [
       "Av. Santa Tereza do Menino Jesus 4630-203  Portugal",
       "4630-203 Marco de Canaveses"
@@ -1430,7 +1878,7 @@
   {
     "id": "28123",
     "gid": "ChIJQeS_nZ7xJA0R5pQ325Fo5to",
-    "subtitle": "BKP SILVARES",
+    "subtitle": "Rua Capitão Salgueiro Maia, nº 70 (A)",
     "address": [
       "Rua Capitão Salgueiro Maia, nº 70 (A)",
       "4835-400 Guimarães"
@@ -1442,9 +1890,23 @@
     "district": "braga"
   },
   {
+    "id": "28133",
+    "gid": null,
+    "subtitle": "Rua Quinta do Paizinho 18, 2790-237",
+    "address": [
+      "Rua Quinta do Paizinho 18, 2790-237",
+      "2790-237 Alfragide"
+    ],
+    "position": {
+      "lat": 38.722161,
+      "lng": -9.218396
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "28160",
     "gid": "ChIJ4YpuRaBjJA0RX3YDIAQ2Xzc",
-    "subtitle": "BK VALONGO",
+    "subtitle": "Centro Comercial Valongo , Rua Julião Sarmento, 285",
     "address": [
       "Centro Comercial Valongo , Rua Julião Sarmento, 285",
       "4440-837 Valongo"
@@ -1458,7 +1920,7 @@
   {
     "id": "28484",
     "gid": "ChIJd8g3k_OVGw0RvCVQipLs_hM",
-    "subtitle": "BKP SINES",
+    "subtitle": "Loteamento Municipal a Norte da R52, Lote 8",
     "address": [
       "Loteamento Municipal a Norte da R52, Lote 8",
       "7520-001 Sines"
@@ -1472,7 +1934,7 @@
   {
     "id": "28561",
     "gid": "ChIJZyEZ0kZTJA0Rd-F9A6KhnmE",
-    "subtitle": "BKP Barcelos",
+    "subtitle": "Avenida São José - 4750-307 Barcelos",
     "address": [
       "Avenida São José - 4750-307 Barcelos",
       "4750-307 Barcelos"
@@ -1486,7 +1948,7 @@
   {
     "id": "28562",
     "gid": "ChIJg9rAvP9_GA0Ry58Z7U-oZUc",
-    "subtitle": "BKP TOMAR",
+    "subtitle": "Avenida Dr Aurelio Ribeiro",
     "address": [
       "Avenida Dr Aurelio Ribeiro",
       "2300-305 Tomar"
@@ -1500,7 +1962,7 @@
   {
     "id": "28563",
     "gid": "ChIJHw4gWIFeJA0RgkgNjGhAU-k",
-    "subtitle": "BKP TROFA",
+    "subtitle": "R. das Indústrias 475, 4785-706 Trofa, Portugal",
     "address": [
       "R. das Indústrias 475, 4785-706 Trofa, Portugal",
       "4785-706 Trofa"
@@ -1514,7 +1976,7 @@
   {
     "id": "28699",
     "gid": "ChIJH9Aou6UtHw0R5L0ZTZlOHnA",
-    "subtitle": "BK DRIVE TORRES VEDRAS",
+    "subtitle": "Rua António Leal D`Ascenção, Torres Vedras",
     "address": [
       "Rua António Leal D`Ascenção, Torres Vedras",
       "2560-299 Torres Vedras"
@@ -1528,7 +1990,7 @@
   {
     "id": "28700",
     "gid": "ChIJTXAhH5yNRwsR57dIj34i_7g",
-    "subtitle": "BK MADALENA PICO",
+    "subtitle": "Rua Novo Caminho Municipal da Escola Cardeal Costa Nunes, s/n",
     "address": [
       "Rua Novo Caminho Municipal da Escola Cardeal Costa Nunes, s/n",
       "9950-302 Madalena do Pico"
@@ -1542,7 +2004,7 @@
   {
     "id": "28708",
     "gid": "ChIJm6cSTbxNGQ0RoN-5cS-W0Eg",
-    "subtitle": "BKP SESIMBRA",
+    "subtitle": "Rua Quinta do Sobreiro, n.º 31",
     "address": [
       "Rua Quinta do Sobreiro, n.º 31",
       "2970-866 Sesimbra"
@@ -1556,7 +2018,7 @@
   {
     "id": "28709",
     "gid": "ChIJvW49xsO5GA0RnSx1nurpIpQ",
-    "subtitle": "BK RIO MAIOR",
+    "subtitle": "R. do Espadanal 2, Rio Maior",
     "address": [
       "R. do Espadanal 2, Rio Maior",
       "2040-351 Rio Maior"
@@ -1568,9 +2030,23 @@
     "district": "santarem"
   },
   {
+    "id": "28755",
+    "gid": null,
+    "subtitle": "IC2, Casal Machado s/n, 2580-347 Alenquer",
+    "address": [
+      "IC2, Casal Machado s/n, 2580-347 Alenquer",
+      "2580-347 Alenquer"
+    ],
+    "position": {
+      "lat": 39.040503,
+      "lng": -8.98634
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "28795",
     "gid": "ChIJU2KTM3J7JA0R-yUfUTrpQGc",
-    "subtitle": "BK VILAR DE ANDORINHO",
+    "subtitle": "R. das Coletividades, 76",
     "address": [
       "R. das Coletividades, 76",
       "4430-625 Vila Nova de Gaia"
@@ -1584,7 +2060,7 @@
   {
     "id": "28880",
     "gid": "ChIJvwIe4LzNHg0RH9w5WfWe3rk",
-    "subtitle": "BK QUELUZ",
+    "subtitle": "AVENIDA COMANDANTE PAIVA COUCEIRO",
     "address": [
       "AVENIDA COMANDANTE PAIVA COUCEIRO",
       "2745-190 Queluz"
@@ -1598,7 +2074,7 @@
   {
     "id": "28935",
     "gid": "ChIJvexGqRQ7GQ0RW-M8bHugZaE",
-    "subtitle": "BKP ALCOCHETE",
+    "subtitle": "Estrada Real nº 4005",
     "address": [
       "Estrada Real nº 4005",
       "2890-155 Alcochete"
@@ -1612,7 +2088,7 @@
   {
     "id": "28941",
     "gid": "ChIJrSvc7aiTJA0R0uOlWePa4Ms",
-    "subtitle": "BKP E.Elecler Lousada",
+    "subtitle": "Rua do Comércio (n.º 32) 4620-830 Lousada (E.Leclerc -Loja Burger King)",
     "address": [
       "Rua do Comércio (n.º 32) 4620-830 Lousada (E.Leclerc -Loja Burger King)",
       "4620-830 Lousada"
@@ -1626,7 +2102,7 @@
   {
     "id": "28948",
     "gid": "ChIJkb7XDyupGA0RNudzE5_EMp0",
-    "subtitle": "BKP NAZARE",
+    "subtitle": "Avenida Nogent-Sur-Marne, n.º 23  Nazaré",
     "address": [
       "Avenida Nogent-Sur-Marne, n.º 23  Nazaré",
       "2450-138 Nazaré"
@@ -1640,7 +2116,7 @@
   {
     "id": "28949",
     "gid": "ChIJ5_MlqvA5GQ0RY1Pmpgwb2F8",
-    "subtitle": "BKP MOITA",
+    "subtitle": "Fonte da Prata 2860, 2860-006 Alhos Vedros, Portugal",
     "address": [
       "Fonte da Prata 2860, 2860-006 Alhos Vedros, Portugal",
       "2860-006 Moita"
@@ -1654,7 +2130,7 @@
   {
     "id": "28955",
     "gid": "ChIJQSrXCKFFHw0R2eJLKSC-NWM",
-    "subtitle": "BKP Peniche",
+    "subtitle": "Avenida Monsenhor Manuel Bastos Rodrigues de Sousa, n.º 135",
     "address": [
       "Avenida Monsenhor Manuel Bastos Rodrigues de Sousa, n.º 135",
       "2520-206 Peniche"
@@ -1668,7 +2144,7 @@
   {
     "id": "28964",
     "gid": "ChIJ1b-47qA1GQ0RXtQ8eJRvibA",
-    "subtitle": "BKP CORROIOS",
+    "subtitle": "Rua Bento Gonçalves",
     "address": [
       "Rua Bento Gonçalves",
       "2855-574 Corroios"
@@ -1682,7 +2158,7 @@
   {
     "id": "29013",
     "gid": "ChIJXa8RTsfrJA0RED5BrIOQI6U",
-    "subtitle": "BK FELGUEIRAS",
+    "subtitle": "Rua Professor Joaquim Barros Leite, 206",
     "address": [
       "Rua Professor Joaquim Barros Leite, 206",
       "4610-108 Felgueiras"
@@ -1696,7 +2172,7 @@
   {
     "id": "29020",
     "gid": "ChIJF0JyFvYjEA0RHdT955kV2v0",
-    "subtitle": "BKP V.R. SANTO ANTONIO",
+    "subtitle": "Av. Fernando Salgueiro Maia N110",
     "address": [
       "Av. Fernando Salgueiro Maia N110",
       "8900-265 Vila Real de Santo António"
@@ -1710,7 +2186,7 @@
   {
     "id": "29026",
     "gid": "ChIJV1X4ouRBGQ0RSC_4FgfDGs8",
-    "subtitle": "BKP PINHAL NOVO",
+    "subtitle": "Rua Luís de Camoes",
     "address": [
       "Rua Luís de Camoes",
       "2955-205 Pinhal Novo"
@@ -1724,7 +2200,7 @@
   {
     "id": "29177",
     "gid": "ChIJvxlpFafPHg0Rfg03NjDTKUg",
-    "subtitle": "BKP Tagus Park Oeiras",
+    "subtitle": "Estrada de São Marcos 1 ,Agualva-Cacém",
     "address": [
       "Estrada de São Marcos 1 ,Agualva-Cacém",
       "2735-307 Agualva-Cacém"
@@ -1736,9 +2212,23 @@
     "district": "lisboa"
   },
   {
+    "id": "29178",
+    "gid": null,
+    "subtitle": "Lugar de Valadarinhos, Avenida Combatentes do Ultramar",
+    "address": [
+      "Lugar de Valadarinhos, Avenida Combatentes do Ultramar",
+      "4405-707 Valadares"
+    ],
+    "position": {
+      "lat": 41.085173,
+      "lng": -8.632877
+    },
+    "district": "porto"
+  },
+  {
     "id": "29253",
     "gid": "ChIJbxuin3b7PA0RAvt-1E-ADo4",
-    "subtitle": "BK GUARDA",
+    "subtitle": "Quinta da Torre , Guarda (VICEG junto à BP)",
     "address": [
       "Quinta da Torre , Guarda (VICEG junto à BP)",
       "6300-625 Guarda"
@@ -1752,7 +2242,7 @@
   {
     "id": "29347",
     "gid": "ChIJ53EnhR9jJA0RnE_gMJ9QCMI",
-    "subtitle": "BK BAGUIM DO MONTE",
+    "subtitle": "Rua Nossa Sra do Amparo nº 1027",
     "address": [
       "Rua Nossa Sra do Amparo nº 1027",
       "4435-672 Gondomar"
@@ -1766,7 +2256,7 @@
   {
     "id": "29349",
     "gid": "ChIJKT6WMjJjGA0RhgviXLLrido",
-    "subtitle": "BK ENTRONCAMENTO",
+    "subtitle": "Rua Doutor Francisco Sá Carneiro, 45",
     "address": [
       "Rua Doutor Francisco Sá Carneiro, 45",
       "2330-148 Entroncamento"
@@ -1780,7 +2270,7 @@
   {
     "id": "29413",
     "gid": "ChIJtwx5srXXGg0R9mmgBk-8snc",
-    "subtitle": "BKP Lagoa",
+    "subtitle": "Rua dos Vales Nº 2, Lagoa",
     "address": [
       "Rua dos Vales Nº 2, Lagoa",
       "8400-415 Lagoa"
@@ -1792,9 +2282,23 @@
     "district": "faro"
   },
   {
+    "id": "29494",
+    "gid": null,
+    "subtitle": "Rua Cidade da Covilhã",
+    "address": [
+      "Rua Cidade da Covilhã",
+      "6230-298 Fundão"
+    ],
+    "position": {
+      "lat": 40.15458,
+      "lng": -7.496282
+    },
+    "district": "castelo-branco"
+  },
+  {
     "id": "29495",
     "gid": "ChIJAUMqETutJA0RkMeQ8sznHGY",
-    "subtitle": "BK LAMEGO",
+    "subtitle": "Rua das Amoreiras",
     "address": [
       "Rua das Amoreiras",
       "5100-185 Lamego"
@@ -1808,7 +2312,7 @@
   {
     "id": "29521",
     "gid": "ChIJSb0niSwjPQ0RlpPId_gX7g4",
-    "subtitle": "BK DRIVE COVILHA",
+    "subtitle": "Quinta da Nora, Gaveto da Alameda Pêro da Covilhã e N18 Boidobra",
     "address": [
       "Quinta da Nora, Gaveto da Alameda Pêro da Covilhã e N18 Boidobra",
       "6200-251 Covilhã"
@@ -1820,9 +2324,23 @@
     "district": "castelo-branco"
   },
   {
+    "id": "29522",
+    "gid": null,
+    "subtitle": "Avenida Professor Doutor Egas Moniz, Nº Lote 1",
+    "address": [
+      "Avenida Professor Doutor Egas Moniz, Nº Lote 1",
+      "6000-901 Castelo Branco"
+    ],
+    "position": {
+      "lat": 39.807075,
+      "lng": -7.513287
+    },
+    "district": "castelo-branco"
+  },
+  {
     "id": "29617",
     "gid": "ChIJ6Se9ptLLHg0ROEOkuVPHK3s",
-    "subtitle": "BKP Belem",
+    "subtitle": "Rua de Belem 10 a 16",
     "address": [
       "Rua de Belem 10 a 16",
       "1300-004 Lisboa"
@@ -1836,7 +2354,7 @@
   {
     "id": "29649",
     "gid": "ChIJPfc9JBNfYAwRs3JeOOpDm9g",
-    "subtitle": "BK DRIVE S MARTINHO",
+    "subtitle": "Avenida Mário Soares nº 161",
     "address": [
       "Avenida Mário Soares nº 161",
       "9000-723 Funchal"
@@ -1850,7 +2368,7 @@
   {
     "id": "29655",
     "gid": "ChIJd644kfJ7JA0Rk8hk6rlYYsI",
-    "subtitle": "BK GAIA SHOPPING",
+    "subtitle": "Av. dos Descobrimentos 549",
     "address": [
       "Av. dos Descobrimentos 549",
       "4404-503 Vila Nova de Gaia"
@@ -1864,7 +2382,7 @@
   {
     "id": "29672",
     "gid": "ChIJ5_5oCvwBJQ0R2UbfSRGzgsA",
-    "subtitle": "BK VILA VERDE",
+    "subtitle": "Avª António Sérgio nº 240 - Vila Verde",
     "address": [
       "Avª António Sérgio nº 240 - Vila Verde",
       "4730-710 Braga"
@@ -1878,7 +2396,7 @@
   {
     "id": "29675",
     "gid": "ChIJ03H1tG7NPA0RFCSkgJlm_dg",
-    "subtitle": "BK MANGUALDE",
+    "subtitle": "Rua da Igreja, nº 232",
     "address": [
       "Rua da Igreja, nº 232",
       "3530-206 Mangualde"
@@ -1890,9 +2408,23 @@
     "district": "viseu"
   },
   {
+    "id": "29682",
+    "gid": null,
+    "subtitle": "Av. Prof. Dr. Bissaya Barreto, Figueira da Foz",
+    "address": [
+      "Av. Prof. Dr. Bissaya Barreto, Figueira da Foz",
+      "2000-471 Figueira da Foz"
+    ],
+    "position": {
+      "lat": 40.157835,
+      "lng": -8.849232
+    },
+    "district": "coimbra"
+  },
+  {
     "id": "29716",
     "gid": "ChIJgVX-wwLRGg0RuM6iRd2MyyM",
-    "subtitle": "BKP Alcantarilha Rio-Park",
+    "subtitle": "Sudoeste Retail Park, 8365-023 Alcantarilha, Silves",
     "address": [
       "Sudoeste Retail Park, 8365-023 Alcantarilha, Silves",
       "8365-023 Alcantarilha"
@@ -1906,7 +2438,7 @@
   {
     "id": "29893",
     "gid": "ChIJsQiTiABLGQ0RZxPP4JVVOtI",
-    "subtitle": "BK RIO SUL",
+    "subtitle": "Avenida Libertadores de Timor Loro Sae",
     "address": [
       "Avenida Libertadores de Timor Loro Sae",
       "2840-168 Seixal"
@@ -1920,7 +2452,7 @@
   {
     "id": "30092",
     "gid": "ChIJI6Lqwnh_JA0RWLvNz_hF4aE",
-    "subtitle": "BKP LOUROSA",
+    "subtitle": "Rua Central 3198-3286",
     "address": [
       "Rua Central 3198-3286",
       "4535-031 Lourosa"
@@ -1934,7 +2466,7 @@
   {
     "id": "30281",
     "gid": "ChIJgaly2ohjJA0Rxj6EekqT5l8",
-    "subtitle": "BKP FABRICA DO COBRE",
+    "subtitle": "Rua das Linhas de Torres 56",
     "address": [
       "Rua das Linhas de Torres 56",
       "4350-214 Porto"
@@ -1948,7 +2480,7 @@
   {
     "id": "30282",
     "gid": "ChIJS86O6b5zIg0RGiHlhkOFITA",
-    "subtitle": "BKP LEIRIA OLHALVAS",
+    "subtitle": "Rua de Santo André",
     "address": [
       "Rua de Santo André",
       "2410-196 Leiria"
@@ -1962,7 +2494,7 @@
   {
     "id": "30284",
     "gid": "ChIJa7jC0xBtGA0RfiT_cC65PpA",
-    "subtitle": "BKP ABRANTES",
+    "subtitle": "Avenida Dom João I, Rotunda do Olival",
     "address": [
       "Avenida Dom João I, Rotunda do Olival",
       "2200-021 Abrantes"
@@ -1976,7 +2508,7 @@
   {
     "id": "30286",
     "gid": "ChIJMXA297OlGA0RQ4mHFzkdmAE",
-    "subtitle": "BKP ALCOBACA",
+    "subtitle": "Rua de Leiria, Alcobaça",
     "address": [
       "Rua de Leiria, Alcobaça",
       "2460-059 Alcobaça"
@@ -1990,7 +2522,7 @@
   {
     "id": "30288",
     "gid": "ChIJWz1k7U3vJA0RZ3t_9EUHt3I",
-    "subtitle": "BKP GUIMARAES DRIVE",
+    "subtitle": "Rua Rodovia de Covas",
     "address": [
       "Rua Rodovia de Covas",
       "4810-225 Guimarães"
@@ -2004,7 +2536,7 @@
   {
     "id": "30464",
     "gid": "ChIJhe9Drd-DGA0RXuuiR2xfXT4",
-    "subtitle": "BKP OUREM",
+    "subtitle": "Rua Dr. Joaquim Francisco Alves (interseção estrada da Caridade)",
     "address": [
       "Rua Dr. Joaquim Francisco Alves (interseção estrada da Caridade)",
       "2490-550 Ourém"
@@ -2014,5 +2546,327 @@
       "lng": -8.58614
     },
     "district": "santarem"
+  },
+  {
+    "id": "31216",
+    "gid": null,
+    "subtitle": "IKEA Loulé, Av. Algarve, 8125-182 Almancil",
+    "address": [
+      "IKEA Loulé, Av. Algarve, 8125-182 Almancil",
+      "8125-182 Almancil"
+    ],
+    "position": {
+      "lat": 37.100844,
+      "lng": -8.002968
+    },
+    "district": "faro"
+  },
+  {
+    "id": "31223",
+    "gid": null,
+    "subtitle": "Alameda da Cidade, n.º 2, 3050-395 Mealhada",
+    "address": [
+      "Alameda da Cidade, n.º 2, 3050-395 Mealhada",
+      "3050-395 Mealhada"
+    ],
+    "position": {
+      "lat": 40.372391,
+      "lng": -8.451496
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "31261",
+    "gid": null,
+    "subtitle": "Avenida Vitor Galllo 1, 2430-330 Marinha Grande",
+    "address": [
+      "Avenida Vitor Galllo 1, 2430-330 Marinha Grande",
+      "2430-330 Marinha Grande"
+    ],
+    "position": {
+      "lat": 39.747278,
+      "lng": -8.933528
+    },
+    "district": "leiria"
+  },
+  {
+    "id": "31281",
+    "gid": null,
+    "subtitle": "Avenida Oliveira Martins, 4420-000, São Cosme, Gondomar",
+    "address": [
+      "Avenida Oliveira Martins, 4420-000, São Cosme, Gondomar",
+      "4420-000 Gondomar"
+    ],
+    "position": {
+      "lat": 41.138697,
+      "lng": -8.537942
+    },
+    "district": "porto"
+  },
+  {
+    "id": "31282",
+    "gid": null,
+    "subtitle": "Albufeira Terrace – Shopping & Living, Lojas P1.8 e P1.9",
+    "address": [
+      "Albufeira Terrace – Shopping & Living, Lojas P1.8 e P1.9",
+      "8200-161 Albufeira"
+    ],
+    "position": {
+      "lat": 37.090469,
+      "lng": -8.241088
+    },
+    "district": "faro"
+  },
+  {
+    "id": "31286",
+    "gid": null,
+    "subtitle": "Avenida Central de Gandra (nº15)",
+    "address": [
+      "Avenida Central de Gandra (nº15)",
+      "4585-248 Gandra"
+    ],
+    "position": {
+      "lat": 41.182789,
+      "lng": -8.44251
+    },
+    "district": "porto"
+  },
+  {
+    "id": "31297",
+    "gid": null,
+    "subtitle": "Rua Belchior Robles",
+    "address": [
+      "Rua Belchior Robles",
+      "4450-626 Leça da Palmeira"
+    ],
+    "position": {
+      "lat": 41.200412,
+      "lng": -8.700542
+    },
+    "district": "porto"
+  },
+  {
+    "id": "31376",
+    "gid": null,
+    "subtitle": "Rua das Lavadeiras, 2415-452 Leiria",
+    "address": [
+      "Rua das Lavadeiras, 2415-452 Leiria",
+      "2415-452 Leiria"
+    ],
+    "position": {
+      "lat": 39.754357,
+      "lng": -8.800797
+    },
+    "district": "leiria"
+  },
+  {
+    "id": "31377",
+    "gid": null,
+    "subtitle": "Rua do Poente 2, 2440-462 Batalha",
+    "address": [
+      "Rua do Poente 2, 2440-462 Batalha",
+      "2440-462 Batalha"
+    ],
+    "position": {
+      "lat": 39.645305,
+      "lng": -8.842854
+    },
+    "district": "leiria"
+  },
+  {
+    "id": "31446",
+    "gid": null,
+    "subtitle": "Rua Professor Egas Moniz, Lote 3",
+    "address": [
+      "Rua Professor Egas Moniz, Lote 3",
+      "2625-084 Vialonga"
+    ],
+    "position": {
+      "lat": 38.872467,
+      "lng": -9.077088
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "31447",
+    "gid": null,
+    "subtitle": "Rua da pimenta 115",
+    "address": [
+      "Rua da pimenta 115",
+      "1990-048 Lisboa"
+    ],
+    "position": {
+      "lat": 38.77358,
+      "lng": -9.092132
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "31983",
+    "gid": null,
+    "subtitle": "R. de Sampaio Bruno 11, 4000-065 Porto",
+    "address": [
+      "R. de Sampaio Bruno 11, 4000-065 Porto",
+      "4000-065 Porto"
+    ],
+    "position": {
+      "lat": 41.1467,
+      "lng": -8.61011
+    },
+    "district": "porto"
+  },
+  {
+    "id": "31996",
+    "gid": null,
+    "subtitle": "Avenida 25 de Abril, 43",
+    "address": [
+      "Avenida 25 de Abril, 43",
+      "3750-101 Águeda"
+    ],
+    "position": {
+      "lat": 40.572862,
+      "lng": -8.442319
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "32153",
+    "gid": null,
+    "subtitle": "R. de Santa Catarina 312 a 350, 4000-443 Porto",
+    "address": [
+      "R. de Santa Catarina 312 a 350, 4000-443 Porto",
+      "4000-443 Porto"
+    ],
+    "position": {
+      "lat": 41.149032,
+      "lng": -8.606004
+    },
+    "district": "porto"
+  },
+  {
+    "id": "32468",
+    "gid": null,
+    "subtitle": "Avenida Engenheiro Vilar Queiroz 1, 2615-216 Alverca",
+    "address": [
+      "Avenida Engenheiro Vilar Queiroz 1, 2615-216 Alverca",
+      "2615-216 Alverca"
+    ],
+    "position": {
+      "lat": 38.890033,
+      "lng": -9.039147
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "32725",
+    "gid": null,
+    "subtitle": "R. Pulido Valente Nr 1 Loja 2",
+    "address": [
+      "R. Pulido Valente Nr 1 Loja 2",
+      "2675-670 Odivelas"
+    ],
+    "position": {
+      "lat": 38.78838,
+      "lng": -9.19065
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "32726",
+    "gid": null,
+    "subtitle": "Rua Camilo Castelo Branco, 4400-346 Vila Nova de Gaia",
+    "address": [
+      "Rua Camilo Castelo Branco, 4400-346 Vila Nova de Gaia",
+      "4400-346 Vila Nova de Gaia"
+    ],
+    "position": {
+      "lat": 41.14146,
+      "lng": -8.63646
+    },
+    "district": "porto"
+  },
+  {
+    "id": "32775",
+    "gid": null,
+    "subtitle": "Largo das Fontaínhas 7, 1300-113 Lisboa",
+    "address": [
+      "Largo das Fontaínhas 7, 1300-113 Lisboa",
+      "1300-113 Lisboa"
+    ],
+    "position": {
+      "lat": 38.704371,
+      "lng": -9.176739
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "32777",
+    "gid": null,
+    "subtitle": "Avenida Almirante Reis 86-B, 1170-096 Lisboa",
+    "address": [
+      "Avenida Almirante Reis 86-B, 1170-096 Lisboa",
+      "1170-096 Lisboa"
+    ],
+    "position": {
+      "lat": 38.729169,
+      "lng": -9.13452
+    },
+    "district": "lisboa"
+  },
+  {
+    "id": "32778",
+    "gid": null,
+    "subtitle": "Alameda Dr. Mariano Felgueiras loja 440 , 4835-075 Guimarães",
+    "address": [
+      "Alameda Dr. Mariano Felgueiras loja 440 , 4835-075 Guimarães",
+      "4835-075 Guimarães"
+    ],
+    "position": {
+      "lat": 41.440298,
+      "lng": -8.304107
+    },
+    "district": "braga"
+  },
+  {
+    "id": "32782",
+    "gid": null,
+    "subtitle": "Avenida Dr Renato Araujo/ Rua comendador Rainho, 3700-008",
+    "address": [
+      "Avenida Dr Renato Araujo/ Rua comendador Rainho, 3700-008",
+      "3700-008 São joão da Madeira"
+    ],
+    "position": {
+      "lat": 40.883526,
+      "lng": -8.487805
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "32783",
+    "gid": null,
+    "subtitle": "Quinta das Cegonhas S/N, 2000-471 Santarém, Portugal",
+    "address": [
+      "Quinta das Cegonhas S/N, 2000-471 Santarém, Portugal",
+      "2000-471 Santarém"
+    ],
+    "position": {
+      "lat": 39.215777,
+      "lng": -8.69136
+    },
+    "district": "santarem"
+  },
+  {
+    "id": "32794",
+    "gid": null,
+    "subtitle": "R. dos Heróis e dos Mártires de Angola 49 – Loja 01,  4000-285 PORTO",
+    "address": [
+      "R. dos Heróis e dos Mártires de Angola 49 – Loja 01,  4000-285 PORTO",
+      "4000-285 Porto"
+    ],
+    "position": {
+      "lat": 41.151399,
+      "lng": -8.610707
+    },
+    "district": "porto"
   }
 ]
