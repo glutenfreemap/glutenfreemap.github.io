@@ -51,7 +51,7 @@
     <div class="main">
         {{ content }}
 
-        <footer class="border-top footer text-muted mt-3 py-3">
+        <footer {% if page.hideFooter %}style="display:none"{% endif %} class="border-top footer text-muted mt-3 py-3">
             <div class="container d-flex flex-column flex-md-row text-md-start align-items-center">
                 <span class="flex-grow-1">&copy; 2023 <a class="text-secondary" rel="author" href="https://aaubry.net" target="_blank">Antoine Aubry</a> &amp; Catarina Tavares</span>
 

@@ -17,6 +17,7 @@
 permalink: /pt/
 layout: localized
 lang: pt
+hideFooter: true
 strings:
   category:
     label: Categoria

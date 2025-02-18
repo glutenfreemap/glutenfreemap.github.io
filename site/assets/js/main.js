@@ -213,7 +213,7 @@ function ViewModel(storage) {
                     return true;
                 }
 
-                const fieldToSearch = place.subtitle + " " + place.name;
+                var fieldToSearch = place.subtitle + " " + place.name;
                 return fieldToSearch.toLowerCase().indexOf(value) >= 0;
             }
         },
@@ -715,6 +715,9 @@ function loadMap(mapElement) {
 
             viewModel.data(data);
             viewModel.loaded(true);
+
+            // Show only after loading to reduce Cumulative Layout Shift (CLS)
+            $("footer").show();
         });
     });
 

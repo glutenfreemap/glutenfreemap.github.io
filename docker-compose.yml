@@ -12,6 +12,8 @@ services:
   site:
     image: jekyll/jekyll
     command: bash -c 'bundle install && bundle exec jekyll serve --host 0.0.0.0 --watch --force_polling'
+    environment:
+      - JEKYLL_ENV=production
     ports:
       - "8081:4000"
     volumes:
