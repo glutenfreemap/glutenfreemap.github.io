@@ -21,6 +21,7 @@ github_username:  glutenfreemap
 
 plugins:
   - jekyll-minifier
+  - jekyll-zopfli
 
 jekyll-minifier:
   remove_comments: false

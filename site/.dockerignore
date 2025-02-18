@@ -1,0 +1,4 @@
+Dockerfile
+.dockerignore
+_site
+.jekyll-cache
