@@ -287,6 +287,20 @@
                         "lat": 38.7002455,
                         "lng": -9.1758213
                     }
+                },
+                {
+                    "gid": "ChIJI6DAZGw1GQ0RM_vKVnZGJ-I",
+                    "id": "",
+                    "subtitle": "Largo de São Miguel",
+                    "address": [
+                        "Largo de São Miguel 3",
+                        "1100-117 Lisboa"
+                    ],
+                    "district": "lisboa",
+                    "position": {
+                        "lat": 38.7109117,
+                        "lng": -9.129093
+                    }
                 }
             ]
         },
@@ -1333,6 +1347,28 @@
                     }
                 }
             ]
+        },
+        {
+            "gid": "ChIJ5eA6QB87GQ0R0c4KCXPZMmc",
+            "name": "O Agridoce",
+            "subtitle": "",
+            "description": {
+                "pt": "Todas as refeições são isentas de glúten.",
+                "en": "All meals are gluten-free.",
+                "fr": "Tous les repas sont sans gluten.",
+                "es": "Todas las comidas son sin gluten."
+            },
+            "address": [
+                "R. Comendador Estevão de Oliveira 33",
+                "2890-044 Alcochete"
+            ],
+            "categories": ["restaurant", "bakery"],
+            "district": "setúbal",
+            "attestation": "none",
+            "position": {
+                "lat": 38.7561862,
+                "lng": -8.9615857
+            }
         }
     ]
 }
