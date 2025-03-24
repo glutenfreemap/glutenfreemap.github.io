@@ -48,8 +48,8 @@
       "1700-007 LISBOA"
     ],
     "position": {
-      "lat": "38.7688",
-      "lng": "-9.12943"
+      "lat": "38.763964",
+      "lng": "-9.135971"
     },
     "district": "lisboa"
   },
@@ -1131,8 +1131,8 @@
     "district": "madeira"
   },
   {
-    "id": "gaia-drive",
-    "subtitle": "Gaia Drive",
+    "id": "gaia-mafamude-drive",
+    "subtitle": "Gaia Mafamude Drive",
     "address": [
       "Gaia Drive",
       "Av. D. João II, 1701, Mafamude",
@@ -1453,8 +1453,8 @@
     "district": "porto"
   },
   {
-    "id": "mar-shopping",
-    "subtitle": "Mar Shopping",
+    "id": "matosinhos-marshopping",
+    "subtitle": "Matosinhos MarShopping",
     "address": [
       "Marshopping (IKEA)",
       "Av. Arq. Fernando Távora, nº 231Loja 1.53 – Leça da Palmeira",
@@ -2223,8 +2223,8 @@
     "district": "porto"
   },
   {
-    "id": "viana-do-castelo",
-    "subtitle": "Viana do Castelo",
+    "id": "estacao-viana-shopping",
+    "subtitle": "Estação Viana Shopping",
     "address": [
       "Viana do Castelo - Estação CP",
       "Estação Viana Shopping,Lj.2.044,Ed, da Estação da CP",
@@ -2709,5 +2709,227 @@
       "lng": "-8.85579"
     },
     "district": "leiria"
+  },
+  {
+    "id": "fafe",
+    "subtitle": "Fafe",
+    "address": [
+      "R. Monsenhor Vieira de Castro,",
+      "4820-142 Fafe"
+    ],
+    "position": {
+      "lat": "41.447361",
+      "lng": "-8.17075"
+    },
+    "district": "braga"
+  },
+  {
+    "id": "lamego",
+    "subtitle": "Lamego",
+    "address": [
+      "Lamego",
+      "Estrada Nacional 226, Lugar de Rina, 5100-196 Lamego",
+      "5100-196 Lamego"
+    ],
+    "position": {
+      "lat": "41.090555",
+      "lng": "-7.799509"
+    },
+    "district": "viseu"
+  },
+  {
+    "id": "cantanhede",
+    "subtitle": "Cantanhede",
+    "address": [
+      "Cantanhede",
+      "Rua Antonio Lima Fragoso 140",
+      "3060-216 Cantanhede"
+    ],
+    "position": {
+      "lat": "40.367747",
+      "lng": "-8.591593"
+    },
+    "district": "coimbra"
+  },
+  {
+    "id": "braga-dume",
+    "subtitle": "Braga DUME",
+    "address": [
+      "Braga",
+      "Avenida Dra. Assunção Vasconcelos Chaves;",
+      "4700-010  Braga"
+    ],
+    "position": {
+      "lat": "41.566284",
+      "lng": "-8.440367"
+    },
+    "district": "braga"
+  },
+  {
+    "id": "alcochete",
+    "subtitle": "Alcochete",
+    "address": [
+      "Alcochete",
+      "Av. Sociedade Imparcial 15 de Janeiro 1898;",
+      "2890-512 Alcochete"
+    ],
+    "position": {
+      "lat": "38.752376",
+      "lng": "-8.98048"
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "rio-maior",
+    "subtitle": "Rio Maior",
+    "address": [
+      "Rio Maior",
+      "Lugar do Espadanal, Av. Dr. Mário Soares;",
+      "2040-413 Rio Maior"
+    ],
+    "position": {
+      "lat": "39.340697",
+      "lng": "-8.930858"
+    },
+    "district": "santarem"
+  },
+  {
+    "id": "ovar",
+    "subtitle": "Ovar",
+    "address": [
+      "Ovar",
+      "Estrada de S. João",
+      "3880-705 Ovar"
+    ],
+    "position": {
+      "lat": "40.865504",
+      "lng": "-8.611175"
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "parchal",
+    "subtitle": "Parchal",
+    "address": [
+      "Lagoa",
+      "Rua Infante D. Henrique, Lote 1",
+      "8400-320 Parchal"
+    ],
+    "position": {
+      "lat": "37.136611",
+      "lng": "-8.5205"
+    },
+    "district": "faro"
+  },
+  {
+    "id": "gaia-vilar-paraiso",
+    "subtitle": "Gaia Vilar Paraiso",
+    "address": [
+      "Vila Nova de Gaia",
+      "Rua José Gomes Soares 4405-520",
+      "4405-520 Gaia"
+    ],
+    "position": {
+      "lat": "41.108552",
+      "lng": "-8.620964"
+    },
+    "district": "porto"
+  },
+  {
+    "id": "mirandela",
+    "subtitle": "Mirandela",
+    "address": [
+      "Mirandela",
+      "Rua Eng. Machado Vaz (EN15)"
+    ],
+    "position": {
+      "lat": "41.485756",
+      "lng": "-7.188398"
+    },
+    "district": "braganca"
+  },
+  {
+    "id": "ilhavo",
+    "subtitle": "Ílhavo",
+    "address": [
+      "Ilhavo",
+      "Via do Mercado,  Ílhavo",
+      "3830-243 Ilhavo"
+    ],
+    "position": {
+      "lat": "40.597281",
+      "lng": "-8.664714"
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "setubal-monte-belo",
+    "subtitle": "Setúbal Monte Belo",
+    "address": [
+      "Setúbal",
+      "Estrada de Algeruz n.º 281",
+      "2910-279  Setúbal"
+    ],
+    "position": {
+      "lat": "38.539056",
+      "lng": "-8.866028"
+    },
+    "district": "setubal"
+  },
+  {
+    "id": "estarreja",
+    "subtitle": "Estarreja",
+    "address": [
+      "Estarreja",
+      "Quinta da Arrotinha, Lado Sul, 26",
+      "3860-396 Estarreja"
+    ],
+    "position": {
+      "lat": "40.759343",
+      "lng": "-8.570462"
+    },
+    "district": "aveiro"
+  },
+  {
+    "id": "ribeira-grande",
+    "subtitle": "Ribeira Grande",
+    "address": [
+      "Ribeira Grande",
+      "EN1-1ª, Avenida de São Pedro, Ribeira Seca",
+      "9600-170 SÃO MIGUEL, AÇORES"
+    ],
+    "position": {
+      "lat": "37.819378",
+      "lng": "-25.532099"
+    },
+    "district": "acores"
+  },
+  {
+    "id": "elvas",
+    "subtitle": "Elvas",
+    "address": [
+      "Elvas",
+      "Avenida do Dia de Portugal 19",
+      "7350-229 Elvas"
+    ],
+    "position": {
+      "lat": "38.881361",
+      "lng": "-7.143222"
+    },
+    "district": "portalegre"
+  },
+  {
+    "id": "guimaraes-quinta",
+    "subtitle": "Guimarães Quintã",
+    "address": [
+      "Guimarães",
+      "Rua Cónego Dr. Manuel Faria",
+      "4800-321 Guimarães"
+    ],
+    "position": {
+      "lat": "41.450023",
+      "lng": "-8.294658"
+    },
+    "district": "braga"
   }
 ]
