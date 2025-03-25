@@ -20,6 +20,46 @@
             "type": "shell",
             "group": "build",
             "command": "pwsh utils/Translate-ReleaseNotes.ps1"
+        },
+        {
+            "label": "Start Frontend",
+            "type": "npm",
+            "script": "start",
+            "isBackground": true,
+            "path": "frontend",
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "(.*?)"
+                    },
+                    "endsPattern": {
+                        "regexp": "bundle generation complete"
+                    }
+                }
+            }
+        },
+        {
+            "label": "Test Frontend",
+            "type": "npm",
+            "script": "test",
+            "isBackground": true,
+            "path": "frontend",
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "(.*?)"
+                    },
+                    "endsPattern": {
+                        "regexp": "bundle generation complete"
+                    }
+                }
+            }
         }
     ]
 }

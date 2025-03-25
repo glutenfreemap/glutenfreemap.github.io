@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../GlutenFreeMapData"
+		}
+	],
+	"settings": {
+		"liquid.format.enable": false
+	}
+}
