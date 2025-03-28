@@ -7,6 +7,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { CONNECTOR } from './configuration/connector';
 import { GitHubConnector } from '../connectors/github/connector';
 import { ConfigurationService } from './configuration/configuration.service';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,9 @@ export const appConfig: ApplicationConfig = {
       provide: CONNECTOR,
       useFactory: (config: ConfigurationService) => new GitHubConnector(config),
       deps: [ConfigurationService]
-    }
+    }, provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000'
+          })
   ]
 };
