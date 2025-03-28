@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationComponent } from './navigation/navigation.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [
+    NavigationComponent,
+    TranslateModule
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less'
 })
 export class AppComponent {
-  title = 'glutenfreemap';
+  title = 'GlutenFreeMap';
+
+  constructor(translate: TranslateService) {
+    translate.addLangs(['pt', 'en', 'fr', 'es']);
+    translate.setDefaultLang('pt');
+    translate.use('pt');
+  }
 }

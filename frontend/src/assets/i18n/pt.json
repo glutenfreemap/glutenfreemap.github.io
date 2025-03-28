@@ -1,0 +1,11 @@
+{
+	"github.configuration.title": "Configuração do GitHub",
+	"github.configuration.token.info": "É necessário providenciar um token de autenticação para podermos aceder ao seu repositótio no GitHub.",
+	"github.configuration.token.label": "Token de autenticação (PAT)",
+	"github.configuration.token.invalidFormat": "O token não tem o formato correto.",
+	"github.configuration.repository.info": "Selecione o repositório com o qual pretende trabalhar.",
+	"general.dialog.buttons.finish": "Terminar",
+	"general.dialog.buttons.next": "Seguinte",
+	"navigation.menu.places": "Locais",
+	"navigation.menu.settings": "Configuração"
+}

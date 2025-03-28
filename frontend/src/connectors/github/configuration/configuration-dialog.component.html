@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>{{ 'github.configuration.title' | translate }}</h2>
+<mat-dialog-content>
+  @if (currentStep() === 'enter-token')
+  {
+    <p>
+      {{ 'github.configuration.token.info' | translate }}
+    </p>
+
+    <mat-form-field hintLabel="github_token_xxxxxxx_xxxxxxxxx">
+      <mat-label>{{ 'github.configuration.token.label' | translate }}</mat-label>
+      <input matInput type="password" [(ngModel)]="apiToken" required />
+      @if (apiToken()) {
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="apiToken.set('')">
+        <mat-icon>close</mat-icon>
+      </button>
+      }
+      @if (!validToken()) {
+        <mat-error>{{ 'github.configuration.token.invalidFormat' | translate }}</mat-error>
+      }
+    </mat-form-field>
+  }
+  @else if (currentStep() === 'select-repository')
+  {
+    <p>
+      {{ 'github.configuration.repository.info' | translate }}
+    </p>
+
+    <mat-select [(ngModel)]="selectedRepository" required>
+      @for (repository of repositories(); track repository.full_name) {
+        <mat-option [value]="repository">{{repository.full_name}}</mat-option>
+      }
+    </mat-select>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  }
+
+  @if (isLastStep()) {
+    <button mat-button (click)="proceed()" [disabled]="!canProceed()">{{ 'general.dialog.buttons.finish' | translate }}</button>
+  } @else {
+    <button mat-button (click)="proceed()" [disabled]="!canProceed()">{{ 'general.dialog.buttons.next' | translate }}</button>
+  }
+</mat-dialog-actions>

@@ -1,0 +1,44 @@
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  border: none;
+}
+
+.mat-drawer-side {
+  border-radius: 0;
+}
+
+.mat-drawer-over {
+  .mat-toolbar {
+    background: inherit;
+  }
+}
+
+mat-toolbar {
+  --mat-toolbar-container-background-color: var(--mat-sys-primary-container);
+  --mat-toolbar-container-text-color: var(--mat-sys-primary);
+
+  &.primary {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+}
+
+mat-nav-list {
+  padding: 8px;
+}
+
+.content {
+  padding: 0 16px;
+}
+

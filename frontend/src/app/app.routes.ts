@@ -1,9 +1,22 @@
 import { Routes } from '@angular/router';
-import { AuthenticatorComponent as GithubAuthenticatorComponent } from './github/authenticator/authenticator.component';
+import { HomeComponent } from './home/home.component';
+import { ConfigGuard } from './configuration/configuration.guard';
+import { ConfigurationComponent } from '../connectors/github/configuration/configuration.component';
+import { PlacelistComponent } from './place/placelist/placelist.component';
 
 export const routes: Routes = [
   {
-    path: "github/connect",
-    component: GithubAuthenticatorComponent
-  }
+    path: '',
+    component: HomeComponent,
+    canActivate: [ConfigGuard],
+  },
+  {
+    path: 'places',
+    component: PlacelistComponent,
+    canActivate: [ConfigGuard],
+  },
+  {
+    path: 'config',
+    component: ConfigurationComponent,
+  },
 ];
