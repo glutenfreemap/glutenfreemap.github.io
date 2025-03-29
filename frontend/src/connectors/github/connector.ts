@@ -45,14 +45,10 @@ export class GitHubConnector implements Connector {
           file_sha: tree.sha!,
           mediaType: { format: "raw" }
         });
-
-        console.log(blob);
       }
 
       loadPlace();
       this.places.update(val => [...val, { tree, place }]);
-
-      return;
     }
   }
 }

@@ -8,14 +8,20 @@
 
     <mat-form-field hintLabel="github_token_xxxxxxx_xxxxxxxxx">
       <mat-label>{{ 'github.configuration.token.label' | translate }}</mat-label>
-      <input matInput type="password" [(ngModel)]="apiToken" required />
-      @if (apiToken()) {
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="apiToken.set('')">
+      <input matInput type="password" [formControl]="tokenInput" required />
+      @if (tokenInput.value) {
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="tokenInput.setValue('')">
         <mat-icon>close</mat-icon>
       </button>
       }
-      @if (!validToken()) {
+      @if (tokenInput.hasError("required")) {
+        <mat-error>{{ 'github.configuration.token.required' | translate }}</mat-error>
+      }
+      @if (tokenInput.hasError("pattern")) {
         <mat-error>{{ 'github.configuration.token.invalidFormat' | translate }}</mat-error>
+      }
+      @if (tokenInput.hasError("unauthorized")) {
+        <mat-error>{{ 'github.configuration.token.invalidToken' | translate }}</mat-error>
       }
     </mat-form-field>
   }
@@ -24,12 +30,19 @@
     <p>
       {{ 'github.configuration.repository.info' | translate }}
     </p>
-
-    <mat-select [(ngModel)]="selectedRepository" required>
-      @for (repository of repositories(); track repository.full_name) {
-        <mat-option [value]="repository">{{repository.full_name}}</mat-option>
+    <mat-form-field>
+      <mat-select [formControl]="repositorySelector" required>
+        @for (repository of repositories(); track repository.full_name) {
+          <mat-option [value]="repository">{{repository.full_name}}</mat-option>
+        }
+      </mat-select>
+      @if (repositorySelector.hasError("required")) {
+        <mat-error>{{ 'github.configuration.repository.required' | translate }}</mat-error>
       }
-    </mat-select>
+      @if (repositorySelector.hasError("invalid")) {
+        <mat-error>{{ 'github.configuration.repository.invalid' | translate }}</mat-error>
+      }
+    </mat-form-field>
   }
 </mat-dialog-content>
 <mat-dialog-actions>
@@ -38,8 +51,8 @@
   }
 
   @if (isLastStep()) {
-    <button mat-button (click)="proceed()" [disabled]="!canProceed()">{{ 'general.dialog.buttons.finish' | translate }}</button>
+    <button mat-button (click)="proceed()" [disabled]="!canProceed() || loading()">{{ 'general.dialog.buttons.finish' | translate }}</button>
   } @else {
-    <button mat-button (click)="proceed()" [disabled]="!canProceed()">{{ 'general.dialog.buttons.next' | translate }}</button>
+    <button mat-button (click)="proceed()" [disabled]="!canProceed() || loading()">{{ 'general.dialog.buttons.next' | translate }}</button>
   }
 </mat-dialog-actions>

@@ -18,6 +18,7 @@ export class ConfigurationService {
 
   public setConnectorConfiguration<T>(configuration: T) {
     localStorage.setItem(CONNECTOR_CONFIGURATION_KEY, JSON.stringify(configuration));
+    this.configured = true;
   }
 
   public getConnectorConfiguration<T>(): T {
