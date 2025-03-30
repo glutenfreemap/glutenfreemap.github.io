@@ -22,12 +22,13 @@ export type RegionIdentifier = Branded<string, "RegionIdentifier">;
 
 export interface Region {
   id: RegionIdentifier,
-  name: string
+  name: LocalizedString
 }
 
 export type AttestationTypeIdentifier = Branded<string, "AttestationTypeIdentifier">;
 
 export interface AttestationType {
   id: AttestationTypeIdentifier,
-  name: LocalizedString
+  name: LocalizedString,
+  description: LocalizedString
 }

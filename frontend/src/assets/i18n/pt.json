@@ -10,6 +10,8 @@
 	"github.configuration.repository.invalid": "O repositório selecionado não é um repositório de dados GlutenFreeMap.",
 	"general.dialog.buttons.finish": "Terminar",
 	"general.dialog.buttons.next": "Seguinte",
+	"place.attestation.chip.label": "Certificação: {{type}}",
+	"place.region.chip.label": "Região: {{region}}",
 	"navigation.menu.places": "Locais",
 	"navigation.menu.settings": "Configuração"
 }
