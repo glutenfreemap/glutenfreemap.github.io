@@ -1,6 +1,6 @@
 <mat-list>
   @for (place of filteredPlaces(); track place) {
-    <mat-list-item class="mat-mdc-list-item-interactive">
+    <mat-list-item class="mat-mdc-list-item-interactive" (click)="edit(place)">
       <h3 matListItemTitle>{{place.name}}</h3>
       <mat-chip-set matListItemLine>
         <mat-chip>

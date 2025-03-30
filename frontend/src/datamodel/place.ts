@@ -4,13 +4,19 @@ import { AttestationTypeIdentifier, CategoryIdentifier, LocalizedString, RegionI
 export type PlaceIdentifier = Branded<string, "PlaceIdentifier">;
 export type GoogleIdentifier = Branded<string, "GoogleIdentifier">;
 
-export type StandalonePlace = {
+export type PlaceBase = {
   id: PlaceIdentifier
-  gid?: GoogleIdentifier,
   name: string,
-  description?: LocalizedString,
+  description?: LocalizedString
+};
+
+export type RootPlace = {
   categories: CategoryIdentifier[],
-  attestation: AttestationTypeIdentifier,
+  attestation: AttestationTypeIdentifier
+};
+
+export type LeafPlace = {
+  gid?: GoogleIdentifier,
   address: string[],
   region: RegionIdentifier,
   position: {
@@ -19,25 +25,13 @@ export type StandalonePlace = {
   }
 };
 
-export type ChildPlace = {
-  id: PlaceIdentifier
-  gid?: GoogleIdentifier,
-  name: string,
-  description?: LocalizedString,
-  attestation?: AttestationTypeIdentifier,
-  address: string[],
-  region: RegionIdentifier,
-  position: {
-    lat: Number,
-    lng: Number
-  }
+export type StandalonePlace = PlaceBase & RootPlace & LeafPlace;
+
+export type ChildPlace = PlaceBase & LeafPlace & {
+  attestation?: AttestationTypeIdentifier
 }
 
-export type CompositePlace = {
-  name: string,
-  description?: LocalizedString,
-  categories: CategoryIdentifier[],
-  attestation: AttestationTypeIdentifier,
+export type CompositePlace = PlaceBase & RootPlace & {
   locations: ChildPlace[]
 };
 

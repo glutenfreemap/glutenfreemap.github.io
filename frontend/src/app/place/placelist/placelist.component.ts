@@ -61,4 +61,8 @@ export class PlacelistComponent {
   public isComposite(place: Place): place is CompositePlace {
     return this.isComposite(place);
   }
+
+  public edit(place: Place) {
+
+  }
 }
