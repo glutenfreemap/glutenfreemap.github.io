@@ -60,6 +60,14 @@
                     }
                 }
             }
+        },
+        {
+            "type": "npm",
+            "script": "generate-style",
+            "path": "frontend",
+            "problemMatcher": [],
+            "label": "npm: generate-style - frontend",
+            "detail": "tsx generate_style.ts"
         }
     ]
 }

@@ -1,0 +1,106 @@
+import fs from "fs";
+import { Flavor, layers } from "@protomaps/basemaps";
+
+const flavor: Flavor = {
+  background: "rgb(221, 221, 221)",
+  earth: "rgb(231, 241, 238)",
+  park_a: "rgb(207, 221, 213)",
+  park_b: "rgb(226, 247, 232)",
+  hospital: "rgb(255, 234, 232)",
+  industrial: "rgb(248, 255, 237)",
+  school: "rgb(242, 254, 249)",
+  wood_a: "rgb(208, 222, 208)",
+  wood_b: "rgb(234, 251, 233)",
+  pedestrian: "rgb(238, 240, 240)",
+  scrub_a: "rgb(206, 220, 215)",
+  scrub_b: "rgb(219, 239, 209)",
+  glacier: "rgb(255, 255, 255)",
+  sand: "rgb(239, 245, 231)",
+  beach: "rgb(232, 228, 208)",
+  aerodrome: "rgb(219, 231, 231)",
+  runway: "rgb(209, 217, 217)",
+  water: "rgb(164, 202, 225)",
+  zoo: "rgb(198, 220, 220)",
+  military: "rgb(220, 220, 220)",
+  tunnel_other_casing: "rgb(255, 255, 255)",
+  tunnel_other: "rgb(247, 247, 247)",
+  tunnel_minor_casing: "rgb(226, 226, 226)",
+  tunnel_minor: "rgb(235, 235, 235)",
+  tunnel_link_casing: "rgb(225, 225, 225)",
+  tunnel_link: "rgb(235, 235, 235)",
+  tunnel_major_casing: "rgb(227, 207, 211)",
+  tunnel_major: "rgb(235, 235, 235)",
+  tunnel_highway_casing: "rgb(235, 206, 162)",
+  tunnel_highway: "rgb(235, 235, 235)",
+  pier: "rgb(224, 224, 224)",
+  buildings: "rgb(203, 206, 206)",
+  minor_service_casing: "rgb(224, 224, 224)",
+  minor_casing: "rgb(226, 226, 226)",
+  link_casing: "rgb(224, 224, 224)",
+  major_casing_late: "rgb(224, 224, 224)",
+  highway_casing_late: "rgb(224, 224, 224)",
+  other: "rgb(235, 235, 235)",
+  minor_service: "rgb(235, 235, 235)",
+  minor_a: "rgb(235, 235, 235)",
+  minor_b: "rgb(255, 255, 255)",
+  link: "rgb(255, 255, 255)",
+  major_casing_early: "rgb(224, 224, 224)",
+  major: "rgb(255, 255, 255)",
+  highway_casing_early: "rgb(224, 224, 224)",
+  highway: "rgb(255, 255, 255)",
+  railway: "rgb(167, 177, 179)",
+  boundaries: "rgb(92, 74, 107)",
+  bridges_other_casing: "rgb(255, 255, 255)",
+  bridges_other: "rgb(255, 255, 255)",
+  bridges_minor_casing: "rgb(226, 226, 226)",
+  bridges_minor: "rgb(255, 255, 255)",
+  bridges_link_casing: "rgb(225, 225, 225)",
+  bridges_link: "rgb(255, 255, 255)",
+  bridges_major_casing: "rgb(227, 207, 211)",
+  bridges_major: "rgb(255, 255, 255)",
+  bridges_highway_casing: "rgb(235, 206, 162)",
+  bridges_highway: "rgb(254, 255, 252)",
+  roads_label_minor: "rgb(145, 136, 139)",
+  roads_label_minor_halo: "rgb(255, 255, 255)",
+  roads_label_major: "rgb(147, 138, 141)",
+  roads_label_major_halo: "rgb(255, 255, 255)",
+  ocean_label: "rgb(114, 141, 212)",
+  subplace_label: "rgb(117, 125, 145)",
+  subplace_label_halo: "rgb(255, 255, 255)",
+  city_label: "rgb(120, 120, 120)",
+  city_label_halo: "rgb(255, 255, 255)",
+  state_label: "rgb(189, 189, 189)",
+  state_label_halo: "rgb(255, 255, 255)",
+  country_label: "rgb(149, 144, 170)",
+  address_label: "rgb(145, 136, 139)",
+  address_label_halo: "rgb(255, 255, 255)",
+  pois: {
+    blue: "rgb(26, 140, 189)",
+    green: "rgb(32, 131, 77)",
+    lapis: "rgb(49, 91, 207)",
+    pink: "rgb(239, 86, 186)",
+    red: "rgb(242, 86, 122)",
+    slategray: "rgb(106, 91, 143)",
+    tangerine: "rgb(203, 103, 4)",
+    turquoise: "rgb(0, 195, 212)"
+  },
+  landcover: {
+    grassland: "rgba(210, 239, 207, 1)",
+    barren: "rgba(255, 243, 215, 1)",
+    urban_area: "rgba(230, 230, 230, 1)",
+    farmland: "rgba(216, 239, 210, 1)",
+    glacier: "rgba(255, 255, 255, 1)",
+    scrub: "rgba(234, 239, 210, 1)",
+    forest: "rgba(196, 231, 210, 1)"
+  }
+};
+
+const style = layers("protomaps", flavor, { lang: "${lang}" });
+const json = JSON.stringify(style, null, 2);
+
+fs.writeFile("src/generated/map.style.ts", `
+import { LayerSpecification } from "maplibre-gl";
+export function getStyle(lang: string): LayerSpecification[] {
+  return ${json.replace(/"([^"]+:\$\{lang\})"/, "`$1`")};
+}
+`, () => { console.log("Done"); });

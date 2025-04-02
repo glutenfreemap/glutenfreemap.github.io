@@ -1,3 +1,5 @@
+<div #mapContainer class="mapContainer"></div>
+
 <mat-list>
   @for (place of filteredPlaces(); track place) {
     <mat-list-item class="mat-mdc-list-item-interactive" (click)="edit(place)">

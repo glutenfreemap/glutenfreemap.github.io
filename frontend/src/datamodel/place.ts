@@ -15,19 +15,19 @@ export type RootPlace = {
   attestation: AttestationTypeIdentifier
 };
 
-export type LeafPlace = {
+export type LeafPlace = PlaceBase & {
   gid?: GoogleIdentifier,
   address: string[],
   region: RegionIdentifier,
   position: {
-    lat: Number,
-    lng: Number
+    lat: number,
+    lng: number
   }
 };
 
-export type StandalonePlace = PlaceBase & RootPlace & LeafPlace;
+export type StandalonePlace = RootPlace & LeafPlace;
 
-export type ChildPlace = PlaceBase & LeafPlace & {
+export type ChildPlace = LeafPlace & {
   attestation?: AttestationTypeIdentifier
 }
 
