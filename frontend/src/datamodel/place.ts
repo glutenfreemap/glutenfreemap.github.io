@@ -1,41 +1,65 @@
-import { Branded } from "../common/branded";
-import { AttestationTypeIdentifier, CategoryIdentifier, LocalizedString, RegionIdentifier } from "./common";
+import { attestationTypeIdentifierSchema, categoryIdentifierSchema, localizedStringSchema, regionIdentifierSchema } from "./common";
+import { z } from "zod";
 
-export type PlaceIdentifier = Branded<string, "PlaceIdentifier">;
-export type GoogleIdentifier = Branded<string, "GoogleIdentifier">;
+export const placeIdentifierSchema = z.string().min(1).brand("PlaceIdentifier");
+export type PlaceIdentifier = z.infer<typeof placeIdentifierSchema>;
 
-export type PlaceBase = {
-  id: PlaceIdentifier
-  name: string,
-  description?: LocalizedString
-};
+export const googleIdentifierSchema = z.string().min(1).brand("GoogleIdentifier");
+export type GoogleIdentifier = z.infer<typeof googleIdentifierSchema>;
 
-export type RootPlace = {
-  categories: CategoryIdentifier[],
-  attestation: AttestationTypeIdentifier
-};
+export const leafPlaceSchema = z.object({
+  id: placeIdentifierSchema,
+  name: z.string(),
+  description: localizedStringSchema.optional(),
+  gid: googleIdentifierSchema.optional(),
+  address: z.array(z.string()).min(1),
+  region: regionIdentifierSchema,
+  position: z.object({
+    lat: z.coerce.number(),
+    lng: z.coerce.number()
+  })
+});
 
-export type LeafPlace = PlaceBase & {
-  gid?: GoogleIdentifier,
-  address: string[],
-  region: RegionIdentifier,
-  position: {
-    lat: number,
-    lng: number
-  }
-};
+export const standalonePlaceSchema = leafPlaceSchema.extend({
+  categories: z.array(categoryIdentifierSchema),
+  attestation: attestationTypeIdentifierSchema
+});
 
-export type StandalonePlace = RootPlace & LeafPlace;
+export type StandalonePlace = z.infer<typeof standalonePlaceSchema>;
 
-export type ChildPlace = LeafPlace & {
-  attestation?: AttestationTypeIdentifier
-}
+const baseCompositePlaceSchema = standalonePlaceSchema.pick({
+  id: true,
+  name: true,
+  description: true,
+  categories: true,
+  attestation: true
+});
 
-export type CompositePlace = PlaceBase & RootPlace & {
+export const childPlaceSchema = leafPlaceSchema.extend({
+  attestation: attestationTypeIdentifierSchema.optional()
+});
+
+export const compositePlaceSchema = baseCompositePlaceSchema
+  .extend({
+    locations: z.array(childPlaceSchema)
+  })
+  .transform(p => {
+    p.locations.forEach(c => (c as any).parent = p);
+    return p;
+  });
+
+export type CompositePlace = z.infer<typeof baseCompositePlaceSchema> & {
   locations: ChildPlace[]
 };
 
+export type ChildPlace = z.infer<typeof childPlaceSchema> & {
+  parent: CompositePlace
+};
+
+export const placeSchema = z.union([standalonePlaceSchema, compositePlaceSchema]);
 export type Place = StandalonePlace | CompositePlace;
+
+export type LeafPlace = StandalonePlace | ChildPlace;
 
 export function isComposite(place: Place): place is CompositePlace {
   return "locations" in place;

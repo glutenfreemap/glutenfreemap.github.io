@@ -9,7 +9,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     TranslateModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.less'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'GlutenFreeMap';

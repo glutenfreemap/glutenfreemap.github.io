@@ -2,9 +2,10 @@ import { Octokit } from "@octokit/rest";
 import { ConfigurationService } from "../../app/configuration/configuration.service";
 import { Connector } from "../../app/configuration/connector";
 import { GitHubConfiguration } from "./configuration";
-import { Place } from "../../datamodel/place";
+import { isComposite, Place, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
-import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
+import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
+import { z, ZodTypeAny } from "zod";
 
 export class GitHubConnector implements Connector {
   constructor(private configuration: ConfigurationService) {
@@ -39,7 +40,7 @@ export class GitHubConnector implements Connector {
       console.error("Could not load the whole repository tree");
     }
 
-    const getFile = async <T>(fileInfo: { sha?: string }) => {
+    const getFile = async (fileInfo: { sha?: string }) => {
       const blob = await octokit.git.getBlob({
         owner: config.repository.owner,
         repo: config.repository.name,
@@ -47,33 +48,64 @@ export class GitHubConnector implements Connector {
         mediaType: { format: "raw" }
       });
 
-      return <T>JSON.parse(blob.data as any);
+      return JSON.parse(blob.data as any);
     };
 
-    const load = async <TKey, TValue extends { id: TKey }>(
+    const load = async <TKey, TValue extends { id: TKey }, TSchema extends ZodTypeAny>(
       collection: WritableSignal<Map<TKey, TValue>>,
+      schema: TSchema,
       fileName: string
     ) => {
       const fileInfo = tree.data.tree.find(t => t.path === fileName)!;
-      const list = await getFile<TValue[]>(fileInfo);
+      const data = await getFile(fileInfo);
+      const list = z.array(schema).parse(data);
+
       const dict = list.reduce((d, i) => { d.set(i.id, i); return d; }, new Map<TKey, TValue>());
       collection.set(dict);
     };
 
-    load(this.attestationTypes, "attestations.json");
-    load(this.regions, "regions.json");
-    load(this.categories, "categories.json");
+    load(this.attestationTypes, attestationTypeSchema, "attestations.json");
+    load(this.regions, regionSchema, "regions.json");
+    load(this.categories, categorySchema, "categories.json");
 
     const fileInfos = tree.data.tree
       .filter(f => f.type === "blob" && f.path && /^places\/([^\.]+\.json)$/.test(f.path));
 
-    for (const fileInfo of fileInfos) {
-      const loadPlace = async () => {
-        const place = await getFile<Place>(fileInfo);
-        this.places.update(val => [...val, place]);
-      }
+    const duplicateIds = new Set<PlaceIdentifier>();
 
-      loadPlace();
+    const loadPlace = async (fileInfo: { path?: string, sha?: string }) => {
+      const data = await getFile(fileInfo);
+      const parseResult = placeSchema.safeParse(data);
+
+      if (parseResult.success) {
+        const place = <Place>parseResult.data;
+
+        if (duplicateIds.has(place.id)) {
+          console.error(`Duplicate id in '${fileInfo.path}'`, place.id);
+          return;
+        }
+        duplicateIds.add(place.id);
+
+        if (isComposite(place)) {
+          place.locations.forEach(c => {
+            if (duplicateIds.has(c.id)) {
+              console.error(`Duplicate id in '${fileInfo.path}'`, c.id);
+              return;
+            }
+            duplicateIds.add(c.id);
+
+            c.parent = place;
+          });
+        }
+        this.places.update(val => [...val, place]);
+      } else {
+        const error = parseResult.error;
+        console.error(`Failed to parse '${fileInfo.path}'`, data, error.errors);
+      }
+    };
+
+    for (const fileInfo of fileInfos) {
+      loadPlace(fileInfo);
     }
   }
 }

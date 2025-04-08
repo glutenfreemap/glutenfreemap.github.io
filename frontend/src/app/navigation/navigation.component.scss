@@ -1,0 +1,49 @@
+
+.brand {
+  font-size: 1.25rem;
+}
+
+img {
+  height: 1.5rem;
+  vertical-align: text-bottom;
+  margin-right: 0.2rem;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+
+li {
+  list-style: none;
+  white-space: nowrap;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &.current {
+    text-decoration: underline;
+  }
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+hr {
+  border: none;
+  border-bottom: solid 1px var(--mat-sys-primary-container);
+  width: 100%;
+}
+
+nav,
+.content {
+  max-width: 1140px;
+  width: 100%;
+}

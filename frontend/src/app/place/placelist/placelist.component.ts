@@ -1,19 +1,21 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, Inject, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, Inject, signal, Signal, ViewChild } from '@angular/core';
 import { CONNECTOR, Connector } from '../../configuration/connector';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, Place, PlaceIdentifier, StandalonePlace } from '../../../datamodel/place';
+import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, Place, PlaceIdentifier, StandalonePlace, ChildPlace } from '../../../datamodel/place';
 import { MatListModule } from '@angular/material/list';
 import { AttestationTypeIdentifier, CategoryIdentifier, LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { Router } from '@angular/router';
-import { FullscreenControl, GeoJSONSource, GeolocateControl, LngLatLike, Map as MaplibreMap, NavigationControl, PointLike } from "maplibre-gl";
+import { FullscreenControl, GeoJSONSource, GeolocateControl, LngLatLike, Map as MaplibreMap, NavigationControl, Popup } from "maplibre-gl";
 import { getStyle } from "../../../generated/map.style";
+import {MatCardModule} from '@angular/material/card';
 
 const CERTIFIED_MARKER = "certified-marker";
 const NON_CERTIFIED_MARKER = "non-certified-marker";
 const PLACES_SOURCE = "places";
 const PLACES_LAYER = "places";
 const CLUSTERS1_LAYER = "clusters1";
+const POPUP_OFFSET = 42;
 
 type MapFeatureProperties = {
   id: PlaceIdentifier,
@@ -27,15 +29,37 @@ type MapFeature = GeoJSON.Feature<GeoJSON.Geometry, MapFeatureProperties>;
   imports: [
     MatListModule,
     MatChipsModule,
-    TranslateModule
+    TranslateModule,
+    MatCardModule
   ],
   templateUrl: './placelist.component.html',
-  styleUrl: './placelist.component.less'
+  styleUrl: './placelist.component.scss'
 })
 export class PlacelistComponent implements AfterViewInit {
   @ViewChild("mapContainer", { static: false }) mapContainer!: ElementRef;
+  @ViewChild("infoWindowContent", { static: false, read: ElementRef }) infoWindowContent!: ElementRef;
 
   private map?: MaplibreMap;
+  private infoWindow = new Popup({
+    offset: POPUP_OFFSET,
+    anchor: "bottom"
+  });
+
+  public selectedPlace = signal<LeafPlace | undefined>(undefined);
+
+  private placesById = computed(() => {
+    const result = new Map<PlaceIdentifier, LeafPlace>();
+    for (const place of this.connector.places()) {
+      if (this.isComposite(place)) {
+        for (const child of place.locations) {
+          result.set(child.id, child);
+        }
+      } else {
+        result.set(place.id, place);
+      }
+    }
+    return result;
+  });
 
   constructor(
     @Inject(CONNECTOR) private connector: Connector,
@@ -46,31 +70,83 @@ export class PlacelistComponent implements AfterViewInit {
       return connector.places();
     });
 
+    this.infoWindow.on("close", () => this.selectedPlace.set(undefined));
+
     effect(() => this.updateMapSource(this.filteredPlaces()));
+    effect(() => this.selectedPlaceChanged(this.selectedPlace()));
+  }
+
+  private selectedPlaceChanged(place: LeafPlace | undefined): void {
+    if (place) {
+      // After moving, we may need to zoom if the place is inside a cluster
+      this.map!.once("moveend", async _evt => {
+        var clusters = this.map!.queryRenderedFeatures(undefined, {
+          layers: [CLUSTERS1_LAYER]
+        });
+
+        const placesSource = <GeoJSONSource>this.map!.getSource(PLACES_SOURCE);
+        for (const cluster of clusters) {
+          if (cluster.properties["cluster"]) {
+            const found = await this.findPlaceInClusters(placesSource, cluster.properties["cluster_id"], place.id);
+            if (found) {
+              const zoom = await placesSource.getClusterExpansionZoom(found.clusterId);
+              this.map!.easeTo({
+                center: place.position,
+                zoom
+              });
+            }
+          }
+        }
+      });
+
+      // Check if the place is already inside the map
+      const bounds = this.map!.getBounds();
+      if (bounds.contains(place.position)) {
+        this.map!.easeTo({
+          center: place.position,
+          offset: [0, POPUP_OFFSET * 2]
+        });
+      } else {
+        this.map!.flyTo({
+          center: place.position,
+          offset: [0, POPUP_OFFSET * 2],
+          zoom: Math.max(this.map!.getZoom(), 12)
+        });
+      }
+
+      setTimeout(() => {
+        this.infoWindow.setLngLat(place.position);
+        //this.infoWindow.setDOMContent(this.infoWindowContent.nativeElement.firstChild!.cloneNode(true));
+        this.infoWindow.addTo(this.map!);
+      }, 0);
+
+    } else {
+      this.infoWindow.remove();
+    }
   }
 
   ngAfterViewInit(): void {
 
+    this.infoWindow.setDOMContent(this.infoWindowContent.nativeElement);
 
     const map = new MaplibreMap({
       container: this.mapContainer.nativeElement,
       center: [-8.267, 39.608],
       zoom: 6.5,
-      //style: `https://api.protomaps.com/styles/v5/light/${this.translate.currentLang}.json?key=34e1462a1b9ab8a0`
       style: {
         version: 8,
         name: "GlutenFreeMap",
         glyphs: "https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf",
         sprite: "https://protomaps.github.io/basemaps-assets/sprites/v4/light",
         sources: {
-            protomaps: {
-                attribution: "<a href=\"https://github.com/protomaps/basemaps\">Protomaps</a> © <a href=\"https://openstreetmap.org\">OpenStreetMap</a>",
-                type: "vector",
-                tiles: [
-                    "https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=34e1462a1b9ab8a0"
-                ],
-                maxzoom: 15
-            }
+          protomaps: {
+            attribution: "<a href=\"https://github.com/protomaps/basemaps\">Protomaps</a> © <a href=\"https://openstreetmap.org\">OpenStreetMap</a>",
+            type: "vector",
+            tiles: [
+              "https://api.protomaps.com/tiles/v4/{z}/{x}/{y}.mvt?key=34e1462a1b9ab8a0"
+            ],
+            maxzoom: 15
+          }
         },
         layers: getStyle(this.translate.currentLang)
       }
@@ -193,6 +269,11 @@ export class PlacelistComponent implements AfterViewInit {
         });
       });
 
+      map.on("click", "places", e => {
+        const place = this.placesById().get(e.features![0].properties["id"]);
+        this.selectedPlace.set(place);
+      });
+
       this.updateMapSource(this.filteredPlaces());
     });
 
@@ -200,6 +281,25 @@ export class PlacelistComponent implements AfterViewInit {
   }
 
   public filteredPlaces: Signal<Place[]>;
+
+  private async findPlaceInClusters(placesSource: GeoJSONSource, clusterId: number, placeId: PlaceIdentifier)
+    : Promise<{ clusterId: number, feature: MapFeature } | null> {
+
+    const children = await placesSource.getClusterChildren(clusterId);
+    for (var i = 0; i < children.length; ++i) {
+      var child = children[i];
+      if (child.properties!["id"] === placeId) {
+        return { clusterId, feature: <MapFeature>child };
+      }
+      if (child.properties!["cluster"]) {
+        const found = await this.findPlaceInClusters(placesSource, child.properties!["cluster_id"], placeId);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null;
+  }
 
   private mapPlaceToFeature(place: LeafPlace, attestation: AttestationTypeIdentifier): MapFeature {
     return {
@@ -217,14 +317,11 @@ export class PlacelistComponent implements AfterViewInit {
 
   private updateMapSource(places: Place[]) {
     const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
-    console.log("updateMapSource", source);
     if (source) {
       const features = places.flatMap<MapFeature>(place => this.isComposite(place)
         ? place.locations.map<MapFeature>(c => this.mapPlaceToFeature(c, c.attestation || place.attestation))
         : this.mapPlaceToFeature(place, place.attestation)
       );
-
-      console.log("updateMapSource features", features);
 
       source.setData({
         type: "FeatureCollection",
@@ -235,7 +332,7 @@ export class PlacelistComponent implements AfterViewInit {
 
   public getString(localized: LocalizedString): string {
     const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang];
+    return localized[lang] || "???";
   }
 
   public attestationType(place: Place): string {
@@ -265,6 +362,10 @@ export class PlacelistComponent implements AfterViewInit {
 
   public isComposite(place: Place): place is CompositePlace {
     return globalIsComposite(place);
+  }
+
+  public isChild(place: LeafPlace): place is ChildPlace {
+    return "parent" in place;
   }
 
   public edit(place: Place) {

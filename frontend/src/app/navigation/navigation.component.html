@@ -1,38 +1,25 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      @for (link of links; track link.path)
-      {
+<nav>
+  <ul>
+    <li>
+      <img src="/img/icon.svg" />
+      <a class="brand" routerLink="/">GlutenFreeMap</a>
+    </li>
+
+    @for (link of links; track link.path)
+    {
+      <li>
         <a
-          mat-list-item
           [routerLink]="link.path"
-          routerLinkActive
-          #rla="routerLinkActive"
-          [activated]="rla.isActive"
+          routerLinkActive="current"
           ariaCurrentWhenActive="page"
         >{{ link.label | translate }}</a>
-      }
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar class="primary">
-      @if (isHandset$ | async) {
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
-      }
-      <a routerLink="/">GlutenFreeMap</a>
-    </mat-toolbar>
-    <div class="content">
-      <router-outlet />
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      </li>
+    }
+  </ul>
+</nav>
+
+<hr/>
+
+<div class="content">
+  <router-outlet />
+</div>

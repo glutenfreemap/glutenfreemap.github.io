@@ -1,4 +1,35 @@
 <div #mapContainer class="mapContainer"></div>
+<div #infoWindowContent>
+  @let place = selectedPlace();
+  @if (place) {
+    <mat-card class="example-card" appearance="outlined">
+      <mat-card-header>
+        @if (isChild(place)) {
+          <mat-card-title-group>
+            <mat-card-title>{{ place.parent.name }}</mat-card-title>
+            <mat-card-subtitle>{{ place.name }}</mat-card-subtitle>
+          </mat-card-title-group>
+        } @else {
+          <mat-card-title>{{ place.name }}</mat-card-title>
+        }
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          @for(line of place.address; track line) {
+            <div>{{ line }}</div>
+          }
+        </p>
+      </mat-card-content>
+      <mat-card-footer class="example-card-footer">
+        <mat-chip-set aria-label="Chihuahua traits">
+          <mat-chip>charming</mat-chip>
+          <mat-chip>graceful</mat-chip>
+          <mat-chip>sassy</mat-chip>
+        </mat-chip-set>
+      </mat-card-footer>
+    </mat-card>
+  }
+</div>
 
 <mat-list>
   @for (place of filteredPlaces(); track place) {

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-placeedit',
   imports: [],
   templateUrl: './placeedit.component.html',
-  styleUrl: './placeedit.component.less'
+  styleUrl: './placeedit.component.scss'
 })
 export class PlaceeditComponent {
 

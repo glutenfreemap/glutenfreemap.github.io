@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less"
+          "style": "scss"
         }
       },
       "root": "",
@@ -24,7 +24,7 @@
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "less",
+            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
@@ -35,7 +35,7 @@
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
               "maplibre-gl/dist/maplibre-gl.css",
-              "src/styles.less"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -88,7 +88,7 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "less",
+            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
@@ -96,8 +96,7 @@
               }
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/rose-red.css",
-              "src/styles.less"
+              "src/styles.scss"
             ],
             "scripts": []
           }

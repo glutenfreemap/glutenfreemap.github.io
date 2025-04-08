@@ -52,7 +52,7 @@ export class ConfigurationComponent implements OnInit {
     TranslateModule,
   ],
   templateUrl: './configuration-dialog.component.html',
-  styleUrl: './configuration-dialog.component.less',
+  styleUrl: './configuration-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 class ConfigurationDialogComponent implements OnInit, OnDestroy {
