@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, Inject, signal, Signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, Inject, OutputRefSubscription, signal, Signal, ViewChild, ViewContainerRef } from '@angular/core';
 import { CONNECTOR, Connector } from '../../configuration/connector';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, Place, PlaceIdentifier, StandalonePlace, ChildPlace } from '../../../datamodel/place';
+import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, TopLevelPlace, PlaceIdentifier, StandalonePlace } from '../../../datamodel/place';
 import { MatListModule } from '@angular/material/list';
 import { AttestationTypeIdentifier, CategoryIdentifier, LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
 import { MatChipsModule } from '@angular/material/chips';
-import { Router } from '@angular/router';
 import { FullscreenControl, GeoJSONSource, GeolocateControl, LngLatLike, Map as MaplibreMap, NavigationControl, Popup } from "maplibre-gl";
 import { getStyle } from "../../../generated/map.style";
-import {MatCardModule} from '@angular/material/card';
+import { PlacePopupComponent } from '../placepopup/placepopup.component';
+import { MatDialog } from '@angular/material/dialog';
+import { PlaceEditComponent } from '../place-edit/place-edit.component';
 
 const CERTIFIED_MARKER = "certified-marker";
 const NON_CERTIFIED_MARKER = "non-certified-marker";
@@ -30,20 +31,17 @@ type MapFeature = GeoJSON.Feature<GeoJSON.Geometry, MapFeatureProperties>;
     MatListModule,
     MatChipsModule,
     TranslateModule,
-    MatCardModule
   ],
   templateUrl: './placelist.component.html',
   styleUrl: './placelist.component.scss'
 })
 export class PlacelistComponent implements AfterViewInit {
   @ViewChild("mapContainer", { static: false }) mapContainer!: ElementRef;
-  @ViewChild("infoWindowContent", { static: false, read: ElementRef }) infoWindowContent!: ElementRef;
+  @ViewChild("mapContainer", { read: ViewContainerRef }) mapContainerRef!: ViewContainerRef;
 
   private map?: MaplibreMap;
-  private infoWindow = new Popup({
-    offset: POPUP_OFFSET,
-    anchor: "bottom"
-  });
+
+  private infoWindow: Popup | undefined;
 
   public selectedPlace = signal<LeafPlace | undefined>(undefined);
 
@@ -61,16 +59,17 @@ export class PlacelistComponent implements AfterViewInit {
     return result;
   });
 
+  private popupContent?: ComponentRef<PlacePopupComponent>;
+  private popupContentSubscriptions: OutputRefSubscription[] = [];
+
   constructor(
     @Inject(CONNECTOR) private connector: Connector,
-    private translate: TranslateService,
-    private router: Router
+    private dialog: MatDialog,
+    private translate: TranslateService
   ) {
     this.filteredPlaces = computed(() => {
       return connector.places();
     });
-
-    this.infoWindow.on("close", () => this.selectedPlace.set(undefined));
 
     effect(() => this.updateMapSource(this.filteredPlaces()));
     effect(() => this.selectedPlaceChanged(this.selectedPlace()));
@@ -114,25 +113,42 @@ export class PlacelistComponent implements AfterViewInit {
         });
       }
 
-      setTimeout(() => {
-        this.infoWindow.setLngLat(place.position);
-        //this.infoWindow.setDOMContent(this.infoWindowContent.nativeElement.firstChild!.cloneNode(true));
-        this.infoWindow.addTo(this.map!);
-      }, 0);
+      this.infoWindow?.remove();
+      this.infoWindow = new Popup({
+        offset: POPUP_OFFSET,
+        anchor: "bottom",
+        maxWidth: "500px",
+        focusAfterOpen: false
+      });
+
+      this.popupContent = this.mapContainerRef.createComponent(PlacePopupComponent);
+      this.popupContent.instance.place = place;
+      this.popupContentSubscriptions.push(this.popupContent.instance.edit.subscribe(place => this.edit(place)));
+
+      this.infoWindow.setDOMContent(this.popupContent.location.nativeElement);
+
+      this.infoWindow.on("close", () => this.selectedPlace.set(undefined));
+      this.infoWindow.setLngLat(place.position);
+      this.infoWindow.addTo(this.map!);
 
     } else {
-      this.infoWindow.remove();
+      this.popupContentSubscriptions.forEach(s => s.unsubscribe());
+      this.popupContentSubscriptions = [];
+      this.popupContent?.destroy();
+      this.infoWindow?.remove();
     }
   }
 
   ngAfterViewInit(): void {
 
-    this.infoWindow.setDOMContent(this.infoWindowContent.nativeElement);
-
     const map = new MaplibreMap({
       container: this.mapContainer.nativeElement,
-      center: [-8.267, 39.608],
-      zoom: 6.5,
+      // center: [-8.267, 39.608],
+      // zoom: 6.5,
+      // Debug
+      center: [-9.1354185, 38.71011],
+      zoom: 15,
+
       style: {
         version: 8,
         name: "GlutenFreeMap",
@@ -280,7 +296,7 @@ export class PlacelistComponent implements AfterViewInit {
     this.map = map;
   }
 
-  public filteredPlaces: Signal<Place[]>;
+  public filteredPlaces: Signal<TopLevelPlace[]>;
 
   private async findPlaceInClusters(placesSource: GeoJSONSource, clusterId: number, placeId: PlaceIdentifier)
     : Promise<{ clusterId: number, feature: MapFeature } | null> {
@@ -315,7 +331,7 @@ export class PlacelistComponent implements AfterViewInit {
     };
   }
 
-  private updateMapSource(places: Place[]) {
+  private updateMapSource(places: TopLevelPlace[]) {
     const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
     if (source) {
       const features = places.flatMap<MapFeature>(place => this.isComposite(place)
@@ -335,7 +351,7 @@ export class PlacelistComponent implements AfterViewInit {
     return localized[lang] || "???";
   }
 
-  public attestationType(place: Place): string {
+  public attestationType(place: TopLevelPlace): string {
     const attestation = this.connector.attestationTypes().get(place.attestation);
     return attestation
       ? this.getString(attestation.name)
@@ -356,19 +372,18 @@ export class PlacelistComponent implements AfterViewInit {
       : "?";
   }
 
-  public isStandalone(place: Place): place is StandalonePlace {
+  public isStandalone(place: TopLevelPlace): place is StandalonePlace {
     return globalIsStandalone(place);
   }
 
-  public isComposite(place: Place): place is CompositePlace {
+  public isComposite(place: TopLevelPlace): place is CompositePlace {
     return globalIsComposite(place);
   }
 
-  public isChild(place: LeafPlace): place is ChildPlace {
-    return "parent" in place;
-  }
-
-  public edit(place: Place) {
-    this.router.navigate(["places", place.id])
+  private edit(place: LeafPlace) {
+    this.dialog.open(PlaceEditComponent, {
+      disableClose: true,
+      data: place
+    });
   }
 }

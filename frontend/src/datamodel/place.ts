@@ -57,14 +57,22 @@ export type ChildPlace = z.infer<typeof childPlaceSchema> & {
 };
 
 export const placeSchema = z.union([standalonePlaceSchema, compositePlaceSchema]);
-export type Place = StandalonePlace | CompositePlace;
-
+export type TopLevelPlace = StandalonePlace | CompositePlace;
 export type LeafPlace = StandalonePlace | ChildPlace;
+export type Place = StandalonePlace | CompositePlace | ChildPlace;
 
 export function isComposite(place: Place): place is CompositePlace {
   return "locations" in place;
 }
 
+export function isChild(place: Place): place is ChildPlace {
+  return "parent" in place;
+}
+
 export function isStandalone(place: Place): place is StandalonePlace {
+  return !isComposite(place) && !isChild(place);
+}
+
+export function isLeaf(place: Place): place is LeafPlace {
   return !isComposite(place);
 }

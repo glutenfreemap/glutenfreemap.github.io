@@ -68,6 +68,14 @@
             "problemMatcher": [],
             "label": "npm: generate-style - frontend",
             "detail": "tsx generate_style.ts"
+        },
+        {
+            "type": "npm",
+            "script": "i18n:extract",
+            "path": "frontend",
+            "problemMatcher": [],
+            "label": "npm: i18n:extract - frontend",
+            "detail": "ngx-translate-extract --input ./src --output ./src/assets/i18n{/pt,/en,/fr,/es}.json --clean --format json"
         }
     ]
 }

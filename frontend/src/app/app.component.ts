@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { NavigationComponent } from './navigation/navigation.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   imports: [
-    NavigationComponent,
-    TranslateModule
+    RouterOutlet
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

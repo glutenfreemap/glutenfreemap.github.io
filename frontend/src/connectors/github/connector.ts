@@ -2,22 +2,24 @@ import { Octokit } from "@octokit/rest";
 import { ConfigurationService } from "../../app/configuration/configuration.service";
 import { Connector } from "../../app/configuration/connector";
 import { GitHubConfiguration } from "./configuration";
-import { isComposite, Place, PlaceIdentifier, placeSchema } from "../../datamodel/place";
+import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
-import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
+import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Language, LanguageIdentifier, languageSchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
 import { z, ZodTypeAny } from "zod";
 
 export class GitHubConnector implements Connector {
   constructor(private configuration: ConfigurationService) {
     this.load();
 
+    // Debug
     (<any>globalThis)["connector"] = this;
   }
 
+  public languages = signal(new Map<LanguageIdentifier, Language>());
   public attestationTypes = signal(new Map<AttestationTypeIdentifier, AttestationType>());
   public regions = signal(new Map<RegionIdentifier, Region>());
   public categories = signal(new Map<CategoryIdentifier, Category>());
-  public places = signal<Place[]>([]);
+  public places = signal<TopLevelPlace[]>([]);
 
   private async load() {
     const config = this.configuration.getConnectorConfiguration<GitHubConfiguration>();
@@ -64,6 +66,7 @@ export class GitHubConnector implements Connector {
       collection.set(dict);
     };
 
+    load(this.languages, languageSchema, "languages.json");
     load(this.attestationTypes, attestationTypeSchema, "attestations.json");
     load(this.regions, regionSchema, "regions.json");
     load(this.categories, categorySchema, "categories.json");
@@ -78,7 +81,7 @@ export class GitHubConnector implements Connector {
       const parseResult = placeSchema.safeParse(data);
 
       if (parseResult.success) {
-        const place = <Place>parseResult.data;
+        const place = <TopLevelPlace>parseResult.data;
 
         if (duplicateIds.has(place.id)) {
           console.error(`Duplicate id in '${fileInfo.path}'`, place.id);

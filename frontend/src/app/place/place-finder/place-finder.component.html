@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ 'place.editor.searchOnGoogleMaps' | translate }}</h2>
+<mat-dialog-content>
+  <mat-form-field hintLabel="{{ 'place.editor.finder.hint' | translate }}">
+    <mat-label>{{ 'place.editor.finder.label' | translate }}</mat-label>
+    <input matInput [formControl]="searchBox" required [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySuggestion" (optionSelected)="optionSelected($event)">
+      @for (result of searchResults | async; track result) {
+        <mat-option [value]="result">{{result.text}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <iframe #helper src="/find-place-helper"></iframe>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>{{ 'general.dialog.buttons.cancel' | translate }}</button>
+</mat-dialog-actions>

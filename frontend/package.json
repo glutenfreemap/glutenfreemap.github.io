@@ -37,6 +37,7 @@
     "@angular/cli": "^19.2.4",
     "@angular/compiler-cli": "^19.2.4",
     "@protomaps/basemaps": "^5.1.0",
+    "@types/google.maps": "^3.58.1",
     "@types/jasmine": "~5.1.0",
     "@vendure/ngx-translate-extract": "^9.4.0",
     "jasmine-core": "~5.6.0",

@@ -1,0 +1,13 @@
+<mat-tab-group animationDuration="0" preserveContent="true">
+  @for (language of languages().values(); track language.id) {
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span [class.empty]="getControl(language.id).value.length === 0">{{ language.name }}</span>
+      </ng-template>
+      <mat-form-field hintLabel="{{ 'place.editor.description.hint' | translate }}">
+        <mat-label>{{ 'place.editor.description.label' | translate: { language: language.name } }}</mat-label>
+        <textarea matInput [formControl]="getControl(language.id)"></textarea>
+      </mat-form-field>
+    </mat-tab>
+  }
+</mat-tab-group>
