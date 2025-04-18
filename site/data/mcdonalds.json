@@ -2933,6 +2933,20 @@
     "district": "braga"
   },
   {
+    "id": "amadora-venda-nova",
+    "subtitle": "Amadora Venda Nova",
+    "address": [
+      "Lisboa",
+      "Rua Elias Garcia Nº23 Lisboa",
+      "2700-312  Lisboa"
+    ],
+    "position": {
+      "lat": "38.754722",
+      "lng": "-9.216389"
+    },
+    "district": "lisboa"
+  },
+  {
     "id": "moita",
     "subtitle": "Moita",
     "address": [
