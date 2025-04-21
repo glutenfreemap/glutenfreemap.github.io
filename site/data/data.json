@@ -355,18 +355,16 @@
             "gid": "ChIJS7720BjJHg0R_3YPjig13x0",
             "name": "Batarda's",
             "description": {
-                "pt": "Abrem apenas para grupos de 15 ou mais pessoas, mas aceitam encomendas e take-away.",
-                "en": "They open only for groups of 15 or more people, but accept orders and take-away.",
-                "fr": "Ils ouvrent uniquement pour les groupes de 15 personnes ou plus, mais acceptent les commandes et les plats à emporter.",
-                "es": "Abren solo para grupos de 15 o más personas, pero aceptan pedidos y comida para llevar."
+                "pt": "",
+                "en": "",
+                "fr": "",
+                "es": ""
             },
             "address": [
                 "Praceta Lagoa de Óbidos 38",
                 "2775-722 Parede"
             ],
             "categories": [
-                "bakery",
-                "restaurant",
                 "take-away"
             ],
             "district": "lisboa",
