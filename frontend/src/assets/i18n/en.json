@@ -38,8 +38,10 @@
 	"place.editor.longitude.belowMinimum": "",
 	"place.editor.longitude.aboveMaximum": "",
 	"general.dialog.buttons.save": "",
+	"general.loading.details": "",
+	"general.branch.label": "",
+	"general.branch.createNew": "",
 	"place.editor.description.hint": "",
 	"place.editor.description.label": "",
-	"navigation.menu.places": "",
 	"navigation.menu.settings": ""
 }

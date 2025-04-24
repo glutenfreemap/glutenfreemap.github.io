@@ -1,6 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import { ConfigurationService } from "../../app/configuration/configuration.service";
-import { Connector } from "../../app/configuration/connector";
+import { Branch, Connector, Status } from "../../app/configuration/connector";
 import { GitHubConfiguration } from "./configuration";
 import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
@@ -15,13 +15,24 @@ export class GitHubConnector implements Connector {
     (<any>globalThis)["connector"] = this;
   }
 
+  public status = signal<Status>({ status: "loading" });
+
+  public branches = signal<Branch[]>([]);
+  public currentBranch = signal<Branch | undefined>(undefined);
+
   public languages = signal(new Map<LanguageIdentifier, Language>());
   public attestationTypes = signal(new Map<AttestationTypeIdentifier, AttestationType>());
   public regions = signal(new Map<RegionIdentifier, Region>());
   public categories = signal(new Map<CategoryIdentifier, Category>());
   public places = signal<TopLevelPlace[]>([]);
 
+  public async switchToBranch(branch: Branch): Promise<any> {
+
+  }
+
   private async load() {
+    this.status.set({ status: "loading" });
+
     const config = this.configuration.getConnectorConfiguration<GitHubConfiguration>();
     const octokit = new Octokit({ auth: config.token });
 
@@ -66,14 +77,6 @@ export class GitHubConnector implements Connector {
       collection.set(dict);
     };
 
-    load(this.languages, languageSchema, "languages.json");
-    load(this.attestationTypes, attestationTypeSchema, "attestations.json");
-    load(this.regions, regionSchema, "regions.json");
-    load(this.categories, categorySchema, "categories.json");
-
-    const fileInfos = tree.data.tree
-      .filter(f => f.type === "blob" && f.path && /^places\/([^\.]+\.json)$/.test(f.path));
-
     const duplicateIds = new Set<PlaceIdentifier>();
 
     const loadPlace = async (fileInfo: { path?: string, sha?: string }) => {
@@ -107,8 +110,54 @@ export class GitHubConnector implements Connector {
       }
     };
 
+    const loadBranches = async () => {
+      const branches = (await octokit.paginate(octokit.repos.listBranches, {
+        owner: config.repository.owner,
+        repo: config.repository.name
+      })).map(b => ({
+        name: b.name,
+        isDefault: false
+      }));
+
+      this.branches.set(branches);
+      this.currentBranch.set(branches.find(b => b.name === config.repository.branch));
+    };
+
+    const fileInfos = tree.data.tree
+      .filter(f => f.type === "blob" && f.path && /^places\/([^\.]+\.json)$/.test(f.path));
+
+    const pendingActions: (() => Promise<any>)[] = [];
+
+    pendingActions.push(() => load(this.languages, languageSchema, "languages.json"));
+    pendingActions.push(() => load(this.attestationTypes, attestationTypeSchema, "attestations.json"));
+    pendingActions.push(() => load(this.regions, regionSchema, "regions.json"));
+    pendingActions.push(() => load(this.categories, categorySchema, "categories.json"));
+
     for (const fileInfo of fileInfos) {
-      loadPlace(fileInfo);
+      pendingActions.push(() => loadPlace(fileInfo));
     }
+
+    pendingActions.push(() => loadBranches());
+
+    // Simulate a delay
+    // await new Promise(r => setTimeout(() => r(null), 2000));
+
+    let actionsCompleted = 0;
+    this.status.set({ status: "loading", progress: 0 });
+
+    await new Promise(resolve => {
+      pendingActions.map(async (action, index) => {
+        // Simulate a delay
+        // await new Promise(r => setTimeout(() => r(null), Math.random() * 100 * index));
+
+        await action();
+        if (++actionsCompleted < pendingActions.length) {
+          this.status.set({ status: "loading", progress: (actionsCompleted / pendingActions.length) * 100 });
+        } else {
+          this.status.set({ status: "loaded" });
+          resolve(undefined);
+        }
+      });
+    });
   }
 }

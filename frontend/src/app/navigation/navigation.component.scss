@@ -1,3 +1,30 @@
+@use '@angular/material' as mat;
+
+:host.loading ::ng-deep * {
+  pointer-events: none;
+  user-select: none;
+}
+
+mat-progress-bar {
+  z-index: 999;
+}
+
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  color: #999;
+}
+
 
 .brand {
   font-size: 1.25rem;
@@ -14,11 +41,16 @@ ul {
   flex-direction: row;
   align-items: baseline;
   gap: 1.5rem;
+  margin: 1rem 0 0.5rem 0;
 }
 
 li {
   list-style: none;
   white-space: nowrap;
+}
+
+.separator {
+  flex: 1;
 }
 
 a {
@@ -46,4 +78,8 @@ nav,
 .content {
   max-width: 1140px;
   width: 100%;
+}
+
+mat-option.create {
+  color: red;
 }

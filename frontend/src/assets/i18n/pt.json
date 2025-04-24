@@ -38,8 +38,10 @@
 	"place.editor.longitude.belowMinimum": "A longitude não pode ser inferior a -180.",
 	"place.editor.longitude.aboveMaximum": "A longitude não pode ser superior a 180.",
 	"general.dialog.buttons.save": "Guardar",
+	"general.loading.details": "Carregando os dados. Aguarde por favor.",
+	"general.branch.label": "Branch",
+	"general.branch.createNew": "Criar novo...",
 	"place.editor.description.hint": "Informação adicional sobre o estabelecimento",
 	"place.editor.description.label": "Descrição ({{language}})",
-	"navigation.menu.places": "Locais",
 	"navigation.menu.settings": "Configuração"
 }
