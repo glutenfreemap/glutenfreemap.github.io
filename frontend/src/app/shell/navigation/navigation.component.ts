@@ -2,7 +2,7 @@ import { Component, computed, effect, Inject, signal, Signal, WritableSignal } f
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { TranslateModule, _ } from '@ngx-translate/core';
-import { Branch, CONNECTOR, Connector, Status } from '../configuration/connector';
+import { Branch, CONNECTOR, Connector, Status } from '../../configuration/connector';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';

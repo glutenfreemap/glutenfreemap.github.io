@@ -17,7 +17,7 @@
 	"place.editor.searchOnGoogleMaps": "Pesquisar no Google Maps",
 	"place.editor.finder.hint": "Pesquise aqui o local no Google Maps",
 	"place.editor.finder.label": "Nome / morada",
-	"general.dialog.buttons.cancel": "Anular",
+	"general.dialog.buttons.cancel": "Cancelar",
 	"place.editor.title": "A editar {{name}}",
 	"place.editor.childPlaceNotice": "Este estabelecimento faz parte de <b>{{name}}</b>.",
 	"place.editor.name.label": "Nome",

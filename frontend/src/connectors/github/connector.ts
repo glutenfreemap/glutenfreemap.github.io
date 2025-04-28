@@ -1,18 +1,16 @@
 import { Octokit } from "@octokit/rest";
-import { ConfigurationService } from "../../app/configuration/configuration.service";
 import { Branch, Connector, Status } from "../../app/configuration/connector";
-import { GitHubConfiguration } from "./configuration";
+import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
 import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
 import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Language, LanguageIdentifier, languageSchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
 import { z, ZodTypeAny } from "zod";
+import { RequestError } from "@octokit/request-error";
+
+export const INVALID_TOKEN = "INVALID_TOKEN";
 
 export class GitHubConnector implements Connector {
-  constructor(private configuration: ConfigurationService) {
-    this.load();
-
-    // Debug
-    (<any>globalThis)["connector"] = this;
+  constructor(private configuration: GitHubConfiguration) {
   }
 
   public status = signal<Status>({ status: "loading" });
@@ -26,25 +24,65 @@ export class GitHubConnector implements Connector {
   public categories = signal(new Map<CategoryIdentifier, Category>());
   public places = signal<TopLevelPlace[]>([]);
 
+  public static async listRepositories(token: GitHubToken): Promise<GitHubRepository[] | typeof INVALID_TOKEN> {
+    const octokit = new Octokit({ auth: token });
+
+    try {
+      const repositories = await octokit.paginate(octokit.rest.repos.listForAuthenticatedUser, {
+      });
+
+      return repositories.map(r => ({
+        name: r.name,
+        owner: r.owner.login,
+        defaultBranch: r.default_branch
+      }));
+    } catch (err) {
+      if ((<RequestError>err).status === 401) {
+        return INVALID_TOKEN;
+      } else {
+        throw err;
+      }
+    }
+  }
+
+  public static async validateRepository(token: GitHubToken, repository: GitHubRepository) {
+    const octokit = new Octokit({ auth: token });
+    try {
+      const marker = await octokit.rest.repos.getContent({
+        owner: repository.owner,
+        repo: repository.name,
+        ref: repository.defaultBranch,
+        path: ".glutenfreemap"
+      });
+
+      return true;
+    } catch(err) {
+      if ((<RequestError>err).status === 404) {
+        return false;
+      } else {
+        throw err;
+      }
+    }
+  }
+
   public async switchToBranch(branch: Branch): Promise<any> {
 
   }
 
-  private async load() {
+  public async load() {
     this.status.set({ status: "loading" });
 
-    const config = this.configuration.getConnectorConfiguration<GitHubConfiguration>();
-    const octokit = new Octokit({ auth: config.token });
+    const octokit = new Octokit({ auth: this.configuration.token });
 
     const ref = await octokit.git.getRef({
-      owner: config.repository.owner,
-      repo: config.repository.name,
-      ref: `heads/${config.repository.branch}`
+      owner: this.configuration.repository.owner,
+      repo: this.configuration.repository.name,
+      ref: `heads/${this.configuration.repository.branch}`
     });
 
     const tree = await octokit.git.getTree({
-      owner: config.repository.owner,
-      repo: config.repository.name,
+      owner: this.configuration.repository.owner,
+      repo: this.configuration.repository.name,
       tree_sha: ref.data.object.sha,
       recursive: "true"
     });
@@ -55,8 +93,8 @@ export class GitHubConnector implements Connector {
 
     const getFile = async (fileInfo: { sha?: string }) => {
       const blob = await octokit.git.getBlob({
-        owner: config.repository.owner,
-        repo: config.repository.name,
+        owner: this.configuration.repository.owner,
+        repo: this.configuration.repository.name,
         file_sha: fileInfo.sha!,
         mediaType: { format: "raw" }
       });
@@ -112,15 +150,15 @@ export class GitHubConnector implements Connector {
 
     const loadBranches = async () => {
       const branches = (await octokit.paginate(octokit.repos.listBranches, {
-        owner: config.repository.owner,
-        repo: config.repository.name
+        owner: this.configuration.repository.owner,
+        repo: this.configuration.repository.name
       })).map(b => ({
         name: b.name,
         isDefault: false
       }));
 
       this.branches.set(branches);
-      this.currentBranch.set(branches.find(b => b.name === config.repository.branch));
+      this.currentBranch.set(branches.find(b => b.name === this.configuration.repository.branch));
     };
 
     const fileInfos = tree.data.tree

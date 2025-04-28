@@ -10,7 +10,7 @@
       <mat-label>{{ 'github.configuration.token.label' | translate }}</mat-label>
       <input matInput type="password" [formControl]="tokenInput" required />
       @if (tokenInput.value) {
-      <button matSuffix mat-icon-button aria-label="Clear" (click)="tokenInput.setValue('')">
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="clearToken()">
         <mat-icon>close</mat-icon>
       </button>
       }
@@ -32,8 +32,8 @@
     </p>
     <mat-form-field>
       <mat-select [formControl]="repositorySelector" required>
-        @for (repository of repositories(); track repository.full_name) {
-          <mat-option [value]="repository">{{repository.full_name}}</mat-option>
+        @for (repository of repositories(); track getFullName(repository)) {
+          <mat-option [value]="repository">{{getFullName(repository)}}</mat-option>
         }
       </mat-select>
       @if (repositorySelector.hasError("required")) {

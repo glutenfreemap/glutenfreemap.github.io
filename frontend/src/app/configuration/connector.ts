@@ -1,6 +1,7 @@
-import { InjectionToken, Signal } from "@angular/core";
+import { InjectionToken, signal, Signal } from "@angular/core";
 import { TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
+import { BRAND } from "zod";
 
 type IndeterminateLoadingStatus = {
   status: "loading"
@@ -42,3 +43,18 @@ export interface Connector {
 }
 
 export const CONNECTOR = new InjectionToken<Connector>('Connector');
+
+export class NopConnector implements Connector {
+  status: Signal<Status> = signal({ status: "loaded" });
+  branches: Signal<Branch[]> = signal([]);
+  currentBranch: Signal<Branch | undefined> = signal(undefined);
+  switchToBranch(branch: Branch): Promise<any> {
+    throw new Error("Method not supported.");
+  }
+
+  languages: Signal<Map<LanguageIdentifier, Language>> = signal(new Map());
+  attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>> = signal(new Map());
+  regions: Signal<Map<RegionIdentifier, Region>> = signal(new Map());
+  categories: Signal<Map<CategoryIdentifier, Category>> = signal(new Map());
+  places: Signal<TopLevelPlace[]> = signal([]);
+}
