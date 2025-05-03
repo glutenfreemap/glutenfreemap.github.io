@@ -77,7 +77,11 @@
   <app-localized-string-form-field [control]="descriptionInput" />
 </mat-dialog-content>
 <mat-dialog-actions>
+  @if (loading()) {
+    <mat-spinner></mat-spinner>
+  }
+
   <button mat-button (click)="openSearch()">{{ 'place.editor.searchOnGoogleMaps' | translate }}</button>
   <button mat-button (click)="cancel()">{{ 'general.dialog.buttons.cancel' | translate }}</button>
-  <button mat-button cdkFocusInitial [disabled]="isValid()">{{ 'general.dialog.buttons.save' | translate }}</button>
+  <button mat-button cdkFocusInitial [disabled]="!isValid()" (click)="save()">{{ 'general.dialog.buttons.save' | translate }}</button>
 </mat-dialog-actions>

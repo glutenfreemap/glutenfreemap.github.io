@@ -1,4 +1,4 @@
-import { Component, Inject, Signal } from '@angular/core';
+import { Component, Inject, signal, Signal } from '@angular/core';
 import { ChildPlace, CompositePlace, GoogleIdentifier, isChild, isLeaf, isStandalone, LeafPlace, Place, StandalonePlace } from '../../../datamodel/place';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +15,7 @@ import { RegionIdentifier, Region, LanguageIdentifier, LocalizedString, Attestat
 import { MatSelectModule } from '@angular/material/select';
 import { NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-place-edit',
@@ -31,6 +32,7 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     TranslateModule,
     LocalizedStringFormFieldComponent,
+    MatProgressSpinnerModule,
     NgIf
   ],
   templateUrl: './place-edit.component.html',
@@ -49,6 +51,7 @@ export class PlaceEditComponent {
   public regions?: Signal<Map<RegionIdentifier, Region>>;
   public attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>;
   public error = errorMessage;
+  public loading = signal(false);
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly place: Place,
@@ -127,7 +130,24 @@ export class PlaceEditComponent {
   }
 
   public isValid(): boolean {
-    return false;
+    return [
+      this.gidInput,
+      this.nameInput,
+      this.attestationInput,
+      this.addressInput,
+      this.regionInput,
+      this.latitudeInput,
+      this.longitudeInput,
+      this.descriptionInput,
+    ].every(f => f ? f.valid : true);
+  }
+
+  public async save() {
+    if (!this.isValid()) {
+      throw new Error("Invalid");
+    }
+
+
   }
 
   public openParent(parent: CompositePlace) {

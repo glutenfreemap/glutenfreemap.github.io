@@ -9,10 +9,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfigurationService } from '../../../app/configuration/configuration.service';
-import { GitHubConfiguration, gitHubConfigurationSchema, GitHubRepository, GitHubToken } from '../configuration';
+import { GitHubRepository, GitHubToken } from '../configuration';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GitHubConnector, INVALID_TOKEN } from '../connector';
+import { readNext } from '../../../app/common/helpers';
 
 @Component({
   selector: 'app-configuration',
@@ -24,12 +25,16 @@ import { GitHubConnector, INVALID_TOKEN } from '../connector';
 export class ConfigurationComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.dialog.open(ConfigurationDialogComponent, {
+    const dialogRef = this.dialog.open(ConfigurationDialogComponent, {
       disableClose: !this.configurationService.isConfigured()
+    });
+    readNext(dialogRef.afterClosed(), _ => {
+      this.router.navigate(["/"]);
     });
   }
 }

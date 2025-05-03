@@ -13,7 +13,7 @@ function createConnector(configuration: ConnectorConfiguration): Connector {
   switch (configuration.type) {
     case "GitHub":
       const connector = new GitHubConnector(configuration);
-      connector.load();
+      connector.switchToBranch(configuration.repository.branch);
       return connector;
 
     default:
@@ -36,7 +36,6 @@ export const appConfig: ApplicationConfig = {
     {
       provide: CONNECTOR,
       useFactory: (config: ConfigurationService) => {
-        console.log("factory");
         const configuration = config.tryGetConnectorConfiguration();
         if (!configuration.success && configuration.data) {
           console.error("Discarding invalid connector configuration", configuration.data, configuration.errors);

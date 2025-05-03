@@ -23,15 +23,7 @@
     <li class="separator"></li>
 
     <li>
-      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <mat-label>{{ 'general.branch.label' | translate }}</mat-label>
-        <mat-select [(value)]="currentBranch" [disabled]="loading()">
-          @for (branch of branches(); track branch.name) {
-            <mat-option [value]="branch">{{ branch.name }}</mat-option>
-          }
-          <mat-option [value]="CREATE_NEW_BRANCH" class="create">{{ 'general.branch.createNew' | translate }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <app-branch-selector></app-branch-selector>
     </li>
   </ul>
 </nav>

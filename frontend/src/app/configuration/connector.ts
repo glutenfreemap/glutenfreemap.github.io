@@ -1,7 +1,7 @@
 import { InjectionToken, signal, Signal } from "@angular/core";
 import { TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
-import { BRAND } from "zod";
+import { z } from "zod";
 
 type IndeterminateLoadingStatus = {
   status: "loading"
@@ -23,9 +23,23 @@ type ErrorStatus = {
 
 export type Status = IndeterminateLoadingStatus | DeterminateLoadingStatus | LoadedStatus | ErrorStatus;
 
-export interface Branch {
-  name: string,
-  isDefault: boolean
+export const branchNameSchema = z.string().min(1).brand("Branch");
+export type BranchName = z.infer<typeof branchNameSchema>;
+
+export const versionIdentifierSchema = z.string().min(1).brand("VersionIdentifier");
+export type VersionIdentifier = z.infer<typeof versionIdentifierSchema>;
+
+const branchSchema = z.object({
+  name: branchNameSchema,
+  version: versionIdentifierSchema,
+  protected: z.boolean()
+});
+
+export type Branch = z.infer<typeof branchSchema>;
+
+export enum CreateBranchResult {
+  Success = 1,
+  AlreadyExists,
 }
 
 export interface Connector {
@@ -33,7 +47,8 @@ export interface Connector {
 
   branches: Signal<Branch[]>,
   currentBranch: Signal<Branch | undefined>,
-  switchToBranch(branch: Branch): Promise<any>,
+  switchToBranch(name: BranchName): Promise<any>,
+  createBranch(name: BranchName): Promise<CreateBranchResult>,
 
   languages: Signal<Map<LanguageIdentifier, Language>>,
   attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>,
@@ -48,7 +63,12 @@ export class NopConnector implements Connector {
   status: Signal<Status> = signal({ status: "loaded" });
   branches: Signal<Branch[]> = signal([]);
   currentBranch: Signal<Branch | undefined> = signal(undefined);
-  switchToBranch(branch: Branch): Promise<any> {
+
+  switchToBranch(name: BranchName): Promise<any> {
+    throw new Error("Method not supported.");
+  }
+
+  createBranch(name: BranchName): Promise<CreateBranchResult> {
     throw new Error("Method not supported.");
   }
 

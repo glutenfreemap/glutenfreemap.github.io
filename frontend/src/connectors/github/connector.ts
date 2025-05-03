@@ -1,5 +1,5 @@
 import { Octokit } from "@octokit/rest";
-import { Branch, Connector, Status } from "../../app/configuration/connector";
+import { Branch, BranchName, Connector, CreateBranchResult, Status, VersionIdentifier } from "../../app/configuration/connector";
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
 import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
@@ -8,6 +8,8 @@ import { z, ZodTypeAny } from "zod";
 import { RequestError } from "@octokit/request-error";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
+
+
 
 export class GitHubConnector implements Connector {
   constructor(private configuration: GitHubConfiguration) {
@@ -34,10 +36,10 @@ export class GitHubConnector implements Connector {
       return repositories.map(r => ({
         name: r.name,
         owner: r.owner.login,
-        defaultBranch: r.default_branch
+        defaultBranch: r.default_branch as BranchName
       }));
     } catch (err) {
-      if ((<RequestError>err).status === 401) {
+      if (err instanceof RequestError && err.status === 401) {
         return INVALID_TOKEN;
       } else {
         throw err;
@@ -57,7 +59,7 @@ export class GitHubConnector implements Connector {
 
       return true;
     } catch(err) {
-      if ((<RequestError>err).status === 404) {
+      if (err instanceof RequestError && err.status === 404) {
         return false;
       } else {
         throw err;
@@ -65,11 +67,43 @@ export class GitHubConnector implements Connector {
     }
   }
 
-  public async switchToBranch(branch: Branch): Promise<any> {
+  public async createBranch(name: BranchName): Promise<CreateBranchResult> {
+    const branch = this.currentBranch();
+    if (!branch) {
+      throw new Error("Cannot create a new branch when no branch is current");
+    }
 
+    this.status.set({ status: "loading" });
+
+    const octokit = new Octokit({ auth: this.configuration.token });
+
+    try {
+      const response = await octokit.rest.git.createRef({
+        owner: this.configuration.repository.owner,
+        repo: this.configuration.repository.name,
+        ref: `refs/heads/${name}`,
+        sha: branch.version
+      });
+
+      const newBranch: Branch = { name, version: branch.version, protected: false };
+      this.branches.update(l => [...l, newBranch]);
+      this.currentBranch.set(newBranch);
+    } catch (err) {
+      if (err instanceof RequestError && (err.status === 422 || err.status === 409)) {
+        this.status.set({ status: "loaded" });
+        return CreateBranchResult.AlreadyExists;
+      } else {
+        this.status.set({ status: "error", message: `${err}` });
+        throw err;
+      }
+    }
+
+    this.status.set({ status: "loaded" });
+
+    return CreateBranchResult.Success;
   }
 
-  public async load() {
+  public async switchToBranch(name: BranchName) {
     this.status.set({ status: "loading" });
 
     const octokit = new Octokit({ auth: this.configuration.token });
@@ -77,7 +111,7 @@ export class GitHubConnector implements Connector {
     const ref = await octokit.git.getRef({
       owner: this.configuration.repository.owner,
       repo: this.configuration.repository.name,
-      ref: `heads/${this.configuration.repository.branch}`
+      ref: `heads/${name}`
     });
 
     const tree = await octokit.git.getTree({
@@ -153,16 +187,18 @@ export class GitHubConnector implements Connector {
         owner: this.configuration.repository.owner,
         repo: this.configuration.repository.name
       })).map(b => ({
-        name: b.name,
-        isDefault: false
+        name: b.name as BranchName,
+        version: b.commit.sha as VersionIdentifier,
+        protected: b.protected
       }));
 
       this.branches.set(branches);
-      this.currentBranch.set(branches.find(b => b.name === this.configuration.repository.branch));
     };
 
     const fileInfos = tree.data.tree
       .filter(f => f.type === "blob" && f.path && /^places\/([^\.]+\.json)$/.test(f.path));
+
+    this.places.set([]);
 
     const pendingActions: (() => Promise<any>)[] = [];
 
@@ -175,7 +211,9 @@ export class GitHubConnector implements Connector {
       pendingActions.push(() => loadPlace(fileInfo));
     }
 
-    pendingActions.push(() => loadBranches());
+    if (this.branches().length === 0) {
+      pendingActions.push(() => loadBranches());
+    }
 
     // Simulate a delay
     // await new Promise(r => setTimeout(() => r(null), 2000));
@@ -197,5 +235,7 @@ export class GitHubConnector implements Connector {
         }
       });
     });
+
+    this.currentBranch.set(this.branches().find(b => b.name === name));
   }
 }

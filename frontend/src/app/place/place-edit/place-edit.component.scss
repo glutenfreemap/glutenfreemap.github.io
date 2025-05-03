@@ -1,3 +1,7 @@
+@use '../../../mixins';
+
+@include mixins.dialog-spinner;
+
 mat-dialog-content {
   padding-top: 8px !important;
 }
