@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { Branch, BranchName, Connector, CreateBranchResult, Status, VersionIdentifier } from "../../app/configuration/connector";
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
-import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
+import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema, StandalonePlace } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
 import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Language, LanguageIdentifier, languageSchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
 import { z, ZodTypeAny } from "zod";
@@ -25,6 +25,8 @@ export class GitHubConnector implements Connector {
   public regions = signal(new Map<RegionIdentifier, Region>());
   public categories = signal(new Map<CategoryIdentifier, Category>());
   public places = signal<TopLevelPlace[]>([]);
+
+  private fileNames: { [key: PlaceIdentifier]: string } = {};
 
   public static async listRepositories(token: GitHubToken): Promise<GitHubRepository[] | typeof INVALID_TOKEN> {
     const octokit = new Octokit({ auth: token });
@@ -155,6 +157,11 @@ export class GitHubConnector implements Connector {
       const data = await getFile(fileInfo);
       const parseResult = placeSchema.safeParse(data);
 
+      if (fileInfo.path === "places/potato-project.json") {
+        console.log("data", data);
+        console.log("parseResult", parseResult);
+      }
+
       if (parseResult.success) {
         const place = <TopLevelPlace>parseResult.data;
 
@@ -175,6 +182,7 @@ export class GitHubConnector implements Connector {
             c.parent = place;
           });
         }
+        this.fileNames[place.id] = fileInfo.path!;
         this.places.update(val => [...val, place]);
       } else {
         const error = parseResult.error;
@@ -189,7 +197,7 @@ export class GitHubConnector implements Connector {
       })).map(b => ({
         name: b.name as BranchName,
         version: b.commit.sha as VersionIdentifier,
-        protected: b.protected
+        protected: b.name === this.configuration.repository.defaultBranch
       }));
 
       this.branches.set(branches);
@@ -198,6 +206,7 @@ export class GitHubConnector implements Connector {
     const fileInfos = tree.data.tree
       .filter(f => f.type === "blob" && f.path && /^places\/([^\.]+\.json)$/.test(f.path));
 
+    this.fileNames = {};
     this.places.set([]);
 
     const pendingActions: (() => Promise<any>)[] = [];
@@ -238,4 +247,134 @@ export class GitHubConnector implements Connector {
 
     this.currentBranch.set(this.branches().find(b => b.name === name));
   }
+
+  public async commit(place: StandalonePlace) {
+    const currentBranch = this.currentBranch();
+    if (!currentBranch) {
+      throw new Error("No current branch");
+    }
+
+    if (currentBranch.protected) {
+      throw new Error("Cannot commit to a protected branch");
+    }
+
+    const fileName = this.fileNames[place.id] || this.generateFileName(place);
+    const octokit = new Octokit({ auth: this.configuration.token });
+
+    const repo = {
+      owner: this.configuration.repository.owner,
+      repo: this.configuration.repository.name
+    };
+
+    const totalSteps = 6;
+    let currentStep = 0;
+    this.status.set({ status: "loading", progress: 0 });
+
+    // 1. Get the SHA of the last commit on the branch:
+    //     GET /repos/{owner}/{repo}/git/refs/heads/{branch}
+    //     -> Extract the commit SHA from the response
+    const ref = await octokit.rest.git.getRef({
+      ...repo,
+      ref: `heads/${currentBranch.name}`
+    });
+
+    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
+
+    // 2. Get the tree SHA of the latest commit:
+    //     GET /repos/{owner}/{repo}/git/commits/{commit_sha}
+    //     -> Extract the tree SHA from the response
+    const commit = await octokit.rest.git.getCommit({
+      ...repo,
+      commit_sha: ref.data.object.sha
+    });
+
+    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
+
+    // 3. Create a blob with the new file content:
+    //     POST /repos/{owner}/{repo}/git/blobs
+    //     BODY: {
+    //       "content": "Your new file content",
+    //       "encoding": "utf-8" // Or use "base64" if encoding as such
+    //     }
+    //     -> Extract the blob SHA from the response
+    const blob = await octokit.rest.git.createBlob({
+      ...repo,
+      content: JSON.stringify(place, null, 2)
+    });
+
+    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
+
+    // 4. Create a new tree by modifying the previous tree:
+    //     POST /repos/{owner}/{repo}/git/trees
+    //     BODY: {
+    //       "base_tree": "{tree_sha}",
+    //       "tree": [
+    //           {
+    //               "path": "path/to/file",
+    //               "mode": "100644", // Or "100755" for executable files
+    //               "type": "blob",
+    //               "sha": "{blob_sha}"
+    //           }
+    //       ]
+    //     }
+    //     -> Extract the new tree SHA from the response
+    const newTree = await octokit.rest.git.createTree({
+      ...repo,
+      base_tree: commit.data.tree.sha,
+      tree: [
+        {
+          path: fileName,
+          mode: "100644",
+          type: "blob",
+          sha: blob.data.sha
+        }
+      ]
+    });
+
+    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
+
+    // 5. Create a new commit:
+    //     POST /repos/{owner}/{repo}/git/commits
+    //     BODY: {
+    //       "message": "Your commit message",
+    //       "tree": "{new_tree_sha}",
+    //       "parents": ["{commit_sha}"]
+    //     }
+    //     -> Extract the new commit SHA from the response
+    const newCommit = await octokit.rest.git.createCommit({
+      ...repo,
+      message: "TODO",
+      tree: newTree.data.sha,
+      parents: [
+        commit.data.sha
+      ]
+    });
+
+    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
+
+    // 6. Update the reference to point to the new commit:
+    //     PATCH /repos/{owner}/{repo}/git/refs/heads/{branch}
+    //     BODY: {
+    //       "sha": "{new_commit_sha}"
+    //     }
+    await octokit.rest.git.updateRef({
+      ...repo,
+      ref: `heads/${currentBranch.name}`,
+      sha: newCommit.data.sha
+    });
+
+    this.status.set({ status: "loaded" });
+  }
+
+  private generateFileName(place: StandalonePlace): string {
+    const baseName = place.name.replaceAll(/\s+(\w)/g, "-$1").toLocaleLowerCase();
+    let counter = 0;
+    let currentName = `${baseName}.json`;
+    while (currentName in this.fileNames) {
+      currentName = `${baseName}-${++counter}.json`;
+    }
+    return currentName;
+  }
 }
+
+

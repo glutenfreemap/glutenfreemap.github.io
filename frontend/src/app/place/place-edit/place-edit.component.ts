@@ -55,7 +55,7 @@ export class PlaceEditComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly place: Place,
-    @Inject(CONNECTOR) connector: Connector,
+    @Inject(CONNECTOR) private connector: Connector,
     private dialogRef: MatDialogRef<Place>,
     private dialog: MatDialog,
     private translate: TranslateService
@@ -147,7 +147,28 @@ export class PlaceEditComponent {
       throw new Error("Invalid");
     }
 
+    let updatedPlace: Place;
+    if (isStandalone(this.place)) {
+      updatedPlace = {
+        ...this.place,
+        gid: this.gidInput.value || undefined,
+        name: this.nameInput.value!,
+        attestation: this.attestationInput.value?.id!,
+        address: this.addressInput?.value?.split("\n") || [],
+        region: this.regionInput?.value?.id!,
+        position: {
+          lat: this.latitudeInput?.value!,
+          lng: this.longitudeInput?.value!,
+        },
+        description: this.descriptionInput.value || undefined
+      }
+    } else {
+      throw new Error("Not implemented");
+    }
 
+    this.loading.set(true);
+    await this.connector.commit(updatedPlace);
+    this.loading.set(false);
   }
 
   public openParent(parent: CompositePlace) {
