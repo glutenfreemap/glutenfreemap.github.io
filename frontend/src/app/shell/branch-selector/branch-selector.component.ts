@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BranchCreatorComponent } from '../branch-creator/branch-creator.component';
 import { readNext } from '../../common/helpers';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfigurationService } from '../../configuration/configuration.service';
 
 @Component({
   selector: 'app-branch-selector',
@@ -32,6 +33,7 @@ export class BranchSelectorComponent {
 
   constructor(
     @Inject(CONNECTOR) private connector: Connector,
+    private configurationService: ConfigurationService,
     private dialog: MatDialog
   ) {
     this.branches = connector.branches;
@@ -40,7 +42,7 @@ export class BranchSelectorComponent {
     effect(() => this.currentBranch.set(connector.currentBranch()));
   }
 
-  public selectOption(change: MatSelectChange) {
+  public async selectOption(change: MatSelectChange) {
     if (change.value === this.CREATE_NEW_BRANCH) {
       const dialogRef = this.dialog.open(BranchCreatorComponent);
       readNext(dialogRef.afterClosed(), _ => {
@@ -48,7 +50,12 @@ export class BranchSelectorComponent {
       });
     } else if (change.value) {
       const selectedBranch = change.value as Branch;
-      this.connector.switchToBranch(selectedBranch.name);
+      await this.connector.switchToBranch(selectedBranch.name);
+      const currentConfiguration = this.configurationService.getConnectorConfiguration();
+      this.configurationService.setConnectorConfiguration({
+        ...currentConfiguration,
+        branch: selectedBranch.name
+      });
     }
   }
 }

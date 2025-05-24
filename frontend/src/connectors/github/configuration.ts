@@ -14,9 +14,7 @@ export type GitHubRepository = z.infer<typeof gitHubRepositorySchema>;
 
 export const gitHubConfigurationSchema = z.object({
   token: gitHubTokenSchema,
-  repository: gitHubRepositorySchema.extend({
-    branch: branchNameSchema
-  })
+  repository: gitHubRepositorySchema
 });
 
 export type GitHubConfiguration = z.infer<typeof gitHubConfigurationSchema>;

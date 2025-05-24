@@ -10,3 +10,6 @@ utils/packages
 site/_site
 *.aab
 frontend/vars.css
+/backend/.vs
+/backend/bin
+/backend/obj

@@ -1,5 +1,5 @@
 import { InjectionToken, signal, Signal } from "@angular/core";
-import { StandalonePlace, TopLevelPlace } from "../../datamodel/place";
+import { Place, TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
 import { z } from "zod";
 
@@ -56,7 +56,7 @@ export interface Connector {
   categories: Signal<Map<CategoryIdentifier, Category>>,
   places: Signal<TopLevelPlace[]>,
 
-  commit(place: StandalonePlace): Promise<any>,
+  commit<T extends TopLevelPlace>(place: T): Promise<any>,
 }
 
 export const CONNECTOR = new InjectionToken<Connector>('Connector');
@@ -74,7 +74,7 @@ export class NopConnector implements Connector {
     throw new Error("Method not supported.");
   }
 
-  commit(place: StandalonePlace): Promise<any> {
+  commit<T extends TopLevelPlace>(place: T): Promise<any> {
     throw new Error("Method not supported.");
   }
 

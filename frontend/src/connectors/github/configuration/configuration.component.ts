@@ -163,10 +163,8 @@ class ConfigurationDialogComponent implements OnInit, OnDestroy {
       this.configurationService.setConnectorConfiguration({
         type: "GitHub",
         token: this.tokenInput.value!,
-        repository: {
-          ...selectedRepository,
-          branch: selectedRepository.defaultBranch
-        }
+        repository: selectedRepository,
+        branch: selectedRepository.defaultBranch
       });
 
       this.dialogRef.close();

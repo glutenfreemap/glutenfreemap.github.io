@@ -59,6 +59,9 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
       const control = new FormControl("", this.control.validator);
       this.controls.set(language, control);
       this.subscriptions.push(control.valueChanges.subscribe(value => {
+        // Mark as dirty *before* setting the value to allow event listeners to
+        // mark it as pristine if they want to.
+        this.control.markAsDirty();
         this.control.setValue({
           ...this.control.value,
           [language]: value

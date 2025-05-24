@@ -1,7 +1,16 @@
 import { FormControl } from "@angular/forms";
 import { Observable, Subscription } from "rxjs";
 
-export function readNext<T>(observable: Observable<T>, callback: (value: T) => void): void {
+export function readNext<T>(observable: Observable<T>): Promise<T>;
+export function readNext<T>(observable: Observable<T>, callback: (value: T) => void): void;
+
+export function readNext<T>(observable: Observable<T>, callback?: (value: T) => void): Promise<T> | void {
+  if (!callback) {
+    return new Promise(resolve => {
+      readNext(observable, resolve);
+    });
+  }
+
   let executed = false;
   let subscription: Subscription | undefined;
   subscription = observable.subscribe(value => {

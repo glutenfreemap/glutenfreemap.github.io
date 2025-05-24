@@ -33,11 +33,13 @@
 	"place.editor.name.required": "",
 	"place.editor.attestation.label": "",
 	"place.editor.attestation.inherited": "",
-	"place.editor.address.label": "",
-	"place.editor.address.required": "",
+	"place.editor.categories.label": "",
+	"place.editor.categories.required": "",
 	"place.editor.region.label": "",
 	"place.editor.region.required": "",
 	"place.editor.gid.label": "",
+	"place.editor.address.label": "",
+	"place.editor.address.required": "",
 	"place.editor.latitude.label": "",
 	"place.editor.latitude.required": "",
 	"place.editor.latitude.belowMinimum": "",
@@ -49,5 +51,6 @@
 	"general.dialog.buttons.save": "",
 	"place.editor.description.hint": "",
 	"place.editor.description.label": "",
+	"general.commit.template": "",
 	"navigation.menu.settings": ""
 }

@@ -79,7 +79,7 @@ export class PlacelistComponent implements AfterViewInit {
     if (place) {
       // After moving, we may need to zoom if the place is inside a cluster
       this.map!.once("moveend", async _evt => {
-        var clusters = this.map!.queryRenderedFeatures(undefined, {
+        const clusters = this.map!.queryRenderedFeatures({
           layers: [CLUSTERS1_LAYER]
         });
 
@@ -331,19 +331,25 @@ export class PlacelistComponent implements AfterViewInit {
     };
   }
 
-  private updateMapSource(places: TopLevelPlace[]) {
-    const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
-    if (source) {
-      const features = places.flatMap<MapFeature>(place => this.isComposite(place)
-        ? place.locations.map<MapFeature>(c => this.mapPlaceToFeature(c, c.attestation || place.attestation))
-        : this.mapPlaceToFeature(place, place.attestation)
-      );
+  private updateMapSourceDebounce?: ReturnType<typeof setTimeout>;
 
-      source.setData({
-        type: "FeatureCollection",
-        features
-      });
-    }
+  private updateMapSource(places: TopLevelPlace[]) {
+    // Debouncing helps preventing some errors with maplibregljs
+    clearInterval(this.updateMapSourceDebounce);
+    this.updateMapSourceDebounce = setTimeout(() => {
+      const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
+      if (source) {
+        const features = places.flatMap<MapFeature>(place => this.isComposite(place)
+          ? place.locations.map<MapFeature>(c => this.mapPlaceToFeature(c, c.attestation || place.attestation))
+          : this.mapPlaceToFeature(place, place.attestation)
+        );
+
+        source.setData({
+          type: "FeatureCollection",
+          features
+        });
+      }
+    }, 100);
   }
 
   public getString(localized: LocalizedString): string {

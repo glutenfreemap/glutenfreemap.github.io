@@ -1,5 +1,6 @@
 import { attestationTypeIdentifierSchema, categoryIdentifierSchema, localizedStringSchema, regionIdentifierSchema } from "./common";
 import { z } from "zod";
+import type { SimplifyDeep } from 'type-fest';
 
 export const placeIdentifierSchema = z.string().min(1).brand("PlaceIdentifier");
 export type PlaceIdentifier = z.infer<typeof placeIdentifierSchema>;
@@ -25,7 +26,7 @@ export const standalonePlaceSchema = leafPlaceSchema.extend({
   attestation: attestationTypeIdentifierSchema
 });
 
-export type StandalonePlace = z.infer<typeof standalonePlaceSchema>;
+export type StandalonePlace = SimplifyDeep<z.infer<typeof standalonePlaceSchema>>;
 
 const baseCompositePlaceSchema = standalonePlaceSchema.pick({
   id: true,
@@ -48,13 +49,13 @@ export const compositePlaceSchema = baseCompositePlaceSchema
     return p;
   });
 
-export type CompositePlace = z.infer<typeof baseCompositePlaceSchema> & {
+export type CompositePlace = SimplifyDeep<z.infer<typeof baseCompositePlaceSchema> & {
   locations: ChildPlace[]
-};
+}>;
 
-export type ChildPlace = z.infer<typeof childPlaceSchema> & {
+export type ChildPlace = SimplifyDeep<z.infer<typeof childPlaceSchema> & {
   parent: CompositePlace
-};
+}>;
 
 export const placeSchema = z.union([standalonePlaceSchema, compositePlaceSchema]);
 export type TopLevelPlace = StandalonePlace | CompositePlace;

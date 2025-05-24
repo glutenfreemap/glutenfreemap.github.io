@@ -17,6 +17,30 @@ export const localizedStringSchema = z.record(
 
 export type LocalizedString = z.infer<typeof localizedStringSchema>;
 
+export function localizedStringsAreEqual(left: LocalizedString | null | undefined, right: LocalizedString | null | undefined) {
+  if (!left) {
+    return !right;
+  }
+
+  if (!right) {
+    return false;
+  }
+
+  const leftKeys = Object.keys(left);
+  const rightKeys = Object.keys(right);
+  if (leftKeys.length !== rightKeys.length) {
+    return false;
+  }
+
+  for (let key of leftKeys) {
+    if (!rightKeys.includes(key) || left[key as LanguageIdentifier] !== right[key as LanguageIdentifier]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 export const categoryIdentifierSchema = z.string().min(1).brand("CategoryIdentifier");
 export type CategoryIdentifier = z.infer<typeof categoryIdentifierSchema>;
 

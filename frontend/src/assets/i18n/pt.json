@@ -33,11 +33,13 @@
 	"place.editor.name.required": "O nome é obrigatório.",
 	"place.editor.attestation.label": "Certificação",
 	"place.editor.attestation.inherited": "Igual à do grupo",
-	"place.editor.address.label": "Morada",
-	"place.editor.address.required": "A morada é obrigatória.",
+	"place.editor.categories.label": "Categorias",
+	"place.editor.categories.required": "A categoria é obrigatória.",
 	"place.editor.region.label": "Região",
 	"place.editor.region.required": "A região é obrigatória.",
 	"place.editor.gid.label": "Identificador do Google",
+	"place.editor.address.label": "Morada",
+	"place.editor.address.required": "A morada é obrigatória.",
 	"place.editor.latitude.label": "Latitude",
 	"place.editor.latitude.required": "A latitude é obrigatória.",
 	"place.editor.latitude.belowMinimum": "A latitude não pode ser inferior a -90.",
@@ -49,5 +51,6 @@
 	"general.dialog.buttons.save": "Guardar",
 	"place.editor.description.hint": "Informação adicional sobre o estabelecimento",
 	"place.editor.description.label": "Descrição ({{language}})",
+	"general.commit.template": "Atualização de '{{name}}'",
 	"navigation.menu.settings": "Configuração"
 }

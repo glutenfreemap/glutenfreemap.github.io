@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
 import { z } from 'zod';
 import { gitHubConfigurationSchema } from '../../connectors/github/configuration';
+import { branchNameSchema } from './connector';
+import type { Simplify } from 'type-fest';
 
 const CONNECTOR_CONFIGURATION_KEY = "ConnectorConfiguration";
 
+const baseConnectorConfigurationSchema = z.object({
+  branch: branchNameSchema
+});
+
 export const connectorConfigurationSchema = z.discriminatedUnion("type", [
-  gitHubConfigurationSchema.extend({
+  baseConnectorConfigurationSchema.merge(gitHubConfigurationSchema).extend({
     type: z.literal("GitHub")
   })
 ]);
 
-export type ConnectorConfiguration = z.infer<typeof connectorConfigurationSchema>;
+export type ConnectorConfiguration = Simplify<z.infer<typeof connectorConfigurationSchema>>;
 
 // Helper type to extract configuration from a ConnectorConfiguration based on the 'type'
 type ExtractConfigurationType<T extends ConnectorConfiguration["type"]> =

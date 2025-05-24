@@ -18,9 +18,16 @@ mat-card {
   display: flex;
   gap: 5px;
 
-  mat-form-field {
+  mat-form-field,
+  .form-field-placeholder {
     flex: 1;
   }
+}
+
+.additional-selection {
+  opacity: 0.75;
+  font-size: 0.75rem;
+  line-height: 1;
 }
 
 @media (width < 420px) {
