@@ -2959,5 +2959,19 @@
       "lng": "-8.982135"
     },
     "district": "setubal"
+  },
+  {
+    "id": "cartaxo",
+    "subtitle": "Cartaxo",
+    "address": [
+      "Cartaxo",
+      "Rua da Paz nºs/n, Cartaxo",
+      "2070-036 Santarém"
+    ],
+    "position": {
+      "lat": "39.166736",
+      "lng": "-8.780188"
+    },
+    "district": "santarem"
   }
 ]
