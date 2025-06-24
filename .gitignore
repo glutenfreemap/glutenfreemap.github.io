@@ -13,3 +13,4 @@ frontend/vars.css
 /backend/.vs
 /backend/bin
 /backend/obj
+*.user

@@ -2,7 +2,6 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "launchBrowser": true,
       "launchUrl": "connector/github",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

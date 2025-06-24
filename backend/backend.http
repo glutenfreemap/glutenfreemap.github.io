@@ -1,6 +1,301 @@
 @backend_HostAddress = http://localhost:5179
 
-GET {{backend_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{backend_HostAddress}}/connector/github/webhook/
+Content-Type: application/json
+Accept: */*
+Content-Type: application/json
+User-Agent: GitHub-Hookshot/5605361
+X-GitHub-Delivery: 6ed386c0-3fcc-11f0-82a0-ab31116003ff
+X-GitHub-Event: installation
+X-GitHub-Hook-ID: 550008922
+X-GitHub-Hook-Installation-Target-ID: 1284025
+X-GitHub-Hook-Installation-Target-Type: integration
+X-Hub-Signature-256: sha256={{signatures_installation_created}}
+
+{
+  "action": "created",
+  "installation": {
+    "id": 69341751,
+    "client_id": "Iv23liPsdCfdNm8BxDGt",
+    "account": {
+      "login": "glutenfreemap",
+      "id": 121765459,
+      "node_id": "O_kgDOB0H-Uw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121765459?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/glutenfreemap",
+      "html_url": "https://github.com/glutenfreemap",
+      "followers_url": "https://api.github.com/users/glutenfreemap/followers",
+      "following_url": "https://api.github.com/users/glutenfreemap/following{/other_user}",
+      "gists_url": "https://api.github.com/users/glutenfreemap/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/glutenfreemap/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/glutenfreemap/subscriptions",
+      "organizations_url": "https://api.github.com/users/glutenfreemap/orgs",
+      "repos_url": "https://api.github.com/users/glutenfreemap/repos",
+      "events_url": "https://api.github.com/users/glutenfreemap/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/glutenfreemap/received_events",
+      "type": "Organization",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "repository_selection": "selected",
+    "access_tokens_url": "https://api.github.com/app/installations/69341751/access_tokens",
+    "repositories_url": "https://api.github.com/installation/repositories",
+    "html_url": "https://github.com/organizations/glutenfreemap/settings/installations/69341751",
+    "app_id": 1284025,
+    "app_slug": "glutenfreemap-connector",
+    "target_id": 121765459,
+    "target_type": "Organization",
+    "permissions": {
+      "contents": "write",
+      "metadata": "read"
+    },
+    "events": [
+
+    ],
+    "created_at": "2025-06-02T17:12:51.000+01:00",
+    "updated_at": "2025-06-02T17:12:51.000+01:00",
+    "single_file_name": null,
+    "has_multiple_single_files": false,
+    "single_file_paths": [
+
+    ],
+    "suspended_by": null,
+    "suspended_at": null
+  },
+  "repositories": [
+    {
+      "id": 945492266,
+      "node_id": "R_kgDOOFsRKg",
+      "name": "data-portugal",
+      "full_name": "glutenfreemap/data-portugal",
+      "private": true
+    }
+  ],
+  "requester": null,
+  "sender": {
+    "login": "aaubry",
+    "id": 630495,
+    "node_id": "MDQ6VXNlcjYzMDQ5NQ==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/630495?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/aaubry",
+    "html_url": "https://github.com/aaubry",
+    "followers_url": "https://api.github.com/users/aaubry/followers",
+    "following_url": "https://api.github.com/users/aaubry/following{/other_user}",
+    "gists_url": "https://api.github.com/users/aaubry/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/aaubry/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/aaubry/subscriptions",
+    "organizations_url": "https://api.github.com/users/aaubry/orgs",
+    "repos_url": "https://api.github.com/users/aaubry/repos",
+    "events_url": "https://api.github.com/users/aaubry/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/aaubry/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  }
+}
 
 ###
+
+POST {{backend_HostAddress}}/connector/github/webhook/
+Content-Type: application/json
+Accept: */*
+Content-Type: application/json
+User-Agent: GitHub-Hookshot/5605361
+X-GitHub-Delivery: 6ed386c0-3fcc-11f0-82a0-ab31116003ff
+X-GitHub-Event: installation_repositories
+X-GitHub-Hook-ID: 550008922
+X-GitHub-Hook-Installation-Target-ID: 1284025
+X-GitHub-Hook-Installation-Target-Type: integration
+X-Hub-Signature-256: sha256={{signatures_installation_repositories_added}}
+
+{
+  "action": "added",
+  "installation": {
+    "id": 69341751,
+    "client_id": "Iv23liPsdCfdNm8BxDGt",
+    "account": {
+      "login": "glutenfreemap",
+      "id": 121765459,
+      "node_id": "O_kgDOB0H-Uw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121765459?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/glutenfreemap",
+      "html_url": "https://github.com/glutenfreemap",
+      "followers_url": "https://api.github.com/users/glutenfreemap/followers",
+      "following_url": "https://api.github.com/users/glutenfreemap/following{/other_user}",
+      "gists_url": "https://api.github.com/users/glutenfreemap/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/glutenfreemap/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/glutenfreemap/subscriptions",
+      "organizations_url": "https://api.github.com/users/glutenfreemap/orgs",
+      "repos_url": "https://api.github.com/users/glutenfreemap/repos",
+      "events_url": "https://api.github.com/users/glutenfreemap/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/glutenfreemap/received_events",
+      "type": "Organization",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "repository_selection": "selected",
+    "access_tokens_url": "https://api.github.com/app/installations/69341751/access_tokens",
+    "repositories_url": "https://api.github.com/installation/repositories",
+    "html_url": "https://github.com/organizations/glutenfreemap/settings/installations/69341751",
+    "app_id": 1284025,
+    "app_slug": "glutenfreemap-connector",
+    "target_id": 121765459,
+    "target_type": "Organization",
+    "permissions": {
+      "contents": "write",
+      "metadata": "read"
+    },
+    "events": [
+
+    ],
+    "created_at": "2025-06-02T17:12:51.000+01:00",
+    "updated_at": "2025-06-03T12:07:48.000+01:00",
+    "single_file_name": null,
+    "has_multiple_single_files": false,
+    "single_file_paths": [
+
+    ],
+    "suspended_by": null,
+    "suspended_at": null
+  },
+  "repository_selection": "selected",
+  "repositories_added": [
+    {
+      "id": 584177765,
+      "node_id": "R_kgDOItHYZQ",
+      "name": "glutenfreemap.github.io",
+      "full_name": "glutenfreemap/glutenfreemap.github.io",
+      "private": false
+    }
+  ],
+  "repositories_removed": [
+
+  ],
+  "requester": null,
+  "sender": {
+    "login": "aaubry",
+    "id": 630495,
+    "node_id": "MDQ6VXNlcjYzMDQ5NQ==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/630495?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/aaubry",
+    "html_url": "https://github.com/aaubry",
+    "followers_url": "https://api.github.com/users/aaubry/followers",
+    "following_url": "https://api.github.com/users/aaubry/following{/other_user}",
+    "gists_url": "https://api.github.com/users/aaubry/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/aaubry/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/aaubry/subscriptions",
+    "organizations_url": "https://api.github.com/users/aaubry/orgs",
+    "repos_url": "https://api.github.com/users/aaubry/repos",
+    "events_url": "https://api.github.com/users/aaubry/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/aaubry/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  }
+}
+
+###
+
+POST {{backend_HostAddress}}/connector/github/webhook/
+Content-Type: application/json
+Accept: */*
+Content-Type: application/json
+User-Agent: GitHub-Hookshot/5605361
+X-GitHub-Delivery: 6ed386c0-3fcc-11f0-82a0-ab31116003ff
+X-GitHub-Event: installation_repositories
+X-GitHub-Hook-ID: 550008922
+X-GitHub-Hook-Installation-Target-ID: 1284025
+X-GitHub-Hook-Installation-Target-Type: integration
+X-Hub-Signature-256: sha256={{signatures_installation_repositories_removed}}
+
+{
+  "action": "removed",
+  "installation": {
+    "id": 69341751,
+    "client_id": "Iv23liPsdCfdNm8BxDGt",
+    "account": {
+      "login": "glutenfreemap",
+      "id": 121765459,
+      "node_id": "O_kgDOB0H-Uw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/121765459?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/glutenfreemap",
+      "html_url": "https://github.com/glutenfreemap",
+      "followers_url": "https://api.github.com/users/glutenfreemap/followers",
+      "following_url": "https://api.github.com/users/glutenfreemap/following{/other_user}",
+      "gists_url": "https://api.github.com/users/glutenfreemap/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/glutenfreemap/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/glutenfreemap/subscriptions",
+      "organizations_url": "https://api.github.com/users/glutenfreemap/orgs",
+      "repos_url": "https://api.github.com/users/glutenfreemap/repos",
+      "events_url": "https://api.github.com/users/glutenfreemap/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/glutenfreemap/received_events",
+      "type": "Organization",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "repository_selection": "selected",
+    "access_tokens_url": "https://api.github.com/app/installations/69341751/access_tokens",
+    "repositories_url": "https://api.github.com/installation/repositories",
+    "html_url": "https://github.com/organizations/glutenfreemap/settings/installations/69341751",
+    "app_id": 1284025,
+    "app_slug": "glutenfreemap-connector",
+    "target_id": 121765459,
+    "target_type": "Organization",
+    "permissions": {
+      "contents": "write",
+      "metadata": "read"
+    },
+    "events": [
+
+    ],
+    "created_at": "2025-06-02T17:12:51.000+01:00",
+    "updated_at": "2025-06-03T12:08:03.000+01:00",
+    "single_file_name": null,
+    "has_multiple_single_files": false,
+    "single_file_paths": [
+
+    ],
+    "suspended_by": null,
+    "suspended_at": null
+  },
+  "repository_selection": "selected",
+  "repositories_added": [
+
+  ],
+  "repositories_removed": [
+    {
+      "id": 584177765,
+      "node_id": "R_kgDOItHYZQ",
+      "name": "glutenfreemap.github.io",
+      "full_name": "glutenfreemap/glutenfreemap.github.io",
+      "private": false
+    }
+  ],
+  "requester": null,
+  "sender": {
+    "login": "aaubry",
+    "id": 630495,
+    "node_id": "MDQ6VXNlcjYzMDQ5NQ==",
+    "avatar_url": "https://avatars.githubusercontent.com/u/630495?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/aaubry",
+    "html_url": "https://github.com/aaubry",
+    "followers_url": "https://api.github.com/users/aaubry/followers",
+    "following_url": "https://api.github.com/users/aaubry/following{/other_user}",
+    "gists_url": "https://api.github.com/users/aaubry/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/aaubry/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/aaubry/subscriptions",
+    "organizations_url": "https://api.github.com/users/aaubry/orgs",
+    "repos_url": "https://api.github.com/users/aaubry/repos",
+    "events_url": "https://api.github.com/users/aaubry/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/aaubry/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  }
+}
