@@ -2828,6 +2828,20 @@
     "district": "braga"
   },
   {
+    "id": "32779",
+    "gid": null,
+    "subtitle": "Av. De Diogo Leite 24",
+    "address": [
+      "Av. De Diogo Leite 24",
+      "4400-111 Vila nova de Gaia"
+    ],
+    "position": {
+      "lat": 41.137253,
+      "lng": -8.614882
+    },
+    "district": "porto"
+  },
+  {
     "id": "32782",
     "gid": null,
     "subtitle": "Avenida Dr Renato Araujo/ Rua comendador Rainho, 3700-008",
@@ -2868,5 +2882,19 @@
       "lng": -8.610707
     },
     "district": "porto"
+  },
+  {
+    "id": "33213",
+    "gid": null,
+    "subtitle": "R. NOVA DA VILA",
+    "address": [
+      "R. NOVA DA VILA",
+      "8500-469 Alvor - Portimão"
+    ],
+    "position": {
+      "lat": 37.160651,
+      "lng": -8.558958
+    },
+    "district": "faro"
   }
 ]
