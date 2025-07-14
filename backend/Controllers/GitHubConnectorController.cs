@@ -5,11 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Newtonsoft.Json;
-using Octokit;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace GlutenFreeMap.Backend.Controllers
 {
@@ -17,42 +13,6 @@ namespace GlutenFreeMap.Backend.Controllers
     [Route("connector/github")]
     public class GitHubConnectorController(ILogger<GitHubConnectorController> logger) : ControllerBase
     {
-        [HttpGet]
-        public async Task<string> Get()
-        {
-            //var generator = new GitHubJwt.GitHubJwtFactory(
-            //    new StringPrivateKeySource(configuration.PrivateKey),
-            //    new GitHubJwtFactoryOptions
-            //    {
-            //        AppIntegrationId = configuration.AppId, // The GitHub App Id
-            //        ExpirationSeconds = 600 // 10 minutes is the maximum time allowed
-            //    }
-            //);
-
-            //var jwtToken = generator.CreateEncodedJwtToken();
-
-            //var appClient = new GitHubClient(new ProductHeaderValue("GlutenFreeMap"))
-            //{
-            //    Credentials = new Credentials(jwtToken, AuthenticationType.Bearer)
-            //};
-
-
-            //var installations = await appClient.GitHubApps.GetAllInstallationsForCurrent();
-
-            //var installationToken = await appClient.GitHubApps.CreateInstallationToken(installations.First().Id);
-
-            //var installationClient = new GitHubClient(new ProductHeaderValue("GlutenFreeMap"))
-            //{
-            //    Credentials = new Credentials(installationToken.Token, AuthenticationType.Bearer)
-            //};
-
-            //var x = await installationClient.GitHubApps.Installation.GetAllRepositoriesForCurrent();
-
-            return "";
-
-            //var github = new GitHubAppsClient(IApiConnection)
-        }
-
         [WebhookMethod("installation")]
         public IActionResult Webhook([FromBody] InstallationWebhookPayload payload)
         {
@@ -62,12 +22,26 @@ namespace GlutenFreeMap.Backend.Controllers
                 case "suspend":
                     foreach (var repository in payload.Repositories)
                     {
-                        BackgroundJob.Enqueue<GitHubOperations>(op => op.AddRepository(payload.Installation.Id, repository.Id, repository.FullName, default));
+                        BackgroundJob.Enqueue<GitHubOperations>(op => op.AddRepository(
+                            payload.Installation.Id,
+                            repository.Id,
+                            repository.FullName,
+                            default
+                        ));
                     }
                     break;
 
                 case "deleted":
                 case "unsuspend":
+                    foreach (var repository in payload.Repositories)
+                    {
+                        BackgroundJob.Enqueue<GitHubOperations>(op => op.RemoveRepository(
+                            payload.Installation.Id,
+                            repository.Id,
+                            repository.FullName,
+                            default
+                        ));
+                    }
                     break;
 
                 case "new_permissions_accepted":
@@ -80,7 +54,39 @@ namespace GlutenFreeMap.Backend.Controllers
         [WebhookMethod("installation_repositories")]
         public IActionResult Webhook([FromBody] InstallationRepositoriesWebhookPayload payload)
         {
-            //BackgroundJob.Enqueue(() => Handle(payload, default));
+            switch (payload.Action)
+            {
+                case "added":
+                    foreach (var repository in payload.RepositoriesAdded)
+                    {
+                        BackgroundJob.Enqueue<GitHubOperations>(op => op.AddRepository(payload.Installation.Id, repository.Id, repository.FullName, default));
+                    }
+                    break;
+
+                case "removed":
+                    foreach (var repository in payload.RepositoriesRemoved)
+                    {
+                        BackgroundJob.Enqueue<GitHubOperations>(op => op.RemoveRepository(payload.Installation.Id, repository.Id, repository.FullName, default));
+                    }
+                    break;
+
+                default:
+                    return BadRequest();
+            }
+            return Ok();
+        }
+
+        [WebhookMethod("push")]
+        public IActionResult Webhook([FromBody] PushWebhookPayload payload)
+        {
+            BackgroundJob.Enqueue<GitHubOperations>(op => op.UpdateRepository(
+                payload.Installation.Id,
+                payload.Repository.Id,
+                payload.Repository.FullName,
+                payload.Ref,
+                payload.After,
+                default
+            ));
             return Ok();
         }
 
@@ -111,11 +117,14 @@ namespace GlutenFreeMap.Backend.Controllers
 
             IFilterMetadata IFilterFactory.CreateInstance(IServiceProvider serviceProvider)
             {
-                return new WebhookMethodFilter(serviceProvider.GetRequiredService<IGitHubConfiguration>());
+                return new WebhookMethodFilter(
+                    serviceProvider.GetRequiredService<IGitHubConfiguration>(),
+                    serviceProvider.GetRequiredService<ILogger<WebhookMethodFilter>>()
+                );
             }
         }
         
-        private sealed class WebhookMethodFilter(IGitHubConfiguration configuration) : IAsyncAuthorizationFilter
+        private sealed class WebhookMethodFilter(IGitHubConfiguration configuration, ILogger<WebhookMethodFilter> logger) : IAsyncAuthorizationFilter
         {
             async Task IAsyncAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
             {
@@ -155,6 +164,9 @@ namespace GlutenFreeMap.Backend.Controllers
                 var signaturesMatch = CryptographicOperations.FixedTimeEquals(expectedSignature, signatureBytes);
                 if (!signaturesMatch)
                 {
+#if DEBUG
+                    logger.LogDebug("Signature mismatch. Expected {signature}", Convert.ToHexString(expectedSignature).ToLowerInvariant());
+#endif
                     return false;
                 }
 

@@ -30,7 +30,6 @@ builder.Services
     .AddJsonOptions(o =>
     {
         o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
-        o.JsonSerializerOptions.Converters.Add(new IdentifierJsonConverter());
     });
 
 builder.Services.AddSingleton<IGitHubConfiguration>(builder.Configuration

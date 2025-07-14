@@ -2,6 +2,11 @@
 
 #nullable disable warnings
 
+public record RepositoryMetadata(
+    GitReference Branch,
+    CommitIdentifier Commit
+);
+
 public class InstallationWebhookPayload
 {
     public string Action { get; set; }
@@ -17,16 +22,40 @@ public class InstallationRepositoriesWebhookPayload
     public IEnumerable<Repository> RepositoriesRemoved { get; set; }
 }
 
-public readonly record struct InstallationIdentifier(long Id);
+public class PushWebhookPayload
+{
+    public GitReference Ref { get; set; }
+    public CommitIdentifier After { get; set; }
+    public Installation Installation { get; set; }
+    public Repository Repository { get; set; }
+}
+
+public readonly partial record struct InstallationIdentifier(int Id);
 
 public class Installation
 {
     public InstallationIdentifier Id { get; set; }
-    public string ClientId { get; set; }
 }
 
-public readonly record struct RepositoryIdentifier(long Id);
-public readonly record struct RepositoryName(string FullName);
+public class Commit
+{
+    public CommitIdentifier Id { get; set; }
+    public TreeIdentifier TreeId { get; set; }
+}
+
+public readonly partial record struct CommitIdentifier(string Hash);
+public readonly partial record struct TreeIdentifier(string Hash);
+
+public readonly partial record struct RepositoryIdentifier(long Id);
+public readonly partial record struct RepositoryName(string FullName)
+{
+    private readonly int splitIndex = FullName.IndexOf('/');
+
+    public string Owner => FullName[..splitIndex];
+    public string Name => FullName[(splitIndex + 1)..];
+}
+
+public readonly partial record struct GitReference(string Name);
 
 public class Repository
 {
