@@ -222,7 +222,7 @@
     "district": "lisboa"
   },
   {
-    "id": "alverca-jumbo",
+    "id": "alverca-auchan",
     "subtitle": "Alverca Auchan",
     "address": [
       "Alverca - Hipermercado Jumbo",
@@ -2973,5 +2973,19 @@
       "lng": "-8.780188"
     },
     "district": "santarem"
+  },
+  {
+    "id": "tondela",
+    "subtitle": "McDonald’s Tondela",
+    "address": [
+      "Tondela",
+      "Avenida Lusíadas 303",
+      "3460-482"
+    ],
+    "position": {
+      "lat": "40.53029",
+      "lng": "-8.086985"
+    },
+    "district": "viseu"
   }
 ]
