@@ -1,7 +1,7 @@
 @backend_HostAddress = http://localhost:5179
 
+###
 # Install app
-
 POST {{backend_HostAddress}}/connector/github/webhook/
 Accept: */*
 Content-Type: application/json
@@ -99,9 +99,7 @@ X-Hub-Signature-256: sha256={{signatures_installation_created}}
 }
 
 ###
-
 # Uninstall the application
-
 POST {{backend_HostAddress}}/connector/github/webhook/
 Accept: */*
 Content-Type: application/json
@@ -198,9 +196,7 @@ X-Hub-Signature-256: sha256={{signatures_installation_deleted}}
 }
 
 ###
-
 # Push
-
 POST {{backend_HostAddress}}/connector/github/webhook/
 Accept: */*
 Content-Type: application/json
@@ -441,11 +437,12 @@ X-Hub-Signature-256: sha256={{signatures_push}}
 }
 
 ###
+GET {{backend_HostAddress}}/repo
 
+###
 GET {{backend_HostAddress}}/repo/github/glutenfreemap/data-portugal/tree
 
 ###
-
 GET {{backend_HostAddress}}/repo/github/glutenfreemap/data-portugal/blob/places/grom.json
 
 

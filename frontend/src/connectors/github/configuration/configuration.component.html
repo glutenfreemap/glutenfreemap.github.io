@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>{{ 'github.configuration.title' | translate }}</h2>
+<mat-dialog-content>
+  <app-wizard #wizard (done)="done()">
+    <app-wizard-step [isValid]="tokenIsValid()" [check]="checkToken.bind(this)">
+      <p>
+        {{ 'github.configuration.token.info' | translate }}
+      </p>
+
+      <mat-form-field hintLabel="github_token_xxxxxxx_xxxxxxxxx">
+        <mat-label>{{ 'github.configuration.token.label' | translate }}</mat-label>
+        <input matInput type="password" [formControl]="tokenInput" required />
+        @if (tokenInput.value) {
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="clearToken()">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        <mat-error *ngIf="tokenInput.invalid">{{ error(tokenInput, {
+          required: 'github.configuration.token.required' | translate,
+          pattern: 'github.configuration.token.invalidFormat' | translate,
+          unauthorized: 'github.configuration.token.invalidToken' | translate
+        }) }}</mat-error>
+      </mat-form-field>
+    </app-wizard-step>
+    <app-wizard-step [isValid]="repositoryIsValid()" [check]="checkRepository.bind(this)">
+      <p>
+        {{ 'github.configuration.repository.info' | translate }}
+      </p>
+      <mat-form-field>
+        <mat-select [formControl]="repositorySelector" required>
+          @for (repository of repositories(); track getFullName(repository)) {
+            <mat-option [value]="repository">{{getFullName(repository)}}</mat-option>
+          }
+        </mat-select>
+        <mat-error *ngIf="repositorySelector.invalid">{{ error(repositorySelector, {
+          required: 'github.configuration.repository.required' | translate,
+          invalid: 'github.configuration.repository.invalid' | translate
+        }) }}</mat-error>
+      </mat-form-field>
+    </app-wizard-step>
+  </app-wizard>
+</mat-dialog-content>
+<mat-dialog-actions>
+  @if (wizard.hasPreviousStep()) {
+    <button mat-button (click)="wizard.previousStep()">{{ 'general.dialog.buttons.previous' | translate }}</button>
+  }
+
+  <span class="spacer"></span>
+
+  @if (wizard.checkInProgress()) {
+    <mat-spinner></mat-spinner>
+  }
+
+  <button mat-button (click)="wizard.nextStep()" [disabled]="!wizard.canGoToNextStep()">
+    {{ wizard.hasNextStep() ? ('general.dialog.buttons.next' | translate) : ('general.dialog.buttons.finish' | translate) }}
+  </button>
+</mat-dialog-actions>

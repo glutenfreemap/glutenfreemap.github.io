@@ -4,40 +4,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDialog, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfigurationService } from '../../../app/configuration/configuration.service';
 import { GitHubRepository, GitHubToken } from '../configuration';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { GitHubConnector, INVALID_TOKEN } from '../connector';
-import { readNext } from '../../../app/common/helpers';
-
-@Component({
-  selector: 'app-configuration',
-  imports: [
-  ],
-  template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
-export class ConfigurationComponent implements OnInit {
-  constructor(
-    private dialog: MatDialog,
-    private configurationService: ConfigurationService,
-    private router: Router
-  ) { }
-
-  ngOnInit(): void {
-    const dialogRef = this.dialog.open(ConfigurationDialogComponent, {
-      disableClose: !this.configurationService.isConfigured()
-    });
-    readNext(dialogRef.afterClosed(), _ => {
-      this.router.navigate(["/"]);
-    });
-  }
-}
+import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/wizard.component';
+import { controlIsValid, errorMessage } from '../../../app/common/helpers';
+import { NgIf } from '@angular/common';
 
 @Component({
   imports: [
@@ -54,72 +31,43 @@ export class ConfigurationComponent implements OnInit {
     MatProgressSpinnerModule,
     MatSelectModule,
     TranslateModule,
+    WizardComponent,
+    WizardStepComponent,
+    NgIf
   ],
-  templateUrl: './configuration-dialog.component.html',
-  styleUrl: './configuration-dialog.component.scss',
+  templateUrl: './configuration.component.html',
+  styleUrl: './configuration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-class ConfigurationDialogComponent implements OnInit, OnDestroy {
-  public loading = signal(false);
+export class ConfigurationComponent implements OnInit {
   public repositories = signal<GitHubRepository[]>([]);
-  public currentStep = signal<'enter-token' | 'select-repository'>('enter-token');
-  public isLastStep = computed(() => this.currentStep() === 'select-repository');
-  public canProceed = signal(false);
+  public error = errorMessage;
 
   public tokenInput = new FormControl("" as GitHubToken, [
     Validators.required,
     Validators.pattern(/^github_pat(?:_[a-zA-Z0-9]+){2}$/)
   ]);
 
+  public tokenIsValid = controlIsValid(this.tokenInput);
+
   public repositorySelector = new FormControl<GitHubRepository | undefined>(
     undefined,
     [Validators.required]
   );
 
-  private subscriptions: Subscription[] = [];
+  public repositoryIsValid = controlIsValid(this.repositorySelector);
 
   constructor(
     private configurationService: ConfigurationService,
-    private dialogRef: MatDialogRef<ConfigurationDialogComponent>,
+    private dialogRef: MatDialogRef<ConfigurationComponent>,
     private router: Router
   ) {
-    this.subscriptions.push(this.tokenInput.valueChanges.subscribe(() => this.updateCanProceed()));
   }
 
   ngOnInit(): void {
     const configuration = this.configurationService.tryGetConnectorConfiguration();
     if (configuration.success && configuration.value.type === "GitHub") {
       this.tokenInput.setValue(configuration.value.token);
-    }
-
-    this.updateCanProceed();
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
-  }
-
-  private updateCanProceed() {
-    switch (this.currentStep()) {
-      case 'enter-token':
-        this.canProceed.set(this.tokenInput.valid);
-        break;
-
-      case 'select-repository':
-        this.canProceed.set(this.repositorySelector.valid);
-        break;
-    }
-  }
-
-  public proceed() {
-    switch (this.currentStep()) {
-      case 'enter-token':
-        this.checkToken();
-        break;
-
-      case 'select-repository':
-        this.finish();
-        break;
     }
   }
 
@@ -131,9 +79,7 @@ class ConfigurationDialogComponent implements OnInit, OnDestroy {
     return `${repository.owner}/${repository.name}`;
   }
 
-  private async checkToken() {
-    this.loading.set(true);
-
+  public async checkToken(): Promise<boolean> {
     const repositories = await GitHubConnector.listRepositories(this.tokenInput.value!);
     if (repositories === INVALID_TOKEN) {
       this.tokenInput.setErrors({
@@ -147,29 +93,17 @@ class ConfigurationDialogComponent implements OnInit, OnDestroy {
         const selectedRepository = repositories.find(r => r.owner === configuration.repository.owner && r.name === configuration.repository.name);
         this.repositorySelector.setValue(selectedRepository);
       }
-      this.currentStep.set('select-repository');
+      return true;
     }
 
-    this.loading.set(false);
+    return false;
   }
 
-  private async finish() {
-    this.loading.set(true);
-
+  public async checkRepository(): Promise<boolean> {
     const selectedRepository = this.repositorySelector.value!;
-
     const isValid = await GitHubConnector.validateRepository(this.tokenInput.value!, selectedRepository);
     if (isValid) {
-      this.configurationService.setConnectorConfiguration({
-        type: "GitHub",
-        token: this.tokenInput.value!,
-        repository: selectedRepository,
-        branch: selectedRepository.defaultBranch
-      });
-
-      this.dialogRef.close();
-      await this.router.navigate(['/']);
-      location.reload();
+      return true;
     } else {
       this.repositorySelector.setErrors({
         invalid: true
@@ -177,6 +111,20 @@ class ConfigurationDialogComponent implements OnInit, OnDestroy {
       this.repositorySelector.markAsTouched();
     }
 
-    this.loading.set(false);
+    return false;
+  }
+
+  public async done() {
+    const selectedRepository = this.repositorySelector.value!;
+    this.configurationService.setConnectorConfiguration({
+      type: "GitHub",
+      token: this.tokenInput.value!,
+      repository: selectedRepository,
+      branch: selectedRepository.defaultBranch
+    });
+
+    this.dialogRef.close();
+    await this.router.navigate(['/']);
+    location.reload();
   }
 }

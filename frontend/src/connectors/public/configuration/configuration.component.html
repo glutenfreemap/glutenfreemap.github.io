@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>{{ 'github.configuration.title' | translate }}</h2>
+<mat-dialog-content>
+  <app-wizard #wizard>
+    <app-wizard-step>First step</app-wizard-step>
+    <app-wizard-step>Second step</app-wizard-step>
+    <app-wizard-step>Third step</app-wizard-step>
+  </app-wizard>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="wizard.previousStep()">previous</button>
+  <button mat-button (click)="wizard.nextStep()">next</button>
+</mat-dialog-actions>
+

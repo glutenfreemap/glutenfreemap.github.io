@@ -21,7 +21,7 @@ public class RepositoryController : ControllerBase
             })
             .Where(r => IOFile.Exists(r.InfoFileName))
             .Select(r => new Repository(
-                r.Path,
+                Path.GetFileName(r.Path).Replace('.', '/'),
                 Json.Read<RepositoryInfo>(r.InfoFileName).Description
             ));
     }

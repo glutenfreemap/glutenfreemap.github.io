@@ -1,5 +1,6 @@
+import { toSignal } from "@angular/core/rxjs-interop";
 import { FormControl } from "@angular/forms";
-import { Observable, Subscription } from "rxjs";
+import { map, Observable, startWith, Subscription } from "rxjs";
 
 export function readNext<T>(observable: Observable<T>): Promise<T>;
 export function readNext<T>(observable: Observable<T>, callback: (value: T) => void): void;
@@ -33,4 +34,11 @@ export function errorMessage(control: FormControl, errors: { [key: string]: stri
     }
   }
   return "";
+}
+
+export function controlIsValid(control: FormControl<any>) {
+  return toSignal(control.statusChanges.pipe(
+    startWith(control.status),
+    map(_ => control.valid)
+  ), { initialValue: control.valid })
 }
