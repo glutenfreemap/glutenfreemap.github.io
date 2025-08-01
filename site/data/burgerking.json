@@ -2032,9 +2032,9 @@
   {
     "id": "28755",
     "gid": null,
-    "subtitle": "IC2, Casal Machado s/n, 2580-347 Alenquer",
+    "subtitle": "Rua Quinta da Provença, 37.",
     "address": [
-      "IC2, Casal Machado s/n, 2580-347 Alenquer",
+      "Rua Quinta da Provença, 37.",
       "2580-347 Alenquer"
     ],
     "position": {
@@ -2590,6 +2590,20 @@
     "district": "leiria"
   },
   {
+    "id": "31262",
+    "gid": null,
+    "subtitle": "R. de Augusto Nogueira da Silva 168",
+    "address": [
+      "R. de Augusto Nogueira da Silva 168",
+      "4475-615 Maia"
+    ],
+    "position": {
+      "lat": 0.0,
+      "lng": 0.0
+    },
+    "district": null
+  },
+  {
     "id": "31281",
     "gid": null,
     "subtitle": "Avenida Oliveira Martins, 4420-000, São Cosme, Gondomar",
@@ -2896,5 +2910,33 @@
       "lng": -8.558958
     },
     "district": "faro"
+  },
+  {
+    "id": "33219",
+    "gid": null,
+    "subtitle": "R. BARCA RIBEIRA DE EIRAS 60, EIRAS",
+    "address": [
+      "R. BARCA RIBEIRA DE EIRAS 60, EIRAS",
+      "3020-324 Coimbra"
+    ],
+    "position": {
+      "lat": 0.0,
+      "lng": 0.0
+    },
+    "district": null
+  },
+  {
+    "id": "33282",
+    "gid": null,
+    "subtitle": "ESTRADA NACIONAL N10 35",
+    "address": [
+      "ESTRADA NACIONAL N10 35",
+      "2625-000 Póvoa Santa Iria"
+    ],
+    "position": {
+      "lat": 0.0,
+      "lng": 0.0
+    },
+    "district": null
   }
 ]
