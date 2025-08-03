@@ -2598,10 +2598,10 @@
       "4475-615 Maia"
     ],
     "position": {
-      "lat": 0.0,
-      "lng": 0.0
+      "lat": 41.260696,
+      "lng": -8.615936
     },
-    "district": null
+    "district": "porto"
   },
   {
     "id": "31281",
@@ -2920,10 +2920,10 @@
       "3020-324 Coimbra"
     ],
     "position": {
-      "lat": 0.0,
-      "lng": 0.0
+      "lat": 40.254915,
+      "lng": -8.430554
     },
-    "district": null
+    "district": "coimbra"
   },
   {
     "id": "33282",
@@ -2934,9 +2934,9 @@
       "2625-000 Póvoa Santa Iria"
     ],
     "position": {
-      "lat": 0.0,
-      "lng": 0.0
+      "lat": 38.858675,
+      "lng": -9.067981
     },
-    "district": null
+    "district": "lisboa"
   }
 ]
