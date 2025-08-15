@@ -1,17 +1,15 @@
 import { Octokit } from "@octokit/rest";
 import { Branch, BranchName, Connector, CreateBranchResult, Status, VersionIdentifier } from "../../app/configuration/connector";
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
-import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema, StandalonePlace, Place, isChild } from "../../datamodel/place";
+import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { signal, WritableSignal } from "@angular/core";
 import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Language, LanguageIdentifier, languageSchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
 import { z, ZodTypeAny } from "zod";
 import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
-import { readNext } from "../../app/common/helpers";
+import { firstValueFrom } from "rxjs";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
-
-
 
 export class GitHubConnector implements Connector {
   constructor(
@@ -272,7 +270,7 @@ export class GitHubConnector implements Connector {
       repo: this.configuration.repository.name
     };
 
-    const commitMessage = await readNext(this.translate.get(_("general.commit.template"), place));
+    const commitMessage = await firstValueFrom(this.translate.get(_("general.commit.template"), place));
 
     const totalSteps = 6;
     let currentStep = 0;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, signal, Signal } from '@angular/core';
-import { ChildPlace, CompositePlace, GoogleIdentifier, isChild, isLeaf, isStandalone, LeafPlace, Place, StandalonePlace, TopLevelPlace } from '../../../datamodel/place';
+import { ChildPlace, CompositePlace, GoogleIdentifier, isChild, isLeaf, isStandalone, LeafPlace, Place, StandalonePlace } from '../../../datamodel/place';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -9,14 +9,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LocalizedStringFormFieldComponent } from '../../common/localized-string-form-field/localized-string-form-field.component';
 import { PlaceFinderComponent, PlaceSearchParams } from '../place-finder/place-finder.component';
 import { PlaceDetails } from '../place-finder-helper/place-finder-helper.component';
-import { errorMessage, readNext } from '../../common/helpers';
+import { errorMessage } from '../../common/helpers';
 import { CONNECTOR, Connector } from '../../configuration/connector';
 import { RegionIdentifier, Region, LanguageIdentifier, LocalizedString, AttestationTypeIdentifier, AttestationType, localizedStringsAreEqual, Category, CategoryIdentifier } from '../../../datamodel/common';
 import { MatSelectModule } from '@angular/material/select';
-import { JsonPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-place-edit',
@@ -174,7 +174,7 @@ export class PlaceEditComponent implements OnDestroy {
         address: this.addressInput?.value || undefined
       }
     });
-    readNext(dialogRef.afterClosed(), details => {
+    firstValueFrom(dialogRef.afterClosed()).then(details => {
       if (details) {
         this.gidInput.setValue(details.gid);
         this.addressInput!.setValue(details.address.join("\n"));

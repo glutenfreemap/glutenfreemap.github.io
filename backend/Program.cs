@@ -9,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+const string CorsPolicyName = "ConfiguredAllowedOrigins";
+
+var allowedOrigins = builder.Configuration.GetRequiredSection("AllowedOrigins").Get<string[]>();
+if (allowedOrigins is not null && allowedOrigins.Length > 0)
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(CorsPolicyName, policy => policy
+            .WithOrigins(allowedOrigins)
+        );
+    });
+}
+
 builder.Services.AddHangfire(c => c
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
     .UseSimpleAssemblyNameTypeSerializer()
@@ -41,6 +54,11 @@ builder.Services.AddSingleton<IGitHubConfiguration>(builder.Configuration
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+if (allowedOrigins is not null && allowedOrigins.Length > 0)
+{
+    app.UseCors(CorsPolicyName);
+};
 
 app.UseHangfireDashboard();
 app.UseHttpsRedirection();

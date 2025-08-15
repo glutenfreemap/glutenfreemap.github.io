@@ -1,4 +1,11 @@
 {
+	"public.configuration.title": "",
+	"public.configuration.repository.instructions": "",
+	"public.configuration.repository.info": "",
+	"public.configuration.repository.required": "",
+	"general.dialog.buttons.previous": "",
+	"general.dialog.buttons.next": "",
+	"general.dialog.buttons.finish": "",
 	"github.configuration.title": "",
 	"github.configuration.token.info": "",
 	"github.configuration.token.label": "",
@@ -8,9 +15,6 @@
 	"github.configuration.repository.info": "",
 	"github.configuration.repository.required": "",
 	"github.configuration.repository.invalid": "",
-	"general.dialog.buttons.previous": "",
-	"general.dialog.buttons.next": "",
-	"general.dialog.buttons.finish": "",
 	"general.loading.details": "",
 	"general.branch.label": "",
 	"general.branch.createNew": "",
@@ -52,6 +56,7 @@
 	"general.dialog.buttons.save": "",
 	"place.editor.description.hint": "",
 	"place.editor.description.label": "",
+	"public.configuration.repository.loadingError": "",
 	"general.commit.template": "",
 	"navigation.menu.settings": ""
 }

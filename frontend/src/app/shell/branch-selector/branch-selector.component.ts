@@ -6,9 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { BranchCreatorComponent } from '../branch-creator/branch-creator.component';
-import { readNext } from '../../common/helpers';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfigurationService } from '../../configuration/configuration.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-branch-selector',
@@ -45,7 +45,7 @@ export class BranchSelectorComponent {
   public async selectOption(change: MatSelectChange) {
     if (change.value === this.CREATE_NEW_BRANCH) {
       const dialogRef = this.dialog.open(BranchCreatorComponent);
-      readNext(dialogRef.afterClosed(), _ => {
+      firstValueFrom(dialogRef.afterClosed()).then(_ => {
         this.currentBranch.set(this.connector.currentBranch());
       });
     } else if (change.value) {

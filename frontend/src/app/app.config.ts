@@ -8,16 +8,25 @@ import { Connector, CONNECTOR, NopConnector } from './configuration/connector';
 import { GitHubConnector } from '../connectors/github/connector';
 import { ConfigurationService, ConnectorConfiguration } from './configuration/configuration.service';
 import { provideServiceWorker } from '@angular/service-worker';
+import { GITHUB_CONFIGURATION_TYPE } from '../connectors/github/configuration';
+import { PUBLIC_CONFIGURATION_TYPE } from '../connectors/public/configuration';
+import { PublicConnector } from '../connectors/public/connector';
 
-function createConnector(configuration: ConnectorConfiguration, translate: TranslateService): Connector {
+function createConnector(configuration: ConnectorConfiguration, translate: TranslateService, httpClient: HttpClient): Connector {
   switch (configuration.type) {
-    case "GitHub":
+    case GITHUB_CONFIGURATION_TYPE: {
       const connector = new GitHubConnector(configuration, translate);
       connector.switchToBranch(configuration.branch);
       return connector;
+    }
+
+    case PUBLIC_CONFIGURATION_TYPE: {
+      const connector = new PublicConnector(configuration, httpClient);
+      return connector as any as Connector; // TODO
+    }
 
     default:
-      throw new Error(`Unsupported configuration type '${configuration.type}`);
+      throw new Error(`Unsupported configuration type '${configuration["type"]}`);
   }
 }
 
@@ -35,22 +44,19 @@ export const appConfig: ApplicationConfig = {
     })]),
     {
       provide: CONNECTOR,
-      useFactory: (config: ConfigurationService, translate: TranslateService) => {
+      useFactory: (config: ConfigurationService, translate: TranslateService, httpClient: HttpClient) => {
         const configuration = config.tryGetConnectorConfiguration();
         if (!configuration.success && configuration.data) {
           console.error("Discarding invalid connector configuration", configuration.data, configuration.errors);
         }
 
         const connector = configuration.success
-          ? createConnector(config.getConnectorConfiguration(), translate)
+          ? createConnector(config.getConnectorConfiguration(), translate, httpClient)
           : new NopConnector();
-
-        // Debug
-        (<any>globalThis)["connector"] = connector;
 
         return connector;
       },
-      deps: [ConfigurationService, TranslateService]
+      deps: [ConfigurationService, TranslateService, HttpClient]
     },
     provideServiceWorker('ngsw-worker.js', {
       enabled: true,

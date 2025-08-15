@@ -1,6 +1,13 @@
 {
+	"public.configuration.title": "Configuração do Repositório",
+	"public.configuration.repository.instructions": "<p>No próximo passo, poderá selecionar o repositório que pretende utilizar. Um repositório consiste numa lista de locais que serão apresentados na aplicação.</p><p>Cada repositório contém normalmente os locais de uma determinada região / país e é gerido por uma pessoa ou entidade diferente.</p><p>Nesta secção estão disponíveis os repositórios verificados pelo <b>GlutenFreeMap</b>.</p>",
+	"public.configuration.repository.info": "Selecione o repositório que pretende utilizar.",
+	"public.configuration.repository.required": "",
+	"general.dialog.buttons.previous": "Anterior",
+	"general.dialog.buttons.next": "Seguinte",
+	"general.dialog.buttons.finish": "Terminar",
 	"github.configuration.title": "Configuração do GitHub",
-	"github.configuration.token.info": "É necessário providenciar um token de autenticação para podermos aceder ao seu repositótio no GitHub.",
+	"github.configuration.token.info": "É necessário providenciar um token de autenticação para podermos aceder ao seu repositório no GitHub.",
 	"github.configuration.token.label": "Token de autenticação (PAT)",
 	"github.configuration.token.required": "O token de autenticação é necessário.",
 	"github.configuration.token.invalidFormat": "O token não tem o formato correto.",
@@ -8,9 +15,6 @@
 	"github.configuration.repository.info": "Selecione o repositório com o qual pretende trabalhar.",
 	"github.configuration.repository.required": "Tem de selecionar um repositório.",
 	"github.configuration.repository.invalid": "O repositório selecionado não é um repositório de dados GlutenFreeMap.",
-	"general.dialog.buttons.previous": "Anterior",
-	"general.dialog.buttons.next": "Seguinte",
-	"general.dialog.buttons.finish": "Terminar",
 	"general.loading.details": "Carregando os dados. Aguarde por favor.",
 	"general.branch.label": "Versão",
 	"general.branch.createNew": "Criar nova...",
@@ -52,6 +56,7 @@
 	"general.dialog.buttons.save": "Guardar",
 	"place.editor.description.hint": "Informação adicional sobre o estabelecimento",
 	"place.editor.description.label": "Descrição ({{language}})",
+	"public.configuration.repository.loadingError": "Ocorreu um erro ao carregar a lista de repositórios.",
 	"general.commit.template": "Atualização de '{{name}}'",
 	"navigation.menu.settings": "Configuração"
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { ConfigurationService } from '../../../app/configuration/configuration.service';
-import { GitHubRepository, GitHubToken } from '../configuration';
+import { GITHUB_CONFIGURATION_TYPE, GITHUB_PAT_PATTERN, GitHubRepository, GitHubToken } from '../configuration';
 import { Router } from '@angular/router';
 import { GitHubConnector, INVALID_TOKEN } from '../connector';
 import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/wizard.component';
@@ -45,7 +45,7 @@ export class ConfigurationComponent implements OnInit {
 
   public tokenInput = new FormControl("" as GitHubToken, [
     Validators.required,
-    Validators.pattern(/^github_pat(?:_[a-zA-Z0-9]+){2}$/)
+    Validators.pattern(GITHUB_PAT_PATTERN)
   ]);
 
   public tokenIsValid = controlIsValid(this.tokenInput);
@@ -66,7 +66,7 @@ export class ConfigurationComponent implements OnInit {
 
   ngOnInit(): void {
     const configuration = this.configurationService.tryGetConnectorConfiguration();
-    if (configuration.success && configuration.value.type === "GitHub") {
+    if (configuration.success && configuration.value.type === GITHUB_CONFIGURATION_TYPE) {
       this.tokenInput.setValue(configuration.value.token);
     }
   }
@@ -89,7 +89,7 @@ export class ConfigurationComponent implements OnInit {
     } else {
       this.repositories.set(repositories);
       if (this.configurationService.isConfigured()) {
-        const configuration = this.configurationService.getConnectorConfiguration("GitHub");
+        const configuration = this.configurationService.getConnectorConfiguration(GITHUB_CONFIGURATION_TYPE);
         const selectedRepository = repositories.find(r => r.owner === configuration.repository.owner && r.name === configuration.repository.name);
         this.repositorySelector.setValue(selectedRepository);
       }
@@ -117,7 +117,7 @@ export class ConfigurationComponent implements OnInit {
   public async done() {
     const selectedRepository = this.repositorySelector.value!;
     this.configurationService.setConnectorConfiguration({
-      type: "GitHub",
+      type: GITHUB_CONFIGURATION_TYPE,
       token: this.tokenInput.value!,
       repository: selectedRepository,
       branch: selectedRepository.defaultBranch

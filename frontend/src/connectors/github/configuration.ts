@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { branchNameSchema } from "../../app/configuration/connector";
 
-export const gitHubTokenSchema = z.string().regex(/^github_pat(?:_[a-zA-Z0-9]+){2}$/).brand("GitHubToken");
+export const GITHUB_CONFIGURATION_TYPE = "GitHub";
+
+export const GITHUB_PAT_PATTERN = /^github_pat(?:_[a-zA-Z0-9]+){2}$/;
+
+export const gitHubTokenSchema = z.string().regex(GITHUB_PAT_PATTERN).brand("GitHubToken");
 export type GitHubToken = z.infer<typeof gitHubTokenSchema>;
 
 export const gitHubRepositorySchema = z.object({

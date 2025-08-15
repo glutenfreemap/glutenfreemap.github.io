@@ -1,13 +1,37 @@
-<h2 mat-dialog-title>{{ 'github.configuration.title' | translate }}</h2>
+<h2 mat-dialog-title>{{ 'public.configuration.title' | translate }}</h2>
 <mat-dialog-content>
   <app-wizard #wizard>
-    <app-wizard-step>First step</app-wizard-step>
-    <app-wizard-step>Second step</app-wizard-step>
-    <app-wizard-step>Third step</app-wizard-step>
+    <app-wizard-step [check]="loadRepositories.bind(this)">
+      <div [innerHTML]="'public.configuration.repository.instructions' | translate"></div>
+    </app-wizard-step>
+    <app-wizard-step>
+      <p>{{ 'public.configuration.repository.info' | translate }}</p>
+      <mat-form-field>
+        <mat-select [formControl]="repositorySelector" required>
+          @for (repository of repositories(); track repository.path) {
+            <mat-option [value]="repository">{{repository.path}}</mat-option>
+          }
+        </mat-select>
+        <mat-error *ngIf="repositorySelector.invalid">{{ error(repositorySelector, {
+          required: 'public.configuration.repository.required' | translate
+        }) }}</mat-error>
+      </mat-form-field>
+    </app-wizard-step>
   </app-wizard>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="wizard.previousStep()">previous</button>
-  <button mat-button (click)="wizard.nextStep()">next</button>
+  @if (wizard.hasPreviousStep()) {
+    <button mat-button (click)="wizard.previousStep()">{{ 'general.dialog.buttons.previous' | translate }}</button>
+  }
+
+  <span class="spacer"></span>
+
+  @if (wizard.checkInProgress()) {
+    <mat-spinner></mat-spinner>
+  }
+
+  <button mat-button (click)="wizard.nextStep()" [disabled]="!wizard.canGoToNextStep()">
+    {{ wizard.hasNextStep() ? ('general.dialog.buttons.next' | translate) : ('general.dialog.buttons.finish' | translate) }}
+  </button>
 </mat-dialog-actions>
 
