@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { MatDialog, MatDialogActions, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatDialog, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { controlIsValid, errorMessage } from '../../../app/common/helpers';
 import { ConfigurationService } from '../../../app/configuration/configuration.service';
@@ -12,7 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { _, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/wizard.component';
-import { PublicRepository } from '../configuration';
+import { PUBLIC_CONFIGURATION_TYPE, PublicRepository } from '../configuration';
 import { NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PublicConnector, PublicMetadataService } from '../connector';
@@ -41,7 +41,7 @@ import { firstValueFrom, lastValueFrom } from 'rxjs';
   styleUrl: './configuration.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfigurationComponent implements OnInit {
+export class ConfigurationComponent {
   public repositories = signal<PublicRepository[]>([]);
   public error = errorMessage;
 
@@ -53,9 +53,12 @@ export class ConfigurationComponent implements OnInit {
   public repositoryIsValid = controlIsValid(this.repositorySelector);
 
   constructor(
+    private configurationService: ConfigurationService,
+    private dialogRef: MatDialogRef<ConfigurationComponent>,
     private metadataService: PublicMetadataService,
     private snackBar: MatSnackBar,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router: Router
   ) {
   }
 
@@ -64,7 +67,9 @@ export class ConfigurationComponent implements OnInit {
       const repositories = await this.metadataService.listRepositories();
       this.repositories.set(repositories);
       return true;
-    } catch {
+    } catch(e) {
+      console.error(e);
+
       const message = await firstValueFrom(this.translate.get(_("public.configuration.repository.loadingError")));
       this.snackBar.open(message, undefined, { duration: 3000 });
     }
@@ -72,7 +77,16 @@ export class ConfigurationComponent implements OnInit {
     return false;
   }
 
-  ngOnInit(): void {
-    // throw new Error('Method not implemented.');
+  public async done() {
+    const selectedRepository = this.repositorySelector.value!;
+    this.configurationService.setConnectorConfiguration({
+      type: PUBLIC_CONFIGURATION_TYPE,
+      repository: selectedRepository,
+      branch: selectedRepository.defaultBranch
+    });
+
+    this.dialogRef.close();
+    await this.router.navigate(['/']);
+    location.reload();
   }
 }

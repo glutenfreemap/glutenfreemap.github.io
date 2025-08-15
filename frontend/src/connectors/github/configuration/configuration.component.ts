@@ -89,9 +89,12 @@ export class ConfigurationComponent implements OnInit {
     } else {
       this.repositories.set(repositories);
       if (this.configurationService.isConfigured()) {
-        const configuration = this.configurationService.getConnectorConfiguration(GITHUB_CONFIGURATION_TYPE);
-        const selectedRepository = repositories.find(r => r.owner === configuration.repository.owner && r.name === configuration.repository.name);
-        this.repositorySelector.setValue(selectedRepository);
+        const configurationResult = this.configurationService.tryGetConnectorConfiguration();
+        if (configurationResult.success && configurationResult.value.type === GITHUB_CONFIGURATION_TYPE) {
+          const configuration = configurationResult.value;
+          const selectedRepository = repositories.find(r => r.owner === configuration.repository.owner && r.name === configuration.repository.name);
+          this.repositorySelector.setValue(selectedRepository);
+        }
       }
       return true;
     }

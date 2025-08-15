@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{ 'public.configuration.title' | translate }}</h2>
 <mat-dialog-content>
-  <app-wizard #wizard>
+  <app-wizard #wizard (done)="done()">
     <app-wizard-step [check]="loadRepositories.bind(this)">
       <div [innerHTML]="'public.configuration.repository.instructions' | translate"></div>
     </app-wizard-step>

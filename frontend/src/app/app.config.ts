@@ -9,7 +9,7 @@ import { GitHubConnector } from '../connectors/github/connector';
 import { ConfigurationService, ConnectorConfiguration } from './configuration/configuration.service';
 import { provideServiceWorker } from '@angular/service-worker';
 import { GITHUB_CONFIGURATION_TYPE } from '../connectors/github/configuration';
-import { PUBLIC_CONFIGURATION_TYPE } from '../connectors/public/configuration';
+import { DEFAULT_BRANCH, PUBLIC_CONFIGURATION_TYPE } from '../connectors/public/configuration';
 import { PublicConnector } from '../connectors/public/connector';
 
 function createConnector(configuration: ConnectorConfiguration, translate: TranslateService, httpClient: HttpClient): Connector {
@@ -22,7 +22,8 @@ function createConnector(configuration: ConnectorConfiguration, translate: Trans
 
     case PUBLIC_CONFIGURATION_TYPE: {
       const connector = new PublicConnector(configuration, httpClient);
-      return connector as any as Connector; // TODO
+      connector.switchToBranch(DEFAULT_BRANCH);
+      return connector;
     }
 
     default:

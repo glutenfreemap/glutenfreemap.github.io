@@ -22,8 +22,6 @@ export class DialogRouteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("DialogRouteComponent", this.component, this.returnPath);
-
     const dialogRef = this.dialog.open(this.component, {
       disableClose: !this.configurationService.isConfigured()
     });
