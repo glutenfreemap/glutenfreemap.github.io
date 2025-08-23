@@ -1,5 +1,6 @@
 using GlutenFreeMap.Backend.Helpers;
 using GlutenFreeMap.Backend.Integrations.GitHub;
+using GlutenFreeMap.Backend.Integrations.Hangfire;
 using Hangfire;
 using Hangfire.Storage.SQLite;
 using SQLite;
@@ -34,6 +35,7 @@ builder.Services.AddHangfire(c => c
     {
         BusyTimeout = TimeSpan.FromSeconds(value: 10)
     }))
+    .UseFilter(new JobContext())
 );
 
 builder.Services.AddHangfireServer();

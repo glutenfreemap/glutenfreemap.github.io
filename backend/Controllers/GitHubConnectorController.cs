@@ -19,7 +19,7 @@ namespace GlutenFreeMap.Backend.Controllers
             switch (payload.Action)
             {
                 case "created":
-                case "suspend":
+                case "unsuspend":
                     foreach (var repository in payload.Repositories)
                     {
                         BackgroundJob.Enqueue<GitHubOperations>(op => op.AddRepository(
@@ -32,7 +32,7 @@ namespace GlutenFreeMap.Backend.Controllers
                     break;
 
                 case "deleted":
-                case "unsuspend":
+                case "suspend":
                     foreach (var repository in payload.Repositories)
                     {
                         BackgroundJob.Enqueue<GitHubOperations>(op => op.RemoveRepository(

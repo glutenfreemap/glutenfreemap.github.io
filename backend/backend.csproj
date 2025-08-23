@@ -29,8 +29,13 @@
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.20" />
     <PackageReference Include="Hangfire.Core" Version="1.8.20" />
     <PackageReference Include="Hangfire.Storage.SQLite" Version="0.4.2" />
+    <PackageReference Include="LibGit2Sharp" Version="0.31.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Octokit" Version="14.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="repos\" />
   </ItemGroup>
 
 </Project>

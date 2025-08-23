@@ -1,9 +1,13 @@
 ﻿using GitHubJwt;
 using GlutenFreeMap.Backend.Domain;
 using GlutenFreeMap.Backend.Helpers;
+using GlutenFreeMap.Backend.Integrations.Git;
+using GlutenFreeMap.Backend.Integrations.Hangfire;
 using Hangfire;
 using Octokit;
 using Octokit.Internal;
+using System;
+using System.IO;
 using System.Text;
 
 namespace GlutenFreeMap.Backend.Integrations.GitHub;
@@ -12,80 +16,22 @@ public class GitHubOperations(IGitHubConfiguration configuration)
 {
     private static readonly ProductHeaderValue productInformation = new("GlutenFreeMap");
 
-    private static readonly IReadOnlySet<string> topLevelFiles = new HashSet<string>(4)
-    {
-        "languages.json",
-        "attestations.json",
-        "regions.json",
-        "categories.json",
-        "info.json",
-    };
-
     [AutomaticRetry(Attempts = 1)]
     public async Task AddRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, CancellationToken cancellationToken)
     {
-        var client = await GetInstallationClient(installation, cancellationToken);
-
+        var (client, token) = await GetInstallationClient(installation, cancellationToken);
         var repository = await client.Repository.Get(repositoryId);
-        var defaultBranch = new GitReference($"refs/heads/{repository.DefaultBranch}");
 
-        var reference = await client.Git.Reference.Get(repositoryId, defaultBranch);
-        if (reference.Object.Type.Value != TaggedType.Commit)
-        {
-            throw new NotSupportedException($"I don't know how to process a reference to an object of type '{reference.Object.Type.Value}'.");
-        }
-
-        var commit = new CommitIdentifier(reference.Object.Sha);
-
-        var tree = await client.Git.Tree.GetRecursive(repositoryId, commit);
-        if (tree.Truncated)
-        {
-            throw new NotSupportedException("The tree was truncated and no alternative method has been implemented yet.");
-        }
-
-        var filesToDownload = new List<TreeItem>(tree.Tree.Count);
-        var magicFileFound = false;
-
-        foreach (var item in tree.Tree)
-        {
-            if (item.Type.Value != TreeType.Blob)
+        new ReporitoryOperations().CloneRepository(
+            GetRepositoryPath(fullName),
+            new(repository.CloneUrl),
+            new(repository.DefaultBranch),
+            new LibGit2Sharp.UsernamePasswordCredentials
             {
-                continue;
+                Username = "git",
+                Password = token.Token,
             }
-
-            switch (item.Path)
-            {
-                // Check that the repository is valid by looking for a magic file.
-                case ".glutenfreemap":
-                    magicFileFound = true;
-                    break;
-
-                case string path when topLevelFiles.Contains(path) || path.StartsWith("places/"):
-                    filesToDownload.Add(item);
-                    break;
-
-                    // Ignore other files
-            }
-        }
-
-        if (!magicFileFound)
-        {
-            throw new InvalidOperationException("This doesn't look like a GlutenFreeMap repository.");
-        }
-
-        using var baseDir = GetRepositoryDir(repositoryId, fullName);
-        await baseDir.UpdateAsync(async (tempPath, _, ct) =>
-        {
-            foreach (var fileToDownload in filesToDownload)
-            {
-                await DownloadFile(client, repositoryId, tempPath, fileToDownload.Path, new(fileToDownload.Sha), ct);
-            }
-
-            WriteMetadata(tempPath, new RepositoryMetadata(
-                defaultBranch,
-                commit
-            ));
-        }, cancellationToken);
+        );
     }
 
     private static async Task DownloadFile(
@@ -121,7 +67,7 @@ public class GitHubOperations(IGitHubConfiguration configuration)
     public Task RemoveRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, CancellationToken cancellationToken)
     {
         using var baseDir = GetRepositoryDir(repositoryId, fullName);
-        Directory.Delete(baseDir.Path, recursive: true);
+        AtomicDirectory.DeleteDirectory(baseDir.Path);
 
         return Task.CompletedTask;
     }
@@ -129,6 +75,8 @@ public class GitHubOperations(IGitHubConfiguration configuration)
     [AutomaticRetry(Attempts = 1)]
     public async Task UpdateRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, GitReference reference, CommitIdentifier commit, CancellationToken cancellationToken)
     {
+        new ReporitoryOperations().CloneRepository
+
         using var baseDir = GetRepositoryDir(repositoryId, fullName);
         var metadata = ReadMetadata(baseDir.Path);
         if (metadata.Branch != reference)
@@ -136,7 +84,7 @@ public class GitHubOperations(IGitHubConfiguration configuration)
             return;
         }
 
-        var client = await GetInstallationClient(installation, cancellationToken);
+        var (client, _) = await GetInstallationClient(installation, cancellationToken);
 
         await baseDir.UpdateAsync(async (tempPath, originalPath, ct) =>
         {
@@ -206,7 +154,12 @@ public class GitHubOperations(IGitHubConfiguration configuration)
 
     private static AtomicDirectory GetRepositoryDir(RepositoryIdentifier repositoryId, RepositoryName fullName)
     {
-        return new AtomicDirectory(Path.Combine("repos", $"github.{fullName.Owner}.{fullName.Name}"));
+        return new AtomicDirectory(GetRepositoryPath(fullName));
+    }
+
+    private static string GetRepositoryPath(RepositoryName fullName)
+    {
+        return Path.Combine("repos", $"github.{fullName.Owner}.{fullName.Name}");
     }
 
     private sealed class CancellableHttpHandler(IHttpClient httpClient, CancellationToken cancellationToken) : IHttpClient
@@ -218,7 +171,18 @@ public class GitHubOperations(IGitHubConfiguration configuration)
         public void Dispose() => httpClient.Dispose();
     }
 
-    private async Task<GitHubClient> GetInstallationClient(InstallationIdentifier installation, CancellationToken cancellationToken)
+    private async Task<(GitHubClient client, AccessToken installationToken)> GetInstallationClient(InstallationIdentifier installation, CancellationToken cancellationToken)
+    {
+        var (installationToken, connection) = await GetInstallationToken(installation, cancellationToken);
+
+        var installationClient = new GitHubClient(connection)
+        {
+            Credentials = new Credentials(installationToken.Token, AuthenticationType.Bearer),
+        };
+        return (installationClient, installationToken);
+    }
+
+    private async Task<(AccessToken installationToken, Connection connection)> GetInstallationToken(InstallationIdentifier installation, CancellationToken cancellationToken)
     {
         var tokenGenerator = new GitHubJwtFactory(
             new StringPrivateKeySource(configuration.PrivateKey),
@@ -245,11 +209,6 @@ public class GitHubOperations(IGitHubConfiguration configuration)
         };
 
         var installationToken = await appClient.GitHubApps.CreateInstallationToken(installation.Id);
-
-        var installationClient = new GitHubClient(connection)
-        {
-            Credentials = new Credentials(installationToken.Token, AuthenticationType.Bearer),
-        };
-        return installationClient;
+        return (installationToken, connection);
     }
 }

@@ -53,7 +53,7 @@ public sealed class AtomicDirectory : IDisposable
             {
                 // The transactional directory exists but the main directory also exists.
                 // Clean-it-up as there's nothing else that we can do.
-                Directory.Delete(transactionalPath, recursive: true);
+                DeleteDirectory(transactionalPath);
             }
         }
         catch
@@ -69,6 +69,8 @@ public sealed class AtomicDirectory : IDisposable
         var tempDir = Directory.CreateTempSubdirectory();
         try
         {
+            CopyDirectory(Path, tempDir.FullName);
+
             update(tempDir.FullName, Path);
 
             // Atomic update
@@ -86,7 +88,7 @@ public sealed class AtomicDirectory : IDisposable
             throw;
         }
 
-        Directory.Delete(transactionalPath, recursive: true);
+        DeleteDirectory(transactionalPath);
     }
 
     public async Task UpdateAsync(UpdateAsyncDelegate update, CancellationToken cancellationToken)
@@ -113,7 +115,7 @@ public sealed class AtomicDirectory : IDisposable
             throw;
         }
 
-        Directory.Delete(transactionalPath, recursive: true);
+        DeleteDirectory(transactionalPath);
     }
 
     private static void CopyDirectory(string sourceDir, string destinationDir)
@@ -141,11 +143,43 @@ public sealed class AtomicDirectory : IDisposable
         }
     }
 
+    public static void DeleteDirectory(string path)
+    {
+        DeleteDirectory(new DirectoryInfo(path));
+    }
+
+    private static void DeleteDirectory(DirectoryInfo directory)
+    {
+        foreach (var entry in directory.EnumerateFileSystemInfos())
+        {
+            switch (entry)
+            {
+                case DirectoryInfo subdirectory:
+                    DeleteDirectory(subdirectory);
+                    break;
+
+                case FileInfo file:
+                    if (file.Attributes != FileAttributes.Normal)
+                    {
+                        file.Attributes = FileAttributes.Normal;
+                    }
+                    file.Delete();
+                    break;
+
+                default:
+                    entry.Delete();
+                    break;
+            }
+        }
+
+        directory.Delete();
+    }
+
     public delegate void UpdateDelegate(string tempPath, string originalPath);
     public delegate Task UpdateAsyncDelegate(string tempPath, string originalPath, CancellationToken cancellationToken);
 
     public void Dispose()
     {
-        lockFile.Dispose();
+        lockFile?.Dispose();
     }
 }
