@@ -55,27 +55,17 @@ public class ReporitoryOperations
     {
         using var repositoryDir = new AtomicDirectory(path);
 
-        var isEmpty = Directory.GetFileSystemEntries(path).Length == 0;
-        if (!isEmpty)
-        {
-            throw new InvalidOperationException($"Directory '{path}' is not empty");
-        }
-
         repositoryDir.Update((tempPath, originalPath) =>
         {
             using var repository = new GitRepository(Path.Combine(tempPath, ".git"));
-            repository.Network.f
-            //Commands.Pull(repository, )
-            repository.Network.Fetch(remoteUri.AbsoluteUri, )
 
-            var res = GitRepository.Clone(remoteUri.AbsoluteUri, Path.Combine(tempPath, ".git"), new(new()
+            var remote = repository.Network.Remotes.First().Name;
+            repository.Network.Fetch(remote, [branch], new FetchOptions
             {
-                CredentialsProvider = (url, usernameFromUrl, types) => credentials,
-            })
-            {
-                BranchName = branch,
-                IsBare = true,
+                CredentialsProvider = (url, usernameFromUrl, types) => credentials
             });
+
+            repository.Reset(ResetMode.Soft, $"{remote}/{branch}");
         });
 
         BackgroundJob.ContinueJobWith<ReporitoryOperations>(

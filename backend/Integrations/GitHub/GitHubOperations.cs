@@ -66,7 +66,7 @@ public class GitHubOperations(IGitHubConfiguration configuration)
     [AutomaticRetry(Attempts = 1)]
     public Task RemoveRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, CancellationToken cancellationToken)
     {
-        using var baseDir = GetRepositoryDir(repositoryId, fullName);
+        using var baseDir = new AtomicDirectory(GetRepositoryPath(fullName));
         AtomicDirectory.DeleteDirectory(baseDir.Path);
 
         return Task.CompletedTask;
@@ -75,86 +75,19 @@ public class GitHubOperations(IGitHubConfiguration configuration)
     [AutomaticRetry(Attempts = 1)]
     public async Task UpdateRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, GitReference reference, CommitIdentifier commit, CancellationToken cancellationToken)
     {
-        new ReporitoryOperations().CloneRepository
+        var (client, token) = await GetInstallationClient(installation, cancellationToken);
+        var repository = await client.Repository.Get(repositoryId);
 
-        using var baseDir = GetRepositoryDir(repositoryId, fullName);
-        var metadata = ReadMetadata(baseDir.Path);
-        if (metadata.Branch != reference)
-        {
-            return;
-        }
-
-        var (client, _) = await GetInstallationClient(installation, cancellationToken);
-
-        await baseDir.UpdateAsync(async (tempPath, originalPath, ct) =>
-        {
-            const int pageSize = 100;
-
-            CompareResult diff;
-            var page = 0;
-            do
+        new ReporitoryOperations().UpdateRepository(
+            GetRepositoryPath(fullName),
+            new(repository.CloneUrl),
+            new(repository.DefaultBranch),
+            new LibGit2Sharp.UsernamePasswordCredentials
             {
-                ++page;
-                diff = await client.Repository.Commit.Compare(repositoryId, metadata.Commit, commit, new ApiOptions
-                {
-                    StartPage = page,
-                    PageSize = pageSize,
-                });
-
-                foreach (var file in diff.Files)
-                {
-                    var targetFilePath = Path.Combine(tempPath, file.Filename);
-
-                    switch (file.Status)
-                    {
-                        case "added":
-                        case "modified":
-                        case "renamed": // A renamed file may also be modified, so we download it
-                            if (file.Status == "renamed")
-                            {
-                                var previousFilePath = Path.Combine(tempPath, file.PreviousFileName);
-                                File.Delete(previousFilePath);
-                            }
-
-                            await DownloadFile(client, repositoryId, tempPath, file.Filename, new(file.Sha), ct);
-
-                            // Download the new file
-                            break;
-
-                        case "removed":
-                            File.Delete(targetFilePath);
-                            break;
-
-                        // These do not seem to be returned ever
-                        case "copied":
-                        case "changed":
-                        case "unchanged":
-                        default:
-                            throw new NotSupportedException($"Unexpected file status '{file.Status}'.");
-                    }
-                }
-            } while (diff.Files.Count == pageSize);
-
-            WriteMetadata(tempPath, new RepositoryMetadata(
-                metadata.Branch,
-                commit
-            ));
-        }, cancellationToken);
-    }
-
-    private static RepositoryMetadata ReadMetadata(string path)
-    {
-        return Json.Read<RepositoryMetadata>(Path.Combine(path, ".metadata"));
-    }
-
-    private static void WriteMetadata(string path, RepositoryMetadata metadata)
-    {
-        Json.Write(Path.Combine(path, ".metadata"), metadata);
-    }
-
-    private static AtomicDirectory GetRepositoryDir(RepositoryIdentifier repositoryId, RepositoryName fullName)
-    {
-        return new AtomicDirectory(GetRepositoryPath(fullName));
+                Username = "git",
+                Password = token.Token,
+            }
+        );
     }
 
     private static string GetRepositoryPath(RepositoryName fullName)

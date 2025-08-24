@@ -2,39 +2,23 @@
 
 public sealed class AtomicDirectory : IDisposable
 {
-    private const string TransactionalSuffix = ".tmp";
+    private const string OldSuffix = ".old";
+    private const string NewSuffix = ".new";
     private const string LockFileNameSuffix = ".lock";
 
-    public string Path { get; }
-    private readonly string transactionalPath;
+    public string Path => curPath;
+    private readonly string curPath;
+    private readonly string oldPath;
+    private readonly string newPath;
     private readonly string lockFilePath;
     private readonly FileStream? lockFile;
 
     public AtomicDirectory(string path)
     {
-        this.Path = path;
-        transactionalPath = path + TransactionalSuffix;
+        curPath = path;
+        oldPath = path + OldSuffix;
+        newPath = path + NewSuffix;
         lockFilePath = path + LockFileNameSuffix;
-
-        if (!Directory.Exists(path))
-        {
-            if (Directory.Exists(transactionalPath))
-            {
-                try
-                {
-                    Directory.Move(transactionalPath, path);
-                }
-                catch (IOException)
-                {
-                    // Assume that some other process has already renamed the directory
-                }
-            }
-            else
-            {
-                // Does not throw if the directory already exists
-                Directory.CreateDirectory(path);
-            }
-        }
 
         lockFile = new FileStream(
             lockFilePath,
@@ -49,11 +33,20 @@ public sealed class AtomicDirectory : IDisposable
         // if there is any exception.
         try
         {
-            if (Directory.Exists(transactionalPath))
+            if (Directory.Exists(oldPath))
             {
-                // The transactional directory exists but the main directory also exists.
-                // Clean-it-up as there's nothing else that we can do.
-                DeleteDirectory(transactionalPath);
+                if (Directory.Exists(path))
+                {
+                    DeleteDirectory(oldPath);
+                }
+                else
+                {
+                    Directory.Move(oldPath, curPath);
+                }
+            }
+            else if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(curPath);
             }
         }
         catch
@@ -66,56 +59,66 @@ public sealed class AtomicDirectory : IDisposable
 
     public void Update(UpdateDelegate update)
     {
-        var tempDir = Directory.CreateTempSubdirectory();
+        if (Directory.Exists(newPath))
+        {
+            DeleteDirectory(newPath);
+        }
+
         try
         {
-            CopyDirectory(Path, tempDir.FullName);
+            Directory.CreateDirectory(newPath);
+            CopyDirectory(curPath, newPath);
 
-            update(tempDir.FullName, Path);
+            update(newPath, curPath);
 
             // Atomic update
-            Directory.Move(Path, transactionalPath);
-            tempDir.MoveTo(Path);
+            Directory.Move(curPath, oldPath);
+            Directory.Move(newPath, curPath);
+            DeleteDirectory(oldPath);
         }
-        catch
+        finally
         {
             try
             {
-                tempDir.Delete(recursive: true);
+                if (Directory.Exists(newPath))
+                {
+                    DeleteDirectory(newPath);
+                }
             }
             catch { } // Best effort clean-up
-
-            throw;
         }
-
-        DeleteDirectory(transactionalPath);
     }
 
     public async Task UpdateAsync(UpdateAsyncDelegate update, CancellationToken cancellationToken)
     {
-        var tempDir = Directory.CreateTempSubdirectory();
+        if (Directory.Exists(newPath))
+        {
+            DeleteDirectory(newPath);
+        }
+
         try
         {
-            CopyDirectory(Path, tempDir.FullName);
+            Directory.CreateDirectory(newPath);
+            CopyDirectory(curPath, newPath);
 
-            await update(tempDir.FullName, Path, cancellationToken);
+            await update(newPath, curPath, cancellationToken);
 
             // Atomic update
-            Directory.Move(Path, transactionalPath);
-            tempDir.MoveTo(Path);
+            Directory.Move(curPath, oldPath);
+            Directory.Move(newPath, curPath);
+            DeleteDirectory(oldPath);
         }
-        catch
+        finally
         {
             try
             {
-                tempDir.Delete(recursive: true);
+                if (Directory.Exists(newPath))
+                {
+                    DeleteDirectory(newPath);
+                }
             }
             catch { } // Best effort clean-up
-
-            throw;
         }
-
-        DeleteDirectory(transactionalPath);
     }
 
     private static void CopyDirectory(string sourceDir, string destinationDir)
