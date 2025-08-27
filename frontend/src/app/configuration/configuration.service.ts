@@ -62,7 +62,7 @@ export class ConfigurationService {
     if (parseResult.success) {
       return { success: true, value: parseResult.data };
     } else {
-      return { success: false, data, errors: parseResult.error.errors };
+      return { success: false, data, errors: parseResult.error.issues };
     }
   }
 

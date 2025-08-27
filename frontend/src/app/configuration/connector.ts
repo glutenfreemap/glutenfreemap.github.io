@@ -1,7 +1,7 @@
 import { InjectionToken, signal, Signal, WritableSignal } from "@angular/core";
-import { isComposite, Place, PlaceIdentifier, placeSchema, TopLevelPlace } from "../../datamodel/place";
+import { isComposite, PlaceIdentifier, placeSchema, TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Language, LanguageIdentifier, languageSchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
-import { z, ZodTypeAny } from "zod";
+import { z, ZodType } from "zod";
 
 type IndeterminateLoadingStatus = {
   status: "loading"
@@ -84,7 +84,7 @@ export abstract class ConnectorSkeleton<TContext, TTreeEntry extends TreeEntry> 
 
     const tree = await this.getTree(name, context);
 
-    const load = async <TKey, TValue extends { id: TKey }, TSchema extends ZodTypeAny>(
+    const load = async <TKey, TValue extends { id: TKey }, TSchema extends ZodType<TValue>>(
       collection: WritableSignal<Map<TKey, TValue>>,
       schema: TSchema,
       fileName: string
@@ -127,7 +127,7 @@ export abstract class ConnectorSkeleton<TContext, TTreeEntry extends TreeEntry> 
         this.places.update(val => [...val, place]);
       } else {
         const error = parseResult.error;
-        console.error(`Failed to parse '${fileInfo.path}'`, data, error.errors);
+        console.error(`Failed to parse '${fileInfo.path}'`, data, error.issues);
       }
     };
 
