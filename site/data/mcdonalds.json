@@ -2987,5 +2987,18 @@
       "lng": "-8.086985"
     },
     "district": "viseu"
+  },
+  {
+    "id": "oliveira-de-azemeis",
+    "subtitle": "Oliveira de Azeméis",
+    "address": [
+      "Rua Professor Arnaldo Costeira 168 ",
+      "3720-271   Oliveira de Azeméis"
+    ],
+    "position": {
+      "lat": "40.837528",
+      "lng": "-8.474056"
+    },
+    "district": "aveiro"
   }
 ]
