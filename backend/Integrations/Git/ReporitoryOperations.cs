@@ -1,125 +1,68 @@
-﻿using GlutenFreeMap.Backend.Helpers;
+﻿using GlutenFreeMap.Backend.Controllers;
+using GlutenFreeMap.Backend.Helpers;
+using GlutenFreeMap.Backend.Integrations.Caching;
 using GlutenFreeMap.Backend.Integrations.GitHub;
-using GlutenFreeMap.Backend.Integrations.Hangfire;
-using Hangfire;
 using LibGit2Sharp;
-using System.Text.Json;
-using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.OutputCaching;
 using GitRepository = LibGit2Sharp.Repository;
 
 namespace GlutenFreeMap.Backend.Integrations.Git;
 
-public class ReporitoryOperations
+public class ReporitoryOperations(IOutputCacheStore cacheStore)
 {
-    [AutomaticRetry(Attempts = 1)]
-    public void CloneRepository(
+    public async Task CloneRepository(
         string path,
         Uri remoteUri,
         GitReference branch,
         Credentials credentials
     )
     {
-        using var repositoryDir = new AtomicDirectory(path);
-
         var isEmpty = Directory.GetFileSystemEntries(path).Length == 0;
         if (!isEmpty)
         {
             throw new InvalidOperationException($"Directory '{path}' is not empty");
         }
 
-        repositoryDir.Update((tempPath, originalPath) =>
+        var res = GitRepository.Clone(remoteUri.AbsoluteUri, path, new(new()
         {
-            var res = GitRepository.Clone(remoteUri.AbsoluteUri, Path.Combine(tempPath, ".git"), new(new()
-            {
-                CredentialsProvider = (url, usernameFromUrl, types) => credentials,
-            })
-            {
-                BranchName = branch,
-                IsBare = true,
-            });
+            CredentialsProvider = (url, usernameFromUrl, types) => credentials,
+        })
+        {
+            BranchName = branch,
+            IsBare = true,
         });
 
-        BackgroundJob.ContinueJobWith<ReporitoryOperations>(
-            JobContext.JobId,
-            op => op.ProcessRepository(path, default)
-        );
+        var parts = Path.GetFileName(path).Split('.');
+        await cacheStore.EvictByTagAsync(RepositoryTreeOutputCachePolicy.GetCacheTag(parts[0], parts[1], parts[2]), default);
+        await cacheStore.EvictByTagAsync(RepositoryController.RepositoryListCacheTagName, default);
     }
 
-    [AutomaticRetry(Attempts = 1)]
-    public void UpdateRepository(
+    public async Task UpdateRepository(
         string path,
-        Uri remoteUri,
         GitReference branch,
         Credentials credentials
     )
     {
-        using var repositoryDir = new AtomicDirectory(path);
+        using var repository = new GitRepository(path);
 
-        repositoryDir.Update((tempPath, originalPath) =>
+        var remote = repository.Network.Remotes.First().Name;
+        repository.Network.Fetch(remote, [branch], new FetchOptions
         {
-            using var repository = new GitRepository(Path.Combine(tempPath, ".git"));
-
-            var remote = repository.Network.Remotes.First().Name;
-            repository.Network.Fetch(remote, [branch], new FetchOptions
-            {
-                CredentialsProvider = (url, usernameFromUrl, types) => credentials
-            });
-
-            repository.Reset(ResetMode.Soft, $"{remote}/{branch}");
+            CredentialsProvider = (url, usernameFromUrl, types) => credentials
         });
 
-        BackgroundJob.ContinueJobWith<ReporitoryOperations>(
-            JobContext.JobId,
-            op => op.ProcessRepository(path, default)
-        );
+        repository.Reset(ResetMode.Soft, $"{remote}/{branch}");
+
+        var parts = Path.GetFileName(path).Split('.');
+        await cacheStore.EvictByTagAsync(RepositoryTreeOutputCachePolicy.GetCacheTag(parts[0], parts[1], parts[2]), default);
+        await cacheStore.EvictByTagAsync(RepositoryController.RepositoryListCacheTagName, default);
     }
 
-    private static readonly IReadOnlySet<string> topLevelFiles = new HashSet<string>
+    public async Task DeleteRepository(string path)
     {
-        "languages.json",
-        "attestations.json",
-        "regions.json",
-        "categories.json",
-        "info.json",
-    };
+        FileSystem.DeleteDirectory(path);
 
-    [AutomaticRetry(Attempts = 1)]
-    public async Task ProcessRepository(string path, CancellationToken cancellationToken)
-    {
-        using var repositoryDir = new AtomicDirectory(path);
-
-        await repositoryDir.UpdateAsync(async (tempPath, originalPath, ct) =>
-        {
-            using var repository = new GitRepository(Path.Combine(tempPath, ".git"));
-            var tree = repository.Head.Tip.Tree
-                .Flatten(t => t.TargetType == TreeEntryTargetType.Tree ? (IEnumerable<TreeEntry>)t.Target : [])
-                .Where(t => t.TargetType == TreeEntryTargetType.Blob)
-                .Where(t => topLevelFiles.Contains(t.Path) || Regex.IsMatch(t.Path, @"^places\/([^\.]+\.json)$"))
-                .Select(t => new { t.Path, Blob = (Blob)t.Target })
-                .ToList();
-
-            var placesPath = Path.Combine(tempPath, "places");
-            if (Directory.Exists(placesPath))
-            {
-                AtomicDirectory.DeleteDirectory(placesPath);
-            }
-            Directory.CreateDirectory(placesPath);
-
-            await using (var treeFile = File.Create(Path.Combine(tempPath, "tree.json")))
-            {
-                await JsonSerializer.SerializeAsync(
-                    treeFile,
-                    tree.Select(t => new { path = t.Path, hash = t.Blob.Sha }),
-                    cancellationToken: ct
-                );
-            }
-
-            foreach (var entry in tree)
-            {
-                using var contentStream = entry.Blob.GetContentStream();
-                using var contentFile = File.Create(Path.Combine(tempPath, entry.Path));
-                await contentStream.CopyToAsync(contentFile, ct);
-            }
-        }, cancellationToken);
+        var parts = Path.GetFileName(path).Split('.');
+        await cacheStore.EvictByTagAsync(RepositoryController.RepositoryListCacheTagName, default);
     }
 }

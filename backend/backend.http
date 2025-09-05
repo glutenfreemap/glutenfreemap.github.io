@@ -437,12 +437,22 @@ X-Hub-Signature-256: sha256={{signatures_push}}
 }
 
 ###
-GET {{backend_HostAddress}}/repo
+GET {{backend_HostAddress}}/repos
 
 ###
-GET {{backend_HostAddress}}/repo/github/glutenfreemap/data-portugal/tree
+GET {{backend_HostAddress}}/repos/github/glutenfreemap/data-portugal/tree
 
 ###
-GET {{backend_HostAddress}}/repo/github/glutenfreemap/data-portugal/blob/places/grom.json
+GET {{backend_HostAddress}}/repos/github/glutenfreemap/data-portugal/tree
+If-None-Match: "513e7700c6ea40cb864832e66d47826c"
+
+###
+POST {{backend_HostAddress}}/test/github/glutenfreemap/data-portugal/invalidate
+
+###
+GET {{backend_HostAddress}}/repos/github/glutenfreemap/data-portugal/places/grom.json
+
+###
+GET {{backend_HostAddress}}/repos/github/glutenfreemap/data-portugal/blobs/0015898ae4d534d215a9ef8bef8e41f22aad6a8a
 
 

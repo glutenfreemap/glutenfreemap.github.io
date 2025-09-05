@@ -1,10 +1,7 @@
 import { Octokit } from "@octokit/rest";
-import { Branch, BranchName, Connector, ConnectorSkeleton, CreateBranchResult, Status, VersionIdentifier } from "../../app/configuration/connector";
+import { Branch, BranchName, ConnectorSkeleton, CreateBranchResult, VersionIdentifier, WritableConnector } from "../../app/configuration/connector";
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
-import { isComposite, TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
-import { signal, WritableSignal } from "@angular/core";
-import { AttestationType, AttestationTypeIdentifier, attestationTypeSchema, Category, CategoryIdentifier, categorySchema, Language, LanguageIdentifier, languageSchema, Region, RegionIdentifier, regionSchema } from "../../datamodel/common";
-import { z, ZodTypeAny } from "zod";
+import { TopLevelPlace } from "../../datamodel/place";
 import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";
@@ -13,7 +10,7 @@ export const INVALID_TOKEN = "INVALID_TOKEN";
 
 type GithubTreeEntry = Awaited<ReturnType<Octokit['git']['getTree']>>['data']['tree'][0] & { path: string };
 
-export class GitHubConnector extends ConnectorSkeleton<Octokit, GithubTreeEntry> implements Connector {
+export class GitHubConnector extends ConnectorSkeleton<Octokit, GithubTreeEntry> implements WritableConnector {
   constructor(
     private configuration: GitHubConfiguration,
     private translate: TranslateService

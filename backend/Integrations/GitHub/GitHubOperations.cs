@@ -1,28 +1,24 @@
 ﻿using GitHubJwt;
-using GlutenFreeMap.Backend.Domain;
-using GlutenFreeMap.Backend.Helpers;
 using GlutenFreeMap.Backend.Integrations.Git;
-using GlutenFreeMap.Backend.Integrations.Hangfire;
 using Hangfire;
 using Octokit;
 using Octokit.Internal;
-using System;
-using System.IO;
-using System.Text;
 
 namespace GlutenFreeMap.Backend.Integrations.GitHub;
 
-public class GitHubOperations(IGitHubConfiguration configuration)
+public class GitHubOperations(IGitHubConfiguration configuration, ReporitoryOperations reporitoryOperations)
 {
     private static readonly ProductHeaderValue productInformation = new("GlutenFreeMap");
+    private const string ResourceName = "repositories";
 
+    [DisableConcurrentExecution(ResourceName, 120)]
     [AutomaticRetry(Attempts = 1)]
     public async Task AddRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, CancellationToken cancellationToken)
     {
         var (client, token) = await GetInstallationClient(installation, cancellationToken);
         var repository = await client.Repository.Get(repositoryId);
 
-        new ReporitoryOperations().CloneRepository(
+        await reporitoryOperations.CloneRepository(
             GetRepositoryPath(fullName),
             new(repository.CloneUrl),
             new(repository.DefaultBranch),
@@ -34,53 +30,22 @@ public class GitHubOperations(IGitHubConfiguration configuration)
         );
     }
 
-    private static async Task DownloadFile(
-        GitHubClient client,
-        RepositoryIdentifier repositoryId,
-        string outputBasePath,
-        string repositoryFilePath,
-        GitFileIdentifier repositoryFileSha,
-        CancellationToken cancellationToken
-    )
-    {
-        var filePath = Path.Combine(outputBasePath, repositoryFilePath);
-        var fileDir = Path.GetDirectoryName(filePath)!;
-        if (!Directory.Exists(fileDir))
-        {
-            Directory.CreateDirectory(fileDir);
-        }
-
-        var fileContent = await client.Git.Blob.Get(repositoryId, repositoryFileSha);
-
-        var fileBytes = fileContent.Encoding.Value switch
-        {
-            EncodingType.Utf8 => Encoding.UTF8.GetBytes(fileContent.Content),
-            EncodingType.Base64 => Convert.FromBase64String(fileContent.Content),
-            _ => throw new NotSupportedException($"Unsupported encoding'{fileContent.Encoding.Value}'.")
-        };
-
-        await File.WriteAllBytesAsync(filePath, fileBytes, cancellationToken);
-        Json.Write(filePath + ".metadata", new GitFileMetadata(repositoryFileSha));
-    }
-
+    [DisableConcurrentExecution(ResourceName, 120)]
     [AutomaticRetry(Attempts = 1)]
-    public Task RemoveRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, CancellationToken cancellationToken)
+    public async Task RemoveRepository(RepositoryName fullName, CancellationToken cancellationToken)
     {
-        using var baseDir = new AtomicDirectory(GetRepositoryPath(fullName));
-        AtomicDirectory.DeleteDirectory(baseDir.Path);
-
-        return Task.CompletedTask;
+        await reporitoryOperations.DeleteRepository(GetRepositoryPath(fullName));
     }
 
+    [DisableConcurrentExecution(ResourceName, 120)]
     [AutomaticRetry(Attempts = 1)]
     public async Task UpdateRepository(InstallationIdentifier installation, RepositoryIdentifier repositoryId, RepositoryName fullName, GitReference reference, CommitIdentifier commit, CancellationToken cancellationToken)
     {
         var (client, token) = await GetInstallationClient(installation, cancellationToken);
         var repository = await client.Repository.Get(repositoryId);
 
-        new ReporitoryOperations().UpdateRepository(
+        await reporitoryOperations.UpdateRepository(
             GetRepositoryPath(fullName),
-            new(repository.CloneUrl),
             new(repository.DefaultBranch),
             new LibGit2Sharp.UsernamePasswordCredentials
             {

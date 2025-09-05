@@ -36,8 +36,6 @@ namespace GlutenFreeMap.Backend.Controllers
                     foreach (var repository in payload.Repositories)
                     {
                         BackgroundJob.Enqueue<GitHubOperations>(op => op.RemoveRepository(
-                            payload.Installation.Id,
-                            repository.Id,
                             repository.FullName,
                             default
                         ));
@@ -66,7 +64,7 @@ namespace GlutenFreeMap.Backend.Controllers
                 case "removed":
                     foreach (var repository in payload.RepositoriesRemoved)
                     {
-                        BackgroundJob.Enqueue<GitHubOperations>(op => op.RemoveRepository(payload.Installation.Id, repository.Id, repository.FullName, default));
+                        BackgroundJob.Enqueue<GitHubOperations>(op => op.RemoveRepository(repository.FullName, default));
                     }
                     break;
 

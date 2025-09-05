@@ -6,7 +6,8 @@
     {
       "name": "data",
       "urls": [
-        "https://api.github.com/repos/*/git/blobs/*"
+        "https://api.github.com/repos/*/git/blobs/*",
+        "http://localhost:5179/repos/*/blobs/*"
       ],
       "cacheConfig": {
         "maxSize": 1000,

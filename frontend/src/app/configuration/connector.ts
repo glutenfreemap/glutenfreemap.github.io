@@ -48,15 +48,22 @@ export interface Connector {
   branches: Signal<Branch[]>,
   currentBranch: Signal<Branch | undefined>,
   switchToBranch(name: BranchName): Promise<any>,
-  createBranch(name: BranchName): Promise<CreateBranchResult>,
 
   languages: Signal<Map<LanguageIdentifier, Language>>,
   attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>,
   regions: Signal<Map<RegionIdentifier, Region>>,
   categories: Signal<Map<CategoryIdentifier, Category>>,
-  places: Signal<TopLevelPlace[]>,
+  places: Signal<TopLevelPlace[]>
+}
 
-  commit<T extends TopLevelPlace>(place: T): Promise<any>,
+export interface WritableConnector extends Connector {
+  createBranch(name: BranchName): Promise<CreateBranchResult>,
+  commit<T extends TopLevelPlace>(place: T): Promise<any>
+}
+
+export function isWritableConnector(connector: Connector): connector is WritableConnector {
+  return "commit" in connector
+    && "createBranch" in connector;
 }
 
 export interface TreeEntry {

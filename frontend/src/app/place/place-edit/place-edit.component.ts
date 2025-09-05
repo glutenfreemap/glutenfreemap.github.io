@@ -10,7 +10,7 @@ import { LocalizedStringFormFieldComponent } from '../../common/localized-string
 import { PlaceFinderComponent, PlaceSearchParams } from '../place-finder/place-finder.component';
 import { PlaceDetails } from '../place-finder-helper/place-finder-helper.component';
 import { errorMessage } from '../../common/helpers';
-import { CONNECTOR, Connector } from '../../configuration/connector';
+import { CONNECTOR, Connector, WritableConnector } from '../../configuration/connector';
 import { RegionIdentifier, Region, LanguageIdentifier, LocalizedString, AttestationTypeIdentifier, AttestationType, localizedStringsAreEqual, Category, CategoryIdentifier } from '../../../datamodel/common';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIf } from '@angular/common';
@@ -59,13 +59,19 @@ export class PlaceEditComponent implements OnDestroy {
   public error = errorMessage;
   public loading = signal(false);
 
+  public place: Place;
+  private connector: WritableConnector;
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly place: Place,
-    @Inject(CONNECTOR) private connector: Connector,
+    @Inject(MAT_DIALOG_DATA) public readonly params: { place: Place, connector: WritableConnector },
     private dialogRef: MatDialogRef<Place>,
     private dialog: MatDialog,
     private translate: TranslateService
   ) {
+    const { place, connector } = params;
+    this.place = place;
+    this.connector = connector;
+
     this.gidInput = new FormControl(isLeaf(place) && place.gid || null);
 
     this.nameInput = new FormControl(place.name, [
@@ -258,7 +264,10 @@ export class PlaceEditComponent implements OnDestroy {
   public openParent(parent: CompositePlace) {
     this.dialog.open(PlaceEditComponent, {
       disableClose: true,
-      data: parent
+      data: {
+        place: parent,
+        connector: this.connector
+      }
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, computed, effect, Inject, OnInit, signal, Signal, WritableSignal } from '@angular/core';
 import { TranslateModule, _ } from '@ngx-translate/core';
-import { Branch, CONNECTOR, Connector } from '../../configuration/connector';
+import { Branch, CONNECTOR, Connector, isWritableConnector } from '../../configuration/connector';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
@@ -30,6 +30,7 @@ export class BranchSelectorComponent {
   public loading: Signal<boolean>;
   public branches: Signal<Branch[]>;
   public currentBranch: WritableSignal<Branch | undefined> = signal(undefined);
+  public canCreateNewBranch: boolean
 
   constructor(
     @Inject(CONNECTOR) private connector: Connector,
@@ -38,16 +39,23 @@ export class BranchSelectorComponent {
   ) {
     this.branches = connector.branches;
     this.loading = computed(() => connector.status().status === "loading")
+    this.canCreateNewBranch = isWritableConnector(connector);
 
     effect(() => this.currentBranch.set(connector.currentBranch()));
   }
 
   public async selectOption(change: MatSelectChange) {
     if (change.value === this.CREATE_NEW_BRANCH) {
-      const dialogRef = this.dialog.open(BranchCreatorComponent);
-      firstValueFrom(dialogRef.afterClosed()).then(_ => {
-        this.currentBranch.set(this.connector.currentBranch());
-      });
+      if (this.canCreateNewBranch) {
+        const dialogRef = this.dialog.open(BranchCreatorComponent, {
+          data: {
+            connector: this.connector
+          }
+        });
+        firstValueFrom(dialogRef.afterClosed()).then(_ => {
+          this.currentBranch.set(this.connector.currentBranch());
+        });
+      }
     } else if (change.value) {
       const selectedBranch = change.value as Branch;
       await this.connector.switchToBranch(selectedBranch.name);

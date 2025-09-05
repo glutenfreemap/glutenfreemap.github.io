@@ -17,11 +17,8 @@ import { Router } from '@angular/router';
 })
 export class PlacePopupComponent {
   @Input({ required: true }) public place!: LeafPlace;
+  @Input({ required: true }) public canEdit!: boolean;
   public edit = output<LeafPlace>();
-
-  constructor(
-    private router: Router
-  ) {}
 
   public isChild(place: LeafPlace): place is ChildPlace {
     return "parent" in place;

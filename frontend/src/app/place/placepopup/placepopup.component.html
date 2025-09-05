@@ -19,7 +19,9 @@
   <mat-card-footer class="example-card-footer">
     <mat-card-actions>
       <button mat-button>{{ 'place.actions.openInMap' | translate }}</button>
-      <button mat-button (click)="edit.emit(place)">{{ 'place.actions.edit' | translate }}</button>
+      @if (canEdit) {
+        <button mat-button (click)="edit.emit(place)">{{ 'place.actions.edit' | translate }}</button>
+      }
     </mat-card-actions>
   </mat-card-footer>
 </mat-card>

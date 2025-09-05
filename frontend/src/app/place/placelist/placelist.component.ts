@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, Inject, OutputRefSubscription, signal, Signal, ViewChild, ViewContainerRef } from '@angular/core';
-import { CONNECTOR, Connector } from '../../configuration/connector';
+import { CONNECTOR, Connector, isWritableConnector } from '../../configuration/connector';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, TopLevelPlace, PlaceIdentifier, StandalonePlace } from '../../../datamodel/place';
 import { MatListModule } from '@angular/material/list';
@@ -123,6 +123,7 @@ export class PlacelistComponent implements AfterViewInit {
 
       this.popupContent = this.mapContainerRef.createComponent(PlacePopupComponent);
       this.popupContent.instance.place = place;
+      this.popupContent.instance.canEdit = isWritableConnector(this.connector);
       this.popupContentSubscriptions.push(this.popupContent.instance.edit.subscribe(place => this.edit(place)));
 
       this.infoWindow.setDOMContent(this.popupContent.location.nativeElement);
@@ -389,7 +390,7 @@ export class PlacelistComponent implements AfterViewInit {
   private edit(place: LeafPlace) {
     this.dialog.open(PlaceEditComponent, {
       disableClose: true,
-      data: place
+      data: { place, connector: this.connector }
     });
   }
 }
