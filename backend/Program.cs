@@ -22,6 +22,9 @@ if (allowedOrigins is not null && allowedOrigins.Length > 0)
     {
         options.AddPolicy(CorsPolicyName, policy => policy
             .WithOrigins(allowedOrigins)
+            .WithMethods("GET")
+            .AllowAnyHeader()
+            .SetPreflightMaxAge(TimeSpan.FromHours(1))
         );
     });
 }
@@ -76,7 +79,6 @@ if (allowedOrigins is not null && allowedOrigins.Length > 0)
 ;
 
 app.UseHangfireDashboard();
-app.UseHttpsRedirection();
 app.UseOutputCache();
 app.UseResponseCaching();
 app.MapControllers();
