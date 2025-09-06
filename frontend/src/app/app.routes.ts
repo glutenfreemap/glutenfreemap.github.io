@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 import { ConfigGuard } from './configuration/configuration.guard';
 import { ConfigurationComponent as GithubConfigurationComponent } from '../connectors/github/configuration/configuration.component';
 import { ConfigurationComponent as PublicConfigurationComponent } from '../connectors/public/configuration/configuration.component';
-import { PlacelistComponent } from './place/placelist/placelist.component';
 import { NavigationComponent } from './shell/navigation/navigation.component';
 import { PlaceFinderHelperComponent } from './place/place-finder-helper/place-finder-helper.component';
 import { DialogRouteComponent } from './common/dialog-route/dialog-route.component';
+import { MapViewComponent } from './shell/map-view/map-view.component';
 
 export const routes: Routes = [
   {
@@ -14,7 +14,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: PlacelistComponent,
+        component: MapViewComponent,
         canActivate: [ConfigGuard],
       },
       {

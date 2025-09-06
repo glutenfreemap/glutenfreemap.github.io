@@ -5,6 +5,9 @@ import { TranslateModule, _ } from '@ngx-translate/core';
 import { CONNECTOR, Connector, Status } from '../../configuration/connector';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { BranchSelectorComponent } from '../branch-selector/branch-selector.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-navigation',
@@ -12,11 +15,14 @@ import { BranchSelectorComponent } from '../branch-selector/branch-selector.comp
   styleUrl: './navigation.component.scss',
   imports: [
     MatToolbarModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    MatIconModule,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
     TranslateModule,
-    MatProgressBarModule,
     BranchSelectorComponent
   ],
   host: {

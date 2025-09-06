@@ -1,5 +1,11 @@
 @use '@angular/material' as mat;
 
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 :host.loading ::ng-deep * {
   pointer-events: none;
   user-select: none;
@@ -42,7 +48,11 @@ ul {
   flex-direction: row;
   align-items: baseline;
   gap: 1.5rem;
-  margin: 1rem 0 0.5rem 0;
+  margin: 0;
+  padding: 1rem 1rem;
+  box-sizing: border-box;
+  max-width: 1140px;
+  width: 100%;
 }
 
 li {
@@ -69,18 +79,39 @@ a {
   align-items: center;
 }
 
-hr {
-  border: none;
+nav {
   border-bottom: solid 1px var(--mat-sys-primary-container);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
-nav,
 .content {
-  max-width: 1140px;
   width: 100%;
+  flex: 1;
+  display: flex;
 }
 
 mat-option.create {
   color: red;
+}
+
+.narrow {
+  display: none;
+}
+
+button {
+  margin: -10rem 0;
+  top: 0.25rem;
+}
+
+@media (max-width: 480px) {
+  .wide {
+    display: none;
+  }
+
+  .narrow {
+    display: block;
+  }
 }

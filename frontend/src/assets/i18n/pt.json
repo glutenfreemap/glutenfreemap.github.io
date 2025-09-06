@@ -16,6 +16,7 @@
 	"github.configuration.repository.required": "Tem de selecionar um repositório.",
 	"github.configuration.repository.invalid": "O repositório selecionado não é um repositório de dados GlutenFreeMap.",
 	"general.loading.details": "Carregando os dados. Aguarde por favor.",
+	"general.menu.label": "Menu",
 	"general.branch.label": "Versão",
 	"general.branch.createNew": "Criar nova...",
 	"branch.creator.title": "Criar nova versão",

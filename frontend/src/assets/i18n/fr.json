@@ -16,6 +16,7 @@
 	"github.configuration.repository.required": "",
 	"github.configuration.repository.invalid": "",
 	"general.loading.details": "",
+	"general.menu.label": "",
 	"general.branch.label": "",
 	"general.branch.createNew": "",
 	"branch.creator.title": "",
