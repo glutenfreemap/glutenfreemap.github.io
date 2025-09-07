@@ -26,6 +26,8 @@
 	"branch.creator.name.duplicate": "Já existe uma branch com este nome.",
 	"general.dialog.buttons.cancel": "Cancelar",
 	"general.dialog.buttons.create": "Criar",
+	"place.search.label": "Procurar",
+	"place.search.clear": "Limpar",
 	"place.actions.openInMap": "Abrir noutro mapa",
 	"place.actions.edit": "Editar",
 	"place.attestation.chip.label": "Certificação: {{type}}",

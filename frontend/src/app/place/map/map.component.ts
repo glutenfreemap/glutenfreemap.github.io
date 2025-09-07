@@ -4,9 +4,10 @@ import { CompositePlace, isStandalone as globalIsStandalone, isComposite as glob
 import { GeoJSONSource, GeolocateControl, LngLatLike, Map as MaplibreMap, NavigationControl } from "maplibre-gl";
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { CONNECTOR, Connector } from '../../configuration/connector';
+import { Connector } from '../../configuration/connector';
 import { getStyle } from '../../../generated/map.style';
 import { PlaceEditComponent } from '../place-edit/place-edit.component';
+import { debounce } from '../../common/helpers';
 
 const CERTIFIED_MARKER = "certified-marker";
 const NON_CERTIFIED_MARKER = "non-certified-marker";
@@ -29,6 +30,8 @@ type MapFeature = GeoJSON.Feature<GeoJSON.Geometry, MapFeatureProperties>;
 export class MapComponent implements AfterViewInit {
   private map?: MaplibreMap;
 
+  public connector = input.required<Connector>();
+
   public selectedPlace = input<LeafPlace | undefined>();
   public selectedPlaceChange = output<LeafPlace | undefined>()
 
@@ -36,7 +39,7 @@ export class MapComponent implements AfterViewInit {
 
   private placesById = computed(() => {
     const result = new Map<PlaceIdentifier, LeafPlace>();
-    for (const place of this.connector.places()) {
+    for (const place of this.connector().places()) {
       if (this.isComposite(place)) {
         for (const child of place.locations) {
           result.set(child.id, child);
@@ -49,16 +52,16 @@ export class MapComponent implements AfterViewInit {
   });
 
   constructor(
-    @Inject(CONNECTOR) private connector: Connector,
     private element: ElementRef,
     private dialog: MatDialog,
     private translate: TranslateService
   ) {
     this.filteredPlaces = computed(() => {
-      return connector.places();
+      return this.connector().places();
     });
 
-    effect(() => this.updateMapSource(this.filteredPlaces()));
+    // Debouncing helps preventing some errors with maplibregljs
+    effect(debounce((filteredPlaces) => this.updateMapSource(filteredPlaces), 100, this.filteredPlaces));
     effect(() => this.selectedPlaceChanged(this.selectedPlace()));
   }
 
@@ -288,25 +291,19 @@ export class MapComponent implements AfterViewInit {
     };
   }
 
-  private updateMapSourceDebounce?: ReturnType<typeof setTimeout>;
-
   private updateMapSource(places: TopLevelPlace[]) {
-    // Debouncing helps preventing some errors with maplibregljs
-    clearInterval(this.updateMapSourceDebounce);
-    this.updateMapSourceDebounce = setTimeout(() => {
-      const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
-      if (source) {
-        const features = places.flatMap<MapFeature>(place => this.isComposite(place)
-          ? place.locations.map<MapFeature>(c => this.mapPlaceToFeature(c, c.attestation || place.attestation))
-          : this.mapPlaceToFeature(place, place.attestation)
-        );
+    const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
+    if (source) {
+      const features = places.flatMap<MapFeature>(place => this.isComposite(place)
+        ? place.locations.map<MapFeature>(c => this.mapPlaceToFeature(c, c.attestation || place.attestation))
+        : this.mapPlaceToFeature(place, place.attestation)
+      );
 
-        source.setData({
-          type: "FeatureCollection",
-          features
-        });
-      }
-    }, 100);
+      source.setData({
+        type: "FeatureCollection",
+        features
+      });
+    }
   }
 
   public getString(localized: LocalizedString): string {
@@ -315,21 +312,21 @@ export class MapComponent implements AfterViewInit {
   }
 
   public attestationType(place: TopLevelPlace): string {
-    const attestation = this.connector.attestationTypes().get(place.attestation);
+    const attestation = this.connector().attestationTypes().get(place.attestation);
     return attestation
       ? this.getString(attestation.name)
       : "?";
   }
 
   public regionName(place: StandalonePlace): string | null {
-    const region = this.connector.regions().get(place.region);
+    const region = this.connector().regions().get(place.region);
     return region
       ? this.getString(region.name)
       : "?";
   }
 
   public categoryName(id: CategoryIdentifier): string {
-    const category = this.connector.categories().get(id);
+    const category = this.connector().categories().get(id);
     return category
       ? this.getString(category.name)
       : "?";

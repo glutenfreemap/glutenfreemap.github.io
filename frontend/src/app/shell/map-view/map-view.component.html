@@ -1,1 +1,2 @@
-<app-map [(selectedPlace)]="selectedPlace" />
+<app-search [connector]="connector" (selectedPlaceChange)="selectedPlace.set($event)" />
+<app-map [connector]="connector" [(selectedPlace)]="selectedPlace" />

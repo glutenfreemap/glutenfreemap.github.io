@@ -1,8 +1,16 @@
 :host {
   flex: 1;
-  display: flex;
+  display: grid;
+  grid-template-columns: 22rem auto;
 }
 
 app-map {
-  flex: 1;
+  grid-row: 1;
+  grid-column: 1 / -1;
 }
+
+app-search {
+  grid-row: 1;
+  grid-column: 1;
+}
+

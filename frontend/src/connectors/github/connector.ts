@@ -1,10 +1,11 @@
 import { Octokit } from "@octokit/rest";
-import { Branch, BranchName, ConnectorSkeleton, CreateBranchResult, VersionIdentifier, WritableConnector } from "../../app/configuration/connector";
+import { Branch, BranchName, CreateBranchResult, VersionIdentifier, WritableConnector } from "../../app/configuration/connector";
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
 import { TopLevelPlace } from "../../datamodel/place";
 import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";
+import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
 

@@ -1,10 +1,11 @@
 import { Injectable, InjectionToken } from "@angular/core";
-import { Branch, BranchName, Connector, ConnectorSkeleton, VersionIdentifier } from "../../app/configuration/connector";
+import { Branch, BranchName, Connector, VersionIdentifier } from "../../app/configuration/connector";
 import { HttpClient } from "@angular/common/http";
 import { DEFAULT_BRANCH, PublicConfiguration, PublicRepository, publicRepositorySchema } from "./configuration";
 import { environment } from "../../environments/current";
 import { firstValueFrom } from "rxjs";
 import { z } from "zod";
+import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
 
 export const PUBLIC_CONNECTOR = new InjectionToken<Connector>('PublicConnector');
 
