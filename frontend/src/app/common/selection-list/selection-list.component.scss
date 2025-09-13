@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  align-items: baseline;
+
+  h3 {
+    flex: 1;
+  }
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 360px) {
+  .choices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .choices {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

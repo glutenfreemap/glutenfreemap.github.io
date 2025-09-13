@@ -31,6 +31,7 @@ import { LocalizedString, LanguageIdentifier, CategoryIdentifier } from '../../.
   }
 })
 export class SearchComponent {
+
   public connector = input.required<Connector>();
 
   public searchText = signal("");
@@ -38,6 +39,7 @@ export class SearchComponent {
   public searching: boolean = false;
 
   public selectedPlaceChange = output<LeafPlace | undefined>()
+  public highlightedPlaceChange = output<LeafPlace | undefined>()
 
   constructor(
     private translate: TranslateService
@@ -47,7 +49,7 @@ export class SearchComponent {
 
       if (this.searching) {
         const searchToken = this.removeDiacritics(searchText.toLocaleLowerCase());
-        const flatPlaces = connector.places().flatMap<LeafPlace>(p => this.isComposite(p) ? p.locations : p);
+        const flatPlaces = connector.places().flatMap<LeafPlace>(p => globalIsComposite(p) ? p.locations : p);
         this.searchResults.set(
           flatPlaces.filter(p => this.removeDiacritics((isChild(p) ? p.parent.name + " " + p.name : p.name).toLocaleLowerCase()).includes(searchToken))
         );
@@ -57,9 +59,29 @@ export class SearchComponent {
     }, 500, this.searchText, this.connector));
   }
 
+  public searchFocused() {
+    if (this.searchText().length) {
+      this.searching = true;
+    }
+  }
+
+  public selectPlace(place: LeafPlace) {
+    this.searching = false;
+    this.selectedPlaceChange.emit(place);
+  }
+
+  public enterPlace(place: LeafPlace) {
+    console.log("enterplace", place);
+    this.highlightedPlaceChange.emit(place);
+  }
+
+  public leavePlace(place: LeafPlace) {
+    this.highlightedPlaceChange.emit(undefined);
+  }
+
   public getString(localized: LocalizedString): string {
     const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang] || "???";
+    return localized[lang] || "";
   }
 
   public attestationType(place: Place): string {

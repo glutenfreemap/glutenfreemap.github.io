@@ -135,3 +135,10 @@ $_rest: (
 
 $primary-palette: map.merge(map.get($_palettes, primary), $_rest);
 $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.fab-overrides((
+    container-color: map.get(map.get($_palettes, primary), 98),
+  ));
+}

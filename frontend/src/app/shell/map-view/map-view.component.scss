@@ -1,16 +1,58 @@
+@use '../../../mixins';
+
 :host {
   flex: 1;
   display: grid;
-  grid-template-columns: 22rem auto;
 }
 
 app-map {
-  grid-row: 1;
   grid-column: 1 / -1;
+  grid-row: 1 / -1;
 }
 
 app-search {
-  grid-row: 1;
   grid-column: 1;
+  grid-row: 1 / -1;
 }
 
+app-main-menu {
+  grid-row: 1;
+  grid-column: -2;
+  z-index: 3;
+  display: block;
+  margin: 1.5rem 1rem 0 0;
+}
+
+.toolbar {
+  grid-row: 1;
+  grid-column: 2;
+  z-index: 3;
+  padding: mixins.$map-widget-padding;
+  width: fit-content;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+
+@media (min-width: 551px) {
+  :host {
+    grid-template-columns: 22rem auto max-content;
+    grid-template-rows: 4rem 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  :host {
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: 4rem 1fr;
+  }
+
+  .toolbar {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  app-search {
+    grid-column: 1;
+  }
+}

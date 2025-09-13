@@ -1,0 +1,19 @@
+<div class="header">
+  <h3>{{ title() }}</h3>
+  <mat-checkbox
+    [checked]="choices().length === selection().length"
+    [indeterminate]="selection().length > 0 && selection().length < choices().length"
+    (change)="updateAll($event.checked)"
+    matTooltip="{{ (choices().length === selection().length ? 'filters.selection.clear' : 'filters.selection.selectAll') | translate }}"
+    matTooltipShowDelay="1000"
+  ></mat-checkbox>
+</div>
+<div class="choices">
+  @for (choice of choices(); track choice.id) {
+    <mat-checkbox
+      [checked]="isChecked(choice)"
+      (change)="update(choice, $event.checked)"
+      [matTooltip]="getString(choice.description)"
+    >{{ getString(choice.name) }}</mat-checkbox>
+  }
+</div>

@@ -1,0 +1,8 @@
+@if (loading()) {
+  <mat-progress-bar [mode]="progressMode()" [value]="progressValue()"></mat-progress-bar>
+  <div class="mask">{{ 'general.loading.details' | translate }}</div>
+}
+
+<div class="content">
+  <router-outlet />
+</div>

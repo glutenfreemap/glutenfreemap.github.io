@@ -7,7 +7,7 @@ import { AttestationTypeIdentifier, CategoryIdentifier, LanguageIdentifier, Loca
 import { MatChipsModule } from '@angular/material/chips';
 import { FullscreenControl, GeoJSONSource, GeolocateControl, LngLatLike, Map as MaplibreMap, NavigationControl, Popup } from "maplibre-gl";
 import { getStyle } from "../../../generated/map.style";
-import { PlacePopupComponent } from '../placepopup/placepopup.component';
+import { PlacePopupComponent } from '../place-popup/place-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceEditComponent } from '../place-edit/place-edit.component';
 
@@ -355,7 +355,7 @@ export class PlacelistComponent implements AfterViewInit {
 
   public getString(localized: LocalizedString): string {
     const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang] || "???";
+    return localized[lang] || "";
   }
 
   public attestationType(place: TopLevelPlace): string {

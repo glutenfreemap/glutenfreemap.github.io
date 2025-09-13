@@ -30,7 +30,7 @@ mat-card {
   line-height: 1;
 }
 
-@media (width < 420px) {
+@media (max-width: 500px) {
   .row {
     flex-direction: column;
     gap: 0;

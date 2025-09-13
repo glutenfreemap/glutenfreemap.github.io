@@ -1,0 +1,27 @@
+::ng-deep {
+
+  button.map-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+  }
+
+  .maplibregl-popup-content {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .logo {
+    img {
+      height: 1.5rem;
+      vertical-align: text-bottom;
+      margin-right: 0.2rem;
+    }
+
+    font-size: 1.25rem;
+    padding: .5rem;
+    display: block;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+  }
+}

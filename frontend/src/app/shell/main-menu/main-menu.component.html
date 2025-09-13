@@ -1,0 +1,13 @@
+<button matMiniFab [matMenuTriggerFor]="menu" attr.aria-label="{{ 'general.menu.label' | translate }}">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  @for (link of links; track link.path) {
+    <a
+      mat-menu-item
+      [routerLink]="link.path"
+      routerLinkActive="current"
+      ariaCurrentWhenActive="page"
+    >{{ link.label | translate }}</a>
+  }
+</mat-menu>

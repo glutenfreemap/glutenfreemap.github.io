@@ -10,6 +10,9 @@
     }
   </mat-card-header>
   <mat-card-content>
+    @if (place.description) {
+      <p>{{ getString(place.description) }}</p>
+    }
     <p>
       @for(line of place.address; track line) {
         <div>{{ line }}</div>

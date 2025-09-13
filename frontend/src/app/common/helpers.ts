@@ -2,6 +2,7 @@ import { Signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormControl } from "@angular/forms";
 import { map, startWith } from "rxjs";
+import z, { ZodIssueCode } from "zod";
 
 export function errorMessage(control: FormControl, errors: { [key: string]: string }): string {
   for (const [key, msg] of Object.entries(errors)) {
@@ -36,3 +37,18 @@ export function debounce<T extends Array<Signal<any>>>(
     timer = setTimeout(() => action(...values), delayMs);
   };
 }
+
+export const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      ctx.addIssue({
+        code: "custom",
+        message: (e as Error).message,
+      });
+    }
+  }
+
+  return value;
+};

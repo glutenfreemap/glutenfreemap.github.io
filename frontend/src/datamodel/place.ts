@@ -62,6 +62,10 @@ export type TopLevelPlace = StandalonePlace | CompositePlace;
 export type LeafPlace = StandalonePlace | ChildPlace;
 export type Place = StandalonePlace | CompositePlace | ChildPlace;
 
+export type DisplayablePlace = StandalonePlace & {
+  parent?: CompositePlace
+};
+
 export function isComposite(place: Place): place is CompositePlace {
   return "locations" in place;
 }

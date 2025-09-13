@@ -1,7 +1,6 @@
 <mat-form-field appearance="outline">
   <mat-label>{{ 'place.search.label' | translate }}</mat-label>
-  <input matInput [(ngModel)]="searchText">
-  <mat-icon matSuffix>search</mat-icon>
+  <input matInput [(ngModel)]="searchText" (focus)="searchFocused()">
   @if (searchText().length) {
     <button
         matIconButton
@@ -11,12 +10,14 @@
       >
       <mat-icon>close</mat-icon>
     </button>
+  } @else {
+    <mat-icon matSuffix>search</mat-icon>
   }
 </mat-form-field>
 <div class="search-results">
   <mat-list>
     @for (place of searchResults(); track place.id) {
-      <mat-list-item class="mat-mdc-list-item-interactive" (click)="selectedPlaceChange.emit(place)">
+      <mat-list-item class="mat-mdc-list-item-interactive" (click)="selectPlace(place)" (mouseenter)="enterPlace(place)" (mouseleave)="leavePlace(place)">
         <h3 matListItemTitle>{{isStandalone(place) ? place.name : place.parent.name}}</h3>
 
         @if (!isStandalone(place)) {
@@ -30,6 +31,11 @@
           }
         </mat-chip-set>
       </mat-list-item>
+    } @empty {
+      <p class="not-found">
+        <mat-icon>info_outline</mat-icon>
+        {{ 'place.search.notFound' | translate }}
+      </p>
     }
   </mat-list>
 </div>

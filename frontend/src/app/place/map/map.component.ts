@@ -1,19 +1,22 @@
-import { AfterViewInit, Component, computed, effect, ElementRef, Inject, input, output, Signal } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, input, OnDestroy, output, viewChild, ViewContainerRef } from '@angular/core';
 import { AttestationTypeIdentifier, CategoryIdentifier, LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
-import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, PlaceIdentifier, StandalonePlace, TopLevelPlace } from '../../../datamodel/place';
-import { GeoJSONSource, GeolocateControl, LngLatLike, Map as MaplibreMap, NavigationControl } from "maplibre-gl";
+import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, PlaceIdentifier, StandalonePlace, TopLevelPlace, DisplayablePlace } from '../../../datamodel/place';
+import { ControlPosition, FullscreenControl, GeoJSONSource, GeolocateControl, IControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup, TerrainControl } from "maplibre-gl";
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Connector } from '../../configuration/connector';
 import { getStyle } from '../../../generated/map.style';
 import { PlaceEditComponent } from '../place-edit/place-edit.component';
 import { debounce } from '../../common/helpers';
+import { PlacePopupComponent } from '../place-popup/place-popup.component';
+import { E } from '../../common/dom';
 
 const CERTIFIED_MARKER = "certified-marker";
 const NON_CERTIFIED_MARKER = "non-certified-marker";
 const PLACES_SOURCE = "places";
 const PLACES_LAYER = "places";
 const CLUSTERS1_LAYER = "clusters1";
+const POPUP_OFFSET = 42;
 
 type MapFeatureProperties = {
   id: PlaceIdentifier,
@@ -25,17 +28,22 @@ type MapFeature = GeoJSON.Feature<GeoJSON.Geometry, MapFeatureProperties>;
 @Component({
   selector: 'app-map',
   imports: [],
-  template: ''
+  template: '',
+  styleUrl: './map.component.scss'
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnDestroy {
   private map?: MaplibreMap;
+  private infoWindow?: Popup;
+  private popupContent?: ComponentRef<PlacePopupComponent>;
 
   public connector = input.required<Connector>();
 
   public selectedPlace = input<LeafPlace | undefined>();
   public selectedPlaceChange = output<LeafPlace | undefined>()
 
-  public filteredPlaces: Signal<TopLevelPlace[]>;
+  public highlightedPlace = input<LeafPlace | undefined>();
+
+  public filteredPlaces = input.required<DisplayablePlace[]>();
 
   private placesById = computed(() => {
     const result = new Map<PlaceIdentifier, LeafPlace>();
@@ -53,16 +61,40 @@ export class MapComponent implements AfterViewInit {
 
   constructor(
     private element: ElementRef,
+    private containerRef: ViewContainerRef,
     private dialog: MatDialog,
     private translate: TranslateService
   ) {
-    this.filteredPlaces = computed(() => {
-      return this.connector().places();
-    });
-
     // Debouncing helps preventing some errors with maplibregljs
     effect(debounce((filteredPlaces) => this.updateMapSource(filteredPlaces), 100, this.filteredPlaces));
     effect(() => this.selectedPlaceChanged(this.selectedPlace()));
+    effect(() => this.highlightedPlaceChanged(this.highlightedPlace() || this.selectedPlace()));
+  }
+
+  private highlightedPlaceChanged(place: LeafPlace | undefined): void {
+    this.destroyInfoWindow();
+
+    if (place) {
+      this.popupContent = this.containerRef.createComponent(PlacePopupComponent);
+      this.popupContent.instance.place = place;
+
+      this.infoWindow = new Popup({
+        offset: POPUP_OFFSET,
+        anchor: "bottom",
+        maxWidth: "500px",
+        focusAfterOpen: false,
+        closeButton: false
+      });
+
+      this.infoWindow.setDOMContent(this.popupContent.location.nativeElement);
+      this.infoWindow.setLngLat(place.position);
+      this.infoWindow.addTo(this.map!);
+    }
+  }
+
+  private destroyInfoWindow() {
+    this.popupContent?.destroy();
+    this.infoWindow?.remove();
   }
 
   private selectedPlaceChanged(place: LeafPlace | undefined): void {
@@ -106,7 +138,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
     const map = new MaplibreMap({
       container: this.element.nativeElement,
       // center: [-8.267, 39.608],
@@ -134,14 +165,62 @@ export class MapComponent implements AfterViewInit {
       }
     });
 
-    map.addControl(new NavigationControl());
+    map.addControl(new NavigationControl(), "bottom-right");
 
     map.addControl(new GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
       },
       trackUserLocation: true
-    }));
+    }), "bottom-right");
+
+    map.addControl({
+      onAdd: () => E(
+        "div",
+        {
+          className: "maplibregl-ctrl maplibregl-ctrl-group"
+        },
+        E(
+          "button",
+          {
+            className: "map-button",
+            events: {
+              "click": evt => {
+                evt.preventDefault();
+                this.fitPlacesInMap();
+              }
+            }
+          },
+          E(
+            "span",
+            {
+              className: "mat-icon material-icons mat-ligature-font mat-icon-no-color"
+            },
+            "crop_free"
+          )
+        )
+      ),
+      onRemove: () => {}
+    }, "bottom-right");
+
+    map.addControl({
+      onAdd: () => E(
+        "span",
+        {
+          className: "logo"
+        },
+        E(
+          "img",
+          {
+            attributes: {
+              src: "/img/icon.svg"
+            }
+          },
+        ),
+        "GlutenFreeMap"
+      ),
+      onRemove: () => {}
+    }, "bottom-left");
 
     map.on("load", async () => {
       const greenPin = await map.loadImage("/img/pin-green.png");
@@ -258,6 +337,30 @@ export class MapComponent implements AfterViewInit {
     this.map = map;
   }
 
+  ngOnDestroy(): void {
+    this.destroyInfoWindow();
+
+    this.map?.remove();
+    this.map = undefined;
+  }
+
+  private fitPlacesInMap() {
+    const places = this.filteredPlaces();
+    if (!places.length || !this.map) {
+      return;
+    }
+
+    const visiblePlacesBounds = places.reduce(
+      (bounds, place) => bounds.extend([place.position.lng, place.position.lat]),
+      new LngLatBounds(places[0].position, places[0].position)
+    );
+
+    this.map.fitBounds(visiblePlacesBounds, {
+      padding: 50,
+      maxZoom: 10
+    });
+  }
+
   private async findPlaceInClusters(placesSource: GeoJSONSource, clusterId: number, placeId: PlaceIdentifier)
     : Promise<{ clusterId: number, feature: MapFeature } | null> {
 
@@ -291,7 +394,7 @@ export class MapComponent implements AfterViewInit {
     };
   }
 
-  private updateMapSource(places: TopLevelPlace[]) {
+  private updateMapSource(places: DisplayablePlace[]) {
     const source = this.map?.getSource<GeoJSONSource>(PLACES_SOURCE);
     if (source) {
       const features = places.flatMap<MapFeature>(place => this.isComposite(place)
@@ -308,7 +411,7 @@ export class MapComponent implements AfterViewInit {
 
   public getString(localized: LocalizedString): string {
     const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang] || "???";
+    return localized[lang] || "";
   }
 
   public attestationType(place: TopLevelPlace): string {

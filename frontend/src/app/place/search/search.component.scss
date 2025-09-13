@@ -1,21 +1,46 @@
+@use '../../../mixins';
+
 :host {
   display: flex;
   flex-direction: column;
   background-color: #fff;
   border-right: solid 1px var(--mat-sys-primary-container);
 
-  ::ng-deep .mat-mdc-text-field-wrapper  {
-    background: #fff;
+  ::ng-deep {
+    .mat-mdc-text-field-wrapper  {
+      background: #fff;
+    }
+
+    .mat-mdc-form-field {
+      margin-bottom: 0.5rem;
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .mat-mdc-form-field-infix {
+      width: 100%;
+    }
   }
 
   &.searching {
-    z-index: 1;
+    z-index: 4;
+
+    ::ng-deep .mat-mdc-text-field-wrapper {
+      box-shadow: none;
+    }
   }
 }
 
 mat-form-field {
-  z-index: 1;
-  margin: 1rem;
+  z-index: 3;
+  margin: mixins.$map-widget-padding;
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    box-shadow: var(--mat-sys-level3);
+    border-radius: 4px;
+  }
 }
 
 .search-results {
@@ -47,5 +72,17 @@ mat-list-item {
 
   h4 {
     margin: 0;
+  }
+}
+
+p {
+  margin: 1rem 2rem;
+}
+
+.not-found {
+  display: flex;
+
+  mat-icon {
+    padding-right: 1rem;
   }
 }

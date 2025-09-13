@@ -1,0 +1,31 @@
+<button matButton="elevated" (click)="openFilters()">
+  <mat-icon>filter_alt</mat-icon>
+  {{ 'place.filter.label' | translate }}
+</button>
+<ng-template>
+  <h2 mat-dialog-title>{{ 'filters.title' | translate }}</h2>
+  <mat-dialog-content>
+    <app-selection-list
+      #selectedAttestationTypes
+      [choices]="attestationTypes()"
+      [initialSelection]="filters().attestationTypes"
+      title="{{ 'filters.attestationTypes.header' | translate }}" />
+
+    <app-selection-list
+      #selectedCategories
+      [choices]="categories()"
+      [initialSelection]="filters().categories"
+      title="{{ 'filters.categories.header' | translate }}" />
+
+    <app-selection-list
+      #selectedRegions
+      [choices]="regions()"
+      [initialSelection]="filters().regions"
+      title="{{ 'filters.regions.header' | translate }}" />
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="cancel()">{{ 'general.dialog.buttons.cancel' | translate }}</button>
+    <button mat-button cdkFocusInitial (click)="save(selectedAttestationTypes.selection(), selectedCategories.selection(), selectedRegions.selection())">{{ 'general.dialog.buttons.save' | translate }}</button>
+  </mat-dialog-actions>
+
+</ng-template>

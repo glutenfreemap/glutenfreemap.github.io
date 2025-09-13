@@ -1,0 +1,62 @@
+name = "project"
+skipFolders = [ "node_modules", ".vscode", "out", "dist", ".vscode-test" ]
+skipFiles = [ ".gitignore", "package.json" ]
+
+[[processes]]
+id = "process1"
+name = "To Do"
+
+  [[processes.tasks]]
+  id = "qrob72qrsd4svm64dcnvm85o"
+  title = "Settings screen"
+  description = "Manage subscriptions (list, configure, add new)."
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qil0cn5l37bv7ypqo8yx83ka"
+  title = '"Missing venue" widget'
+  description = """
+Add a widget at the end of the search results to let users suggest a new venue.
+Idea: perhaps let the user create a new venue from there. If the connector is editable, this can be directly the new venue screen. Otherwise, it could be the same screen that sends an email or something like that."""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "tbsoqjinxby0s7rt9ennxd3d"
+  title = "Add the branch selector to the toolbar"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process2"
+name = "In Progress"
+tasks = [ ]
+
+[[processes]]
+id = "process3"
+name = "Done"
+
+  [[processes.tasks]]
+  id = "js47bq65jeur725p0jyikksf"
+  title = "Floating menu"
+  description = "<p>Remove the main toolbar and replace it with some kind of floating menu.</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]

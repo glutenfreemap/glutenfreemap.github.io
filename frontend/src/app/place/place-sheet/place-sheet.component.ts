@@ -1,22 +1,22 @@
-import { Component, Inject, Input, output } from '@angular/core';
-import { ChildPlace, LeafPlace, TopLevelPlace } from '../../../datamodel/place';
+import { Component, Inject, output } from '@angular/core';
+import { ChildPlace, LeafPlace } from '../../../datamodel/place';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { TranslateModule } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { LocalizedString, LanguageIdentifier } from '../../../datamodel/common';
 
 @Component({
-  selector: 'app-placepopup',
+  selector: 'app-place-sheet',
   imports: [
     TranslateModule,
     MatCardModule,
     MatButtonModule
   ],
-  templateUrl: './placepopup.component.html',
-  styleUrl: './placepopup.component.scss'
+  templateUrl: './place-sheet.component.html',
+  styleUrl: './place-sheet.component.scss'
 })
-export class PlacePopupComponent {
+export class PlaceSheetComponent {
   public place: LeafPlace;
   public canEdit: boolean;
 
@@ -24,6 +24,7 @@ export class PlacePopupComponent {
 
   constructor(
     private bottomSheetRef: MatBottomSheetRef,
+    private translate: TranslateService,
     @Inject(MAT_BOTTOM_SHEET_DATA) data: { place: LeafPlace, canEdit: boolean }
   ) {
     this.place = data.place;
@@ -32,5 +33,10 @@ export class PlacePopupComponent {
 
   public isChild(place: LeafPlace): place is ChildPlace {
     return "parent" in place;
+  }
+
+  public getString(localized: LocalizedString): string {
+    const lang = this.translate.currentLang as LanguageIdentifier;
+    return localized[lang] || "";
   }
 }
