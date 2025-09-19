@@ -1,0 +1,34 @@
+<app-page [showActions]="hasChanges()" [canClose]="!!connectors().length">
+  @if (connectors().length === 0) {
+    <h2>{{ 'configuration.subscription.management.info.title' | translate}}</h2>
+    <div innerHTML="{{ 'configuration.subscription.management.info.details' | translate }}"></div>
+  } @else {
+    <h2>{{ 'configuration.subscription.management.subscriptions.title' | translate }}</h2>
+    <p>{{ 'configuration.subscription.management.subscriptions.current' | translate }}</p>
+    <mat-list>
+      @for (connector of connectors(); track connector) {
+        <mat-list-item>
+          <mat-icon matListItemIcon>{{ connectorIcons[connector.type] }}</mat-icon>
+          <span matListItemTitle>{{ connector.displayName }}
+          </span>
+          <span matListItemLine>{{ connector.description | localize }}</span>
+          <span matListItemMeta>
+            <button matIconButton attr.aria-label="{{ 'general.dialog.buttons.delete' | translate}}" (click)="remove(connector)">
+              <mat-icon>G</mat-icon>
+            </button>
+          </span>
+        </mat-list-item>
+      }
+    </mat-list>
+  }
+
+  <h3>{{ 'configuration.subscription.management.public.title' | translate }}</h3>
+  <div innerHTML="{{ 'configuration.subscription.management.public.details' | translate}}"></div>
+  <button matButton (click)="subscribeToPublicRepository()">{{ 'configuration.subscription.management.public.subscribe' | translate }}</button>
+
+  <h3>{{ 'configuration.subscription.management.github.title' | translate }}</h3>
+  <div innerHTML="{{ 'configuration.subscription.management.github.details' | translate}}"></div>
+  <button matButton (click)="subscribeToGithubRepository()">{{ 'configuration.subscription.management.github.subscribe' | translate }}</button>
+
+  <button pageAction matButton="filled" (click)="save()" [disabled]="!connectors().length">{{ 'general.dialog.buttons.save' | translate }}</button>
+</app-page>

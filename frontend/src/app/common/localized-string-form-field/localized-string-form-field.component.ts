@@ -1,8 +1,7 @@
-import { Component, computed, Inject, Input, OnDestroy, OnInit, Signal } from '@angular/core';
+import { Component, input, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CONNECTOR, Connector } from '../../configuration/connector';
 import { Language, LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
-import { FormControl, FormsModule, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
@@ -24,15 +23,9 @@ import { Subscription } from 'rxjs';
 export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
   @Input({ required: true }) control!: FormControl<LocalizedString | null>;
 
-  public languages: Signal<Map<LanguageIdentifier, Language>>;
+  public languages = input.required<Map<LanguageIdentifier, Language>>();
   private controls = new Map<LanguageIdentifier, FormControl>();
   private subscriptions: Subscription[] = [];
-
-  constructor(
-    @Inject(CONNECTOR) connector: Connector
-  ) {
-    this.languages = connector.languages;
-  }
 
   ngOnInit(): void {
     this.subscriptions.push(this.control.valueChanges.subscribe(value => {

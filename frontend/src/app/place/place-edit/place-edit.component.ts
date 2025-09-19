@@ -5,18 +5,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { LocalizedStringFormFieldComponent } from '../../common/localized-string-form-field/localized-string-form-field.component';
 import { PlaceFinderComponent, PlaceSearchParams } from '../place-finder/place-finder.component';
 import { PlaceDetails } from '../place-finder-helper/place-finder-helper.component';
 import { errorMessage } from '../../common/helpers';
-import { CONNECTOR, Connector, WritableConnector } from '../../configuration/connector';
-import { RegionIdentifier, Region, LanguageIdentifier, LocalizedString, AttestationTypeIdentifier, AttestationType, localizedStringsAreEqual, Category, CategoryIdentifier } from '../../../datamodel/common';
+import { WritableConnector } from '../../configuration/connector';
+import { RegionIdentifier, Region, LocalizedString, AttestationTypeIdentifier, AttestationType, localizedStringsAreEqual, Category, CategoryIdentifier } from '../../../datamodel/common';
 import { MatSelectModule } from '@angular/material/select';
 import { NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { firstValueFrom, Subscription } from 'rxjs';
+import { LocalizePipe } from '../../shell/localize.pipe';
 
 @Component({
   selector: 'app-place-edit',
@@ -34,6 +35,7 @@ import { firstValueFrom, Subscription } from 'rxjs';
     TranslateModule,
     LocalizedStringFormFieldComponent,
     MatProgressSpinnerModule,
+    LocalizePipe,
     NgIf
   ],
   templateUrl: './place-edit.component.html',
@@ -60,13 +62,12 @@ export class PlaceEditComponent implements OnDestroy {
   public loading = signal(false);
 
   public place: Place;
-  private connector: WritableConnector;
+  public connector: WritableConnector;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly params: { place: Place, connector: WritableConnector },
     private dialogRef: MatDialogRef<Place>,
-    private dialog: MatDialog,
-    private translate: TranslateService
+    private dialog: MatDialog
   ) {
     const { place, connector } = params;
     this.place = place;
@@ -164,11 +165,6 @@ export class PlaceEditComponent implements OnDestroy {
 
   public isStandalone(place: Place): place is StandalonePlace {
     return isStandalone(place);
-  }
-
-  public getString(localized: LocalizedString): string {
-    const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang] || "???";
   }
 
   public openSearch() {

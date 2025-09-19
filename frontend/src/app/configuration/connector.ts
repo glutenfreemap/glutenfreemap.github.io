@@ -1,4 +1,4 @@
-import { InjectionToken, signal, Signal } from "@angular/core";
+import { computed, InjectionToken, signal, Signal } from "@angular/core";
 import { TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
 import { z } from "zod";
@@ -65,8 +65,6 @@ export function isWritableConnector(connector: Connector): connector is Writable
   return "commit" in connector
     && "createBranch" in connector;
 }
-
-export const CONNECTOR = new InjectionToken<Connector>('Connector');
 
 export class NopConnector implements Connector {
   status: Signal<Status> = signal({ status: "loaded" });

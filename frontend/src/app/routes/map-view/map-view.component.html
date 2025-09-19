@@ -1,17 +1,18 @@
 <app-search
-  [connector]="connector"
+  [connector]="connector()"
   (selectedPlaceChange)="selectedPlace.set($event)"
   (highlightedPlaceChange)="highlightedPlace.set($event)"
 />
 
 <div class="toolbar">
-  <app-filter #filter [connector]="connector" />
+  <app-filter #filter [connector]="connector()" />
+  <app-connector-selector />
 </div>
 
 <app-main-menu />
 
 <app-map
-  [connector]="connector"
+  [connector]="connector()"
   [filteredPlaces]="filter.filteredPlaces()"
   [(selectedPlace)]="selectedPlace"
   [highlightedPlace]="highlightedPlace()"

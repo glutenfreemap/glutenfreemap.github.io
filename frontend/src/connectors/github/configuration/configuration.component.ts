@@ -8,7 +8,7 @@ import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { ConfigurationService } from '../../../app/configuration/configuration.service';
+import { ConfigurationService, ConnectorConfiguration } from '../../../app/configuration/configuration.service';
 import { GITHUB_CONFIGURATION_TYPE, GITHUB_PAT_PATTERN, GitHubRepository, GitHubToken } from '../configuration';
 import { Router } from '@angular/router';
 import { GitHubConnector, INVALID_TOKEN } from '../connector';
@@ -59,7 +59,7 @@ export class ConfigurationComponent implements OnInit {
 
   constructor(
     private configurationService: ConfigurationService,
-    private dialogRef: MatDialogRef<ConfigurationComponent>,
+    private dialogRef: MatDialogRef<ConfigurationComponent, ConnectorConfiguration>,
     private router: Router
   ) {
   }
@@ -117,17 +117,14 @@ export class ConfigurationComponent implements OnInit {
     return false;
   }
 
-  public async done() {
+  public done() {
     const selectedRepository = this.repositorySelector.value!;
-    this.configurationService.setConnectorConfiguration({
+    this.dialogRef.close({
       type: GITHUB_CONFIGURATION_TYPE,
+      displayName: `${selectedRepository.owner}/${selectedRepository.name}`,
       token: this.tokenInput.value!,
       repository: selectedRepository,
       branch: selectedRepository.defaultBranch
     });
-
-    this.dialogRef.close();
-    await this.router.navigate(['/']);
-    location.reload();
   }
 }

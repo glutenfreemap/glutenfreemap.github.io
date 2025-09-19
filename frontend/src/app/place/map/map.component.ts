@@ -196,7 +196,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
             {
               className: "mat-icon material-icons mat-ligature-font mat-icon-no-color"
             },
-            "crop_free"
+            "J"
           )
         )
       ),
@@ -407,32 +407,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         features
       });
     }
-  }
-
-  public getString(localized: LocalizedString): string {
-    const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang] || "";
-  }
-
-  public attestationType(place: TopLevelPlace): string {
-    const attestation = this.connector().attestationTypes().get(place.attestation);
-    return attestation
-      ? this.getString(attestation.name)
-      : "?";
-  }
-
-  public regionName(place: StandalonePlace): string | null {
-    const region = this.connector().regions().get(place.region);
-    return region
-      ? this.getString(region.name)
-      : "?";
-  }
-
-  public categoryName(id: CategoryIdentifier): string {
-    const category = this.connector().categories().get(id);
-    return category
-      ? this.getString(category.name)
-      : "?";
   }
 
   public isStandalone(place: TopLevelPlace): place is StandalonePlace {

@@ -1,0 +1,15 @@
+<button matButton="elevated" [matMenuTriggerFor]="menu">
+  <mat-icon>A</mat-icon>
+  {{ 'general.connector.label' | translate }}
+</button>
+<mat-menu #menu="matMenu">
+  @for (connector of connectors(); track connector) {
+    <button mat-menu-item (click)="switchTo(connector)">
+      <mat-icon>{{ isSelected(connector) ? 'K' : ' '}}</mat-icon>
+      <div class="connector">
+        <span class="name">{{ connector.displayName }}</span>
+        <span class="description">{{ connector.description | localize }}</span>
+      </div>
+    </button>
+  }
+</mat-menu>

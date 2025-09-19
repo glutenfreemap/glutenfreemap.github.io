@@ -1,0 +1,21 @@
+<div class="page">
+  <nav>
+    <h1>
+      <img src="/img/icon.svg" />
+      GlutenFreeMap
+    </h1>
+    @if (canClose()) {
+      <button matIconButton attr.aria-label="{{ 'general.dialog.buttons.close' | translate }}" (click)="close()">
+        <mat-icon>C</mat-icon>
+      </button>
+    }
+  </nav>
+  <div class="content">
+    <ng-content />
+  </div>
+  @if (showActions()) {
+    <div class="actions">
+      <ng-content select="[pageAction]" />
+    </div>
+  }
+</div>

@@ -8,10 +8,10 @@
         attr.aria-label="{{ 'place.search.clear' | translate }}"
         (click)="searchText.set('')"
       >
-      <mat-icon>close</mat-icon>
+      <mat-icon>C</mat-icon>
     </button>
   } @else {
-    <mat-icon matSuffix>search</mat-icon>
+    <mat-icon matSuffix>D</mat-icon>
   }
 </mat-form-field>
 <div class="search-results">
@@ -24,16 +24,16 @@
           <h4 matListItemLine>{{place.name}}</h4>
         }
         <mat-chip-set matListItemLine>
-          <mat-chip>{{ attestationType(place) }}</mat-chip>
-          <mat-chip>{{ regionName(place) }}</mat-chip>
+          <mat-chip>{{ getAttestationType(place)?.name | localize }}</mat-chip>
+          <mat-chip>{{ getRegion(place)?.name | localize }}</mat-chip>
           @for (category of isStandalone(place) ? place.categories : place.parent.categories; track category) {
-            <mat-chip>{{ categoryName(category) }}</mat-chip>
+            <mat-chip>{{ getCategory(category)?.name| localize }}</mat-chip>
           }
         </mat-chip-set>
       </mat-list-item>
     } @empty {
       <p class="not-found">
-        <mat-icon>info_outline</mat-icon>
+        <mat-icon>E</mat-icon>
         {{ 'place.search.notFound' | translate }}
       </p>
     }

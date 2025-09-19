@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LocalizePipe } from '../../shell/localize.pipe';
 
 export interface Choice {
   id: string,
@@ -19,7 +20,8 @@ export interface Choice {
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    TranslateModule
+    TranslateModule,
+    LocalizePipe
   ],
   templateUrl: './selection-list.component.html',
   styleUrl: './selection-list.component.scss'
@@ -39,19 +41,6 @@ export class SelectionListComponent {
 
   public isChecked(choice: Choice) {
     return this.selection().some(i => i === choice.id);
-  }
-
-  public getString(value: string | LocalizedString | undefined) {
-    if (value === undefined) {
-      return undefined;
-    }
-
-    if (typeof value === "string") {
-      return value;
-    }
-
-    const lang = this.translate.currentLang as LanguageIdentifier;
-    return value[lang];
   }
 
   public updateAll(checked: boolean) {

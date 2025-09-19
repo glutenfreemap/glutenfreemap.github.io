@@ -77,7 +77,6 @@ export class PlaceFinderComponent implements OnInit, OnDestroy {
       filter(searchText => !!searchText && typeof searchText === "string" && searchText !== ""),
       debounceTime(500),
       tap(searchText => {
-        console.log("searchText", searchText);
         const helperFrame: HTMLIFrameElement = this.helper.nativeElement;
         const request: PlaceAutocompleteRequest = {
           type: PLACES_AUTOCOMPLETE_REQUEST_TYPE,

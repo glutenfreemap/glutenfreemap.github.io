@@ -4,13 +4,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { debounce } from '../../common/helpers';
 import { Connector } from '../../configuration/connector';
-import { isChild, TopLevelPlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, CompositePlace, StandalonePlace, LeafPlace, Place } from '../../../datamodel/place';
+import { isChild, isStandalone as globalIsStandalone, isComposite as globalIsComposite, CompositePlace, StandalonePlace, LeafPlace, Place } from '../../../datamodel/place';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
-import { LocalizedString, LanguageIdentifier, CategoryIdentifier } from '../../../datamodel/common';
+import { CategoryIdentifier, AttestationType, Region, Category } from '../../../datamodel/common';
+import { LocalizePipe } from '../../shell/localize.pipe';
 
 @Component({
   selector: 'app-search',
@@ -22,7 +23,8 @@ import { LocalizedString, LanguageIdentifier, CategoryIdentifier } from '../../.
     MatListModule,
     MatChipsModule,
     FormsModule,
-    TranslateModule
+    TranslateModule,
+    LocalizePipe
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -41,9 +43,7 @@ export class SearchComponent {
   public selectedPlaceChange = output<LeafPlace | undefined>()
   public highlightedPlaceChange = output<LeafPlace | undefined>()
 
-  constructor(
-    private translate: TranslateService
-  ) {
+  constructor() {
     effect(debounce((searchText, connector) => {
       this.searching = searchText.length > 0;
 
@@ -71,7 +71,6 @@ export class SearchComponent {
   }
 
   public enterPlace(place: LeafPlace) {
-    console.log("enterplace", place);
     this.highlightedPlaceChange.emit(place);
   }
 
@@ -79,31 +78,17 @@ export class SearchComponent {
     this.highlightedPlaceChange.emit(undefined);
   }
 
-  public getString(localized: LocalizedString): string {
-    const lang = this.translate.currentLang as LanguageIdentifier;
-    return localized[lang] || "";
-  }
-
-  public attestationType(place: Place): string {
+  public getAttestationType(place: Place): AttestationType | undefined {
     const attestationType = isChild(place) ? (place.attestation || place.parent.attestation) : place.attestation;
-    const attestation = this.connector().attestationTypes().get(attestationType);
-    return attestation
-      ? this.getString(attestation.name)
-      : "?";
+    return this.connector().attestationTypes().get(attestationType);
   }
 
-  public regionName(place: LeafPlace): string | null {
-    const region = this.connector().regions().get(place.region);
-    return region
-      ? this.getString(region.name)
-      : "?";
+  public getRegion(place: LeafPlace): Region | undefined {
+    return this.connector().regions().get(place.region);
   }
 
-  public categoryName(id: CategoryIdentifier): string {
-    const category = this.connector().categories().get(id);
-    return category
-      ? this.getString(category.name)
-      : "?";
+  public getCategory(id: CategoryIdentifier): Category | undefined {
+    return this.connector().categories().get(id);
   }
 
   private removeDiacritics(value: string): string {

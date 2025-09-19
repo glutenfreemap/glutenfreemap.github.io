@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
-import { MatDialog, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { controlIsValid, errorMessage } from '../../../app/common/helpers';
-import { ConfigurationService } from '../../../app/configuration/configuration.service';
+import { ConnectorConfiguration } from '../../../app/configuration/configuration.service';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,8 +14,8 @@ import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/
 import { PUBLIC_CONFIGURATION_TYPE, PublicRepository } from '../configuration';
 import { NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PublicConnector, PublicMetadataService } from '../connector';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { PublicMetadataService } from '../connector';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   imports: [
@@ -53,12 +52,10 @@ export class ConfigurationComponent {
   public repositoryIsValid = controlIsValid(this.repositorySelector);
 
   constructor(
-    private configurationService: ConfigurationService,
-    private dialogRef: MatDialogRef<ConfigurationComponent>,
+    private dialogRef: MatDialogRef<ConfigurationComponent, ConnectorConfiguration>,
     private metadataService: PublicMetadataService,
     private snackBar: MatSnackBar,
-    private translate: TranslateService,
-    private router: Router
+    private translate: TranslateService
   ) {
   }
 
@@ -77,16 +74,14 @@ export class ConfigurationComponent {
     return false;
   }
 
-  public async done() {
+  public done() {
     const selectedRepository = this.repositorySelector.value!;
-    this.configurationService.setConnectorConfiguration({
+    this.dialogRef.close({
       type: PUBLIC_CONFIGURATION_TYPE,
+      displayName: selectedRepository.path,
+      description: selectedRepository.description,
       repository: selectedRepository,
       branch: selectedRepository.defaultBranch
     });
-
-    this.dialogRef.close();
-    await this.router.navigate(['/']);
-    location.reload();
   }
 }

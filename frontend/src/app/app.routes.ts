@@ -1,24 +1,30 @@
-import { Routes } from '@angular/router';
-import { ConfigGuard } from './configuration/configuration.guard';
-import { ConfigurationComponent as GithubConfigurationComponent } from '../connectors/github/configuration/configuration.component';
-import { ConfigurationComponent as PublicConfigurationComponent } from '../connectors/public/configuration/configuration.component';
-import { LayoutComponent } from './shell/layout/layout.component';
-import { PlaceFinderHelperComponent } from './place/place-finder-helper/place-finder-helper.component';
-import { DialogRouteComponent } from './common/dialog-route/dialog-route.component';
-import { MapViewComponent } from './shell/map-view/map-view.component';
+import { Routes } from "@angular/router";
+import { ConfigGuard } from "./configuration/configuration.guard";
+import { ConfigurationComponent as GithubConfigurationComponent } from "../connectors/github/configuration/configuration.component";
+import { ConfigurationComponent as PublicConfigurationComponent } from "../connectors/public/configuration/configuration.component";
+import { LayoutComponent } from "./shell/layout/layout.component";
+import { PlaceFinderHelperComponent } from "./place/place-finder-helper/place-finder-helper.component";
+import { DialogRouteComponent } from "./common/dialog-route/dialog-route.component";
+import { MapViewComponent } from "./routes/map-view/map-view.component";
+import { SettingsComponent } from "./routes/settings/settings.component";
+import { PageComponent } from "./shell/page/page.component";
 
 export const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: LayoutComponent,
     children: [
       {
-        path: '',
+        path: "",
         component: MapViewComponent,
         canActivate: [ConfigGuard],
       },
       {
-        path: 'config/public',
+        path: "config",
+        component: SettingsComponent
+      },
+      {
+        path: "config/public",
         component: DialogRouteComponent,
         data: {
           component: PublicConfigurationComponent,
@@ -26,7 +32,7 @@ export const routes: Routes = [
         }
       },
       {
-        path: 'config/github',
+        path: "config/github",
         component: DialogRouteComponent,
         data: {
           component: GithubConfigurationComponent,
@@ -36,7 +42,7 @@ export const routes: Routes = [
     ]
   },
   {
-    path: 'find-place-helper',
+    path: "find-place-helper",
     component: PlaceFinderHelperComponent,
   }
 ];

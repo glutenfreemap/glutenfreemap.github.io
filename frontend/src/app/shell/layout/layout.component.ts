@@ -1,9 +1,10 @@
-import { Component, computed, Inject, Signal } from '@angular/core';
+import { Component, computed, Signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule, _ } from '@ngx-translate/core';
-import { CONNECTOR, Connector, Status } from '../../configuration/connector';
+import { Status } from '../../configuration/connector';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfigurationService } from '../../configuration/configuration.service';
 
 @Component({
   selector: 'app-layout',
@@ -36,8 +37,8 @@ export class LayoutComponent {
   });
 
   constructor(
-    @Inject(CONNECTOR) connector: Connector
+    configurationService: ConfigurationService
   ) {
-    this.status = connector.status;
+    this.status = computed(() => configurationService.selectedConnector().status());
   }
 }

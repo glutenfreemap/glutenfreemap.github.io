@@ -7,17 +7,6 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
-  id = "qrob72qrsd4svm64dcnvm85o"
-  title = "Settings screen"
-  description = "Manage subscriptions (list, configure, add new)."
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "qil0cn5l37bv7ypqo8yx83ka"
   title = '"Missing venue" widget'
   description = """
@@ -41,10 +30,31 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   priority = ""
   linkCommits = [ ]
 
+  [[processes.tasks]]
+  id = "cuhhpxgn8icg5kjf1749vlkt"
+  title = '"About" page'
+  description = "Add an about page with the licenses for the fonts and other stuff."
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
 [[processes]]
 id = "process2"
 name = "In Progress"
-tasks = [ ]
+
+  [[processes.tasks]]
+  id = "qrob72qrsd4svm64dcnvm85o"
+  title = "Settings screen"
+  description = "Manage subscriptions (list, configure, add new)."
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
 
 [[processes]]
 id = "process3"

@@ -14,16 +14,16 @@
 }
 
 @font-face {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons Slim';
   font-style: normal;
   font-weight: 400;
-  src: url(/fonts/MaterialIcons-Regular.woff2) format('woff2'),
-       url(/fonts/MaterialIcons-Regular.woff) format('woff'),
-       url(/fonts/MaterialIcons-Regular.ttf) format('truetype');
+  src: url(/fonts/MaterialIconsSlim-Regular.woff2?v=1) format('woff2'),
+       url(/fonts/MaterialIconsSlim-Regular.ttf?v=1) format('truetype'),
+       url(/fonts/MaterialIconsSlim-Regular.woff?v=1) format('woff');
 }
 
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons Slim';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -34,7 +34,6 @@
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
-  -moz-font-feature-settings: 'liga';
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -62,4 +61,5 @@ body {
 html,
 body {
   height: 100%;
+  overflow: hidden;
 }

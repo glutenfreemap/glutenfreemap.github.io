@@ -1,11 +1,11 @@
-import { Component, computed, input, output, Signal, signal, TemplateRef, viewChild, WritableSignal } from '@angular/core';
+import { Component, computed, input, signal, TemplateRef, viewChild, WritableSignal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { Choice, SelectionListComponent } from '../../common/selection-list/selection-list.component';
+import { SelectionListComponent } from '../../common/selection-list/selection-list.component';
 import { Connector } from '../../configuration/connector';
-import { CompositePlace, DisplayablePlace, isChild, isComposite, LeafPlace, StandalonePlace } from '../../../datamodel/place';
+import { DisplayablePlace, isComposite } from '../../../datamodel/place';
 import { z } from 'zod';
 import { AttestationTypeIdentifier, attestationTypeIdentifierSchema, CategoryIdentifier, categoryIdentifierSchema, RegionIdentifier, regionIdentifierSchema } from '../../../datamodel/common';
 import { parseJsonPreprocessor } from '../../common/helpers';

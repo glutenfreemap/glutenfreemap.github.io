@@ -23,7 +23,7 @@
           <mat-option>{{ 'place.editor.attestation.inherited' | translate }}</mat-option>
         }
         @for(attestationType of attestationTypes().values(); track attestationType.id) {
-          <mat-option [value]="attestationType">{{ getString(attestationType.name) }}</mat-option>
+          <mat-option [value]="attestationType">{{ attestationType.name | localize}}</mat-option>
         }
       </mat-select>
     </mat-form-field>
@@ -32,7 +32,7 @@
         <mat-label>{{ 'place.editor.categories.label' | translate }}</mat-label>
         <mat-select [formControl]="categoriesInput!" multiple required>
           <mat-select-trigger>
-            {{categoriesInput && categoriesInput.value.length ? getString(categoriesInput.value[0].name) : ''}}
+            {{categoriesInput && categoriesInput.value.length ? (categoriesInput.value[0].name | localize) : ''}}
             @if (categoriesInput && categoriesInput.value.length > 1) {
               <span class="additional-selection">
                 (+{{categoriesInput.value.length - 1}})
@@ -40,7 +40,7 @@
             }
           </mat-select-trigger>
           @for(category of categories().values(); track category.id) {
-            <mat-option [value]="category">{{ getString(category.name) }}</mat-option>
+            <mat-option [value]="category">{{ category.name | localize }}</mat-option>
           }
         </mat-select>
         <mat-error *ngIf="categoriesInput!.invalid">{{ error(categoriesInput!, {
@@ -55,7 +55,7 @@
         <mat-label>{{ 'place.editor.region.label' | translate }}</mat-label>
         <mat-select [formControl]="regionInput!">
           @for(region of regions!().values(); track region.id) {
-            <mat-option [value]="region">{{ getString(region.name) }}</mat-option>
+            <mat-option [value]="region">{{ region.name | localize }}</mat-option>
           }
         </mat-select>
         <mat-error *ngIf="regionInput!.invalid">{{ error(regionInput!, {
@@ -95,7 +95,7 @@
       </mat-form-field>
     </div>
   }
-  <app-localized-string-form-field [control]="descriptionInput" />
+  <app-localized-string-form-field [control]="descriptionInput" [languages]="connector.languages()" />
 </mat-dialog-content>
 <mat-dialog-actions>
   @if (loading()) {

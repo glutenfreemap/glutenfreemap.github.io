@@ -4,7 +4,7 @@
     <mat-select [value]="currentBranch()" [disabled]="loading()" (selectionChange)="selectOption($event)">
       <mat-select-trigger>
         @if (currentBranch()?.protected) {
-          <mat-icon aria-hidden="false" aria-label="Padlock" fontIcon="lock"></mat-icon>
+          <mat-icon aria-hidden="false" aria-label="Padlock">H</mat-icon>
         }
         {{currentBranch()?.name || ""}}
       </mat-select-trigger>

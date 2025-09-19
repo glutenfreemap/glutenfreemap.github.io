@@ -10,7 +10,7 @@
         <input matInput type="password" [formControl]="tokenInput" required />
         @if (tokenInput.value) {
           <button matSuffix mat-icon-button aria-label="Clear" (click)="clearToken()">
-            <mat-icon>close</mat-icon>
+            <mat-icon>C</mat-icon>
           </button>
         }
         <mat-error *ngIf="tokenInput.invalid">{{ error(tokenInput, {

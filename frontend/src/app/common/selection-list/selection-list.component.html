@@ -13,7 +13,7 @@
     <mat-checkbox
       [checked]="isChecked(choice)"
       (change)="update(choice, $event.checked)"
-      [matTooltip]="getString(choice.description)"
-    >{{ getString(choice.name) }}</mat-checkbox>
+      matTooltip="{{ choice.description | localize }}"
+    >{{ choice.name | localize }}</mat-checkbox>
   }
 </div>
