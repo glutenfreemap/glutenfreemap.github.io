@@ -20,9 +20,9 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   linkCommits = [ ]
 
   [[processes.tasks]]
-  id = "tbsoqjinxby0s7rt9ennxd3d"
-  title = "Add the branch selector to the toolbar"
-  description = ""
+  id = "cuhhpxgn8icg5kjf1749vlkt"
+  title = '"About" page'
+  description = "Add an about page with the licenses for the fonts and other stuff."
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
@@ -31,9 +31,9 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   linkCommits = [ ]
 
   [[processes.tasks]]
-  id = "cuhhpxgn8icg5kjf1749vlkt"
-  title = '"About" page'
-  description = "Add an about page with the licenses for the fonts and other stuff."
+  id = "kqtkztljk4nm13fv9cwo11uv"
+  title = "Create venue button"
+  description = ""
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
@@ -64,6 +64,17 @@ name = "Done"
   id = "js47bq65jeur725p0jyikksf"
   title = "Floating menu"
   description = "<p>Remove the main toolbar and replace it with some kind of floating menu.</p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "tbsoqjinxby0s7rt9ennxd3d"
+  title = "Add the branch selector to the toolbar"
+  description = ""
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
