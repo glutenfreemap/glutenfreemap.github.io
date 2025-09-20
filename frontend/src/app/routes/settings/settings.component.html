@@ -1,14 +1,14 @@
-<app-page [showActions]="hasChanges()" [canClose]="!!connectors().length">
-  @if (connectors().length === 0) {
+<app-page [showActions]="hasChanges()" [canClose]="!!configurations().length">
+  @if (configurations().length === 0) {
     <h2>{{ 'configuration.subscription.management.info.title' | translate}}</h2>
     <div innerHTML="{{ 'configuration.subscription.management.info.details' | translate }}"></div>
   } @else {
     <h2>{{ 'configuration.subscription.management.subscriptions.title' | translate }}</h2>
     <p>{{ 'configuration.subscription.management.subscriptions.current' | translate }}</p>
     <mat-list>
-      @for (connector of connectors(); track connector) {
+      @for (connector of configurations(); track connector) {
         <mat-list-item>
-          <mat-icon matListItemIcon>{{ connectorIcons[connector.type] }}</mat-icon>
+          <mat-icon matListItemIcon>{{ connectorIcons[connector.settings.type] }}</mat-icon>
           <span matListItemTitle>{{ connector.displayName }}
           </span>
           <span matListItemLine>{{ connector.description | localize }}</span>
@@ -30,5 +30,5 @@
   <div innerHTML="{{ 'configuration.subscription.management.github.details' | translate}}"></div>
   <button matButton (click)="subscribeToGithubRepository()">{{ 'configuration.subscription.management.github.subscribe' | translate }}</button>
 
-  <button pageAction matButton="filled" (click)="save()" [disabled]="!connectors().length">{{ 'general.dialog.buttons.save' | translate }}</button>
+  <button pageAction matButton="filled" (click)="save()" [disabled]="!configurations().length">{{ 'general.dialog.buttons.save' | translate }}</button>
 </app-page>

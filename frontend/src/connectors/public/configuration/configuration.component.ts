@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { controlIsValid, errorMessage } from '../../../app/common/helpers';
-import { ConnectorConfiguration } from '../../../app/configuration/configuration.service';
+import { ConnectorSettings, ConnectorConfiguration } from '../../../app/configuration/configuration.service';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -77,10 +77,12 @@ export class ConfigurationComponent {
   public done() {
     const selectedRepository = this.repositorySelector.value!;
     this.dialogRef.close({
-      type: PUBLIC_CONFIGURATION_TYPE,
+      settings: {
+        type: PUBLIC_CONFIGURATION_TYPE,
+        repository: selectedRepository
+      },
       displayName: selectedRepository.path,
       description: selectedRepository.description,
-      repository: selectedRepository,
       branch: selectedRepository.defaultBranch
     });
   }

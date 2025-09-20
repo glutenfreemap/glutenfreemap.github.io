@@ -1,8 +1,7 @@
-import { Component, effect, Inject, input, Signal, signal } from '@angular/core';
+import { Component, computed, effect, Signal, signal } from '@angular/core';
 import { MapComponent } from '../../place/map/map.component';
 import { LeafPlace } from '../../../datamodel/place';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { firstValueFrom, Subscription } from 'rxjs';
 import { SearchComponent } from "../../place/search/search.component";
 import { Connector, isWritableConnector } from '../../configuration/connector';
 import { FilterComponent } from "../../place/filter/filter.component";
@@ -12,6 +11,7 @@ import { ConnectorSelectorComponent } from '../../shell/connector-selector/conne
 import { ConfigurationService } from '../../configuration/configuration.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceEditComponent } from '../../place/place-edit/place-edit.component';
+import { BranchSelectorComponent } from '../../shell/branch-selector/branch-selector.component';
 
 @Component({
   selector: 'app-map-view',
@@ -21,7 +21,8 @@ import { PlaceEditComponent } from '../../place/place-edit/place-edit.component'
     SearchComponent,
     FilterComponent,
     MainMenuComponent,
-    ConnectorSelectorComponent
+    ConnectorSelectorComponent,
+    BranchSelectorComponent
 ],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
@@ -31,9 +32,11 @@ export class MapViewComponent {
   public highlightedPlace = signal<LeafPlace | undefined>(undefined);
 
   public connector: Signal<Connector>;
+  public canSelectConnector = computed(() => this.configurationService.configurations().length > 1);
+  public canSelectBranch = computed(() => this.connector().branches().length > 1 || isWritableConnector(this.connector()));
 
   constructor(
-    configurationService: ConfigurationService,
+    private configurationService: ConfigurationService,
     dialog: MatDialog,
     bottomSheet: MatBottomSheet
   ) {

@@ -6,7 +6,12 @@
 
 <div class="toolbar">
   <app-filter #filter [connector]="connector()" />
-  <app-connector-selector />
+  @if (canSelectConnector()) {
+    <app-connector-selector />
+  }
+  @if (canSelectBranch()) {
+    <app-branch-selector [connector]="connector()" />
+  }
 </div>
 
 <app-main-menu />

@@ -2,7 +2,7 @@ import { NgIf } from '@angular/common';
 import { Component, Inject, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,7 +38,8 @@ export class BranchCreatorComponent {
   private connector: WritableConnector;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly params: { connector: WritableConnector }
+    @Inject(MAT_DIALOG_DATA) public readonly params: { connector: WritableConnector },
+    private dialogRef: MatDialogRef<BranchCreatorComponent>
   ) {
     this.connector = params.connector;
     this.nameInput = new FormControl<BranchName>("" as BranchName, {
@@ -74,5 +75,7 @@ export class BranchCreatorComponent {
     }
 
     this.loading.set(false);
+
+    this.dialogRef.close();
   }
 }

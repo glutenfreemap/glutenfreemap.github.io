@@ -1,19 +1,21 @@
-@if (branches().length > 1 || canCreateNewBranch) {
-  <mat-form-field appearance="outline" subscriptSizing="dynamic">
-    <mat-label>{{ 'general.branch.label' | translate }}</mat-label>
-    <mat-select [value]="currentBranch()" [disabled]="loading()" (selectionChange)="selectOption($event)">
-      <mat-select-trigger>
-        @if (currentBranch()?.protected) {
-          <mat-icon aria-hidden="false" aria-label="Padlock">H</mat-icon>
-        }
-        {{currentBranch()?.name || ""}}
-      </mat-select-trigger>
-      @for (branch of branches(); track branch.name) {
-        <mat-option [value]="branch">{{ branch.name }}</mat-option>
-      }
-      @if (canCreateNewBranch) {
-        <mat-option [value]="CREATE_NEW_BRANCH" class="create">{{ 'general.branch.createNew' | translate }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
+@if (branches().length > 1 || canCreateNewBranch()) {
+  <button class="dropdown" [disabled]="loading()" matButton="elevated" [matMenuTriggerFor]="menu">
+    <mat-icon>{{ currentBranch()?.protected ? 'H' : 'A' }}</mat-icon>
+    {{ currentBranch()?.name || 'general.branch.label' | translate }}
+    <mat-icon class="dropdown-icon">L</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    @for (branch of branches(); track branch.name) {
+      <button mat-menu-item (click)="switchTo(branch)">
+        <mat-icon>{{ currentBranch()?.name === branch.name ? 'K' : ' '}}</mat-icon>
+        {{ branch.name }}
+      </button>
+    }
+    @if (canCreateNewBranch()) {
+      <button mat-menu-item (click)="createBranch()">
+        <mat-icon>{{ 'M' }}</mat-icon>
+        {{ 'general.branch.createNew' | translate }}
+      </button>
+    }
+  </mat-menu>
 }

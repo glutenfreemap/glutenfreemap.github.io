@@ -20,18 +20,18 @@ export function controlIsValid(control: FormControl<any>) {
   ), { initialValue: control.valid })
 }
 
-type UnwrapSignals<T extends Array<Signal<any>>> = {
-  [K in keyof T]: T[K] extends Signal<infer U> ? U : never;
+type UnwrapFactories<T extends Array<() => any>> = {
+  [K in keyof T]: T[K] extends (() => infer U) ? U : never;
 };
 
-export function debounce<T extends Array<Signal<any>>>(
-  action: (...args: UnwrapSignals<T>) => void,
+export function debounce<T extends Array<() => any>>(
+  action: (...args: UnwrapFactories<T>) => void,
   delayMs: number,
   ...args: T
 ): () => void {
   let timer: ReturnType<typeof setTimeout> | undefined;
   return () => {
-    const values = args.map(a => a()) as UnwrapSignals<T>;
+    const values = args.map(a => a()) as UnwrapFactories<T>;
 
     clearTimeout(timer);
     timer = setTimeout(() => action(...values), delayMs);

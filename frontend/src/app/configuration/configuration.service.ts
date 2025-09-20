@@ -1,11 +1,11 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { z } from 'zod';
 import { GITHUB_CONFIGURATION_TYPE, gitHubConfigurationSchema } from '../../connectors/github/configuration';
-import { branchNameSchema, Connector, NopConnector } from './connector';
-import type { Simplify } from 'type-fest';
+import { BranchName, branchNameSchema, Connector, NopConnector } from './connector';
+import type { Except, Simplify } from 'type-fest';
 import { DEFAULT_BRANCH, PUBLIC_CONFIGURATION_TYPE, publicConfigurationSchema } from '../../connectors/public/configuration';
 import { localizedStringSchema } from '../../datamodel/common';
-import { debounce, parseJsonPreprocessor } from '../common/helpers';
+import { parseJsonPreprocessor } from '../common/helpers';
 import { GitHubConnector } from '../../connectors/github/connector';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -13,49 +13,51 @@ import { PublicConnector } from '../../connectors/public/connector';
 
 const CONNECTOR_CONFIGURATION_KEY = "ConnectorConfiguration";
 
-const baseConnectorConfigurationSchema = z.object({
-  displayName: z.string().min(1),
-  description: localizedStringSchema.optional(),
-  branch: branchNameSchema
-});
-
-export const connectorConfigurationSchema = z.discriminatedUnion("type", [
-  baseConnectorConfigurationSchema.extend(gitHubConfigurationSchema.shape).extend({
+export const connectorSettingsSchema = z.discriminatedUnion("type", [
+  gitHubConfigurationSchema.extend({
     type: z.literal(GITHUB_CONFIGURATION_TYPE)
   }),
-  baseConnectorConfigurationSchema.extend(publicConfigurationSchema.shape).extend({
+  publicConfigurationSchema.extend({
     type: z.literal(PUBLIC_CONFIGURATION_TYPE)
   })
 ]);
 
-export type ConnectorConfiguration = Simplify<z.infer<typeof connectorConfigurationSchema>>;
+export type ConnectorSettings = Simplify<z.infer<typeof connectorSettingsSchema>>;
 
-export const CONNECTOR_ICONS: { [key in ConnectorConfiguration["type"]]: string } = {
+export const CONNECTOR_ICONS: { [key in ConnectorSettings["type"]]: string } = {
   "Public": "F",
   "GitHub": "a"
 };
 
-const connectorConfigurationListSchema = z.preprocess(parseJsonPreprocessor, z.object({
-  connectors: z.array(connectorConfigurationSchema),
-  selectedIndex: z.int().min(0)
-}).check(({ value, issues }) => {
-  if (value.selectedIndex > 0 && value.selectedIndex >= value.connectors.length) {
-    issues.push({
-      code: "too_big",
-      maximum: value.connectors.length - 1,
-      origin: "int",
-      inclusive: true,
-      message: "'selectedIndex' must be an index of the 'connectors' array.",
-      input: value
-    });
-  }
-}));
+const selectableConnectorConfigurationSchema = z.object({
+  displayName: z.string().min(1),
+  description: localizedStringSchema.optional(),
+  settings: connectorSettingsSchema,
+  branch: branchNameSchema,
+  selected: z.boolean()
+});
+
+export type SelectableConnectorConfiguration = z.infer<typeof selectableConnectorConfigurationSchema>;
+export type ConnectorConfiguration = Except<SelectableConnectorConfiguration, "selected">;
+
+const connectorConfigurationListSchema = z.preprocess(parseJsonPreprocessor, z.array(selectableConnectorConfigurationSchema)
+  .check(({ value, issues }) => {
+    const selectedCount = value.filter(c => c.selected).length;
+    if (selectedCount !== 1) {
+      issues.push({
+        code: "custom",
+        message: "More than one configuration is selected.",
+        input: value,
+      });
+    }
+  })
+);
 
 type ConnectorConfigurationList = z.infer<typeof connectorConfigurationListSchema>;
 
 // Helper type to extract configuration from a ConnectorConfiguration based on the 'type'
-type ExtractConfigurationType<T extends ConnectorConfiguration["type"]> =
-  Extract<ConnectorConfiguration, { type: T }> extends { type: T } & infer R
+type ExtractConfigurationType<T extends ConnectorSettings["type"]> =
+  Extract<ConnectorSettings, { type: T }> extends { type: T } & infer R
     ? Simplify<Omit<R, "type">>
     : never;
 
@@ -66,12 +68,10 @@ const NOP_CONNECTOR = new NopConnector();
 })
 export class ConfigurationService {
 
-  private _connectors = signal<ConnectorConfiguration[]>([]);
-  public connectors = this._connectors.asReadonly();
-  public isConfigured = computed(() => this.connectors().length > 0);
+  private _configurations = signal<ConnectorConfigurationList>([]);
+  public configurations = this._configurations.asReadonly();
 
-  private selectedIndex = signal(0);
-  public selectedConfiguration = computed<ConnectorConfiguration | undefined>(() => this._connectors()[this.selectedIndex()]);
+  public isConfigured = computed(() => this._configurations().length > 0);
 
   private _selectedConnector = signal<Connector>(NOP_CONNECTOR);
   public selectedConnector = this._selectedConnector.asReadonly();
@@ -85,39 +85,37 @@ export class ConfigurationService {
     );
 
     if (configuration.success) {
-      this._connectors.set(configuration.data.connectors);
-      this.selectedIndex.set(configuration.data.selectedIndex);
+      this._configurations.set(configuration.data);
+
+      this.recreateConnector();
     } else {
       console.error("Failed to parse connector configuration", configuration.error);
     }
-
-    effect(debounce((connectors, selectedIndex) => {
-      const configuration: ConnectorConfigurationList = {
-        connectors,
-        selectedIndex
-      };
-      localStorage.setItem(CONNECTOR_CONFIGURATION_KEY, JSON.stringify(configuration));
-
-      this._selectedConnector.set(this.createConnector(connectors[selectedIndex]));
-    }, 100, this._connectors, this.selectedIndex));
   }
 
-  private createConnector(configuration: ConnectorConfiguration | undefined): Connector {
-    if (!configuration) {
-      return NOP_CONNECTOR;
+  private recreateConnector(): void {
+    const selectedConfiguration = this._configurations().find(c => c.selected);
+
+    if (!selectedConfiguration) {
+      this._selectedConnector.set(NOP_CONNECTOR);
+      return;
     }
+
+    const { settings: configuration, branch } = selectedConfiguration;
 
     switch (configuration.type) {
       case GITHUB_CONFIGURATION_TYPE: {
         const connector = new GitHubConnector(configuration, this.translate);
-        connector.switchToBranch(configuration.branch);
-        return connector;
+        connector.switchToBranch(branch);
+        this._selectedConnector.set(connector);
+        break;
       }
 
       case PUBLIC_CONFIGURATION_TYPE: {
         const connector = new PublicConnector(configuration, this.httpClient);
         connector.switchToBranch(DEFAULT_BRANCH);
-        return connector;
+        this._selectedConnector.set(connector);
+        break;
       }
 
       default:
@@ -125,67 +123,47 @@ export class ConfigurationService {
     }
   }
 
-  public setConnectors(connectors: ConnectorConfiguration[]) {
-    const selectedConfiguration = this.selectedConfiguration();
-    this._connectors.set(connectors);
+  public setConfigurations(configurations: ConnectorConfiguration[]) {
+    const selectedConfiguration = this._configurations().find(c => c.selected)?.settings;
 
-    if (!selectedConfiguration || !connectors.includes(selectedConfiguration)) {
-      this.selectedIndex.set(0);
+    const updatedConfigurations: ConnectorConfigurationList = configurations.map(c => ({
+      ...c,
+      selected: c.settings === selectedConfiguration
+    }));
+
+    const selectionChanged = updatedConfigurations.length && !updatedConfigurations.some(c => c.selected);
+    if (selectionChanged) {
+      updatedConfigurations[0].selected = true;
+    }
+
+    this._configurations.set(updatedConfigurations);
+    this.storeConfiguration();
+
+    if (selectionChanged) {
+      this.recreateConnector();
     }
   }
 
-  public selectConnector(connector: ConnectorConfiguration) {
-    const selectedIndex = this.connectors().indexOf(connector);
+  public switchToConnector(configuration: ConnectorSettings) {
+    const selectedIndex = this._configurations().findIndex(c => c.settings === configuration);
     if (selectedIndex < 0) {
       throw new Error("Invalid connector");
     }
 
-    this.selectedIndex.set(selectedIndex);
+    this._configurations.update(l => l.map((c, i) => ({ ...c, selected: i === selectedIndex })));
+    this.storeConfiguration();
+
+    this.recreateConnector();
   }
 
-  // All this is to be deprecated and replaced:
+  public async switchToBranch(name: BranchName) {
+    await this._selectedConnector().switchToBranch(name);
 
-  public setConnectorConfiguration(configuration: ConnectorConfiguration) {
-    localStorage.setItem(CONNECTOR_CONFIGURATION_KEY, JSON.stringify(configuration));
+    this._configurations.update(l => l.map(c => c.selected ? { ...c, branch: name } : c));
+    this.storeConfiguration();
   }
 
-  public tryGetConnectorConfiguration()
-    : { success: true, value: ConnectorConfiguration }
-    | { success: false, data: {}, errors: z.core.$ZodIssue[] }
-    | { success: false, data: null } {
-
-    const json = localStorage.getItem(CONNECTOR_CONFIGURATION_KEY);
-    if (json === null) {
-      return { success: false, data: null };
-    }
-
-    const data = JSON.parse(json);
-    const parseResult = connectorConfigurationSchema.safeParse(data);
-    if (parseResult.success) {
-      return { success: true, value: parseResult.data };
-    } else {
-      return { success: false, data, errors: parseResult.error.issues };
-    }
-  }
-
-  public getConnectorConfiguration(): ConnectorConfiguration;
-  public getConnectorConfiguration<T extends ConnectorConfiguration["type"]>(type: T): ExtractConfigurationType<T>;
-
-  getConnectorConfiguration<T extends ConnectorConfiguration["type"]>(type: T | undefined = undefined) : ExtractConfigurationType<T> | ConnectorConfiguration {
-    const configuration = this.tryGetConnectorConfiguration();
-    if (configuration.success) {
-      if (type && configuration.value.type !== type) {
-        throw new Error(`Invalid configuration type '${configuration.value.type}'`);
-      }
-
-      return configuration.value;
-    } else {
-      if (configuration.data) {
-        console.error("Failed to parse configuration", configuration.data, configuration.errors);
-        throw new Error("Invalid configuration");
-      } else {
-        throw new Error("Missing configuration");
-      }
-    }
+  private storeConfiguration() {
+    localStorage.setItem(CONNECTOR_CONFIGURATION_KEY, JSON.stringify(this._configurations()));
   }
 }

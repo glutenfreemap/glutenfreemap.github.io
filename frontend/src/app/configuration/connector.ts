@@ -1,4 +1,4 @@
-import { computed, InjectionToken, signal, Signal } from "@angular/core";
+import { signal, Signal } from "@angular/core";
 import { TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
 import { z } from "zod";

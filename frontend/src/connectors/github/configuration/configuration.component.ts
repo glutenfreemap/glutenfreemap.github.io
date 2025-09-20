@@ -8,9 +8,8 @@ import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { ConfigurationService, ConnectorConfiguration } from '../../../app/configuration/configuration.service';
+import { ConnectorConfiguration } from '../../../app/configuration/configuration.service';
 import { GITHUB_CONFIGURATION_TYPE, GITHUB_PAT_PATTERN, GitHubRepository, GitHubToken } from '../configuration';
-import { Router } from '@angular/router';
 import { GitHubConnector, INVALID_TOKEN } from '../connector';
 import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/wizard.component';
 import { controlIsValid, errorMessage } from '../../../app/common/helpers';
@@ -58,17 +57,16 @@ export class ConfigurationComponent implements OnInit {
   public repositoryIsValid = controlIsValid(this.repositorySelector);
 
   constructor(
-    private configurationService: ConfigurationService,
-    private dialogRef: MatDialogRef<ConfigurationComponent, ConnectorConfiguration>,
-    private router: Router
+    private dialogRef: MatDialogRef<ConfigurationComponent, ConnectorConfiguration>
   ) {
   }
 
   ngOnInit(): void {
-    const configuration = this.configurationService.tryGetConnectorConfiguration();
-    if (configuration.success && configuration.value.type === GITHUB_CONFIGURATION_TYPE) {
-      this.tokenInput.setValue(configuration.value.token);
-    }
+    // TODO: Do we want this? Maybe only when editing a configuration...
+    // const configuration = this.configurationService.tryGetConnectorConfiguration();
+    // if (configuration.success && configuration.value.type === GITHUB_CONFIGURATION_TYPE) {
+    //   this.tokenInput.setValue(configuration.value.token);
+    // }
   }
 
   public clearToken() {
@@ -88,14 +86,15 @@ export class ConfigurationComponent implements OnInit {
       this.tokenInput.markAsTouched();
     } else {
       this.repositories.set(repositories);
-      if (this.configurationService.isConfigured()) {
-        const configurationResult = this.configurationService.tryGetConnectorConfiguration();
-        if (configurationResult.success && configurationResult.value.type === GITHUB_CONFIGURATION_TYPE) {
-          const configuration = configurationResult.value;
-          const selectedRepository = repositories.find(r => r.owner === configuration.repository.owner && r.name === configuration.repository.name);
-          this.repositorySelector.setValue(selectedRepository);
-        }
-      }
+      // TODO: Do we want this? Maybe only when editing a configuration...
+      // if (this.configurationService.isConfigured()) {
+      //   const configurationResult = this.configurationService.tryGetConnectorConfiguration();
+      //   if (configurationResult.success && configurationResult.value.type === GITHUB_CONFIGURATION_TYPE) {
+      //     const configuration = configurationResult.value;
+      //     const selectedRepository = repositories.find(r => r.owner === configuration.repository.owner && r.name === configuration.repository.name);
+      //     this.repositorySelector.setValue(selectedRepository);
+      //   }
+      // }
       return true;
     }
 
@@ -120,10 +119,12 @@ export class ConfigurationComponent implements OnInit {
   public done() {
     const selectedRepository = this.repositorySelector.value!;
     this.dialogRef.close({
-      type: GITHUB_CONFIGURATION_TYPE,
+      settings: {
+        type: GITHUB_CONFIGURATION_TYPE,
+        token: this.tokenInput.value!,
+        repository: selectedRepository
+      },
       displayName: `${selectedRepository.owner}/${selectedRepository.name}`,
-      token: this.tokenInput.value!,
-      repository: selectedRepository,
       branch: selectedRepository.defaultBranch
     });
   }

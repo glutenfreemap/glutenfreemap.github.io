@@ -1,4 +1,4 @@
-import { Component, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { ConfigurationService, CONNECTOR_ICONS, ConnectorConfiguration } from '../../configuration/configuration.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -28,7 +28,7 @@ import { ComponentType } from '@angular/cdk/portal';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  public connectors: WritableSignal<ConnectorConfiguration[]>;
+  public configurations: WritableSignal<ConnectorConfiguration[]>;
   public hasChanges = signal(false);
 
   constructor(
@@ -38,7 +38,7 @@ export class SettingsComponent {
     private translate: TranslateService,
     private configurationService: ConfigurationService
   ) {
-    this.connectors = signal(configurationService.connectors());
+    this.configurations = signal(configurationService.configurations());
   }
 
   public subscribeToPublicRepository()
@@ -59,15 +59,15 @@ export class SettingsComponent {
     }
   }
 
-  private async addConnector(connector: ConnectorConfiguration) {
-    const isDuplicate = this.connectors().some(c => c.type === connector.type && c.displayName && connector.displayName && c.branch === connector.branch);
+  private async addConnector(configuration: ConnectorConfiguration) {
+    const isDuplicate = this.configurations().some(c => c.settings.type === configuration.settings.type && c.displayName && configuration.displayName && c.branch === configuration.branch);
     if (isDuplicate) {
       const message = await firstValueFrom(this.translate.get(_("configuration.repository.duplicate")));
       this.snackBar.open(message, undefined, {
         duration: 3000
       });
     } else {
-      this.connectors.update(l => [...l, connector]);
+      this.configurations.update(l => [...l, configuration]);
       this.hasChanges.set(true);
     }
   }
@@ -75,8 +75,8 @@ export class SettingsComponent {
   public connectorIcons = CONNECTOR_ICONS;
 
   public async remove(connector: ConnectorConfiguration) {
-    const index = this.connectors().indexOf(connector);
-    this.connectors.update(l => l.filter(c => c !== connector));
+    const index = this.configurations().indexOf(connector);
+    this.configurations.update(l => l.filter(c => c !== connector));
     this.hasChanges.set(true);
 
     const message = await firstValueFrom(this.translate.get(_("configuration.repository.removed"), {
@@ -92,7 +92,7 @@ export class SettingsComponent {
     const subscriptions : Subscription[] = [];
     subscriptions.push(bar.afterDismissed().subscribe(() => subscriptions.forEach(s => s.unsubscribe())));
     subscriptions.push(bar.onAction().subscribe(() => {
-      this.connectors.update(l => {
+      this.configurations.update(l => {
         const list = [...l];
         if (index < list.length) {
           list.splice(index, 0, connector);
@@ -105,7 +105,7 @@ export class SettingsComponent {
   }
 
   public save() {
-    this.configurationService.setConnectors(this.connectors());
+    this.configurationService.setConfigurations(this.configurations());
     this.router.navigate(["/"]);
   }
 }
