@@ -10,8 +10,10 @@
     }
   </mat-card-header>
   <mat-card-content>
-    @if (place.description) {
-      <p>{{ place.description | localize }}</p>
+    @let description = place.description | localize;
+    @if (description?.length) {
+      <div innerHTML="{{ description }}"></div>
+      <mat-divider></mat-divider>
     }
     <p>
       @for(line of place.address; track line) {

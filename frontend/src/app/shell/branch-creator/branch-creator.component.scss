@@ -1,7 +1,5 @@
 @use '../../../mixins';
 
-@include mixins.dialog-spinner;
-
 mat-form-field {
   width: 100%;
   min-width: 400px;

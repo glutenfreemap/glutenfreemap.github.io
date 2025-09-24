@@ -6,6 +6,7 @@ import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
 import { firstValueFrom } from "rxjs";
 import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
+import { buildWorkflow } from "../../app/common/helpers";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
 
@@ -173,68 +174,51 @@ export class GitHubConnector extends ConnectorSkeleton<Octokit, GithubTreeEntry>
 
     const commitMessage = await firstValueFrom(this.translate.get(_("general.commit.template"), place));
 
-    const totalSteps = 6;
-    let currentStep = 0;
-    this.status.set({ status: "loading", progress: 0 });
-
-    // 1. Get the SHA of the last commit on the branch:
-    const ref = await octokit.rest.git.getRef({
-      ...repo,
-      ref: `heads/${currentBranch.name}`
-    });
-
-    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
-
-    // 2. Get the tree SHA of the latest commit:
-    const commit = await octokit.rest.git.getCommit({
-      ...repo,
-      commit_sha: ref.data.object.sha
-    });
-
-    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
-
-    // 3. Create a blob with the new file content:
-    const blob = await octokit.rest.git.createBlob({
-      ...repo,
-      content: placeJson
-    });
-
-    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
-
-    // 4. Create a new tree by modifying the previous tree:
-    const newTree = await octokit.rest.git.createTree({
-      ...repo,
-      base_tree: commit.data.tree.sha,
-      tree: [
-        {
-          path: fileName,
-          mode: "100644",
-          type: "blob",
-          sha: blob.data.sha
-        }
-      ]
-    });
-
-    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
-
-    // 5. Create a new commit:
-    const newCommit = await octokit.rest.git.createCommit({
-      ...repo,
-      message: commitMessage,
-      tree: newTree.data.sha,
-      parents: [
-        commit.data.sha
-      ]
-    });
-
-    this.status.set({ status: "loading", progress: 100 * ++currentStep / totalSteps });
-
-    // 6. Update the reference to point to the new commit:
-    await octokit.rest.git.updateRef({
-      ...repo,
-      ref: `heads/${currentBranch.name}`,
-      sha: newCommit.data.sha
-    });
+    await buildWorkflow()
+      // 1. Get the SHA of the last commit on the branch:
+      .with(() => octokit.rest.git.getRef({
+        ...repo,
+        ref: `heads/${currentBranch.name}`
+      }), "ref")
+      // 2. Get the tree SHA of the latest commit:
+      .with(({ ref }) => octokit.rest.git.getCommit({
+        ...repo,
+        commit_sha: ref.data.object.sha
+      }), "commit")
+      // 3. Create a blob with the new file content:
+      .with(() => octokit.rest.git.createBlob({
+        ...repo,
+        content: placeJson
+      }), "blob")
+      // 4. Create a new tree by modifying the previous tree:
+      .with(({ commit, blob }) => octokit.rest.git.createTree({
+        ...repo,
+        base_tree: commit.data.tree.sha,
+        tree: [
+          {
+            path: fileName,
+            mode: "100644",
+            type: "blob",
+            sha: blob.data.sha
+          }
+        ]
+      }), "newTree")
+      // 5. Create a new commit:
+      .with(({ commit, newTree }) => octokit.rest.git.createCommit({
+        ...repo,
+        message: commitMessage,
+        tree: newTree.data.sha,
+        parents: [
+          commit.data.sha
+        ]
+      }), "newCommit")
+      // 6. Update the reference to point to the new commit:
+      .with(({ newCommit }) => octokit.rest.git.updateRef({
+        ...repo,
+        ref: `heads/${currentBranch.name}`,
+        sha: newCommit.data.sha
+      }))
+      .execute(percentComplete => this.status.set({ status: "loading", progress: percentComplete }));
 
     this.status.set({ status: "loaded" });
 

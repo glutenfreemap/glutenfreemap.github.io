@@ -1,7 +1,5 @@
 @use '../../../mixins';
 
-@include mixins.dialog-spinner;
-
 mat-dialog-content {
   padding-top: 8px !important;
 }
@@ -34,5 +32,42 @@ mat-card {
   .row {
     flex-direction: column;
     gap: 0;
+  }
+}
+
+.resize-content {
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep {
+    app-localized-string-form-field {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    mat-tab-group,
+    .mat-mdc-tab-body-wrapper {
+      flex: 1;
+    }
+
+    .mat-mdc-tab-body-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    ngx-editor {
+      flex: 1;
+      position: relative;
+
+      .NgxEditor {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+      }
+    }
   }
 }

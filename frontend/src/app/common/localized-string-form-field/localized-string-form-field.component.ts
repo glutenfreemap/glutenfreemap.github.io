@@ -2,20 +2,21 @@ import { Component, input, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Language, LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { NgxEditorComponent, NgxEditorMenuComponent, Editor } from 'ngx-editor';
 
 @Component({
   selector: 'app-localized-string-form-field',
   imports: [
     MatTabsModule,
-    MatFormFieldModule,
     MatInputModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    NgxEditorComponent,
+    NgxEditorMenuComponent
   ],
   templateUrl: './localized-string-form-field.component.html',
   styleUrl: './localized-string-form-field.component.scss'
@@ -25,6 +26,7 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
 
   public languages = input.required<Map<LanguageIdentifier, Language>>();
   private controls = new Map<LanguageIdentifier, FormControl>();
+  private editors = new Map<LanguageIdentifier, Editor>();
   private subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
@@ -36,6 +38,9 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
+    for (const editor of this.editors.values()) {
+      editor.destroy();
+    }
   }
 
   private setValue(value: LocalizedString | null) {
@@ -57,11 +62,27 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
         this.control.markAsDirty();
         this.control.setValue({
           ...this.control.value,
-          [language]: value
+          [language]: this.isEmptyValue(value) ? undefined : value
         });
       }));
     }
     return this.controls.get(language)!;
   }
 
+  public getEditor(language: LanguageIdentifier): Editor {
+    if (!this.editors.has(language)) {
+      const editor = new Editor();
+      this.editors.set(language, editor);
+    }
+    return this.editors.get(language)!;
+  }
+
+  public isEmpty(language: LanguageIdentifier): boolean {
+    const value = this.controls.get(language)?.value;
+    return this.isEmptyValue(value);
+  }
+
+  private isEmptyValue(value: string | undefined | null) {
+    return !value || value.length === 0 || value === "<p></p>";
+  }
 }

@@ -5,14 +5,18 @@ import { MatCardModule } from '@angular/material/card';
 import { TranslateModule } from '@ngx-translate/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { LocalizePipe } from '../../shell/localize.pipe';
+import { MatDividerModule } from '@angular/material/divider';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-place-sheet',
   imports: [
-    TranslateModule,
     MatCardModule,
     MatButtonModule,
-    LocalizePipe
+    MatDividerModule,
+    TranslateModule,
+    LocalizePipe,
+    JsonPipe
   ],
   templateUrl: './place-sheet.component.html',
   styleUrl: './place-sheet.component.scss'

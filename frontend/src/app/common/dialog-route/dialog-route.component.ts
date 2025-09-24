@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit, input, Input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { ConfigurationService } from "../../configuration/configuration.service";
+import { ConnectorManagementService } from "../../configuration/connector-management.service";
 import { ComponentType } from "@angular/cdk/overlay";
 import { firstValueFrom } from "rxjs";
 
@@ -17,7 +17,7 @@ export class DialogRouteComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private configurationService: ConfigurationService,
+    private configurationService: ConnectorManagementService,
     private router: Router
   ) { }
 

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { controlIsValid, errorMessage } from '../../../app/common/helpers';
-import { ConnectorSettings, ConnectorConfiguration } from '../../../app/configuration/configuration.service';
+import { ConnectorSettings, ConnectorConfiguration } from '../../../app/configuration/connector-management.service';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,6 +16,8 @@ import { NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PublicMetadataService } from '../connector';
 import { firstValueFrom } from 'rxjs';
+import { MatListModule } from '@angular/material/list';
+import { LocalizePipe } from '../../../app/shell/localize.pipe';
 
 @Component({
   imports: [
@@ -34,6 +36,8 @@ import { firstValueFrom } from 'rxjs';
     TranslateModule,
     WizardComponent,
     WizardStepComponent,
+    MatListModule,
+    LocalizePipe,
     NgIf
   ],
   templateUrl: './configuration.component.html',

@@ -1,5 +1,5 @@
 import { Component, signal, WritableSignal } from '@angular/core';
-import { ConfigurationService, CONNECTOR_ICONS, ConnectorConfiguration } from '../../configuration/configuration.service';
+import { ConnectorManagementService, CONNECTOR_ICONS, ConnectorConfiguration } from '../../configuration/connector-management.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
@@ -36,7 +36,7 @@ export class SettingsComponent {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
-    private configurationService: ConfigurationService
+    private configurationService: ConnectorManagementService
   ) {
     this.configurations = signal(configurationService.configurations());
   }

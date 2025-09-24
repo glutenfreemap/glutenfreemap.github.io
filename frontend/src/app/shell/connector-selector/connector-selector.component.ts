@@ -3,8 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
-import { ConfigurationService, ConnectorSettings, ConnectorConfiguration, SelectableConnectorConfiguration } from '../../configuration/configuration.service';
+import { ConnectorManagementService, ConnectorSettings, ConnectorConfiguration, SelectableConnectorConfiguration } from '../../configuration/connector-management.service';
 import { LocalizePipe } from '../localize.pipe';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-connector-selector',
@@ -12,6 +13,7 @@ import { LocalizePipe } from '../localize.pipe';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    MatListModule,
     TranslateModule,
     LocalizePipe
   ],
@@ -22,7 +24,7 @@ export class ConnectorSelectorComponent {
   public configurations: Signal<SelectableConnectorConfiguration[]>;
 
   constructor(
-    private configurationService: ConfigurationService
+    private configurationService: ConnectorManagementService
   ) {
     this.configurations = configurationService.configurations;
   }

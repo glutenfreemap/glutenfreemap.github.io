@@ -1,8 +1,7 @@
-import { Signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormControl } from "@angular/forms";
 import { map, startWith } from "rxjs";
-import z, { ZodIssueCode } from "zod";
+import z, { string } from "zod";
 
 export function errorMessage(control: FormControl, errors: { [key: string]: string }): string {
   for (const [key, msg] of Object.entries(errors)) {
@@ -52,3 +51,39 @@ export const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
 
   return value;
 };
+
+interface Workflow<T extends {}> {
+  with<R>(step: (args: T) => Promise<any>) : Workflow<T>;
+  with<K extends string, R>(step: (args: T) => Promise<R>, key: K) : R extends void ? Workflow<T> : Workflow<T & { [P in K]: R }>;
+  execute(updateStatus: (percentComplete: number) => void): Promise<T>;
+}
+
+export function buildWorkflow() : Workflow<{}>;
+export function buildWorkflow<T extends {}>(state: T) : Workflow<T>;
+
+export function buildWorkflow<T extends {}>(state?: T) : Workflow<T> {
+  const steps: ((args: any) => Promise<any>)[] = [];
+
+  return {
+    with: function(step: (args: any) => Promise<any>, key?: string) {
+      steps.push(async args => {
+        const result = await step!(args);
+        return key
+          ? { ...args, [key]: result }
+          : args;
+      });
+      return this as any;
+    },
+    execute: async function(updateStatus) : Promise<T> {
+      let args: T = state || {} as T;
+      const currentStep = 0;
+      for (const step of steps) {
+        updateStatus(100 * currentStep / steps.length);
+        args = await step(args);
+      }
+      updateStatus(100);
+
+      return args;
+    }
+  }
+}

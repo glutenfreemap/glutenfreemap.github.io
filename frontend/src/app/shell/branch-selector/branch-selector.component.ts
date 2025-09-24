@@ -4,7 +4,7 @@ import { Branch, Connector, isWritableConnector } from '../../configuration/conn
 import { MatDialog } from '@angular/material/dialog';
 import { BranchCreatorComponent } from '../branch-creator/branch-creator.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ConfigurationService } from '../../configuration/configuration.service';
+import { ConnectorManagementService } from '../../configuration/connector-management.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -29,7 +29,7 @@ export class BranchSelectorComponent {
   public canCreateNewBranch = computed(() => isWritableConnector(this.connector()));
 
   constructor(
-    private configurationService: ConfigurationService,
+    private configurationService: ConnectorManagementService,
     private dialog: MatDialog
   ) {
     effect(() => this.currentBranch.set(this.connector().currentBranch()));

@@ -8,7 +8,7 @@ import { FilterComponent } from "../../place/filter/filter.component";
 import { PlaceSheetComponent } from '../../place/place-sheet/place-sheet.component';
 import { MainMenuComponent } from '../../shell/main-menu/main-menu.component';
 import { ConnectorSelectorComponent } from '../../shell/connector-selector/connector-selector.component';
-import { ConfigurationService } from '../../configuration/configuration.service';
+import { ConnectorManagementService } from '../../configuration/connector-management.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceEditComponent } from '../../place/place-edit/place-edit.component';
 import { BranchSelectorComponent } from '../../shell/branch-selector/branch-selector.component';
@@ -36,7 +36,7 @@ export class MapViewComponent {
   public canSelectBranch = computed(() => this.connector().branches().length > 1 || isWritableConnector(this.connector()));
 
   constructor(
-    private configurationService: ConfigurationService,
+    private configurationService: ConnectorManagementService,
     dialog: MatDialog,
     bottomSheet: MatBottomSheet
   ) {

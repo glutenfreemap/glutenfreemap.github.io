@@ -63,3 +63,9 @@ body {
   height: 100%;
   overflow: hidden;
 }
+
+mat-dialog-actions mat-spinner {
+  max-height: 1em;
+  max-width: 1em;
+  margin-right: 0.5em;
+}

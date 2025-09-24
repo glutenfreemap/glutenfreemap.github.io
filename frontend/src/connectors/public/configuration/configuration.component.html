@@ -9,7 +9,10 @@
       <mat-form-field>
         <mat-select [formControl]="repositorySelector" required>
           @for (repository of repositories(); track repository.path) {
-            <mat-option [value]="repository">{{repository.path}}</mat-option>
+            <mat-option [value]="repository">
+              <span matListItemTitle>{{repository.path}}</span>
+              <span matListItemLine>{{repository.description | localize}}</span>
+            </mat-option>
           }
         </mat-select>
         <mat-error *ngIf="repositorySelector.invalid">{{ error(repositorySelector, {

@@ -3,5 +3,11 @@ mat-form-field {
 }
 
 .empty {
-  font-weight: normal;
+  opacity: 0.5;
+}
+
+::ng-deep {
+  .NgxEditor {
+    overflow-y: auto;
+  }
 }

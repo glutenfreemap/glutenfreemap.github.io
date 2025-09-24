@@ -41,6 +41,17 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   priority = ""
   linkCommits = [ ]
 
+  [[processes.tasks]]
+  id = "t50yniuvolv24drtcsyl9e4s"
+  title = "Add merge branch feature"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
 [[processes]]
 id = "process2"
 name = "In Progress"

@@ -7,10 +7,8 @@
   @for (configuration of configurations(); track configuration) {
     <button mat-menu-item (click)="switchTo(configuration)">
       <mat-icon>{{ configuration.selected ? 'K' : ' '}}</mat-icon>
-      <div class="connector">
-        <span class="name">{{ configuration.displayName }}</span>
-        <span class="description">{{ configuration.description | localize }}</span>
-      </div>
+      <span matListItemTitle>{{ configuration.displayName }}</span>
+      <span matListItemLine>{{ configuration.description | localize }}</span>
     </button>
   }
 </mat-menu>

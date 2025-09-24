@@ -8,94 +8,104 @@
       </mat-card-actions>
     </mat-card>
   }
-  <mat-form-field class="wide">
-    <mat-label>{{ 'place.editor.name.label' | translate }}</mat-label>
-    <input matInput [formControl]="nameInput" required />
-    <mat-error *ngIf="nameInput.invalid">{{ error(nameInput, {
-      required: 'place.editor.name.required' | translate
-    }) }}</mat-error>
-  </mat-form-field>
-  <div class="row">
-    <mat-form-field>
-      <mat-label>{{ 'place.editor.attestation.label' | translate }}</mat-label>
-      <mat-select [formControl]="attestationInput">
-        @if (isChild(place)) {
-          <mat-option>{{ 'place.editor.attestation.inherited' | translate }}</mat-option>
-        }
-        @for(attestationType of attestationTypes().values(); track attestationType.id) {
-          <mat-option [value]="attestationType">{{ attestationType.name | localize}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    @if (isStandalone(place)) {
-      <mat-form-field>
-        <mat-label>{{ 'place.editor.categories.label' | translate }}</mat-label>
-        <mat-select [formControl]="categoriesInput!" multiple required>
-          <mat-select-trigger>
-            {{categoriesInput && categoriesInput.value.length ? (categoriesInput.value[0].name | localize) : ''}}
-            @if (categoriesInput && categoriesInput.value.length > 1) {
-              <span class="additional-selection">
-                (+{{categoriesInput.value.length - 1}})
-              </span>
-            }
-          </mat-select-trigger>
-          @for(category of categories().values(); track category.id) {
-            <mat-option [value]="category">{{ category.name | localize }}</mat-option>
+  <mat-tab-group animationDuration="0" preserveContent="true">
+    <mat-tab label="{{ 'place.editor.tabs.general' | translate }}">
+      <div #generalTab>
+        <mat-form-field class="wide">
+          <mat-label>{{ 'place.editor.name.label' | translate }}</mat-label>
+          <input matInput [formControl]="nameInput" required />
+          <mat-error *ngIf="nameInput.invalid">{{ error(nameInput, {
+            required: 'place.editor.name.required' | translate
+          }) }}</mat-error>
+        </mat-form-field>
+        <div class="row">
+          <mat-form-field>
+            <mat-label>{{ 'place.editor.attestation.label' | translate }}</mat-label>
+            <mat-select [formControl]="attestationInput">
+              @if (isChild(place)) {
+                <mat-option>{{ 'place.editor.attestation.inherited' | translate }}</mat-option>
+              }
+              @for(attestationType of attestationTypes().values(); track attestationType.id) {
+                <mat-option [value]="attestationType">{{ attestationType.name | localize}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          @if (isStandalone(place)) {
+            <mat-form-field>
+              <mat-label>{{ 'place.editor.categories.label' | translate }}</mat-label>
+              <mat-select [formControl]="categoriesInput!" multiple required>
+                <mat-select-trigger>
+                  {{categoriesInput && categoriesInput.value.length ? (categoriesInput.value[0].name | localize) : ''}}
+                  @if (categoriesInput && categoriesInput.value.length > 1) {
+                    <span class="additional-selection">
+                      (+{{categoriesInput.value.length - 1}})
+                    </span>
+                  }
+                </mat-select-trigger>
+                @for(category of categories().values(); track category.id) {
+                  <mat-option [value]="category">{{ category.name | localize }}</mat-option>
+                }
+              </mat-select>
+              <mat-error *ngIf="categoriesInput!.invalid">{{ error(categoriesInput!, {
+                required: 'place.editor.categories.required' | translate
+              }) }}</mat-error>
+            </mat-form-field>
           }
-        </mat-select>
-        <mat-error *ngIf="categoriesInput!.invalid">{{ error(categoriesInput!, {
-          required: 'place.editor.categories.required' | translate
-        }) }}</mat-error>
-      </mat-form-field>
-    }
-  </div>
-  @if (isLeaf(place)) {
-    <div class="row">
-      <mat-form-field>
-        <mat-label>{{ 'place.editor.region.label' | translate }}</mat-label>
-        <mat-select [formControl]="regionInput!">
-          @for(region of regions!().values(); track region.id) {
-            <mat-option [value]="region">{{ region.name | localize }}</mat-option>
-          }
-        </mat-select>
-        <mat-error *ngIf="regionInput!.invalid">{{ error(regionInput!, {
-          required: 'place.editor.region.required' | translate
-        }) }}</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{ 'place.editor.gid.label' | translate }}</mat-label>
-        <input matInput [formControl]="gidInput" readonly />
-      </mat-form-field>
-    </div>
-    <mat-form-field class="wide">
-      <mat-label>{{ 'place.editor.address.label' | translate }}</mat-label>
-      <textarea matInput [formControl]="addressInput!" required></textarea>
-      <mat-error *ngIf="addressInput!.invalid">{{ error(addressInput!, {
-        required: 'place.editor.address.required' | translate
-      }) }}</mat-error>
-    </mat-form-field>
-    <div class="row">
-      <mat-form-field>
-        <mat-label>{{ 'place.editor.latitude.label' | translate }}</mat-label>
-        <input matInput [formControl]="latitudeInput!" required />
-        <mat-error *ngIf="latitudeInput!.invalid">{{ error(latitudeInput!, {
-          required: 'place.editor.latitude.required' | translate,
-          min: 'place.editor.latitude.belowMinimum' | translate,
-          max: 'place.editor.latitude.aboveMaximum' | translate
-        }) }}</mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ 'place.editor.longitude.label' | translate }}</mat-label>
-        <input matInput [formControl]="longitudeInput!" required />
-        <mat-error *ngIf="longitudeInput!.invalid">{{ error(longitudeInput!, {
-          required: 'place.editor.longitude.required' | translate,
-          min: 'place.editor.longitude.belowMinimum' | translate,
-          max: 'place.editor.longitude.aboveMaximum' | translate
-        }) }}</mat-error>
-      </mat-form-field>
-    </div>
-  }
-  <app-localized-string-form-field [control]="descriptionInput" [languages]="connector.languages()" />
+        </div>
+        @if (isLeaf(place)) {
+          <div class="row">
+            <mat-form-field>
+              <mat-label>{{ 'place.editor.region.label' | translate }}</mat-label>
+              <mat-select [formControl]="regionInput!">
+                @for(region of regions!().values(); track region.id) {
+                  <mat-option [value]="region">{{ region.name | localize }}</mat-option>
+                }
+              </mat-select>
+              <mat-error *ngIf="regionInput!.invalid">{{ error(regionInput!, {
+                required: 'place.editor.region.required' | translate
+              }) }}</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'place.editor.gid.label' | translate }}</mat-label>
+              <input matInput [formControl]="gidInput" readonly />
+            </mat-form-field>
+          </div>
+          <mat-form-field class="wide">
+            <mat-label>{{ 'place.editor.address.label' | translate }}</mat-label>
+            <textarea matInput [formControl]="addressInput!" required></textarea>
+            <mat-error *ngIf="addressInput!.invalid">{{ error(addressInput!, {
+              required: 'place.editor.address.required' | translate
+            }) }}</mat-error>
+          </mat-form-field>
+          <div class="row">
+            <mat-form-field>
+              <mat-label>{{ 'place.editor.latitude.label' | translate }}</mat-label>
+              <input matInput [formControl]="latitudeInput!" required />
+              <mat-error *ngIf="latitudeInput!.invalid">{{ error(latitudeInput!, {
+                required: 'place.editor.latitude.required' | translate,
+                min: 'place.editor.latitude.belowMinimum' | translate,
+                max: 'place.editor.latitude.aboveMaximum' | translate
+              }) }}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>{{ 'place.editor.longitude.label' | translate }}</mat-label>
+              <input matInput [formControl]="longitudeInput!" required />
+              <mat-error *ngIf="longitudeInput!.invalid">{{ error(longitudeInput!, {
+                required: 'place.editor.longitude.required' | translate,
+                min: 'place.editor.longitude.belowMinimum' | translate,
+                max: 'place.editor.longitude.aboveMaximum' | translate
+              }) }}</mat-error>
+            </mat-form-field>
+          </div>
+        }
+      </div>
+    </mat-tab>
+    <mat-tab label="{{ 'place.editor.tabs.description' | translate }}">
+      <div #descriptionTab class="resize-content">
+        <app-localized-string-form-field [control]="descriptionInput" [languages]="connector.languages()" />
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions>
   @if (loading()) {

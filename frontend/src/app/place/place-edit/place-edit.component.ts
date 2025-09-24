@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, signal, Signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, signal, Signal, viewChild } from '@angular/core';
 import { ChildPlace, CompositePlace, GoogleIdentifier, isChild, isLeaf, isStandalone, LeafPlace, Place, StandalonePlace } from '../../../datamodel/place';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,30 +18,32 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { LocalizePipe } from '../../shell/localize.pipe';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-place-edit',
   imports: [
+    MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCardModule,
-    FormsModule,
-    ReactiveFormsModule,
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
     TranslateModule,
     LocalizedStringFormFieldComponent,
-    MatProgressSpinnerModule,
     LocalizePipe,
     NgIf
-  ],
+],
   templateUrl: './place-edit.component.html',
   styleUrl: './place-edit.component.scss'
 })
-export class PlaceEditComponent implements OnDestroy {
+export class PlaceEditComponent implements AfterViewInit, OnDestroy {
   public gidInput: FormControl<GoogleIdentifier | null>;
   public nameInput: FormControl<string | null>;
   public categoriesInput?: FormControl<Category[]>;
@@ -63,6 +65,9 @@ export class PlaceEditComponent implements OnDestroy {
 
   public place: Place;
   public connector: WritableConnector;
+
+  private generalTab: Signal<ElementRef<HTMLDivElement>> = viewChild.required("generalTab", { read: ElementRef });
+  private descriptionTab: Signal<ElementRef<HTMLDivElement>> = viewChild.required("descriptionTab", { read: ElementRef });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly params: { place: Place, connector: WritableConnector },
@@ -151,7 +156,15 @@ export class PlaceEditComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngAfterViewInit(): void {
+    const generalTabHeight = this.generalTab().nativeElement.offsetHeight;
+    this.descriptionTab().nativeElement.style.minHeight = `${generalTabHeight}px`;
+
+    const generalTabWidth = this.generalTab().nativeElement.offsetWidth;
+    this.descriptionTab().nativeElement.style.minWidth = `${generalTabWidth}px`;
+  }
+
+  public ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 

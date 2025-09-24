@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { ConfigurationService } from './configuration.service';
+import { ConnectorManagementService } from './connector-management.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigGuard implements CanActivate {
-  constructor(private configService: ConfigurationService, private router: Router) {}
+  constructor(private configService: ConnectorManagementService, private router: Router) {}
 
   canActivate(): boolean {
     if (this.configService.isConfigured()) {

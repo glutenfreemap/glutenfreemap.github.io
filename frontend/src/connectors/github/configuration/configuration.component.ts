@@ -8,7 +8,7 @@ import { MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { ConnectorConfiguration } from '../../../app/configuration/configuration.service';
+import { ConnectorConfiguration } from '../../../app/configuration/connector-management.service';
 import { GITHUB_CONFIGURATION_TYPE, GITHUB_PAT_PATTERN, GitHubRepository, GitHubToken } from '../configuration';
 import { GitHubConnector, INVALID_TOKEN } from '../connector';
 import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/wizard.component';

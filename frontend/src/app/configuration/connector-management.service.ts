@@ -55,18 +55,12 @@ const connectorConfigurationListSchema = z.preprocess(parseJsonPreprocessor, z.a
 
 type ConnectorConfigurationList = z.infer<typeof connectorConfigurationListSchema>;
 
-// Helper type to extract configuration from a ConnectorConfiguration based on the 'type'
-type ExtractConfigurationType<T extends ConnectorSettings["type"]> =
-  Extract<ConnectorSettings, { type: T }> extends { type: T } & infer R
-    ? Simplify<Omit<R, "type">>
-    : never;
-
 const NOP_CONNECTOR = new NopConnector();
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigurationService {
+export class ConnectorManagementService {
 
   private _configurations = signal<ConnectorConfigurationList>([]);
   public configurations = this._configurations.asReadonly();

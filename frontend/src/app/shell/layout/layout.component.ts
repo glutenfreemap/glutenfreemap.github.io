@@ -4,7 +4,7 @@ import { TranslateModule, _ } from '@ngx-translate/core';
 import { Status } from '../../configuration/connector';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
-import { ConfigurationService } from '../../configuration/configuration.service';
+import { ConnectorManagementService } from '../../configuration/connector-management.service';
 
 @Component({
   selector: 'app-layout',
@@ -37,7 +37,7 @@ export class LayoutComponent {
   });
 
   constructor(
-    configurationService: ConfigurationService
+    configurationService: ConnectorManagementService
   ) {
     this.status = computed(() => configurationService.selectedConnector().status());
   }
