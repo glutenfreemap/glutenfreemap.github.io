@@ -23,6 +23,10 @@ export class MainMenuComponent {
     {
       path: '/config',
       label: _('navigation.menu.settings')
+    },
+    {
+      path: '/about',
+      label: _('navigation.menu.about')
     }
   ];
 }

@@ -15,8 +15,7 @@ import { JsonPipe } from '@angular/common';
     MatButtonModule,
     MatDividerModule,
     TranslateModule,
-    LocalizePipe,
-    JsonPipe
+    LocalizePipe
   ],
   templateUrl: './place-sheet.component.html',
   styleUrl: './place-sheet.component.scss'

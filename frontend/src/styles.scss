@@ -69,3 +69,13 @@ mat-dialog-actions mat-spinner {
   max-width: 1em;
   margin-right: 0.5em;
 }
+
+a {
+  color: #007bff;
+  text-decoration: none;
+
+  &:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+}

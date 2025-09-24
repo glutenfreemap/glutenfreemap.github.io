@@ -8,6 +8,7 @@ import { DialogRouteComponent } from "./common/dialog-route/dialog-route.compone
 import { MapViewComponent } from "./routes/map-view/map-view.component";
 import { SettingsComponent } from "./routes/settings/settings.component";
 import { PageComponent } from "./shell/page/page.component";
+import { AboutComponent } from "./routes/about/about.component";
 
 export const routes: Routes = [
   {
@@ -22,6 +23,10 @@ export const routes: Routes = [
       {
         path: "config",
         component: SettingsComponent
+      },
+      {
+        path: "about",
+        component: AboutComponent
       },
       {
         path: "config/public",

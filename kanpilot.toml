@@ -20,17 +20,6 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   linkCommits = [ ]
 
   [[processes.tasks]]
-  id = "cuhhpxgn8icg5kjf1749vlkt"
-  title = '"About" page'
-  description = "Add an about page with the licenses for the fonts and other stuff."
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
   id = "kqtkztljk4nm13fv9cwo11uv"
   title = "Create venue button"
   description = ""
@@ -52,6 +41,50 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   priority = ""
   linkCommits = [ ]
 
+  [[processes.tasks]]
+  id = "tz7uig9hokhvg1owx6jx7lut"
+  title = "Add changelog"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "yujio1gjtqinjgeyzhh2r5wt"
+  title = "Add install prompt"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "smrnb6ny8r0320m2c4yvhend"
+  title = "Redo the Android app integration"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ycfkh264f3ypzeuscm8jjeo7"
+  title = "Select language automatically and remember it"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
 [[processes]]
 id = "process2"
 name = "In Progress"
@@ -60,6 +93,17 @@ name = "In Progress"
   id = "qrob72qrsd4svm64dcnvm85o"
   title = "Settings screen"
   description = "Manage subscriptions (list, configure, add new)."
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "cuhhpxgn8icg5kjf1749vlkt"
+  title = '"About" page'
+  description = "Add an about page with the licenses for the fonts and other stuff."
   tag = "backlog"
   linkFiles = [ ]
   dueDate = ""
