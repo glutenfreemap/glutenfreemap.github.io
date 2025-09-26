@@ -9,7 +9,8 @@
     "test": "ng test",
     "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --sort --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n{/pt,/en,/fr,/es}.json --clean --sort --format json",
-    "generate-style": "tsx generate_style.ts"
+    "generate-style": "tsx generate_style.ts",
+    "generate-license-file": "generate-license-file"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +42,7 @@
     "@types/google.maps": "^3.58.1",
     "@types/jasmine": "~5.1.0",
     "@vendure/ngx-translate-extract": "^10.0.1",
+    "generate-license-file": "^4.1.0",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

@@ -1,0 +1,17 @@
+{
+  "inputs": ["./package.json"],
+  "output": "./public/THIRD-PARTY-LICENSES.txt",
+  "overwrite": true,
+  "eol": "lf",
+  "ci": true,
+  "no-spinner": true,
+  "omitVersions": false,
+  "replace": {
+    "zone.js": "./node_modules/zone.js/LICENSE",
+    "type-fest": "./node_modules/type-fest/license-mit",
+    "@mapbox/jsonlint-lines-primitives": "./licenses/jsonlint.txt"
+  },
+  "append": [
+    "./licenses/material-icons.txt"
+  ]
+}

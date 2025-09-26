@@ -7,6 +7,17 @@ id = "process1"
 name = "To Do"
 
   [[processes.tasks]]
+  id = "t50yniuvolv24drtcsyl9e4s"
+  title = "Add merge branch feature"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
   id = "qil0cn5l37bv7ypqo8yx83ka"
   title = '"Missing venue" widget'
   description = """
@@ -22,17 +33,6 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   [[processes.tasks]]
   id = "kqtkztljk4nm13fv9cwo11uv"
   title = "Create venue button"
-  description = ""
-  tag = "backlog"
-  linkFiles = [ ]
-  dueDate = ""
-  checkList = [ ]
-  priority = ""
-  linkCommits = [ ]
-
-  [[processes.tasks]]
-  id = "t50yniuvolv24drtcsyl9e4s"
-  title = "Add merge branch feature"
   description = ""
   tag = "backlog"
   linkFiles = [ ]
@@ -77,6 +77,17 @@ Idea: perhaps let the user create a new venue from there. If the connector is ed
   [[processes.tasks]]
   id = "ycfkh264f3ypzeuscm8jjeo7"
   title = "Select language automatically and remember it"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "n2tv4eqc49tuqcpvdrniidbh"
+  title = "Add the option to create a new repository from scratch"
   description = ""
   tag = "backlog"
   linkFiles = [ ]

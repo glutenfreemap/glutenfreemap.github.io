@@ -1,5 +1,5 @@
 @use "sass:map";
-@use '../../../theme-colors';
+@use '../../../theme-colors' as theme;
 
 :host {
   display: flex;
@@ -47,13 +47,13 @@ nav,
 }
 
 ::ng-deep {
-  h2 {
+  h2, h3 {
     font-size: 1.15rem;
-    color: map.get(theme-colors.$primary-palette, 50);
+    color: map.get(theme.$primary-palette, 20);
   }
 
   h3 {
     font-size: 1.05rem;
-    color: map.get(theme-colors.$primary-palette, 50);
+    margin-top: 2rem;
   }
 }

@@ -6,7 +6,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { LocalizePipe } from '../../shell/localize.pipe';
 import { MatDividerModule } from '@angular/material/divider';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-place-sheet',
