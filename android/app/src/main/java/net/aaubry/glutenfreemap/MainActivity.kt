@@ -78,6 +78,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     @JavascriptInterface
+    fun setMenu(menuJson: String) {
+        // For backwards-compatibility
+    }
+
+    @JavascriptInterface
     fun getAppVersion(): Int {
         return BuildConfig.VERSION_CODE
     }
