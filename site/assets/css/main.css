@@ -36,7 +36,14 @@ body.android {
   padding-top: 1em;
 }
 
-.android header {
+.android-1 header,
+.android-2 header,
+.android-3 header,
+.android-4 header,
+.android-5 header,
+.android-6 header,
+.android-7 header
+{
   display: none;
 }
 

@@ -5,27 +5,19 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.webkit.*
-import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.json.JSONArray
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -34,20 +26,15 @@ class MainActivity : AppCompatActivity() {
         const val MY_PERMISSIONS_REQUEST_LOCATION: Int = 99
     }
 
-    private var menu: Menu? = null
-    private var menuDefinition: JSONArray? = null
     private var geoLocationRequestOrigin: String? = null
     private var geoLocationCallback: GeolocationPermissions.Callback? = null
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menu = menu
-        tryBuildMainMenu()
-        return true
-    }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+
         setContentView(R.layout.activity_main)
 
         WebView.setWebContentsDebuggingEnabled(true)
@@ -91,14 +78,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     @JavascriptInterface
-    fun setMenu(menuJson: String) {
-        menuDefinition = JSONArray(menuJson)
-        runOnUiThread {
-            tryBuildMainMenu()
-        }
-    }
-
-    @JavascriptInterface
     fun getAppVersion(): Int {
         return BuildConfig.VERSION_CODE
     }
@@ -106,35 +85,6 @@ class MainActivity : AppCompatActivity() {
     @JavascriptInterface
     fun getAndroidVersion(): Int {
         return Build.VERSION.SDK_INT
-    }
-
-    private fun tryBuildMainMenu() {
-        if (menu != null && menuDefinition != null) {
-            menu!!.clear()
-            buildMenu(menuDefinition!!, menu!!)
-            menuDefinition = null
-        }
-    }
-
-    private fun buildMenu(menuDefinition: JSONArray, menu: Menu) {
-        for (i in 1..menuDefinition.length()) {
-            val itemDefinition = menuDefinition[i - 1] as JSONObject
-
-            val label = itemDefinition.getString("label")
-            val children = itemDefinition.optJSONArray("children")
-            if (children != null) {
-                val item = menu.addSubMenu(label)
-                buildMenu(children, item)
-            } else {
-                val item = menu.add(label)
-                val url = itemDefinition.getString("url")
-                item.setOnMenuItemClickListener {
-                    val browser: WebView = findViewById(R.id.browser)
-                    browser.loadUrl(url)
-                    true
-                }
-            }
-        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -245,7 +195,7 @@ class MainActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 Log.e("WebView error", "${error?.errorCode}: ${error?.description}")
             } else {
-                Log.e("WebView error", error?.toString()!!)
+                Log.e("WebView error", error.toString())
             }
         }
 
@@ -272,7 +222,7 @@ class MainActivity : AppCompatActivity() {
                 launchGeoUriIntent(keyValues, packageName)
             }
         } else if (activities.size == 1) {
-            launchGeoUriIntent(keyValues, activities.first().resolvePackageName)
+            launchGeoUriIntent(keyValues, activities.first().activityInfo.packageName)
         } else {
             launchGeoUriIntent(keyValues, null)
         }

@@ -562,21 +562,23 @@ function AndroidApp(nativeInterface) {
     this.customizePage = function () {
         document.body.className = "android android-" + androidVersion;
 
-        var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
-            if (li.className.indexOf("dropdown") >= 0) {
-                return {
-                    label: li.querySelector("a.dropdown-toggle").getAttribute("aria-label"),
-                    children: Array.prototype.slice.call(li.querySelectorAll(".dropdown-menu a")).map(function (link) {
-                        return ({ label: link.textContent, url: link.href });
-                    })
-                };
-            } else {
-                var link = li.querySelector("a");
-                return { label: link.textContent, url: link.href };
-            }
-        });
+        if (version <= 7) {
+            var menu = Array.prototype.slice.call(document.querySelectorAll("#navbarSupportedContent .nav-item")).map(function (li) {
+                if (li.className.indexOf("dropdown") >= 0) {
+                    return {
+                        label: li.querySelector("a.dropdown-toggle").getAttribute("aria-label"),
+                        children: Array.prototype.slice.call(li.querySelectorAll(".dropdown-menu a")).map(function (link) {
+                            return ({ label: link.textContent, url: link.href });
+                        })
+                    };
+                } else {
+                    var link = li.querySelector("a");
+                    return { label: link.textContent, url: link.href };
+                }
+            });
 
-        nativeInterface.setMenu(JSON.stringify(menu));
+            nativeInterface.setMenu(JSON.stringify(menu));
+        }
     }
 
     this.setLanguage = function (lang) {
