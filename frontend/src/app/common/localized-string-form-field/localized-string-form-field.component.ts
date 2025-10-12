@@ -30,9 +30,6 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   ngOnInit(): void {
-    this.subscriptions.push(this.control.valueChanges.subscribe(value => {
-      this.setValue(value);
-    }));
     this.setValue(this.control.value);
   }
 
