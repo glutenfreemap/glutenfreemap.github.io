@@ -1,12 +1,11 @@
-import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, input, OnDestroy, output, viewChild, ViewContainerRef } from '@angular/core';
-import { AttestationTypeIdentifier, CategoryIdentifier, LanguageIdentifier, LocalizedString } from '../../../datamodel/common';
+import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, input, OnDestroy, output, ViewContainerRef } from '@angular/core';
+import { AttestationTypeIdentifier } from '../../../datamodel/common';
 import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, PlaceIdentifier, StandalonePlace, TopLevelPlace, DisplayablePlace } from '../../../datamodel/place';
-import { ControlPosition, FullscreenControl, GeoJSONSource, GeolocateControl, IControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup, TerrainControl } from "maplibre-gl";
+import { GeoJSONSource, GeolocateControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup } from "maplibre-gl";
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Connector } from '../../configuration/connector';
 import { getStyle } from '../../../generated/map.style';
-import { PlaceEditComponent } from '../place-edit/place-edit.component';
 import { debounce } from '../../common/helpers';
 import { PlacePopupComponent } from '../place-popup/place-popup.component';
 import { E } from '../../common/dom';
@@ -415,12 +414,5 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   public isComposite(place: TopLevelPlace): place is CompositePlace {
     return globalIsComposite(place);
-  }
-
-  private edit(place: LeafPlace) {
-    this.dialog.open(PlaceEditComponent, {
-      disableClose: true,
-      data: { place, connector: this.connector }
-    });
   }
 }
