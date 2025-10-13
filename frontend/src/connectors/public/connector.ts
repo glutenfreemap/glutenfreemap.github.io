@@ -3,11 +3,11 @@ import { Branch, BranchName, Connector, VersionIdentifier } from "../../app/conf
 import { HttpClient } from "@angular/common/http";
 import { DEFAULT_BRANCH, PublicConfiguration, PublicRepository, publicRepositorySchema } from "./configuration";
 import { environment } from "../../environments/current";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, map, Observable, of } from "rxjs";
 import { z } from "zod";
 import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
 
-export const PUBLIC_CONNECTOR = new InjectionToken<Connector>('PublicConnector');
+export const PUBLIC_CONNECTOR = new InjectionToken<Connector>("PublicConnector");
 
 const treeEntrySchema = z.object({
   path: z.string().min(1),
@@ -29,7 +29,7 @@ export class PublicMetadataService {
   }
 }
 
-export class PublicConnector extends ConnectorSkeleton<undefined, TreeEntry> implements Connector {
+export class PublicConnector extends ConnectorSkeleton<TreeEntry> implements Connector {
   constructor(
     private configuration: PublicConfiguration,
     private httpClient: HttpClient
@@ -37,24 +37,21 @@ export class PublicConnector extends ConnectorSkeleton<undefined, TreeEntry> imp
     super();
   }
 
-  override createContext(): undefined {
-    return undefined;
+  override getTree(_name: BranchName): Observable<TreeEntry[]> {
+    return this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/tree`).pipe(
+      map(r => z.array(treeEntrySchema).parse(r))
+    );
   }
 
-  override async getTree(name: BranchName, _context: undefined): Promise<TreeEntry[]> {
-    const rawTree = await firstValueFrom(this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/tree`));
-    return z.array(treeEntrySchema).parse(rawTree);
+  override getFile(fileInfo: TreeEntry): Observable<any> {
+    return this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/blobs/${fileInfo.hash}`);
   }
 
-  override getFile(fileInfo: TreeEntry, _context: undefined): Promise<any> {
-    return firstValueFrom(this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/blobs/${fileInfo.hash}`));
-  }
-
-  override async loadBranches(_context: undefined): Promise<Branch[]> {
-    return [{
+  override loadBranches(): Observable<Branch[]> {
+    return of([{
       name: DEFAULT_BRANCH,
       version: undefined as any as VersionIdentifier,
       protected: true
-    }]
+    }]);
   }
 }

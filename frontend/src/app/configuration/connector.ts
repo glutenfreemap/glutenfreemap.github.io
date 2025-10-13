@@ -44,10 +44,10 @@ export enum CreateBranchResult {
 
 export interface Connector {
   status: Signal<Status>,
-
   branches: Signal<Branch[]>,
+
   currentBranch: Signal<Branch | undefined>,
-  switchToBranch(name: BranchName): Promise<any>,
+  switchToBranch(name: BranchName): void,
 
   languages: Signal<Map<LanguageIdentifier, Language>>,
   attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>,

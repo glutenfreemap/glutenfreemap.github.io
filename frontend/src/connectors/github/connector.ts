@@ -4,70 +4,77 @@ import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configurat
 import { TopLevelPlace } from "../../datamodel/place";
 import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
-import { firstValueFrom } from "rxjs";
+import { defer, map, Observable, ReplaySubject, switchMap, tap } from "rxjs";
 import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
-import { buildWorkflow } from "../../app/common/helpers";
+import { HttpClient } from "@angular/common/http";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
 
 type GithubTreeEntry = Awaited<ReturnType<Octokit['git']['getTree']>>['data']['tree'][0] & { path: string };
 
-export class GitHubConnector extends ConnectorSkeleton<Octokit, GithubTreeEntry> implements WritableConnector {
+export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implements WritableConnector {
+  private octokit$ = new ReplaySubject<Octokit>(1);
+
   constructor(
     private configuration: GitHubConfiguration,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private httpClient: HttpClient
   ) {
     super();
+
+    this.octokit$.next(new Octokit({ auth: this.configuration.token }));
   }
 
-  override createContext() {
-    return new Octokit({ auth: this.configuration.token });
+  override loadBranches(): Observable<Branch[]> {
+    return this.octokit$.pipe(
+      switchMap(octokit => defer(() => octokit.paginate(octokit.repos.listBranches, {
+        owner: this.configuration.repository.owner,
+        repo: this.configuration.repository.name
+      }))),
+      map(branches => branches.map(b => ({
+        name: b.name as BranchName,
+        version: b.commit.sha as VersionIdentifier,
+        protected: b.name === this.configuration.repository.defaultBranch
+      })))
+    );
   }
 
-  override async getTree(name: BranchName, octokit: Octokit): Promise<GithubTreeEntry[]> {
-    const ref = await octokit.git.getRef({
-      owner: this.configuration.repository.owner,
-      repo: this.configuration.repository.name,
-      ref: `heads/${name}`
-    });
-
-    const tree = await octokit.git.getTree({
-      owner: this.configuration.repository.owner,
-      repo: this.configuration.repository.name,
-      tree_sha: ref.data.object.sha,
-      recursive: "true"
-    });
-
-    if (tree.data.truncated) {
-      console.error("Could not load the whole repository tree");
-    }
-
-    return tree.data.tree
-      .filter(f => f.type === "blob" && f.path) as GithubTreeEntry[];
+  override getTree(name: BranchName): Observable<GithubTreeEntry[]> {
+    return this.octokit$.pipe(
+      switchMap(octokit => defer(() => octokit.git.getRef({
+        owner: this.configuration.repository.owner,
+        repo: this.configuration.repository.name,
+        ref: `heads/${name}`,
+        headers: {
+          "If-None-Match": ""
+        }
+      })).pipe(
+        switchMap(ref => defer(() => octokit.git.getTree({
+          owner: this.configuration.repository.owner,
+          repo: this.configuration.repository.name,
+          tree_sha: ref.data.object.sha,
+          recursive: "true"
+        }))),
+        tap(tree => {
+          if (tree.data.truncated) {
+            console.error("Could not load the whole repository tree");
+          }
+        }),
+        map(tree => tree.data.tree.filter(f => f.type === "blob" && f.path) as GithubTreeEntry[])
+      )),
+    );
   }
 
-  override async getFile(fileInfo: GithubTreeEntry, octokit: Octokit): Promise<any> {
-    const blob = await octokit.git.getBlob({
-      owner: this.configuration.repository.owner,
-      repo: this.configuration.repository.name,
-      file_sha: fileInfo.sha!,
-      mediaType: { format: "raw" }
-    });
-
-    return JSON.parse(blob.data as any);
-  }
-
-  override async loadBranches(octokit: Octokit): Promise<Branch[]> {
-    const branches = await octokit.paginate(octokit.repos.listBranches, {
-      owner: this.configuration.repository.owner,
-      repo: this.configuration.repository.name
-    });
-
-    return branches.map(b => ({
-      name: b.name as BranchName,
-      version: b.commit.sha as VersionIdentifier,
-      protected: b.name === this.configuration.repository.defaultBranch
-    }));
+  override getFile(fileInfo: GithubTreeEntry): Observable<any> {
+    return this.octokit$.pipe(
+      switchMap(octokit => defer(() => octokit.git.getBlob({
+        owner: this.configuration.repository.owner,
+        repo: this.configuration.repository.name,
+        file_sha: fileInfo.sha!,
+        mediaType: { format: "raw" }
+      }))),
+      map(blob => JSON.parse(blob.data as any))
+    );
   }
 
   public static async listRepositories(token: GitHubToken): Promise<GitHubRepository[] | typeof INVALID_TOKEN> {
@@ -112,126 +119,142 @@ export class GitHubConnector extends ConnectorSkeleton<Octokit, GithubTreeEntry>
   }
 
   public async createBranch(name: BranchName): Promise<CreateBranchResult> {
-    const branch = this.currentBranch();
-    if (!branch) {
-      throw new Error("Cannot create a new branch when no branch is current");
-    }
+    throw new Error("not implemented");
 
-    this.status.set({ status: "loading" });
+  //   const branch = this.currentBranch();
+  //   if (!branch) {
+  //     throw new Error("Cannot create a new branch when no branch is current");
+  //   }
 
-    const octokit = new Octokit({ auth: this.configuration.token });
+  //   this.status.set({ status: "loading" });
 
-    try {
-      const response = await octokit.rest.git.createRef({
-        owner: this.configuration.repository.owner,
-        repo: this.configuration.repository.name,
-        ref: `refs/heads/${name}`,
-        sha: branch.version
-      });
+  //   const octokit = new Octokit({ auth: this.configuration.token });
 
-      const newBranch: Branch = { name, version: branch.version, protected: false };
-      this.branches.update(l => [...l, newBranch]);
-      this.currentBranch.set(newBranch);
-    } catch (err) {
-      if (err instanceof RequestError && (err.status === 422 || err.status === 409)) {
-        this.status.set({ status: "loaded" });
-        return CreateBranchResult.AlreadyExists;
-      } else {
-        this.status.set({ status: "error", message: `${err}` });
-        throw err;
-      }
-    }
+  //   try {
+  //     const response = await octokit.rest.git.createRef({
+  //       owner: this.configuration.repository.owner,
+  //       repo: this.configuration.repository.name,
+  //       ref: `refs/heads/${name}`,
+  //       sha: branch.version
+  //     });
 
-    this.status.set({ status: "loaded" });
+  //     const newBranch: Branch = { name, version: branch.version, protected: false };
+  //     this.branches.update(l => [...l, newBranch]);
+  //     this.currentBranch.set(newBranch);
+  //   } catch (err) {
+  //     if (err instanceof RequestError && (err.status === 422 || err.status === 409)) {
+  //       this.status.set({ status: "loaded" });
+  //       return CreateBranchResult.AlreadyExists;
+  //     } else {
+  //       this.status.set({ status: "error", message: `${err}` });
+  //       throw err;
+  //     }
+  //   }
 
-    return CreateBranchResult.Success;
+  //   this.status.set({ status: "loaded" });
+
+  //   return CreateBranchResult.Success;
   }
 
   public async commit<T extends TopLevelPlace>(place: T) {
-    const currentBranch = this.currentBranch();
-    if (!currentBranch) {
-      throw new Error("No current branch");
-    }
+    console.log("save place", place);
 
-    if (currentBranch.protected) {
-      throw new Error("Cannot commit to a protected branch");
-    }
+    throw new Error("not implemented");
+  //   const currentBranch = this.currentBranch();
+  //   if (!currentBranch) {
+  //     throw new Error("No current branch");
+  //   }
 
-    const fileName = this.fileNames[place.id] || this.generateFileName(place);
+  //   if (currentBranch.protected) {
+  //     throw new Error("Cannot commit to a protected branch");
+  //   }
 
-    const placeJson = JSON.stringify(
-      place,
-      (k, v) => k !== "parent" ? v : undefined,
-      2
-    );
+  //   const fileName = this.fileNames[place.id] || this.generateFileName(place);
 
-    const octokit = new Octokit({ auth: this.configuration.token });
+  //   const placeJson = JSON.stringify(
+  //     place,
+  //     (k, v) => k !== "parent" ? v : undefined,
+  //     2
+  //   );
 
-    const repo = {
-      owner: this.configuration.repository.owner,
-      repo: this.configuration.repository.name
-    };
+  //   const octokit = new Octokit({ auth: this.configuration.token });
 
-    const commitMessage = await firstValueFrom(this.translate.get(_("general.commit.template"), place));
+  //   const repo = {
+  //     owner: this.configuration.repository.owner,
+  //     repo: this.configuration.repository.name
+  //   };
 
-    await buildWorkflow()
-      // 1. Get the SHA of the last commit on the branch:
-      .with(() => octokit.rest.git.getRef({
-        ...repo,
-        ref: `heads/${currentBranch.name}`
-      }), "ref")
-      // 2. Get the tree SHA of the latest commit:
-      .with(({ ref }) => octokit.rest.git.getCommit({
-        ...repo,
-        commit_sha: ref.data.object.sha
-      }), "commit")
-      // 3. Create a blob with the new file content:
-      .with(() => octokit.rest.git.createBlob({
-        ...repo,
-        content: placeJson
-      }), "blob")
-      // 4. Create a new tree by modifying the previous tree:
-      .with(({ commit, blob }) => octokit.rest.git.createTree({
-        ...repo,
-        base_tree: commit.data.tree.sha,
-        tree: [
-          {
-            path: fileName,
-            mode: "100644",
-            type: "blob",
-            sha: blob.data.sha
-          }
-        ]
-      }), "newTree")
-      // 5. Create a new commit:
-      .with(({ commit, newTree }) => octokit.rest.git.createCommit({
-        ...repo,
-        message: commitMessage,
-        tree: newTree.data.sha,
-        parents: [
-          commit.data.sha
-        ]
-      }), "newCommit")
-      // 6. Update the reference to point to the new commit:
-      .with(({ newCommit }) => octokit.rest.git.updateRef({
-        ...repo,
-        ref: `heads/${currentBranch.name}`,
-        sha: newCommit.data.sha
-      }))
-      .execute(percentComplete => this.status.set({ status: "loading", progress: percentComplete }));
+  //   const commitMessage = await firstValueFrom(this.translate.get(_("general.commit.template"), place));
 
-    this.status.set({ status: "loaded" });
+  //   // this.httpClient.get("", {
+  //   //   headers: {
+  //   //     Authorization: `Bearer ${this.configuration.token}`
+  //   //   }
+  //   // })
 
-    this.places.set(this.places().map(p => p.id === place.id ? place : p));
+  //   await buildWorkflow()
+  //     // 1. Get the SHA of the last commit on the branch:
+  //     .with(() => octokit.rest.git.getRef({
+  //       ...repo,
+  //       ref: `heads/${currentBranch.name}`
+  //     }), "ref")
+  //     // 2. Get the tree SHA of the latest commit:
+  //     .with(({ ref }) => octokit.rest.git.getCommit({
+  //       ...repo,
+  //       commit_sha: ref.data.object.sha
+  //     }), "commit")
+  //     // 3. Create a blob with the new file content:
+  //     .with(() => octokit.rest.git.createBlob({
+  //       ...repo,
+  //       content: placeJson
+  //     }), "blob")
+  //     // 4. Create a new tree by modifying the previous tree:
+  //     .with(({ commit, blob }) => octokit.rest.git.createTree({
+  //       ...repo,
+  //       base_tree: commit.data.tree.sha,
+  //       tree: [
+  //         {
+  //           path: fileName,
+  //           mode: "100644",
+  //           type: "blob",
+  //           sha: blob.data.sha
+  //         }
+  //       ]
+  //     }), "newTree")
+  //     // 5. Create a new commit:
+  //     .with(({ commit, newTree }) => octokit.rest.git.createCommit({
+  //       ...repo,
+  //       message: commitMessage,
+  //       tree: newTree.data.sha,
+  //       parents: [
+  //         commit.data.sha
+  //       ]
+  //     }), "newCommit")
+  //     // 6. Update the reference to point to the new commit:
+  //     .with(({ newCommit }) => octokit.rest.git.updateRef({
+  //       ...repo,
+  //       ref: `heads/${currentBranch.name}`,
+  //       sha: newCommit.data.sha
+  //     }))
+  //     .execute(percentComplete => this.status.set({ status: "loading", progress: percentComplete }));
+
+  //   this.status.set({ status: "loaded" });
+
+  //   const exists = this.places().some(p => p.id === place.id);
+  //   const updatedPlaces = exists
+  //     ? this.places().map(p => p.id === place.id ? place : p)
+  //     : [...this.places(), place];
+
+  //   this.places.set(updatedPlaces);
   }
 
-  private generateFileName(place: TopLevelPlace): string {
-    const baseName = place.name.replaceAll(/\s+(\w)/g, "-$1").toLocaleLowerCase();
-    let counter = 0;
-    let currentName = `${baseName}.json`;
-    while (currentName in this.fileNames) {
-      currentName = `${baseName}-${++counter}.json`;
-    }
-    return currentName;
-  }
+  // private generateFileName(place: TopLevelPlace): string {
+  //   const baseName = place.name.replaceAll(/\s+(\w)/g, "-$1").toLocaleLowerCase();
+  //   let counter = 0;
+  //   let currentName = `${baseName}.json`;
+  //   while (currentName in this.fileNames) {
+  //     currentName = `${baseName}-${++counter}.json`;
+  //   }
+  //   return "places/" + currentName;
+  // }
 }

@@ -1,131 +1,163 @@
-import { signal, WritableSignal } from "@angular/core";
+import { assertInInjectionContext, Signal, signal, WritableSignal } from "@angular/core";
 import z, { ZodType } from "zod";
 import { LanguageIdentifier, AttestationTypeIdentifier, AttestationType, RegionIdentifier, Region, CategoryIdentifier, Category, languageSchema, attestationTypeSchema, regionSchema, categorySchema, Language } from "../../datamodel/common";
-import { TopLevelPlace, PlaceIdentifier, placeSchema, isComposite } from "../../datamodel/place";
+import { TopLevelPlace, PlaceIdentifier, placeSchema, isComposite, Place } from "../../datamodel/place";
 import { Status, Branch, BranchName } from "./connector";
+import { BehaviorSubject, combineLatest, defer, delay, distinctUntilChanged, distinctUntilKeyChanged, filter, map, mapTo, merge, Observable, of, scan, share, shareReplay, skip, startWith, Subject, Subscription, switchMap, take, tap, withLatestFrom } from "rxjs";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 export interface TreeEntry {
   path: string
 }
 
-export abstract class ConnectorSkeleton<TContext, TTreeEntry extends TreeEntry> {
-  public status = signal<Status>({ status: "loading" });
+export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
+  private targetBranch$ = new Subject<BranchName>();
 
-  public branches = signal<Branch[]>([]);
-  public currentBranch = signal<Branch | undefined>(undefined);
+  private fileNames: Signal<{ [key: PlaceIdentifier]: string }>;
 
-  public languages = signal(new Map<LanguageIdentifier, Language>());
-  public attestationTypes = signal(new Map<AttestationTypeIdentifier, AttestationType>());
-  public regions = signal(new Map<RegionIdentifier, Region>());
-  public categories = signal(new Map<CategoryIdentifier, Category>());
-  public places = signal<TopLevelPlace[]>([]);
+  abstract loadBranches(): Observable<Branch[]>;
+  abstract getTree(name: BranchName): Observable<TTreeEntry[]>;
+  abstract getFile(fileInfo: TTreeEntry): Observable<any>;
 
-  protected fileNames: { [key: PlaceIdentifier]: string } = {};
-
-  public async switchToBranch(name: BranchName) {
-    const context = this.createContext();
-
-    this.status.set({ status: "loading" });
-
-    const tree = await this.getTree(name, context);
-
-    const load = async <TKey, TValue extends { id: TKey }, TSchema extends ZodType<TValue>>(
-      collection: WritableSignal<Map<TKey, TValue>>,
-      schema: TSchema,
-      fileName: string
-    ) => {
-      const fileInfo = tree.find(t => t.path === fileName)!;
-      const data = await this.getFile(fileInfo, context);
-      const list = z.array(schema).parse(data);
-
-      const dict = list.reduce((d, i) => { d.set(i.id, i); return d; }, new Map<TKey, TValue>());
-      collection.set(dict);
-    };
-
-    const duplicateIds = new Set<PlaceIdentifier>();
-
-    const loadPlace = async (fileInfo: TTreeEntry) => {
-      const data = await this.getFile(fileInfo, context);
-      const parseResult = placeSchema.safeParse(data);
-
-      if (parseResult.success) {
-        const place = <TopLevelPlace>parseResult.data;
-
-        if (duplicateIds.has(place.id)) {
-          console.error(`Duplicate id in '${fileInfo.path}'`, place.id);
-          return;
-        }
-        duplicateIds.add(place.id);
-
-        if (isComposite(place)) {
-          place.locations.forEach(c => {
-            if (duplicateIds.has(c.id)) {
-              console.error(`Duplicate id in '${fileInfo.path}'`, c.id);
-              return;
-            }
-            duplicateIds.add(c.id);
-
-            c.parent = place;
-          });
-        }
-        this.fileNames[place.id] = fileInfo.path!;
-        this.places.update(val => [...val, place]);
-      } else {
-        const error = parseResult.error;
-        console.error(`Failed to parse '${fileInfo.path}'`, data, error.issues);
-      }
-    };
-
-    const fileInfos = tree
-      .filter(f => /^places\/([^\.]+\.json)$/.test(f.path));
-
-    this.fileNames = {};
-    this.places.set([]);
-
-    const pendingActions: (() => Promise<any>)[] = [];
-
-    pendingActions.push(() => load(this.languages, languageSchema, "languages.json"));
-    pendingActions.push(() => load(this.attestationTypes, attestationTypeSchema, "attestations.json"));
-    pendingActions.push(() => load(this.regions, regionSchema, "regions.json"));
-    pendingActions.push(() => load(this.categories, categorySchema, "categories.json"));
-
-    for (const fileInfo of fileInfos) {
-      pendingActions.push(() => loadPlace(fileInfo));
-    }
-
-    if (this.branches().length === 0) {
-      pendingActions.push(async () => {
-        const branches = await this.loadBranches(context);
-        this.branches.set(branches);
-      });
-    }
-
-    // Simulate a delay
-    // await new Promise(r => setTimeout(() => r(null), 2000));
-
-    let actionsCompleted = 0;
-    this.status.set({ status: "loading", progress: 0 });
-
-    await new Promise(resolve => {
-      pendingActions.map(async (action, index) => {
-        // Simulate a delay
-        // await new Promise(r => setTimeout(() => r(null), Math.random() * 100 * index));
-
-        await action();
-        if (++actionsCompleted < pendingActions.length) {
-          this.status.set({ status: "loading", progress: (actionsCompleted / pendingActions.length) * 100 });
-        } else {
-          this.status.set({ status: "loaded" });
-          resolve(undefined);
-        }
-      });
-    });
-
-    this.currentBranch.set(this.branches().find(b => b.name === name));
+  private load<TSchema extends ZodType<{ id: unknown }>>(
+    tree: Observable<TTreeEntry[]>,
+    schema: TSchema,
+    fileName: string
+  ): Observable<Map<z.infer<TSchema>["id"], z.infer<TSchema>>> {
+    return tree.pipe(
+      map(tree => tree.find(f => f.path === fileName)!),
+      switchMap(t => this.getFile(t)),
+      map(d => z.array(schema).parse(d).reduce(
+        (d, i) => { d.set(i.id, i); return d; },
+        new Map<z.infer<TSchema>["id"], z.infer<TSchema>>())
+      ),
+      tap(l => console.log(fileName, l)),
+      share()
+    );
   }
 
-  abstract createContext(): TContext;
-  abstract getTree(name: BranchName, context: TContext): Promise<TTreeEntry[]>;
-  abstract getFile(fileInfo: TTreeEntry, context: TContext): Promise<any>;
-  abstract loadBranches(context: TContext): Promise<Branch[]>;
+  constructor() {
+    assertInInjectionContext(ConnectorSkeleton);
+
+    // Use targetBranch$ as a signal to load the list of branches
+    const branches$ = this.targetBranch$.pipe(
+      take(1),
+      switchMap(_ => defer(() => this.loadBranches())),
+      share(),
+    );
+
+    const currentBranch$ = combineLatest([this.targetBranch$, branches$]).pipe(
+      filter(([_, branches]) => branches.length > 0),
+      map(([target, branches]) => branches.find(b => b.name === target) || branches[0]),
+      share(),
+    );
+
+    const tree$ = currentBranch$.pipe(
+      distinctUntilKeyChanged("name"),
+      switchMap(branch => this.getTree(branch.name)),
+      tap(x => console.log("tree", x)),
+      share()
+    );
+
+    const languages$ = this.load(tree$, languageSchema, "languages.json");
+    const attestationTypes$ = this.load(tree$, attestationTypeSchema, "attestations.json");
+    const regions$ = this.load(tree$, regionSchema, "regions.json");
+    const categories$ = this.load(tree$, categorySchema, "categories.json");
+
+    const placeStreams$ = tree$.pipe(
+      map(tree => tree
+        .filter(f => /^places\/([^\.]+\.json)$/.test(f.path))
+        .map(f => this.getFile(f).pipe(
+          map(place => ({ place: placeSchema.parse(place), path: f.path })),
+          share()
+        ))
+      ),
+      share()
+    );
+
+    const places$ = placeStreams$.pipe(
+      switchMap(streams => streams.length ? combineLatest(streams) : of([])),
+      map(list => list.map(p => p.place))
+    );
+
+    const fileNames$ = placeStreams$.pipe(
+      switchMap(streams => streams.length ? combineLatest(streams) : of([])),
+      map(list => list.reduce((a, p) => { a[p.place.id] = p.path; return a; }, {} as { [key: PlaceIdentifier]: string }))
+    );
+
+    // Progress updates
+    const knownFiles: Observable<any>[] = [languages$, attestationTypes$, regions$, categories$];
+
+    const totalCount$ = currentBranch$.pipe(
+      switchMap(() => placeStreams$.pipe(
+        take(1),
+        map(streams => knownFiles.length + streams.length)
+      )),
+    );
+
+    const knownFilesProgress$ = currentBranch$.pipe(
+      switchMap(() => merge(...knownFiles.map(o => o.pipe(
+        take(1),
+        map(_ => 1)
+      ))))
+    );
+
+    const placeProgress$ = currentBranch$.pipe(
+      switchMap(() => placeStreams$.pipe(
+        take(1), // capture the list for this branch
+        switchMap(streams => streams.length
+          ? merge(...streams.map(s => s.pipe(take(1), map(_ => 1))))
+          : of()
+        )
+      ))
+    );
+
+    const loadedCount$ = merge(
+      currentBranch$.pipe(
+        map(_ => NaN),
+      ),
+      knownFilesProgress$,
+      placeProgress$,
+    ).pipe(
+      scan((acc, x) => isNaN(x) ? 0 : acc + 1, 0)
+    );
+
+    const status$ = combineLatest([totalCount$, loadedCount$]).pipe(
+      map(([total, loaded]): Status => {
+        if (loaded === total || total === 0) {
+          return { status: "loaded" };
+        } else if (loaded === 0) {
+          return { status: "loading" };
+        } else {
+          return { status: "loading", progress: 100 * loaded / total };
+        }
+      }),
+      tap(status => console.log("status", status)),
+    );
+
+    this.status = toSignal(status$, { initialValue: { status: "loading" } });
+    this.branches = toSignal(branches$, { initialValue: [] });
+
+    this.currentBranch = toSignal(currentBranch$);
+    this.languages = toSignal(languages$, { initialValue: new Map() });
+    this.attestationTypes = toSignal(attestationTypes$, { initialValue: new Map() });
+    this.regions = toSignal(regions$, { initialValue: new Map() });
+    this.categories = toSignal(categories$, { initialValue: new Map() });
+    this.places = toSignal(places$, { initialValue: [] });
+    this.fileNames = toSignal(fileNames$, { initialValue: {} });
+  }
+
+  public status: Signal<Status>;
+  public branches: Signal<Branch[]>;
+
+  public currentBranch: Signal<Branch | undefined>;
+  public languages: Signal<Map<LanguageIdentifier, Language>>;
+  public attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>;
+  public regions: Signal<Map<RegionIdentifier, Region>>;
+  public categories: Signal<Map<CategoryIdentifier, Category>>;
+  public places: Signal<TopLevelPlace[]>;
+
+  public switchToBranch(name: BranchName) {
+    this.targetBranch$.next(name);
+  }
 }

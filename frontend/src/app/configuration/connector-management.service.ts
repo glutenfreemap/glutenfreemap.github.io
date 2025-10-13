@@ -1,9 +1,9 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, createEnvironmentInjector, EnvironmentInjector, Injectable, runInInjectionContext, signal } from '@angular/core';
 import { z } from 'zod';
 import { GITHUB_CONFIGURATION_TYPE, gitHubConfigurationSchema } from '../../connectors/github/configuration';
 import { BranchName, branchNameSchema, Connector, NopConnector } from './connector';
 import type { Except, Simplify } from 'type-fest';
-import { DEFAULT_BRANCH, PUBLIC_CONFIGURATION_TYPE, publicConfigurationSchema } from '../../connectors/public/configuration';
+import { PUBLIC_CONFIGURATION_TYPE, publicConfigurationSchema } from '../../connectors/public/configuration';
 import { localizedStringSchema } from '../../datamodel/common';
 import { parseJsonPreprocessor } from '../common/helpers';
 import { GitHubConnector } from '../../connectors/github/connector';
@@ -72,7 +72,8 @@ export class ConnectorManagementService {
 
   constructor(
     private translate: TranslateService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private injector: EnvironmentInjector
   ) {
     const configuration = connectorConfigurationListSchema.safeParse(
       localStorage.getItem(CONNECTOR_CONFIGURATION_KEY)
@@ -87,8 +88,12 @@ export class ConnectorManagementService {
     }
   }
 
+  private currentConnectorInjector?: EnvironmentInjector;
+
   private recreateConnector(): void {
     const selectedConfiguration = this._configurations().find(c => c.selected);
+
+    this.currentConnectorInjector?.destroy();
 
     if (!selectedConfiguration) {
       this._selectedConnector.set(NOP_CONNECTOR);
@@ -99,20 +104,29 @@ export class ConnectorManagementService {
 
     switch (configuration.type) {
       case GITHUB_CONFIGURATION_TYPE: {
-        const connector = new GitHubConnector(configuration, this.translate);
+        this.currentConnectorInjector = createEnvironmentInjector([], this.injector);
+        const connector = runInInjectionContext(
+          this.currentConnectorInjector,
+          () => new GitHubConnector(configuration, this.translate, this.httpClient)
+        );
         connector.switchToBranch(branch);
         this._selectedConnector.set(connector);
         break;
       }
 
       case PUBLIC_CONFIGURATION_TYPE: {
-        const connector = new PublicConnector(configuration, this.httpClient);
-        connector.switchToBranch(DEFAULT_BRANCH);
+        this.currentConnectorInjector = createEnvironmentInjector([], this.injector);
+        const connector = runInInjectionContext(
+          this.currentConnectorInjector,
+          () => new PublicConnector(configuration, this.httpClient)
+        );
+        connector.switchToBranch(branch);
         this._selectedConnector.set(connector);
         break;
       }
 
       default:
+        this._selectedConnector.set(NOP_CONNECTOR);
         throw new Error(`Unsupported configuration type '${configuration["type"]}`);
     }
   }
