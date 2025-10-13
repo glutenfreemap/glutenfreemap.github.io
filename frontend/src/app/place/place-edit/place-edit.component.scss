@@ -29,7 +29,7 @@ mat-card {
 }
 
 @media (max-width: 500px) {
-  .row {
+  .row:not(.keep-columns) {
     flex-direction: column;
     gap: 0;
   }

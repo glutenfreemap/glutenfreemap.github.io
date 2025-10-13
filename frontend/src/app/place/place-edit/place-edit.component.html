@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{'place.editor.title' | translate:{ name: place.name } }}</h2>
+<h2 mat-dialog-title>{{ place.id ? ('place.editor.title' | translate:{ name: place.name }) : 'place.editor.createTitle' | translate }}</h2>
 <mat-dialog-content>
   @if (isChild(place)) {
     <mat-card appearance="outlined">
@@ -77,7 +77,7 @@
               required: 'place.editor.address.required' | translate
             }) }}</mat-error>
           </mat-form-field>
-          <div class="row">
+          <div class="row keep-columns">
             <mat-form-field>
               <mat-label>{{ 'place.editor.latitude.label' | translate }}</mat-label>
               <input matInput [formControl]="latitudeInput!" required />
