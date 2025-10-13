@@ -12,6 +12,7 @@ import { ConnectorManagementService } from '../../configuration/connector-manage
 import { MatDialog } from '@angular/material/dialog';
 import { PlaceEditComponent } from '../../place/place-edit/place-edit.component';
 import { BranchSelectorComponent } from '../../shell/branch-selector/branch-selector.component';
+import { PlaceCreatorComponent } from '../../place/place-creator/place-creator.component';
 
 @Component({
   selector: 'app-map-view',
@@ -22,7 +23,8 @@ import { BranchSelectorComponent } from '../../shell/branch-selector/branch-sele
     FilterComponent,
     MainMenuComponent,
     ConnectorSelectorComponent,
-    BranchSelectorComponent
+    BranchSelectorComponent,
+    PlaceCreatorComponent
 ],
   templateUrl: './map-view.component.html',
   styleUrl: './map-view.component.scss'
@@ -34,6 +36,7 @@ export class MapViewComponent {
   public connector: Signal<Connector>;
   public canSelectConnector = computed(() => this.configurationService.configurations().length > 1);
   public canSelectBranch = computed(() => this.connector().branches().length > 1 || isWritableConnector(this.connector()));
+  public canCreatePlace = computed(() => isWritableConnector(this.connector()));
 
   constructor(
     private configurationService: ConnectorManagementService,

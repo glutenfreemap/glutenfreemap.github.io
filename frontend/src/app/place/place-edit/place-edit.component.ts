@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnDestroy, signal, Signal, viewChild } from '@angular/core';
-import { ChildPlace, CompositePlace, GoogleIdentifier, isChild, isLeaf, isStandalone, LeafPlace, Place, StandalonePlace } from '../../../datamodel/place';
+import { ChildPlace, CompositePlace, GoogleIdentifier, isChild, isLeaf, isStandalone, LeafPlace, Place, PlaceIdentifier, PrototypeChildPlace, PrototypePlace, PrototypeStandalonePlace, StandalonePlace } from '../../../datamodel/place';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogTitle, MatDialogContent, MatDialogActions, MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -63,14 +63,14 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
   public error = errorMessage;
   public loading = signal(false);
 
-  public place: Place;
+  public place: PrototypePlace;
   public connector: WritableConnector;
 
   private generalTab: Signal<ElementRef<HTMLDivElement>> = viewChild.required("generalTab", { read: ElementRef });
   private descriptionTab: Signal<ElementRef<HTMLDivElement>> = viewChild.required("descriptionTab", { read: ElementRef });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly params: { place: Place, connector: WritableConnector },
+    @Inject(MAT_DIALOG_DATA) public readonly params: { place: PrototypePlace, connector: WritableConnector },
     private dialogRef: MatDialogRef<Place>,
     private dialog: MatDialog
   ) {
@@ -80,14 +80,14 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
 
     this.gidInput = new FormControl(isLeaf(place) && place.gid || null);
 
-    this.nameInput = new FormControl(place.name, [
+    this.nameInput = new FormControl(place.name || "", [
       Validators.required
     ]);
 
     this.categories = connector.categories;
     if (isStandalone(place)) {
       this.categoriesInput = new FormControl(
-        place.categories.map(c => this.categories().get(c)!),
+        place.categories?.map(c => this.categories().get(c)!) || [],
         {
           nonNullable: true,
           validators: [
@@ -106,22 +106,22 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
     );
 
     if (isLeaf(place)) {
-      this.addressInput = new FormControl(place.address.join("\n"), [
+      this.addressInput = new FormControl(place.address?.join("\n") || "", [
         Validators.required
       ]);
 
       this.regions = connector.regions;
-      this.regionInput = new FormControl(this.regions().get(place.region) || null, [
+      this.regionInput = new FormControl(place.region && this.regions().get(place.region) || null, [
         Validators.required
       ]);
 
-      this.latitudeInput = new FormControl(place.position.lat, [
+      this.latitudeInput = new FormControl(place.position?.lat || 0, [
         Validators.required,
         Validators.min(-90),
         Validators.max(90)
       ]);
 
-      this.longitudeInput = new FormControl(place.position.lng, [
+      this.longitudeInput = new FormControl(place.position?.lng || 0, [
         Validators.required,
         Validators.min(-180),
         Validators.max(180)
@@ -168,15 +168,15 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
-  public isChild(place: Place): place is ChildPlace {
+  public isChild(place: PrototypePlace): place is PrototypeChildPlace {
     return isChild(place);
   }
 
-  public isLeaf(place: Place): place is LeafPlace {
+  public isLeaf(place: PrototypePlace): place is PrototypePlace {
     return isLeaf(place);
   }
 
-  public isStandalone(place: Place): place is StandalonePlace {
+  public isStandalone(place: PrototypePlace): place is PrototypeStandalonePlace {
     return isStandalone(place);
   }
 
@@ -192,8 +192,15 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
     firstValueFrom(dialogRef.afterClosed()).then(details => {
       if (details) {
         this.gidInput.setValue(details.gid);
+
         this.addressInput!.setValue(details.address.join("\n"));
         this.addressInput!.markAsDirty();
+
+        this.latitudeInput!.setValue(details.position.lat);
+        this.latitudeInput!.markAsDirty();
+
+        this.longitudeInput!.setValue(details.position.lng);
+        this.longitudeInput!.markAsDirty();
       }
     });
   }
@@ -210,6 +217,21 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
     return this.inputs.some(f => f.dirty);
   }
 
+  private generatePlaceId(name: string): PlaceIdentifier {
+    const baseId = name.replaceAll(/(^|\s+)([^\s]+)/g, (m, p1, p2) => (p1.length ? '-' : '') + p2.toLowerCase());
+    const existing = new Set(this.connector.places().map(p => p.id as string));
+
+    let tentativeId = baseId;
+    for (let i = 1; i <= 100; ++i) {
+      if (!existing.has(tentativeId)) {
+        return tentativeId as PlaceIdentifier;
+      }
+      tentativeId = `${baseId}-${i}`;
+    }
+
+    return crypto.randomUUID() as PlaceIdentifier;
+  }
+
   public async save() {
     if (!this.isValid()) {
       throw new Error("Invalid");
@@ -217,12 +239,16 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
 
     this.loading.set(true);
 
+    const isNew = !this.place.id;
+    const name = this.nameInput.value!;
+    const id = this.place.id || this.generatePlaceId(name);
+
     if (isStandalone(this.place)) {
       await this.connector.commit<StandalonePlace>({
-        id: this.place.id,
+        id,
+        name,
 
         gid: this.gidInput.value || undefined,
-        name: this.nameInput.value!,
         attestation: this.attestationInput.value?.id!,
         address: this.addressInput!.value!.split("\n") || [],
         region: this.regionInput!.value!.id!,
@@ -236,10 +262,10 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
     } else if (isChild(this.place)) {
       const child: ChildPlace = {
         parent: this.place.parent,
-        id: this.place.id,
+        id,
+        name,
 
         gid: this.gidInput.value || undefined,
-        name: this.nameInput.value!,
         attestation: this.attestationInput.value?.id,
         address: this.addressInput!.value!.split("\n") || [],
         region: this.regionInput!.value!.id!,
@@ -252,14 +278,17 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
 
       await this.connector.commit<CompositePlace>({
         ...this.place.parent,
-        locations: this.place.parent.locations.map(p => p.id === child.id ? child : p)
+        locations: isNew
+          ? [...this.place.parent.locations, child]
+          : this.place.parent.locations.map(p => p.id === child.id ? child : p)
       });
     } else {
       await this.connector.commit<CompositePlace>({
-        id: this.place.id,
+        id,
+        name,
+
         locations: this.place.locations,
 
-        name: this.nameInput.value!,
         attestation: this.attestationInput.value?.id!,
         categories: this.categoriesInput!.value.map(c => c.id),
         description: this.descriptionInput.value || undefined,

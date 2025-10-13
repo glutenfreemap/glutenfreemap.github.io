@@ -12,6 +12,9 @@
   @if (canSelectBranch()) {
     <app-branch-selector [connector]="connector()" />
   }
+  @if (canCreatePlace()) {
+    <app-place-creator [connector]="connector()" />
+  }
 </div>
 
 <app-main-menu />

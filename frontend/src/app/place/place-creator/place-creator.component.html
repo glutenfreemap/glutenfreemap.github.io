@@ -1,0 +1,13 @@
+<button matButton="elevated" [matMenuTriggerFor]="menu">
+  <mat-icon>{{ 'N' }}</mat-icon>
+  {{ 'place.actions.create' | translate }}
+  <mat-icon class="dropdown-icon">L</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="createStandalonePlace()">
+    {{ 'general.actions.createStandalone' | translate }}
+  </button>
+  <button mat-menu-item (click)="createCompositePlace()">
+    {{ 'general.actions.createComposite' | translate }}
+  </button>
+</mat-menu>
