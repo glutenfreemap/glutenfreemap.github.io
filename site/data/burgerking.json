@@ -2926,6 +2926,20 @@
     "district": "coimbra"
   },
   {
+    "id": "33220",
+    "gid": null,
+    "subtitle": "Rua Diamantina 259-243, Paranhos",
+    "address": [
+      "Rua Diamantina 259-243, Paranhos",
+      "4350-163 Porto"
+    ],
+    "position": {
+      "lat": 0.0,
+      "lng": 0.0
+    },
+    "district": null
+  },
+  {
     "id": "33282",
     "gid": null,
     "subtitle": "ESTRADA NACIONAL N10 35",
