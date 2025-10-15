@@ -14,7 +14,7 @@ import { WizardComponent, WizardStepComponent } from '../../../app/shell/wizard/
 import { PUBLIC_CONFIGURATION_TYPE, PublicRepository } from '../configuration';
 import { NgIf } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PublicMetadataService } from '../connector';
+import { PublicMetadataService } from '../public.connector';
 import { firstValueFrom } from 'rxjs';
 import { MatListModule } from '@angular/material/list';
 import { LocalizePipe } from '../../../app/shell/localize.pipe';

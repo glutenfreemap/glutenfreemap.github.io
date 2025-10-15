@@ -16,9 +16,9 @@ type LoadedStatus = {
   status: "loaded"
 };
 
-type ErrorStatus = {
+export type ErrorStatus = {
   status: "error",
-  message: string
+  error: any
 };
 
 export type Status = IndeterminateLoadingStatus | DeterminateLoadingStatus | LoadedStatus | ErrorStatus;
@@ -29,7 +29,7 @@ export type BranchName = z.infer<typeof branchNameSchema>;
 export const versionIdentifierSchema = z.string().min(1).brand("VersionIdentifier");
 export type VersionIdentifier = z.infer<typeof versionIdentifierSchema>;
 
-const branchSchema = z.object({
+export const branchSchema = z.object({
   name: branchNameSchema,
   version: versionIdentifierSchema,
   protected: z.boolean()

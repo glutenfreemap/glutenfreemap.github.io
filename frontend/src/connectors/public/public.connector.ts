@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from "@angular/core";
+import { DestroyRef, Inject, Injectable, InjectionToken } from "@angular/core";
 import { Branch, BranchName, Connector, VersionIdentifier } from "../../app/configuration/connector";
 import { HttpClient } from "@angular/common/http";
 import { DEFAULT_BRANCH, PublicConfiguration, PublicRepository, publicRepositorySchema } from "./configuration";
@@ -6,8 +6,11 @@ import { environment } from "../../environments/current";
 import { firstValueFrom, map, Observable, of } from "rxjs";
 import { z } from "zod";
 import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 export const PUBLIC_CONNECTOR = new InjectionToken<Connector>("PublicConnector");
+export const PUBLIC_CONFIGURATION = new InjectionToken<PublicConfiguration>("PublicConfiguration");
+export const LATEST_VERSION = "latest" as VersionIdentifier;
 
 const treeEntrySchema = z.object({
   path: z.string().min(1),
@@ -29,12 +32,15 @@ export class PublicMetadataService {
   }
 }
 
+@Injectable()
 export class PublicConnector extends ConnectorSkeleton<TreeEntry> implements Connector {
   constructor(
-    private configuration: PublicConfiguration,
-    private httpClient: HttpClient
+    @Inject(PUBLIC_CONFIGURATION) private configuration: PublicConfiguration,
+    private httpClient: HttpClient,
+    snackBar: MatSnackBar,
+    destroyRef: DestroyRef
   ) {
-    super();
+    super(snackBar, destroyRef);
   }
 
   override getTree(_name: BranchName): Observable<TreeEntry[]> {
@@ -50,7 +56,7 @@ export class PublicConnector extends ConnectorSkeleton<TreeEntry> implements Con
   override loadBranches(): Observable<Branch[]> {
     return of([{
       name: DEFAULT_BRANCH,
-      version: undefined as any as VersionIdentifier,
+      version: LATEST_VERSION,
       protected: true
     }]);
   }

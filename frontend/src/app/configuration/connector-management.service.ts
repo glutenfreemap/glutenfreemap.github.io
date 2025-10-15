@@ -6,10 +6,8 @@ import type { Except, Simplify } from 'type-fest';
 import { PUBLIC_CONFIGURATION_TYPE, publicConfigurationSchema } from '../../connectors/public/configuration';
 import { localizedStringSchema } from '../../datamodel/common';
 import { parseJsonPreprocessor } from '../common/helpers';
-import { GitHubConnector } from '../../connectors/github/connector';
-import { TranslateService } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
-import { PublicConnector } from '../../connectors/public/connector';
+import { GITHUB_CONFIGURATION, GitHubConnector } from '../../connectors/github/github.connector';
+import { PUBLIC_CONFIGURATION, PublicConnector } from '../../connectors/public/public.connector';
 
 const CONNECTOR_CONFIGURATION_KEY = "ConnectorConfiguration";
 
@@ -71,8 +69,6 @@ export class ConnectorManagementService {
   public selectedConnector = this._selectedConnector.asReadonly();
 
   constructor(
-    private translate: TranslateService,
-    private httpClient: HttpClient,
     private injector: EnvironmentInjector
   ) {
     const configuration = connectorConfigurationListSchema.safeParse(
@@ -104,10 +100,20 @@ export class ConnectorManagementService {
 
     switch (configuration.type) {
       case GITHUB_CONFIGURATION_TYPE: {
-        this.currentConnectorInjector = createEnvironmentInjector([], this.injector);
+        const injector = this.currentConnectorInjector = createEnvironmentInjector([
+          {
+            provide: GitHubConnector,
+            useClass: GitHubConnector
+          },
+          {
+            provide: GITHUB_CONFIGURATION,
+            useValue: configuration
+          }
+        ], this.injector);
+
         const connector = runInInjectionContext(
-          this.currentConnectorInjector,
-          () => new GitHubConnector(configuration, this.translate, this.httpClient)
+          injector,
+          () => injector.get(GitHubConnector)
         );
         connector.switchToBranch(branch);
         this._selectedConnector.set(connector);
@@ -115,10 +121,19 @@ export class ConnectorManagementService {
       }
 
       case PUBLIC_CONFIGURATION_TYPE: {
-        this.currentConnectorInjector = createEnvironmentInjector([], this.injector);
+        const injector = this.currentConnectorInjector = createEnvironmentInjector([
+          {
+            provide: PublicConnector,
+            useClass: PublicConnector
+          },
+          {
+            provide: PUBLIC_CONFIGURATION,
+            useValue: configuration
+          }
+        ], this.injector);
         const connector = runInInjectionContext(
-          this.currentConnectorInjector,
-          () => new PublicConnector(configuration, this.httpClient)
+          injector,
+          () => injector.get(PublicConnector)
         );
         connector.switchToBranch(branch);
         this._selectedConnector.set(connector);

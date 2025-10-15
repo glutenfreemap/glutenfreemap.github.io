@@ -1,80 +1,162 @@
 import { Octokit } from "@octokit/rest";
-import { Branch, BranchName, CreateBranchResult, VersionIdentifier, WritableConnector } from "../../app/configuration/connector";
+import { Branch, BranchName, branchSchema, CreateBranchResult, VersionIdentifier, WritableConnector } from "../../app/configuration/connector";
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
 import { TopLevelPlace } from "../../datamodel/place";
 import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
-import { defer, map, Observable, ReplaySubject, switchMap, tap } from "rxjs";
-import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
+import { defer, filter, firstValueFrom, from, map, Observable, shareReplay, switchMap, tap } from "rxjs";
+import { ConnectorSkeleton, treeEntrySchema } from "../../app/configuration/connector-skeleton";
 import { HttpClient } from "@angular/common/http";
+import { cacheOrSource, cacheThenSource, parseJsonPreprocessor } from "../../app/common/helpers";
+import { z } from "zod";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { DestroyRef, Inject, Injectable, InjectionToken } from "@angular/core";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
+export const GITHUB_CONFIGURATION = new InjectionToken<GitHubConfiguration>("GitHubConfiguration");
 
-type GithubTreeEntry = Awaited<ReturnType<Octokit['git']['getTree']>>['data']['tree'][0] & { path: string };
+const githubTreeEntrySchema = treeEntrySchema.extend({
+  sha: z.string()
+});
 
+type GithubTreeEntry = z.infer<typeof githubTreeEntrySchema>;
+
+const branchListSchema = z.preprocess(parseJsonPreprocessor, z.array(branchSchema));
+const githubTreeEntryListSchema = z.preprocess(parseJsonPreprocessor, z.object({
+  sha: z.string(),
+  tree: z.array(githubTreeEntrySchema)
+}));
+
+@Injectable()
 export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implements WritableConnector {
-  private octokit$ = new ReplaySubject<Octokit>(1);
+  private octokit: Octokit;
+  private cache$: Observable<Cache>;
 
   constructor(
-    private configuration: GitHubConfiguration,
+    @Inject(GITHUB_CONFIGURATION) private configuration: GitHubConfiguration,
     private translate: TranslateService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    snackBar: MatSnackBar,
+    destroyRef: DestroyRef
   ) {
-    super();
+    super(snackBar, destroyRef);
 
-    this.octokit$.next(new Octokit({ auth: this.configuration.token }));
+    this.octokit = new Octokit({ auth: configuration.token });
+
+    this.cache$ = defer(() => caches.open(`github/${configuration.repository.owner}/${configuration.repository.name}`)).pipe(
+      shareReplay(1)
+    );
   }
 
   override loadBranches(): Observable<Branch[]> {
-    return this.octokit$.pipe(
-      switchMap(octokit => defer(() => octokit.paginate(octokit.repos.listBranches, {
-        owner: this.configuration.repository.owner,
-        repo: this.configuration.repository.name
-      }))),
+    const url = new URL("https://api.github.com/repos/{owner}/{repo}/branches");
+
+    const fromCache$ = this.cache$.pipe(
+      switchMap(cache => from(cache.match(url))),
+      filter((r): r is Response => !!r),
+      switchMap(r => from(r.json())),
+      map(r => branchListSchema.parse(r))
+    );
+
+    const fromSource$ = defer(() => this.octokit.paginate(this.octokit.repos.listBranches, {
+      owner: this.configuration.repository.owner,
+      repo: this.configuration.repository.name,
+      headers: {
+        "If-None-Match": "" // Prevent caching since we do it manually
+      }
+    })).pipe(
       map(branches => branches.map(b => ({
         name: b.name as BranchName,
         version: b.commit.sha as VersionIdentifier,
         protected: b.name === this.configuration.repository.defaultBranch
-      })))
+      }))),
+      tap(async branches => {
+        const cache = await firstValueFrom(this.cache$);
+        cache.put(url, Response.json(branches));
+      })
+    );
+
+    return cacheThenSource(
+      fromCache$,
+      fromSource$,
+      (previous, current) => previous.length === current.length
+        && current.every(c => previous.some(p => p.name === c.name && p.version === c.version && p.protected === c.protected))
     );
   }
 
-  override getTree(name: BranchName): Observable<GithubTreeEntry[]> {
-    return this.octokit$.pipe(
-      switchMap(octokit => defer(() => octokit.git.getRef({
+  override getTree(branch: BranchName): Observable<GithubTreeEntry[]> {
+    const url = new URL(`https://api.github.com/repos/{owner}/{repo}/git/trees/${branch}`);
+
+    const fromCache$ = this.cache$.pipe(
+      switchMap(cache => from(cache.match(url))),
+      filter((r): r is Response => !!r),
+      switchMap(r => from(r.json())),
+      map(r => githubTreeEntryListSchema.parse(r))
+    );
+
+    const fromSource$ = defer(() => this.octokit.git.getRef({
+      owner: this.configuration.repository.owner,
+      repo: this.configuration.repository.name,
+      ref: `heads/${branch}`,
+      headers: {
+        "If-None-Match": "" // Prevent caching since we do it manually
+      }
+    })).pipe(
+      switchMap(ref => defer(() => this.octokit.git.getTree({
         owner: this.configuration.repository.owner,
         repo: this.configuration.repository.name,
-        ref: `heads/${name}`,
-        headers: {
-          "If-None-Match": ""
-        }
+        tree_sha: ref.data.object.sha,
+        recursive: "true"
       })).pipe(
-        switchMap(ref => defer(() => octokit.git.getTree({
-          owner: this.configuration.repository.owner,
-          repo: this.configuration.repository.name,
-          tree_sha: ref.data.object.sha,
-          recursive: "true"
-        }))),
         tap(tree => {
           if (tree.data.truncated) {
             console.error("Could not load the whole repository tree");
           }
         }),
-        map(tree => tree.data.tree.filter(f => f.type === "blob" && f.path) as GithubTreeEntry[])
-      )),
+        map(tree => ({
+          sha: ref.data.object.sha,
+          tree: tree.data.tree.filter(f => f.type === "blob" && f.path) as GithubTreeEntry[]
+        })),
+        tap(async tree => {
+          const cache = await firstValueFrom(this.cache$);
+          cache.put(url, Response.json(tree));
+        })
+      ))
+    );
+
+    return cacheThenSource(
+      fromCache$,
+      fromSource$,
+      (previous, current) => previous.sha === current.sha
+    ).pipe(
+      map(t => t.tree)
     );
   }
 
   override getFile(fileInfo: GithubTreeEntry): Observable<any> {
-    return this.octokit$.pipe(
-      switchMap(octokit => defer(() => octokit.git.getBlob({
-        owner: this.configuration.repository.owner,
-        repo: this.configuration.repository.name,
-        file_sha: fileInfo.sha!,
-        mediaType: { format: "raw" }
-      }))),
-      map(blob => JSON.parse(blob.data as any))
+    const url = new URL(`https://api.github.com/repos/{owner}/{repo}/git/blobs/${fileInfo.sha}`);
+
+    const fromCache$ = this.cache$.pipe(
+      switchMap(cache => from(cache.match(url))),
+      filter((r): r is Response => !!r),
+      switchMap(r => from(r.json()))
     );
+
+    const fromSource$ = defer(() => this.octokit.git.getBlob({
+      owner: this.configuration.repository.owner,
+      repo: this.configuration.repository.name,
+      file_sha: fileInfo.sha!,
+      mediaType: { format: "raw" }
+    })).pipe(
+      map(blob => JSON.parse(blob.data as any)),
+      tap(async file => {
+        const cache = await firstValueFrom(this.cache$);
+        cache.put(url, Response.json(file));
+      })
+    );
+
+    // Since the sha identifies the file content, we only check the source if no value was found in cache.
+    return cacheOrSource(fromCache$, fromSource$);
   }
 
   public static async listRepositories(token: GitHubToken): Promise<GitHubRepository[] | typeof INVALID_TOKEN> {

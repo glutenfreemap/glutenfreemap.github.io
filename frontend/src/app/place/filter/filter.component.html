@@ -1,4 +1,4 @@
-<button matButton="elevated" (click)="openFilters()">
+<button matButton="elevated" [disabled]="hasError()" (click)="openFilters()">
   <mat-icon>B</mat-icon>
   {{ 'place.filter.label' | translate }}
 </button>

@@ -1,6 +1,6 @@
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormControl } from "@angular/forms";
-import { map, startWith } from "rxjs";
+import { catchError, concat, defer, distinctUntilChanged, map, merge, Observable, share, startWith, take, takeUntil, throwError, throwIfEmpty } from "rxjs";
 import z, { string } from "zod";
 
 export function errorMessage(control: FormControl, errors: { [key: string]: string }): string {
@@ -51,6 +51,34 @@ export const parseJsonPreprocessor = (value: any, ctx: z.RefinementCtx) => {
 
   return value;
 };
+
+export function cacheThenSource<T>(
+  cache$: Observable<T>,
+  source$: Observable<T>,
+  comparator: (previous: T, current: T) => boolean
+): Observable<T> {
+  // Ensure single source request and single emission
+  const sourceOnce$ = source$.pipe(take(1), share());
+
+  return merge(
+    // Emit cache only if it arrives before source; cancel it once source emits
+    cache$.pipe(take(1), takeUntil(sourceOnce$)),
+    // Always pass through the source value
+    sourceOnce$
+  ).pipe(
+    distinctUntilChanged(comparator)
+  );
+}
+
+export function cacheOrSource<T>(
+  cache$: Observable<T>,
+  source$: Observable<T>
+): Observable<T> {
+  return concat(
+    cache$,               // may emit 0 or 1
+    defer(() => source$)  // subscribed only if cache emitted nothing
+  ).pipe(take(1));        // emit exactly one value overall
+}
 
 interface Workflow<T extends {}> {
   with<R>(step: (args: T) => Promise<any>) : Workflow<T>;

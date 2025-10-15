@@ -45,6 +45,7 @@ export class FilterComponent {
   private openedDialog?: MatDialogRef<any>;
 
   public filters: WritableSignal<Filters>;
+  public hasError = computed(() => this.connector().status().status === "error");
 
   public filteredPlaces = computed<DisplayablePlace[]>(() => {
     const filters = this.filters();

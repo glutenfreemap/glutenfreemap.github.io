@@ -1,23 +1,54 @@
-import { assertInInjectionContext, Signal, signal, WritableSignal } from "@angular/core";
+import { DestroyRef, signal, Signal } from "@angular/core";
 import z, { ZodType } from "zod";
 import { LanguageIdentifier, AttestationTypeIdentifier, AttestationType, RegionIdentifier, Region, CategoryIdentifier, Category, languageSchema, attestationTypeSchema, regionSchema, categorySchema, Language } from "../../datamodel/common";
-import { TopLevelPlace, PlaceIdentifier, placeSchema, isComposite, Place } from "../../datamodel/place";
+import { TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { Status, Branch, BranchName } from "./connector";
-import { BehaviorSubject, combineLatest, defer, delay, distinctUntilChanged, distinctUntilKeyChanged, filter, map, mapTo, merge, Observable, of, scan, share, shareReplay, skip, startWith, Subject, Subscription, switchMap, take, tap, withLatestFrom } from "rxjs";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { catchError, combineLatest, concatWith, connectable, distinctUntilChanged, distinctUntilKeyChanged, EMPTY, filter, finalize, map, merge, Observable, of, retry, scan, share, shareReplay, Subscription, switchMap, take, tap, throwError } from "rxjs";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { RetryToastComponent, RetryToastParams } from "../common/retry-toast/retry-toast.component";
 
-export interface TreeEntry {
-  path: string
+export const treeEntrySchema = z.object({
+  path: z.string()
+});
+
+export type TreeEntry = z.infer<typeof treeEntrySchema>;
+
+const EMPTY_MAP = new Map();
+
+class UserCancelledError extends Error {
+  constructor(error: any) {
+    super("User cancelled", { cause: error });
+  }
 }
 
 export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
-  private targetBranch$ = new Subject<BranchName>();
-
-  private fileNames: Signal<{ [key: PlaceIdentifier]: string }>;
-
   abstract loadBranches(): Observable<Branch[]>;
-  abstract getTree(name: BranchName): Observable<TTreeEntry[]>;
+  abstract getTree(branch: BranchName): Observable<TTreeEntry[]>;
   abstract getFile(fileInfo: TTreeEntry): Observable<any>;
+
+  private promptRetry(fileName: string, error: any, optional: boolean): Observable<boolean> {
+    const data: RetryToastParams = {
+      fileName,
+      optional
+    };
+
+    const snackBarRef = this.snackBar.openFromComponent(RetryToastComponent, {
+      data
+    });
+
+    return snackBarRef.afterDismissed().pipe(
+      switchMap(dismiss => {
+        if (dismiss.dismissedByAction) {
+          return of(true);
+        } else if (optional) {
+          return EMPTY;
+        } else {
+          return throwError(() => new UserCancelledError(error));
+        }
+      }),
+      finalize(() => snackBarRef.dismiss())
+    );
+  }
 
   private load<TSchema extends ZodType<{ id: unknown }>>(
     tree: Observable<TTreeEntry[]>,
@@ -26,36 +57,71 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   ): Observable<Map<z.infer<TSchema>["id"], z.infer<TSchema>>> {
     return tree.pipe(
       map(tree => tree.find(f => f.path === fileName)!),
-      switchMap(t => this.getFile(t)),
+      switchMap(t => this.getFile(t).pipe(
+        retry({
+          delay: error => this.promptRetry(t.path, error, false)
+        })
+      )),
       map(d => z.array(schema).parse(d).reduce(
         (d, i) => { d.set(i.id, i); return d; },
         new Map<z.infer<TSchema>["id"], z.infer<TSchema>>())
       ),
-      tap(l => console.log(fileName, l)),
       share()
     );
   }
 
-  constructor() {
-    assertInInjectionContext(ConnectorSkeleton);
+  private subscriptions: Subscription[] = [];
 
-    // Use targetBranch$ as a signal to load the list of branches
-    const branches$ = this.targetBranch$.pipe(
-      take(1),
-      switchMap(_ => defer(() => this.loadBranches())),
-      share(),
-    );
+  private unsubscribeAll(): void {
+    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions = [];
+  }
 
-    const currentBranch$ = combineLatest([this.targetBranch$, branches$]).pipe(
-      filter(([_, branches]) => branches.length > 0),
-      map(([target, branches]) => branches.find(b => b.name === target) || branches[0]),
+  constructor(
+    private snackBar: MatSnackBar,
+    destroyRef: DestroyRef
+  ) {
+    destroyRef.onDestroy(() => this.unsubscribeAll());
+  }
+
+  public status = signal<Status>({ status: "loaded" });
+  public branches = signal<Branch[]>([]);
+  public currentBranch = signal<Branch | undefined>(undefined);
+  public languages = signal<Map<LanguageIdentifier, Language>>(EMPTY_MAP);
+  public attestationTypes = signal<Map<AttestationTypeIdentifier, AttestationType>>(EMPTY_MAP);
+  public regions = signal<Map<RegionIdentifier, Region>>(EMPTY_MAP);
+  public categories = signal<Map<CategoryIdentifier, Category>>(EMPTY_MAP);
+  public places = signal<TopLevelPlace[]>([]);
+
+  private fileNames = signal<{ [key: PlaceIdentifier]: string }>({});
+  private branches$?: Observable<Branch[]>;
+
+  public switchToBranch(name: BranchName) {
+    this.unsubscribeAll();
+
+    this.status.set({ status: "loading" });
+
+    if (!this.branches$) {
+      this.branches$ = this.loadBranches().pipe(
+        tap(this.branches.set),
+        shareReplay({ bufferSize: 1, refCount: true })
+      );
+    }
+
+    const branches$ = connectable(this.branches$);
+    const currentBranch$ = branches$.pipe(
+      filter(branches => branches.length !== 0),
+      map(branches => branches.find(b => b.name === name) || branches[0]),
+      distinctUntilChanged((p, c) => p.name === c.name && p.version === c.version),
       share(),
     );
 
     const tree$ = currentBranch$.pipe(
-      distinctUntilKeyChanged("name"),
-      switchMap(branch => this.getTree(branch.name)),
-      tap(x => console.log("tree", x)),
+      switchMap(branch => this.getTree(branch.name).pipe(
+        retry({
+          delay: error => this.promptRetry(branch.name, error, false)
+        })
+      )),
       share()
     );
 
@@ -65,23 +131,77 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
     const categories$ = this.load(tree$, categorySchema, "categories.json");
 
     const placeStreams$ = tree$.pipe(
-      map(tree => tree
-        .filter(f => /^places\/([^\.]+\.json)$/.test(f.path))
-        .map(f => this.getFile(f).pipe(
-          map(place => ({ place: placeSchema.parse(place), path: f.path })),
-          share()
-        ))
-      ),
+      map(tree => {
+        const fileStreams = tree
+          .filter(f => /^places\/([^\.]+\.json)$/.test(f.path))
+          .map(f => {
+            // Create a function that returns a fresh observable for each load attempt
+            const loadFile = (emitEmpty: boolean): Observable<{ place?: z.infer<typeof placeSchema>, path: string }> => this.getFile(f).pipe(
+              map(place => {
+                const parsed = placeSchema.safeParse(place);
+                if (!parsed.success) {
+                  console.error(`Failed to parse '${f.path}'`, parsed.error);
+                }
+                return {
+                  place: parsed.data, // Ignore parsing errors
+                  path: f.path,
+                };
+              }),
+              catchError(error => {
+                console.error(`Failed to load ${f.path}`, error);
+                // Handle the error by returning an object with error info
+                if (emitEmpty) {
+                  return of({
+                    path: f.path
+                  }).pipe(
+                    concatWith(this.promptRetry(f.path, error, true).pipe(
+                      switchMap(_ => loadFile(false))
+                    ))
+                  );
+                } else {
+                  return this.promptRetry(f.path, error, true).pipe(
+                    switchMap(_ => loadFile(false))
+                  );
+                }
+              })
+            );
+
+            // Start the initial loading process
+            return loadFile(true).pipe(
+              share()
+            );
+          });
+
+        // Return the array of file streams
+        return fileStreams;
+      }),
       share()
     );
 
-    const places$ = placeStreams$.pipe(
-      switchMap(streams => streams.length ? combineLatest(streams) : of([])),
+    const successfulPlaceStreams$ = placeStreams$.pipe(
+      // Switch to a new array of streams whenever tree$ emits
+      switchMap(fileStreams => {
+        if (fileStreams.length === 0) {
+          return of([]);
+        }
+
+        // Combine the latest emissions from all file streams
+        return combineLatest(fileStreams).pipe(
+          // Map to extract just the valid place data, filtering out errors
+          map(results => results
+            .filter((result): result is Required<typeof result> => !!result.place)
+            .map(result => ({ place: result.place, path: result.path }))
+          )
+        );
+      }),
+      share()
+    );
+
+    const places$ = successfulPlaceStreams$.pipe(
       map(list => list.map(p => p.place))
     );
 
-    const fileNames$ = placeStreams$.pipe(
-      switchMap(streams => streams.length ? combineLatest(streams) : of([])),
+    const fileNames$ = successfulPlaceStreams$.pipe(
       map(list => list.reduce((a, p) => { a[p.place.id] = p.path; return a; }, {} as { [key: PlaceIdentifier]: string }))
     );
 
@@ -106,7 +226,10 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
       switchMap(() => placeStreams$.pipe(
         take(1), // capture the list for this branch
         switchMap(streams => streams.length
-          ? merge(...streams.map(s => s.pipe(take(1), map(_ => 1))))
+          ? merge(...streams.map(s => s.pipe(
+              take(1),
+              map(_ => 1)
+          )))
           : of()
         )
       ))
@@ -122,42 +245,37 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
       scan((acc, x) => isNaN(x) ? 0 : acc + 1, 0)
     );
 
-    const status$ = combineLatest([totalCount$, loadedCount$]).pipe(
-      map(([total, loaded]): Status => {
+    const statusSubscription = combineLatest([totalCount$, loadedCount$]).subscribe({
+      next: ([loaded, total]) => {
         if (loaded === total || total === 0) {
-          return { status: "loaded" };
+          this.status.set({ status: "loaded" });
         } else if (loaded === 0) {
-          return { status: "loading" };
+          this.status.set({ status: "loading" });
         } else {
-          return { status: "loading", progress: 100 * loaded / total };
+          this.status.set({ status: "loading", progress: 100 * loaded / total });
         }
-      }),
-      tap(status => console.log("status", status)),
+      },
+      error: error => this.status.set({
+        status: "error",
+        error: error instanceof UserCancelledError ? error.cause : error
+      })
+    });
+
+    this.subscriptions.push(
+      statusSubscription,
+      currentBranch$.subscribe(this.currentBranch.set),
+      languages$.subscribe(this.languages.set),
+      attestationTypes$.subscribe(this.attestationTypes.set),
+      regions$.subscribe(this.regions.set),
+      categories$.subscribe(this.categories.set),
+      places$.subscribe(this.places.set),
+      fileNames$.subscribe(this.fileNames.set)
     );
 
-    this.status = toSignal(status$, { initialValue: { status: "loading" } });
-    this.branches = toSignal(branches$, { initialValue: [] });
-
-    this.currentBranch = toSignal(currentBranch$);
-    this.languages = toSignal(languages$, { initialValue: new Map() });
-    this.attestationTypes = toSignal(attestationTypes$, { initialValue: new Map() });
-    this.regions = toSignal(regions$, { initialValue: new Map() });
-    this.categories = toSignal(categories$, { initialValue: new Map() });
-    this.places = toSignal(places$, { initialValue: [] });
-    this.fileNames = toSignal(fileNames$, { initialValue: {} });
-  }
-
-  public status: Signal<Status>;
-  public branches: Signal<Branch[]>;
-
-  public currentBranch: Signal<Branch | undefined>;
-  public languages: Signal<Map<LanguageIdentifier, Language>>;
-  public attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>;
-  public regions: Signal<Map<RegionIdentifier, Region>>;
-  public categories: Signal<Map<CategoryIdentifier, Category>>;
-  public places: Signal<TopLevelPlace[]>;
-
-  public switchToBranch(name: BranchName) {
-    this.targetBranch$.next(name);
+    // Only connect the branches after every subscription is setup so that
+    // we don't subscribe to shared observables multiple times.
+    this.subscriptions.push(
+      branches$.connect()
+    );
   }
 }

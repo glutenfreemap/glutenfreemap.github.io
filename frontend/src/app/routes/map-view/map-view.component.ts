@@ -1,4 +1,4 @@
-import { Component, computed, effect, Signal, signal } from '@angular/core';
+import { Component, computed, effect, Signal, signal, TemplateRef, viewChild } from '@angular/core';
 import { MapComponent } from '../../place/map/map.component';
 import { LeafPlace } from '../../../datamodel/place';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
@@ -13,6 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PlaceEditComponent } from '../../place/place-edit/place-edit.component';
 import { BranchSelectorComponent } from '../../shell/branch-selector/branch-selector.component';
 import { PlaceCreatorComponent } from '../../place/place-creator/place-creator.component';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { ErrorStatusComponent } from '../../common/error-status/error-status.component';
 
 @Component({
   selector: 'app-map-view',
@@ -36,14 +38,31 @@ export class MapViewComponent {
   public connector: Signal<Connector>;
   public canSelectConnector = computed(() => this.configurationService.configurations().length > 1);
   public canSelectBranch = computed(() => this.connector().branches().length > 1 || isWritableConnector(this.connector()));
-  public canCreatePlace = computed(() => isWritableConnector(this.connector()));
+  public canCreatePlace = computed(() => isWritableConnector(this.connector()) && this.connector().status().status !== "error");
+
+  private errorSnackBarRef?: MatSnackBarRef<any>;
+
+  public connectorError = computed(() => {
+    const status = this.connector().status();
+    return status.status === "error" ? status : undefined;
+  });
 
   constructor(
     private configurationService: ConnectorManagementService,
     dialog: MatDialog,
-    bottomSheet: MatBottomSheet
+    bottomSheet: MatBottomSheet,
+    snackBar: MatSnackBar
   ) {
     this.connector = configurationService.selectedConnector;
+
+    effect(() => {
+      this.errorSnackBarRef?.dismiss();
+      if (this.connectorError()) {
+        this.errorSnackBarRef = snackBar.openFromComponent(ErrorStatusComponent, {
+          data: this.connectorError()
+        });
+      }
+    });
 
     effect(async () => {
       const selectedPlace = this.selectedPlace();
