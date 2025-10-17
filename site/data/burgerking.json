@@ -2934,10 +2934,10 @@
       "4350-163 Porto"
     ],
     "position": {
-      "lat": 0.0,
-      "lng": 0.0
+      "lat": 41.179277,
+      "lng": -8.580384
     },
-    "district": null
+    "district": "porto"
   },
   {
     "id": "33282",
