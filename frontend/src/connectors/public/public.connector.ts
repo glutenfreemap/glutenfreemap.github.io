@@ -6,7 +6,7 @@ import { environment } from "../../environments/current";
 import { firstValueFrom, map, Observable, of } from "rxjs";
 import { z } from "zod";
 import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { NotificationService } from "../../app/shell/notifications/notification.service";
 
 export const PUBLIC_CONNECTOR = new InjectionToken<Connector>("PublicConnector");
 export const PUBLIC_CONFIGURATION = new InjectionToken<PublicConfiguration>("PublicConfiguration");
@@ -37,10 +37,10 @@ export class PublicConnector extends ConnectorSkeleton<TreeEntry> implements Con
   constructor(
     @Inject(PUBLIC_CONFIGURATION) private configuration: PublicConfiguration,
     private httpClient: HttpClient,
-    snackBar: MatSnackBar,
+    notificationService: NotificationService,
     destroyRef: DestroyRef
   ) {
-    super(snackBar, destroyRef);
+    super(notificationService, destroyRef);
   }
 
   override getTree(_name: BranchName): Observable<TreeEntry[]> {

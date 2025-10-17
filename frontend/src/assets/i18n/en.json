@@ -54,6 +54,7 @@
 	"general.dialog.buttons.save": "",
 	"general.dialog.buttons.undo": "",
 	"general.fileLoadFailed": "",
+	"general.filesLoadFailed": "",
 	"general.loading.details": "",
 	"general.menu.label": "",
 	"github.configuration.repository.info": "",

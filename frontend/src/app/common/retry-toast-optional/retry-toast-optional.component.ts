@@ -2,10 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarLabel, MatSnackBarActions, MatSnackBarAction, MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
+import { MergeableParamsSignal } from '../../shell/notifications/notification.service';
 
-export interface RetryToastParams {
-  fileName: string,
-  optional: boolean
+export interface RetryToastOptionalParams {
+  fileName: string
 }
 
 @Component({
@@ -17,12 +17,12 @@ export interface RetryToastParams {
     MatSnackBarAction,
     TranslateModule
   ],
-  templateUrl: './retry-toast.component.html',
-  styleUrl: './retry-toast.component.scss'
+  templateUrl: './retry-toast-optional.component.html',
+  styleUrl: './retry-toast-optional.component.scss'
 })
-export class RetryToastComponent {
+export class RetryToastOptionalComponent {
   constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: RetryToastParams,
-    public snackBarRef: MatSnackBarRef<RetryToastComponent>
+    @Inject(MAT_SNACK_BAR_DATA) public data: MergeableParamsSignal<RetryToastOptionalParams>,
+    public snackBarRef: MatSnackBarRef<RetryToastOptionalComponent>
   ) { }
 }

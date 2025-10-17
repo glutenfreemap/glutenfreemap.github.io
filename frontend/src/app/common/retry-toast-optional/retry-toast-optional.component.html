@@ -1,0 +1,12 @@
+<span matSnackBarLabel>
+  @if (data().length === 1) {
+    {{ "general.fileLoadFailed" | translate: { fileName: data()[0].fileName } }}
+  } @else {
+    {{ "general.filesLoadFailed" | translate: { fileName: data()[0].fileName, othersCount: data().length - 1 } }}
+  }
+</span>
+<span matSnackBarActions>
+  <button matButton matSnackBarAction (click)="snackBarRef.dismiss()">{{ "general.dialog.buttons.ignore" | translate}}</button>
+  <button matButton matSnackBarAction (click)="snackBarRef.dismissWithAction()">{{ "general.dialog.buttons.retry" | translate}}</button>
+</span>
+

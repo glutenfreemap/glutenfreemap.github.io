@@ -54,6 +54,7 @@
 	"general.dialog.buttons.save": "Guardar",
 	"general.dialog.buttons.undo": "Anular",
 	"general.fileLoadFailed": "Não foi possível carregar '{{fileName}}'.",
+	"general.filesLoadFailed": "Não foi possível carregar '{{fileName}}' e mais {{othersCount}} ficheiros.",
 	"general.loading.details": "Carregando os dados. Aguarde por favor.",
 	"general.menu.label": "Menu",
 	"github.configuration.repository.info": "Selecione o repositório com o qual pretende trabalhar.",

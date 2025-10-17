@@ -1,11 +1,12 @@
-import { DestroyRef, signal, Signal } from "@angular/core";
+import { DestroyRef, signal } from "@angular/core";
 import z, { ZodType } from "zod";
 import { LanguageIdentifier, AttestationTypeIdentifier, AttestationType, RegionIdentifier, Region, CategoryIdentifier, Category, languageSchema, attestationTypeSchema, regionSchema, categorySchema, Language } from "../../datamodel/common";
 import { TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
 import { Status, Branch, BranchName } from "./connector";
-import { catchError, combineLatest, concatWith, connectable, distinctUntilChanged, distinctUntilKeyChanged, EMPTY, filter, finalize, map, merge, Observable, of, retry, scan, share, shareReplay, Subscription, switchMap, take, tap, throwError } from "rxjs";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { RetryToastComponent, RetryToastParams } from "../common/retry-toast/retry-toast.component";
+import { catchError, combineLatest, concatWith, connectable, distinctUntilChanged, filter, map, merge, Observable, of, retry, scan, share, shareReplay, Subscription, switchMap, take, tap } from "rxjs";
+import { RetryToastMandatoryComponent, RetryToastMandatoryParams } from "../common/retry-toast-mandatory/retry-toast-mandatory.component";
+import { NotificationService } from "../shell/notifications/notification.service";
+import { RetryToastOptionalComponent } from "../common/retry-toast-optional/retry-toast-optional.component";
 
 export const treeEntrySchema = z.object({
   path: z.string()
@@ -26,27 +27,24 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   abstract getTree(branch: BranchName): Observable<TTreeEntry[]>;
   abstract getFile(fileInfo: TTreeEntry): Observable<any>;
 
-  private promptRetry(fileName: string, error: any, optional: boolean): Observable<boolean> {
-    const data: RetryToastParams = {
-      fileName,
-      optional
-    };
+  private promptRetryOptional(fileName: string, error: any): Observable<boolean> {
+    return this.notificationService.enqueueMergeable(RetryToastOptionalComponent, {
+      fileName
+    } as RetryToastMandatoryParams).pipe(
+      tap(r => console.log("retry", fileName, r)),
+      filter(r => r),
+    );
+  }
 
-    const snackBarRef = this.snackBar.openFromComponent(RetryToastComponent, {
-      data
-    });
-
-    return snackBarRef.afterDismissed().pipe(
-      switchMap(dismiss => {
-        if (dismiss.dismissedByAction) {
-          return of(true);
-        } else if (optional) {
-          return EMPTY;
-        } else {
-          return throwError(() => new UserCancelledError(error));
+  private promptRetryMandatory(fileName: string, error: any): Observable<boolean> {
+    return this.notificationService.enqueue(RetryToastMandatoryComponent, {
+      fileName
+    } as RetryToastMandatoryParams).pipe(
+      tap(r => {
+        if (!r) {
+          throw new UserCancelledError(error);
         }
-      }),
-      finalize(() => snackBarRef.dismiss())
+      })
     );
   }
 
@@ -59,7 +57,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
       map(tree => tree.find(f => f.path === fileName)!),
       switchMap(t => this.getFile(t).pipe(
         retry({
-          delay: error => this.promptRetry(t.path, error, false)
+          delay: error => this.promptRetryMandatory(t.path, error)
         })
       )),
       map(d => z.array(schema).parse(d).reduce(
@@ -78,7 +76,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   }
 
   constructor(
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     destroyRef: DestroyRef
   ) {
     destroyRef.onDestroy(() => this.unsubscribeAll());
@@ -119,7 +117,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
     const tree$ = currentBranch$.pipe(
       switchMap(branch => this.getTree(branch.name).pipe(
         retry({
-          delay: error => this.promptRetry(branch.name, error, false)
+          delay: error => this.promptRetryMandatory(branch.name, error)
         })
       )),
       share()
@@ -154,12 +152,12 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
                   return of({
                     path: f.path
                   }).pipe(
-                    concatWith(this.promptRetry(f.path, error, true).pipe(
+                    concatWith(this.promptRetryOptional(f.path, error).pipe(
                       switchMap(_ => loadFile(false))
                     ))
                   );
                 } else {
-                  return this.promptRetry(f.path, error, true).pipe(
+                  return this.promptRetryOptional(f.path, error).pipe(
                     switchMap(_ => loadFile(false))
                   );
                 }

@@ -2,7 +2,7 @@
   {{ "general.fileLoadFailed" | translate: { fileName: data.fileName } }}
 </span>
 <span matSnackBarActions>
-  <button matButton matSnackBarAction (click)="snackBarRef.dismiss()">{{ (data.optional ? "general.dialog.buttons.ignore" : "general.dialog.buttons.cancel") | translate}}</button>
+  <button matButton matSnackBarAction (click)="snackBarRef.dismiss()">{{ "general.dialog.buttons.cancel" | translate}}</button>
   <button matButton matSnackBarAction (click)="snackBarRef.dismissWithAction()">{{ "general.dialog.buttons.retry" | translate}}</button>
 </span>
 

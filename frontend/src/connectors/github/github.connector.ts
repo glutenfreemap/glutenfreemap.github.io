@@ -3,14 +3,13 @@ import { Branch, BranchName, branchSchema, CreateBranchResult, VersionIdentifier
 import { GitHubConfiguration, GitHubRepository, GitHubToken } from "./configuration";
 import { TopLevelPlace } from "../../datamodel/place";
 import { RequestError } from "@octokit/request-error";
-import { _, TranslateService } from "@ngx-translate/core";
+import { _ } from "@ngx-translate/core";
 import { defer, filter, firstValueFrom, from, map, Observable, shareReplay, switchMap, tap } from "rxjs";
 import { ConnectorSkeleton, treeEntrySchema } from "../../app/configuration/connector-skeleton";
-import { HttpClient } from "@angular/common/http";
 import { cacheOrSource, cacheThenSource, parseJsonPreprocessor } from "../../app/common/helpers";
 import { z } from "zod";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { DestroyRef, Inject, Injectable, InjectionToken } from "@angular/core";
+import { NotificationService } from "../../app/shell/notifications/notification.service";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
 export const GITHUB_CONFIGURATION = new InjectionToken<GitHubConfiguration>("GitHubConfiguration");
@@ -34,12 +33,10 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
 
   constructor(
     @Inject(GITHUB_CONFIGURATION) private configuration: GitHubConfiguration,
-    private translate: TranslateService,
-    private httpClient: HttpClient,
-    snackBar: MatSnackBar,
+    notificationService: NotificationService,
     destroyRef: DestroyRef
   ) {
-    super(snackBar, destroyRef);
+    super(notificationService, destroyRef);
 
     this.octokit = new Octokit({ auth: configuration.token });
 
