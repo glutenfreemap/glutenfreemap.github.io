@@ -1,7 +1,7 @@
-import { DestroyRef, signal } from "@angular/core";
+import { computed, DestroyRef, signal } from "@angular/core";
 import z, { ZodType } from "zod";
 import { LanguageIdentifier, AttestationTypeIdentifier, AttestationType, RegionIdentifier, Region, CategoryIdentifier, Category, languageSchema, attestationTypeSchema, regionSchema, categorySchema, Language } from "../../datamodel/common";
-import { TopLevelPlace, PlaceIdentifier, placeSchema } from "../../datamodel/place";
+import { TopLevelPlace, PlaceIdentifier, placeSchema, LeafPlace, isComposite } from "../../datamodel/place";
 import { Status, Branch, BranchName } from "./connector";
 import { catchError, combineLatest, concatWith, connectable, distinctUntilChanged, filter, map, merge, Observable, of, retry, scan, share, shareReplay, Subscription, switchMap, take, tap } from "rxjs";
 import { RetryToastMandatoryComponent, RetryToastMandatoryParams } from "../common/retry-toast-mandatory/retry-toast-mandatory.component";
@@ -36,7 +36,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
     );
   }
 
-  private promptRetryMandatory(fileName: string, error: any): Observable<boolean> {
+  protected promptRetryMandatory(fileName: string, error: any): Observable<boolean> {
     return this.notificationService.enqueue(RetryToastMandatoryComponent, {
       fileName
     } as RetryToastMandatoryParams).pipe(
@@ -76,7 +76,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   }
 
   constructor(
-    private notificationService: NotificationService,
+    protected notificationService: NotificationService,
     destroyRef: DestroyRef
   ) {
     destroyRef.onDestroy(() => this.unsubscribeAll());
@@ -90,6 +90,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   public regions = signal<Map<RegionIdentifier, Region>>(EMPTY_MAP);
   public categories = signal<Map<CategoryIdentifier, Category>>(EMPTY_MAP);
   public places = signal<TopLevelPlace[]>([]);
+  public leafPlaces = computed(() => this.places().flatMap<LeafPlace>(p => isComposite(p) ? p.locations : p));
 
   private fileNames = signal<{ [key: PlaceIdentifier]: string }>({});
   private branches$?: Observable<Branch[]>;
@@ -275,5 +276,19 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
     this.subscriptions.push(
       branches$.connect()
     );
+  }
+
+  protected getFileName(place: TopLevelPlace): string {
+    return this.fileNames()[place.id] || this.generateFileName(place);
+  }
+
+  private generateFileName(place: TopLevelPlace): string {
+    const baseName = place.name.replaceAll(/\s+(\w)/g, "-$1").toLocaleLowerCase();
+    let counter = 0;
+    let currentName = `${baseName}.json`;
+    while (currentName in this.fileNames) {
+      currentName = `${baseName}-${++counter}.json`;
+    }
+    return "places/" + currentName;
   }
 }

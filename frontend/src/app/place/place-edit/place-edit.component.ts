@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { LocalizePipe } from '../../shell/localize.pipe';
 import { MatTabsModule } from '@angular/material/tabs';
+import { LngLatBounds } from 'maplibre-gl';
 
 @Component({
   selector: 'app-place-edit',
@@ -181,17 +182,47 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
   }
 
   public openSearch() {
+    let leafPlaces = this.connector.leafPlaces();
+    const selectedRegion = this.regionInput?.value;
+    if (selectedRegion) {
+      leafPlaces = leafPlaces.filter(p => p.region === selectedRegion.id);
+    }
+
+    let bounds: PlaceSearchParams["bounds"] = undefined;
+    if (leafPlaces.length) {
+      const placeBounds = leafPlaces.reduce(
+        (b, place) => b.extend(place.position),
+        new LngLatBounds(leafPlaces[0].position)
+      );
+
+      bounds = {
+        sw: placeBounds.getSouthWest(),
+        ne: placeBounds.getNorthEast()
+      };
+    }
+
     const dialogRef = this.dialog.open<PlaceFinderComponent, PlaceSearchParams, PlaceDetails>(PlaceFinderComponent, {
       disableClose: true,
       data: {
         parentName: isChild(this.place) ? this.place.parent.name : undefined,
         name: this.nameInput.value || undefined,
-        address: this.addressInput?.value || undefined
+        address: this.addressInput?.value || undefined,
+        bounds
       }
     });
     firstValueFrom(dialogRef.afterClosed()).then(details => {
       if (details) {
         this.gidInput.setValue(details.gid);
+
+        if (!this.nameInput.value) {
+          this.nameInput.setValue(details.name);
+          this.nameInput.markAsDirty();
+        }
+
+        if (this.regionInput && !this.regionInput.value) {
+          this.regionInput.setValue(this.connector.regions().get(details.region) || null);
+          this.regionInput.markAsDirty();
+        }
 
         this.addressInput!.setValue(details.address.join("\n"));
         this.addressInput!.markAsDirty();

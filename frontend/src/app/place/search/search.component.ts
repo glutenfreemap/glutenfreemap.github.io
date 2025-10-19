@@ -49,9 +49,8 @@ export class SearchComponent {
 
       if (this.searching) {
         const searchToken = this.removeDiacritics(searchText.toLocaleLowerCase());
-        const flatPlaces = connector.places().flatMap<LeafPlace>(p => globalIsComposite(p) ? p.locations : p);
         this.searchResults.set(
-          flatPlaces.filter(p => this.removeDiacritics((isChild(p) ? p.parent.name + " " + p.name : p.name).toLocaleLowerCase()).includes(searchToken))
+          connector.leafPlaces().filter(p => this.removeDiacritics((isChild(p) ? p.parent.name + " " + p.name : p.name).toLocaleLowerCase()).includes(searchToken))
         );
       } else {
         this.searchResults.set([]);

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { filter, Subject, Subscription, switchMap, withLatestFrom } from 'rxjs';
-import { GoogleIdentifier, Place, StandalonePlace } from '../../../datamodel/place';
+import { GeographicalCoordinate, GoogleIdentifier, StandalonePlace } from '../../../datamodel/place';
 import { RegionIdentifier } from '../../../datamodel/common';
 
 export const PLACES_AUTOCOMPLETE_REQUEST_TYPE = "PlacesAutocompleteRequest";
@@ -8,7 +8,11 @@ export const PLACES_DETAILS_REQUEST_TYPE = "PlacesDetailsRequest";
 
 export interface PlaceAutocompleteRequest {
   type: typeof PLACES_AUTOCOMPLETE_REQUEST_TYPE,
-  text: string
+  text: string,
+  bounds?: {
+    sw: GeographicalCoordinate,
+    ne: GeographicalCoordinate
+  }
 }
 
 export interface PlaceDetailsRequest {
@@ -106,7 +110,13 @@ export class PlaceFinderHelperComponent implements OnInit, OnDestroy {
         filter(([searchEvent, placesApi]) => !!searchEvent && !!placesApi),
         switchMap(async ([searchEvent, placesApi]) => {
           const searchResults = await placesApi.AutocompleteSuggestion.fetchAutocompleteSuggestions({
-            input: searchEvent.request.text
+            input: searchEvent.request.text,
+            locationBias: searchEvent.request.bounds
+              ? new google.maps.LatLngBounds(
+                searchEvent.request.bounds.sw,
+                searchEvent.request.bounds.ne
+              )
+              : undefined
           });
 
           return {

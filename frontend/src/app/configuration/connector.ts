@@ -1,5 +1,5 @@
 import { signal, Signal } from "@angular/core";
-import { TopLevelPlace } from "../../datamodel/place";
+import { LeafPlace, TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
 import { z } from "zod";
 
@@ -39,6 +39,7 @@ export type Branch = z.infer<typeof branchSchema>;
 
 export enum CreateBranchResult {
   Success = 1,
+  Failed,
   AlreadyExists,
 }
 
@@ -53,7 +54,8 @@ export interface Connector {
   attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>,
   regions: Signal<Map<RegionIdentifier, Region>>,
   categories: Signal<Map<CategoryIdentifier, Category>>,
-  places: Signal<TopLevelPlace[]>
+  places: Signal<TopLevelPlace[]>,
+  leafPlaces: Signal<LeafPlace[]>
 }
 
 export interface WritableConnector extends Connector {
@@ -80,4 +82,5 @@ export class NopConnector implements Connector {
   regions: Signal<Map<RegionIdentifier, Region>> = signal(new Map());
   categories: Signal<Map<CategoryIdentifier, Category>> = signal(new Map());
   places: Signal<TopLevelPlace[]> = signal([]);
+  leafPlaces: Signal<LeafPlace[]> = signal([]);
 }

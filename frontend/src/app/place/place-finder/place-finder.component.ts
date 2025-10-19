@@ -13,7 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 export interface PlaceSearchParams {
   parentName?: string,
   name?: string,
-  address?: string
+  address?: string,
+  bounds?: PlaceAutocompleteRequest["bounds"]
 }
 
 @Component({
@@ -80,7 +81,8 @@ export class PlaceFinderComponent implements OnInit, OnDestroy {
         const helperFrame: HTMLIFrameElement = this.helper.nativeElement;
         const request: PlaceAutocompleteRequest = {
           type: PLACES_AUTOCOMPLETE_REQUEST_TYPE,
-          text: searchText!
+          text: searchText!,
+          bounds: params.bounds
         };
         helperFrame.contentWindow?.postMessage(request);
       }),

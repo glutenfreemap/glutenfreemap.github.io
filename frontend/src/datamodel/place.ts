@@ -8,6 +8,13 @@ export type PlaceIdentifier = z.infer<typeof placeIdentifierSchema>;
 export const googleIdentifierSchema = z.string().min(1).brand("GoogleIdentifier");
 export type GoogleIdentifier = z.infer<typeof googleIdentifierSchema>;
 
+const geographicalCoordinateSchema = z.object({
+  lat: z.coerce.number(),
+  lng: z.coerce.number()
+});
+
+export type GeographicalCoordinate = z.infer<typeof geographicalCoordinateSchema>;
+
 export const leafPlaceSchema = z.object({
   id: placeIdentifierSchema,
   name: z.string(),
@@ -15,10 +22,7 @@ export const leafPlaceSchema = z.object({
   gid: googleIdentifierSchema.optional(),
   address: z.array(z.string()).min(1),
   region: regionIdentifierSchema,
-  position: z.object({
-    lat: z.coerce.number(),
-    lng: z.coerce.number()
-  })
+  position: geographicalCoordinateSchema
 });
 
 export const standalonePlaceSchema = leafPlaceSchema.extend({
