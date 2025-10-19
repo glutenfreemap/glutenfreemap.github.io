@@ -49,7 +49,7 @@ nav,
 ::ng-deep {
   h2, h3 {
     font-size: 1.15rem;
-    color: map.get(theme.$primary-palette, 20);
+    color: light-dark(map.get(theme.$primary-palette, 20), map.get(theme.$primary-palette, 80));
   }
 
   h3 {

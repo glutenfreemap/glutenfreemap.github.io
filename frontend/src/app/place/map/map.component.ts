@@ -1,8 +1,7 @@
-import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, input, OnDestroy, output, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, input, OnDestroy, output, signal, ViewContainerRef } from '@angular/core';
 import { AttestationTypeIdentifier } from '../../../datamodel/common';
 import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, PlaceIdentifier, StandalonePlace, TopLevelPlace, DisplayablePlace } from '../../../datamodel/place';
-import { GeoJSONSource, GeolocateControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup } from "maplibre-gl";
-import { MatDialog } from '@angular/material/dialog';
+import { ColorSpecification, DataDrivenPropertyValueSpecification, GeoJSONSource, GeolocateControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup, StyleSpecification } from "maplibre-gl";
 import { TranslateService } from '@ngx-translate/core';
 import { Connector } from '../../configuration/connector';
 import { getStyle } from '../../../generated/map.style';
@@ -16,6 +15,8 @@ const PLACES_SOURCE = "places";
 const PLACES_LAYER = "places";
 const CLUSTERS1_LAYER = "clusters1";
 const POPUP_OFFSET = 42;
+
+const DARK_MODE_STATE_KEY = "dark-mode";
 
 type MapFeatureProperties = {
   id: PlaceIdentifier,
@@ -61,7 +62,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   constructor(
     private element: ElementRef,
     private containerRef: ViewContainerRef,
-    private dialog: MatDialog,
     private translate: TranslateService
   ) {
     // Debouncing helps preventing some errors with maplibregljs
@@ -136,7 +136,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  private darkModeQuery?: MediaQueryList;
+  private darkModeEventListener?: (this: MediaQueryList, ev: MediaQueryListEventMap["change"]) => any;
+
   ngAfterViewInit(): void {
+    let darkMode = false;
+    if (window.matchMedia) {
+      this.darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      darkMode = this.darkModeQuery.matches;
+    }
+
     const map = new MaplibreMap({
       container: this.element.nativeElement,
       // center: [-8.267, 39.608],
@@ -144,7 +153,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       // Debug
       center: [-9.1354185, 38.71011],
       zoom: 15,
-
       style: {
         version: 8,
         name: "GlutenFreeMap",
@@ -161,7 +169,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           }
         },
         layers: getStyle(this.translate.currentLang)
-      }
+      },
     });
 
     map.addControl(new NavigationControl(), "bottom-right");
@@ -221,7 +229,20 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       onRemove: () => {}
     }, "bottom-left");
 
-    map.on("load", async () => {
+    // style.load is undocumented, but we are not allowed to set the state property
+    // before it, and if we do it in the load event, the map flickers because it was
+    // already rendered once with the default value of darkMode.
+    map.once("style.load" as any, () => {
+      map.setGlobalStateProperty(DARK_MODE_STATE_KEY, darkMode);
+      if (this.darkModeQuery) {
+        this.darkModeEventListener = evt => {
+          map.setGlobalStateProperty(DARK_MODE_STATE_KEY, evt.matches);
+        };
+        this.darkModeQuery.addEventListener("change", this.darkModeEventListener);
+      }
+    });
+
+    map.once("load", async () => {
       const greenPin = await map.loadImage("/img/pin-green.png");
       map.addImage(CERTIFIED_MARKER, greenPin?.data!);
 
@@ -238,6 +259,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         cluster: true
       });
 
+      const clusterColor: DataDrivenPropertyValueSpecification<ColorSpecification> = [
+        "case",
+        ["boolean", ["global-state", "dark-mode"]],
+        "#fff79e",
+        "#0015e9"
+      ];
+
       map.addLayer({
         id: CLUSTERS1_LAYER,
         type: "circle",
@@ -245,7 +273,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         filter: ["has", "point_count"],
         paint: {
           "circle-radius": 20,
-          "circle-color": "#0015e9",
+          "circle-color": clusterColor,
           "circle-opacity": 0.2
         }
       });
@@ -257,7 +285,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         filter: ["has", "point_count"],
         paint: {
           "circle-radius": 16,
-          "circle-color": "#0015e9",
+          "circle-color": clusterColor,
           "circle-opacity": 0.4
         }
       });
@@ -269,7 +297,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         filter: ["has", "point_count"],
         paint: {
           "circle-radius": 12,
-          "circle-color": "#0015e9",
+          "circle-color": clusterColor,
           "circle-opacity": 0.6
         }
       });
@@ -285,7 +313,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           "text-size": 12
         },
         paint: {
-          "text-color": "#ffffff"
+          "text-color": [
+            "case",
+            ["boolean", ["global-state", "dark-mode"]],
+            "#000000",
+            "#ffffff"
+          ]
         }
       });
 
@@ -338,6 +371,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.destroyInfoWindow();
+
+    if (this.darkModeEventListener) {
+      this.darkModeQuery?.removeEventListener("change", this.darkModeEventListener);
+    }
 
     this.map?.remove();
     this.map = undefined;

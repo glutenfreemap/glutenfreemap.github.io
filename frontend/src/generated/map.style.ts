@@ -6,7 +6,18 @@ export function getStyle(lang: string): LayerSpecification[] {
     "id": "background",
     "type": "background",
     "paint": {
-      "background-color": "rgb(221, 221, 221)"
+      "background-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#34373d",
+        "#dddddd"
+      ]
     }
   },
   {
@@ -20,7 +31,18 @@ export function getStyle(lang: string): LayerSpecification[] {
     "source": "protomaps",
     "source-layer": "earth",
     "paint": {
-      "fill-color": "rgb(231, 241, 238)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e7f1ee"
+      ]
     }
   },
   {
@@ -36,18 +58,95 @@ export function getStyle(lang: string): LayerSpecification[] {
           "kind"
         ],
         "grassland",
-        "rgba(210, 239, 207, 1)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(30, 41, 31, 1)",
+          "rgba(210, 239, 207, 1)"
+        ],
         "barren",
-        "rgba(255, 243, 215, 1)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(38, 38, 36, 1)",
+          "rgba(255, 243, 215, 1)"
+        ],
         "urban_area",
-        "rgba(230, 230, 230, 1)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(28, 28, 28, 1)",
+          "rgba(230, 230, 230, 1)"
+        ],
         "farmland",
-        "rgba(216, 239, 210, 1)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(31, 36, 32, 1)",
+          "rgba(216, 239, 210, 1)"
+        ],
         "glacier",
-        "rgba(255, 255, 255, 1)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(43, 43, 43, 1)",
+          "rgba(255, 255, 255, 1)"
+        ],
         "scrub",
-        "rgba(234, 239, 210, 1)",
-        "rgba(196, 231, 210, 1)"
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(34, 36, 30, 1)",
+          "rgba(234, 239, 210, 1)"
+        ],
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "rgba(28, 41, 37, 1)",
+          "rgba(196, 231, 210, 1)"
+        ]
       ],
       "fill-opacity": [
         "interpolate",
@@ -124,7 +223,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(226, 247, 232)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#192a24",
+          "#e2f7e8"
+        ],
         [
           "in",
           [
@@ -140,7 +250,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(234, 251, 233)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#202121",
+          "#eafbe9"
+        ],
         [
           "in",
           [
@@ -156,7 +277,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(219, 239, 209)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#222323",
+          "#dbefd1"
+        ],
         [
           "in",
           [
@@ -170,7 +302,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(255, 255, 255)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#1c1c1c",
+          "#ffffff"
+        ],
         [
           "in",
           [
@@ -184,7 +327,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(239, 245, 231)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#212123",
+          "#eff5e7"
+        ],
         [
           "in",
           [
@@ -200,8 +354,30 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(198, 220, 220)",
-        "rgb(231, 241, 238)"
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#222323",
+          "#c6dcdc"
+        ],
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#1f1f1f",
+          "#e7f1ee"
+        ]
       ]
     }
   },
@@ -218,7 +394,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "playground"
     ],
     "paint": {
-      "fill-color": "rgb(226, 247, 232)",
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#192a24",
+        "#e2f7e8"
+      ],
       "fill-opacity": 0.7
     }
   },
@@ -233,7 +420,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "hospital"
     ],
     "paint": {
-      "fill-color": "rgb(255, 234, 232)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#252424",
+        "#ffeae8"
+      ]
     }
   },
   {
@@ -247,7 +445,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "industrial"
     ],
     "paint": {
-      "fill-color": "rgb(248, 255, 237)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#222222",
+        "#f8ffed"
+      ]
     }
   },
   {
@@ -263,7 +472,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "college"
     ],
     "paint": {
-      "fill-color": "rgb(242, 254, 249)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#262323",
+        "#f2fef9"
+      ]
     }
   },
   {
@@ -277,7 +497,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "beach"
     ],
     "paint": {
-      "fill-color": "rgb(232, 228, 208)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#28282a",
+        "#e8e4d0"
+      ]
     }
   },
   {
@@ -291,7 +522,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "zoo"
     ],
     "paint": {
-      "fill-color": "rgb(198, 220, 220)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#222323",
+        "#c6dcdc"
+      ]
     }
   },
   {
@@ -305,7 +547,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "aerodrome"
     ],
     "paint": {
-      "fill-color": "rgb(219, 231, 231)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1e1e1e",
+        "#dbe7e7"
+      ]
     }
   },
   {
@@ -319,7 +572,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "runway"
     ],
     "paint": {
-      "line-color": "rgb(209, 217, 217)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#d1d9d9"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -350,7 +614,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "taxiway"
     ],
     "paint": {
-      "line-color": "rgb(209, 217, 217)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#d1d9d9"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -384,7 +659,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "fill-color": "rgb(209, 217, 217)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#d1d9d9"
+      ]
     }
   },
   {
@@ -398,7 +684,18 @@ export function getStyle(lang: string): LayerSpecification[] {
     "source": "protomaps",
     "source-layer": "water",
     "paint": {
-      "fill-color": "rgb(164, 202, 225)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#31353f",
+        "#a4cae1"
+      ]
     }
   },
   {
@@ -413,7 +710,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "stream"
     ],
     "paint": {
-      "line-color": "rgb(164, 202, 225)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#31353f",
+        "#a4cae1"
+      ],
       "line-width": 0.5
     }
   },
@@ -429,7 +737,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "river"
     ],
     "paint": {
-      "line-color": "rgb(164, 202, 225)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#31353f",
+        "#a4cae1"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -460,7 +779,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "dam"
     ],
     "paint": {
-      "fill-color": "rgb(238, 240, 240)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1e1e1e",
+        "#eef0f0"
+      ]
     }
   },
   {
@@ -474,7 +804,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "pier"
     ],
     "paint": {
-      "fill-color": "rgb(224, 224, 224)"
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#e0e0e0"
+      ]
     }
   },
   {
@@ -496,7 +837,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#141414",
+        "#ffffff"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -531,7 +883,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(226, 226, 226)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#141414",
+        "#e2e2e2"
+      ],
       "line-dasharray": [
         3,
         2
@@ -587,7 +950,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(225, 225, 225)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#141414",
+        "#e1e1e1"
+      ],
       "line-dasharray": [
         3,
         2
@@ -646,7 +1020,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(227, 207, 211)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#141414",
+        "#e3cfd3"
+      ],
       "line-dasharray": [
         3,
         2
@@ -709,7 +1094,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 206, 162)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#141414",
+        "#ebcea2"
+      ],
       "line-dasharray": [
         6,
         0.5
@@ -767,7 +1163,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(247, 247, 247)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#292929",
+        "#f7f7f7"
+      ],
       "line-dasharray": [
         4.5,
         0.5
@@ -806,7 +1213,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 235, 235)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#292929",
+        "#ebebeb"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -844,7 +1262,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 235, 235)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#292929",
+        "#ebebeb"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -881,7 +1310,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 235, 235)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#292929",
+        "#ebebeb"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -930,7 +1370,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 235, 235)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#292929",
+        "#ebebeb"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -965,7 +1416,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "building_part"
     ],
     "paint": {
-      "fill-color": "rgb(203, 206, 206)",
+      "fill-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#111111",
+        "#cbcece"
+      ],
       "fill-opacity": 0.5
     }
   },
@@ -980,7 +1442,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "pier"
     ],
     "paint": {
-      "line-color": "rgb(224, 224, 224)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#e0e0e0"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -1027,7 +1500,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(224, 224, 224)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e0e0e0"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1085,7 +1569,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(226, 226, 226)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e2e2e2"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1131,7 +1626,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "is_link"
     ],
     "paint": {
-      "line-color": "rgb(226, 226, 226)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e2e2e2"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1187,7 +1693,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(224, 224, 224)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e0e0e0"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1249,7 +1766,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(224, 224, 224)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e0e0e0"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1312,7 +1840,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 235, 235)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#ebebeb"
+      ],
       "line-dasharray": [
         3,
         1
@@ -1343,7 +1882,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       "is_link"
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#3d3d3d",
+        "#ffffff"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -1389,7 +1939,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 235, 235)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#ebebeb"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -1443,9 +2004,31 @@ export function getStyle(lang: string): LayerSpecification[] {
           "zoom"
         ],
         11,
-        "rgb(235, 235, 235)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#3d3d3d",
+          "#ebebeb"
+        ],
         16,
-        "rgb(255, 255, 255)"
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#333333",
+          "#ffffff"
+        ]
       ],
       "line-width": [
         "interpolate",
@@ -1490,7 +2073,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(224, 224, 224)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e0e0e0"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1545,7 +2139,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#3d3d3d",
+        "#ffffff"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -1593,7 +2198,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(224, 224, 224)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e0e0e0"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1652,7 +2268,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#474747",
+        "#ffffff"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -1691,7 +2318,18 @@ export function getStyle(lang: string): LayerSpecification[] {
         0.75
       ],
       "line-opacity": 0.5,
-      "line-color": "rgb(167, 177, 179)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#000000",
+        "#a7b1b3"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -1721,7 +2359,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       2
     ],
     "paint": {
-      "line-color": "rgb(92, 74, 107)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#5b6374",
+        "#5c4a6b"
+      ],
       "line-width": 0.7,
       "line-dasharray": [
         "step",
@@ -1756,7 +2405,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       2
     ],
     "paint": {
-      "line-color": "rgb(92, 74, 107)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#5b6374",
+        "#5c4a6b"
+      ],
       "line-width": 0.4,
       "line-dasharray": [
         "step",
@@ -1800,7 +2460,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#2b2b2b",
+        "#ffffff"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1835,7 +2506,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(226, 226, 226)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e2e2e2"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1887,7 +2569,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(226, 226, 226)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e2e2e2"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1941,7 +2634,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(227, 207, 211)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e3cfd3"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -1994,7 +2698,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#ffffff"
+      ],
       "line-dasharray": [
         2,
         1
@@ -2034,7 +2749,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#ffffff"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -2073,7 +2799,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#333333",
+        "#ffffff"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -2111,7 +2848,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(255, 255, 255)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#3d3d3d",
+        "#ffffff"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -2155,7 +2903,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(235, 206, 162)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ebcea2"
+      ],
       "line-gap-width": [
         "interpolate",
         [
@@ -2212,7 +2971,18 @@ export function getStyle(lang: string): LayerSpecification[] {
       ]
     ],
     "paint": {
-      "line-color": "rgb(254, 255, 252)",
+      "line-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#474747",
+        "#fefffc"
+      ],
       "line-width": [
         "interpolate",
         [
@@ -2258,8 +3028,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-size": 12
     },
     "paint": {
-      "text-color": "rgb(145, 136, 139)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#525252",
+        "#91888b"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -3154,8 +3946,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-letter-spacing": 0.2
     },
     "paint": {
-      "text-color": "rgb(114, 141, 212)",
-      "text-halo-color": "rgb(164, 202, 225)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#717784",
+        "#728dd4"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#31353f",
+        "#a4cae1"
+      ],
       "text-halo-width": 1
     }
   },
@@ -4054,8 +4868,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-size": 12
     },
     "paint": {
-      "text-color": "rgb(145, 136, 139)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#525252",
+        "#91888b"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -4965,9 +5801,31 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-transform": "uppercase"
     },
     "paint": {
-      "text-color": "rgb(114, 141, 212)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#717784",
+        "#728dd4"
+      ],
       "text-halo-width": 1,
-      "text-halo-color": "rgb(164, 202, 225)"
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#31353f",
+        "#a4cae1"
+      ]
     }
   },
   {
@@ -5859,8 +6717,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-max-width": 8
     },
     "paint": {
-      "text-color": "rgb(117, 125, 145)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#525252",
+        "#757d91"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -6768,8 +7648,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-max-width": 9
     },
     "paint": {
-      "text-color": "rgb(114, 141, 212)",
-      "text-halo-color": "rgb(164, 202, 225)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#717784",
+        "#728dd4"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#31353f",
+        "#a4cae1"
+      ],
       "text-halo-width": 1
     }
   },
@@ -7667,8 +8569,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-size": 12
     },
     "paint": {
-      "text-color": "rgb(147, 138, 141)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#666666",
+        "#938a8d"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -8659,7 +9583,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(32, 131, 77)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#30C573",
+          "#20834d"
+        ],
         [
           "in",
           [
@@ -8676,7 +9611,18 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(49, 91, 207)",
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#2B5CEA",
+          "#315bcf"
+        ],
         [
           "in",
           [
@@ -8696,10 +9642,43 @@ export function getStyle(lang: string): LayerSpecification[] {
             ]
           ]
         ],
-        "rgb(106, 91, 143)",
-        "rgb(231, 241, 238)"
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#93939F",
+          "#6a5b8f"
+        ],
+        [
+          "case",
+          [
+            "boolean",
+            [
+              "global-state",
+              "dark-mode"
+            ]
+          ],
+          "#1f1f1f",
+          "#e7f1ee"
+        ]
       ],
-      "text-halo-color": "rgb(231, 241, 238)",
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e7f1ee"
+      ],
       "text-halo-width": 1
     }
   },
@@ -9640,8 +10619,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-transform": "uppercase"
     },
     "paint": {
-      "text-color": "rgb(117, 125, 145)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#525252",
+        "#757d91"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -10768,8 +11769,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-radial-offset": 0.4
     },
     "paint": {
-      "text-color": "rgb(120, 120, 120)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#7a7a7a",
+        "#787878"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#212121",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -11701,8 +12724,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-transform": "uppercase"
     },
     "paint": {
-      "text-color": "rgb(189, 189, 189)",
-      "text-halo-color": "rgb(255, 255, 255)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#3d3d3d",
+        "#bdbdbd"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#ffffff"
+      ],
       "text-halo-width": 1
     }
   },
@@ -11850,8 +12895,30 @@ export function getStyle(lang: string): LayerSpecification[] {
       "text-transform": "uppercase"
     },
     "paint": {
-      "text-color": "rgb(149, 144, 170)",
-      "text-halo-color": "rgb(231, 241, 238)",
+      "text-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#5c5c5c",
+        "#9590aa"
+      ],
+      "text-halo-color": [
+        "case",
+        [
+          "boolean",
+          [
+            "global-state",
+            "dark-mode"
+          ]
+        ],
+        "#1f1f1f",
+        "#e7f1ee"
+      ],
       "text-halo-width": 1
     }
   }

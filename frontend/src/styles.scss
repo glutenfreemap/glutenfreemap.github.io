@@ -46,9 +46,7 @@ html {
 }
 
 body {
-  --mat-sys-surface: #fff;
-  --mat-sys-background: #fff;
-  --mat-fab-small-container-color: #fff;
+  --mat-fab-small-container-color: light-dark(#fff, #111319);
 
   background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);

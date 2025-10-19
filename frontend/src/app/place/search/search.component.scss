@@ -3,12 +3,12 @@
 :host {
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: light-dark(#fff, #111319);
   border-right: solid 1px var(--mat-sys-primary-container);
 
   ::ng-deep {
     .mat-mdc-text-field-wrapper  {
-      background: #fff;
+      background: light-dark(#fff, #111319);
     }
 
     .mat-mdc-form-field {
