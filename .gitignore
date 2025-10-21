@@ -16,3 +16,4 @@ frontend/vars.css
 *.user
 /backend/repos
 /frontend/src/generated/map.style.json
+/frontend/MaterialSymbolsOutlined-VariableFont_FILL,GRAD,opsz,wght.ttf

@@ -62,6 +62,12 @@
             }
         },
         {
+            "label": "Convert fonts",
+            "type": "shell",
+            "group": "build",
+            "command": "pwsh frontend/Convert-Fonts.ps1"
+        },
+        {
             "type": "npm",
             "script": "generate-style",
             "path": "frontend",

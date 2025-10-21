@@ -7,19 +7,28 @@
     routerLink="/config"
     routerLinkActive="current"
     ariaCurrentWhenActive="page"
-  >{{ 'navigation.menu.settings' | translate }}</button>
+  >
+    <mat-icon>Q</mat-icon>
+    {{ 'navigation.menu.settings' | translate }}
+  </button>
 
   <button
     mat-menu-item
     routerLink="/about"
     routerLinkActive="current"
     ariaCurrentWhenActive="page"
-  >{{ 'navigation.menu.about' | translate }}</button>
+  >
+    <mat-icon>E</mat-icon>
+    {{ 'navigation.menu.about' | translate }}
+  </button>
 
   <button
     mat-menu-item
     [matMenuTriggerFor]="languagesMenu"
-  >{{ 'navigation.menu.language' | translate }}</button>
+  >
+    <mat-icon>P</mat-icon>
+    {{ 'navigation.menu.language' | translate }}
+  </button>
 </mat-menu>
 
 <mat-menu #languagesMenu="matMenu">

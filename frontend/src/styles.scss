@@ -14,15 +14,6 @@
        url(/fonts/Roboto-Regular.ttf) format('truetype');
 }
 
-@font-face {
-  font-family: 'Material Icons Slim';
-  font-style: normal;
-  font-weight: 400;
-  src: url(/fonts/MaterialIconsSlim-Regular.woff2?v=5) format('woff2'),
-       url(/fonts/MaterialIconsSlim-Regular.ttf?v=5) format('truetype'),
-       url(/fonts/MaterialIconsSlim-Regular.woff?v=5) format('woff');
-}
-
 .material-icons {
   font-family: 'Material Icons Slim';
   font-weight: normal;

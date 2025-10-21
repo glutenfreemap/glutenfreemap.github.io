@@ -69,6 +69,7 @@
 	"github.configuration.token.label": "Token de autenticação (PAT)",
 	"github.configuration.token.required": "O token de autenticação é necessário.",
 	"navigation.menu.about": "Acerca",
+	"navigation.menu.language": "Língua",
 	"navigation.menu.settings": "Configuração",
 	"place.actions.create": "Novo",
 	"place.actions.edit": "Editar",
