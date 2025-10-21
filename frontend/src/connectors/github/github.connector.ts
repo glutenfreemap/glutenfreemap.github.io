@@ -5,11 +5,12 @@ import { TopLevelPlace } from "../../datamodel/place";
 import { RequestError } from "@octokit/request-error";
 import { _, TranslateService } from "@ngx-translate/core";
 import { catchError, defer, delay, filter, firstValueFrom, from, map, Observable, of, retry, shareReplay, switchMap, tap, throwError } from "rxjs";
-import { ConnectorSkeleton, treeEntrySchema } from "../../app/configuration/connector-skeleton";
+import { ConnectorSkeleton, GetResult, treeEntrySchema } from "../../app/configuration/connector-skeleton";
 import { buildWorkflow, cacheOrSource, cacheThenSource, parseJsonPreprocessor } from "../../app/common/helpers";
 import { z } from "zod";
 import { DestroyRef, Inject, Injectable, InjectionToken } from "@angular/core";
 import { NotificationService } from "../../app/shell/notifications/notification.service";
+import { LanguageService } from "../../app/common/language-service";
 
 export const INVALID_TOKEN = "INVALID_TOKEN";
 export const GITHUB_CONFIGURATION = new InjectionToken<GitHubConfiguration>("GitHubConfiguration");
@@ -34,10 +35,11 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
   constructor(
     @Inject(GITHUB_CONFIGURATION) private configuration: GitHubConfiguration,
     notificationService: NotificationService,
+    languageService: LanguageService,
     destroyRef: DestroyRef,
     private translate: TranslateService
   ) {
-    super(notificationService, destroyRef);
+    super(notificationService, languageService, destroyRef);
 
     this.octokit = new Octokit({ auth: configuration.token });
 
@@ -46,14 +48,18 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
     );
   }
 
-  override loadBranches(): Observable<Branch[]> {
+  override loadBranches(): Observable<GetResult<Branch[]>> {
     const url = new URL("https://api.github.com/repos/{owner}/{repo}/branches");
 
     const fromCache$ = this.cache$.pipe(
       switchMap(cache => from(cache.match(url))),
       filter((r): r is Response => !!r),
       switchMap(r => from(r.json())),
-      map(r => branchListSchema.parse(r))
+      map(r => ({
+        result: branchListSchema.parse(r),
+        isFromCache: true
+      })),
+      catchError(() => of()) // Ignore errors from cache. If we've cached a bad value, there's nothing the user can do.
     );
 
     const fromSource$ = defer(() => this.octokit.paginate(this.octokit.repos.listBranches, {
@@ -63,12 +69,15 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
         "If-None-Match": "" // Prevent caching since we do it manually
       }
     })).pipe(
-      map(branches => branches.map(b => ({
-        name: b.name as BranchName,
-        version: b.commit.sha as VersionIdentifier,
-        protected: b.name === this.configuration.repository.defaultBranch
-      }))),
-      tap(async branches => {
+      map(branches => ({
+        result: branches.map(b => ({
+          name: b.name as BranchName,
+          version: b.commit.sha as VersionIdentifier,
+          protected: b.name === this.configuration.repository.defaultBranch
+        })),
+        isFromCache: false
+      })),
+      tap(async ({ result: branches }) => {
         const cache = await firstValueFrom(this.cache$);
         cache.put(url, Response.json(branches));
       })
@@ -77,19 +86,23 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
     return cacheThenSource(
       fromCache$,
       fromSource$,
-      (previous, current) => previous.length === current.length
+      ({ result: previous }, { result: current }) => previous.length === current.length
         && current.every(c => previous.some(p => p.name === c.name && p.version === c.version && p.protected === c.protected))
     );
   }
 
-  override getTree(branch: BranchName): Observable<GithubTreeEntry[]> {
+  override getTree(branch: BranchName): Observable<GetResult<GithubTreeEntry[]>> {
     const url = new URL(`https://api.github.com/repos/{owner}/{repo}/git/trees/${branch}`);
 
     const fromCache$ = this.cache$.pipe(
       switchMap(cache => from(cache.match(url))),
       filter((r): r is Response => !!r),
       switchMap(r => from(r.json())),
-      map(r => githubTreeEntryListSchema.parse(r))
+      map(r => ({
+        result: githubTreeEntryListSchema.parse(r),
+        isFromCache: true
+      })),
+      catchError(() => of()) // Ignore errors from cache. If we've cached a bad value, there's nothing the user can do.
     );
 
     const fromSource$ = defer(() => this.octokit.git.getRef({
@@ -112,10 +125,13 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
           }
         }),
         map(tree => ({
-          sha: ref.data.object.sha,
-          tree: tree.data.tree.filter(f => f.type === "blob" && f.path) as GithubTreeEntry[]
+          result: {
+            sha: ref.data.object.sha,
+            tree: tree.data.tree.filter(f => f.type === "blob" && f.path) as GithubTreeEntry[]
+          },
+          isFromCache: false
         })),
-        tap(async tree => {
+        tap(async ({ result: tree }) => {
           const cache = await firstValueFrom(this.cache$);
           cache.put(url, Response.json(tree));
         })
@@ -125,19 +141,20 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
     return cacheThenSource(
       fromCache$,
       fromSource$,
-      (previous, current) => previous.sha === current.sha
+      ({ result: previous }, { result: current }) => previous.sha === current.sha
     ).pipe(
-      map(t => t.tree)
+      map(({ result: { tree }, isFromCache }) => ({ result: tree, isFromCache }))
     );
   }
 
-  override getFile(fileInfo: GithubTreeEntry): Observable<any> {
+  override getFile(fileInfo: GithubTreeEntry): Observable<GetResult<unknown>> {
     const url = new URL(`https://api.github.com/repos/{owner}/{repo}/git/blobs/${fileInfo.sha}`);
 
     const fromCache$ = this.cache$.pipe(
       switchMap(cache => from(cache.match(url))),
       filter((r): r is Response => !!r),
-      switchMap(r => from(r.json()))
+      switchMap(r => from(r.json()) as Observable<unknown>),
+      map(result => ({ result, isFromCache: true }))
     );
 
     const fromSource$ = defer(() => this.octokit.git.getBlob({
@@ -146,8 +163,11 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
       file_sha: fileInfo.sha!,
       mediaType: { format: "raw" }
     })).pipe(
-      map(blob => JSON.parse(blob.data as any)),
-      tap(async file => {
+      map(blob => ({
+        result: JSON.parse(blob.data as any) as unknown,
+        isFromCache: false
+      })),
+      tap(async ({ result: file }) => {
         const cache = await firstValueFrom(this.cache$);
         cache.put(url, Response.json(file));
       })

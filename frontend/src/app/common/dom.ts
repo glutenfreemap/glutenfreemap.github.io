@@ -7,6 +7,7 @@ export interface ElementOptions<E extends keyof HTMLElementTagNameMap> {
   className?: string,
   events?: EventListenerMap<E>
   attributes?: { [name: string]: string }
+  signal?: AbortSignal
 }
 
 export function E<K extends keyof HTMLElementTagNameMap>(tagName: K) : HTMLElementTagNameMap[K];
@@ -30,7 +31,7 @@ export function E<K extends keyof HTMLElementTagNameMap>(tagName: K, optionsOrFi
 
       if (optionsOrFirstChild.events) {
         for (const [eventName, eventHandler] of Object.entries(optionsOrFirstChild.events)) {
-          element.addEventListener(eventName, eventHandler as any);
+          element.addEventListener(eventName, eventHandler as any, { signal: optionsOrFirstChild.signal });
         }
       }
 

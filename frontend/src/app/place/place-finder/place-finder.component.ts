@@ -42,8 +42,8 @@ export class PlaceFinderComponent implements OnInit, OnDestroy {
   public searchBox: FormControl<string>;
 
   public searchResults: Observable<PlaceAutocompleteResult[]>;
-  private postMessageListener?: (evt: MessageEvent<any>) => void;
   private autocompleteResponses = new Subject<PlaceAutocompleteResponse>();
+  private subscriptions = new AbortController();
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public readonly params: PlaceSearchParams,
@@ -92,7 +92,7 @@ export class PlaceFinderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.postMessageListener = evt => {
+    window.addEventListener("message", evt => {
       if (evt.origin !== location.origin) {
         console.error("Invalid origin", evt.origin);
         return;
@@ -104,14 +104,11 @@ export class PlaceFinderComponent implements OnInit, OnDestroy {
       } else if (isDetailsResponse(response)) {
         this.dialogRef.close(response.details);
       }
-    };
-    window.addEventListener("message", this.postMessageListener, false);
+    }, { capture: false, signal: this.subscriptions.signal });
   }
 
   ngOnDestroy(): void {
-    if (this.postMessageListener) {
-      window.removeEventListener("message", this.postMessageListener);
-    }
+    this.subscriptions.abort();
   }
 
   public displaySuggestion(suggestion: PlaceAutocompleteResult | string) {

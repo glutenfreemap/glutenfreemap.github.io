@@ -5,8 +5,9 @@ import { DEFAULT_BRANCH, PublicConfiguration, PublicRepository, publicRepository
 import { environment } from "../../environments/current";
 import { firstValueFrom, map, Observable, of } from "rxjs";
 import { z } from "zod";
-import { ConnectorSkeleton } from "../../app/configuration/connector-skeleton";
+import { ConnectorSkeleton, GetResult } from "../../app/configuration/connector-skeleton";
 import { NotificationService } from "../../app/shell/notifications/notification.service";
+import { LanguageService } from "../../app/common/language-service";
 
 export const PUBLIC_CONNECTOR = new InjectionToken<Connector>("PublicConnector");
 export const PUBLIC_CONFIGURATION = new InjectionToken<PublicConfiguration>("PublicConfiguration");
@@ -38,26 +39,37 @@ export class PublicConnector extends ConnectorSkeleton<TreeEntry> implements Con
     @Inject(PUBLIC_CONFIGURATION) private configuration: PublicConfiguration,
     private httpClient: HttpClient,
     notificationService: NotificationService,
+    languageService: LanguageService,
     destroyRef: DestroyRef
   ) {
-    super(notificationService, destroyRef);
+    super(notificationService, languageService, destroyRef);
   }
 
-  override getTree(_name: BranchName): Observable<TreeEntry[]> {
+  override getTree(_name: BranchName): Observable<GetResult<TreeEntry[]>> {
     return this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/tree`).pipe(
-      map(r => z.array(treeEntrySchema).parse(r))
+      map(r => ({
+        result: z.array(treeEntrySchema).parse(r),
+        isFromCache: false
+      }))
     );
   }
 
-  override getFile(fileInfo: TreeEntry): Observable<any> {
-    return this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/blobs/${fileInfo.hash}`);
+  override getFile(fileInfo: TreeEntry): Observable<GetResult<unknown>> {
+    return this.httpClient.get(`${environment.publicApiUrl}/repos/${this.configuration.repository.path}/blobs/${fileInfo.hash}`).pipe(
+      map(result => ({ result, isFromCache: false }))
+    );
   }
 
-  override loadBranches(): Observable<Branch[]> {
-    return of([{
-      name: DEFAULT_BRANCH,
-      version: LATEST_VERSION,
-      protected: true
-    }]);
+  override loadBranches(): Observable<GetResult<Branch[]>> {
+    return of({
+      result: [
+        {
+          name: DEFAULT_BRANCH,
+          version: LATEST_VERSION,
+          protected: true
+        }
+      ],
+      isFromCache: false
+    });
   }
 }

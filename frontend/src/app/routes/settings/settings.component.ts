@@ -89,19 +89,20 @@ export class SettingsComponent {
       duration: 3000
     });
 
-    const subscriptions : Subscription[] = [];
-    subscriptions.push(bar.afterDismissed().subscribe(() => subscriptions.forEach(s => s.unsubscribe())));
-    subscriptions.push(bar.onAction().subscribe(() => {
-      this.configurations.update(l => {
-        const list = [...l];
-        if (index < list.length) {
-          list.splice(index, 0, connector);
-        } else {
-          list.push(connector);
-        }
-        return list;
-      });
-    }));
+    const subscriptions : Subscription[] = [
+      bar.afterDismissed().subscribe(() => subscriptions.forEach(s => s.unsubscribe())),
+      bar.onAction().subscribe(() => {
+        this.configurations.update(l => {
+          const list = [...l];
+          if (index < list.length) {
+            list.splice(index, 0, connector);
+          } else {
+            list.push(connector);
+          }
+          return list;
+        });
+      })
+    ];
   }
 
   public save() {

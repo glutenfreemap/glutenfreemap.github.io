@@ -1,7 +1,9 @@
-import { signal, Signal } from "@angular/core";
+import { Injectable, signal, Signal } from "@angular/core";
 import { LeafPlace, TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
 import { z } from "zod";
+import { toMap } from "../common/helpers";
+import { LanguageService } from "../common/language-service";
 
 type IndeterminateLoadingStatus = {
   status: "loading"
@@ -68,7 +70,12 @@ export function isWritableConnector(connector: Connector): connector is Writable
     && "createBranch" in connector;
 }
 
+@Injectable({ providedIn: "root" })
 export class NopConnector implements Connector {
+  constructor(private languageService: LanguageService) {
+    this.languages = signal(toMap(this.languageService.supportedLanguages));
+  }
+
   status: Signal<Status> = signal({ status: "loaded" });
   branches: Signal<Branch[]> = signal([]);
   currentBranch: Signal<Branch | undefined> = signal(undefined);
@@ -77,7 +84,7 @@ export class NopConnector implements Connector {
     throw new Error("Method not supported.");
   }
 
-  languages: Signal<Map<LanguageIdentifier, Language>> = signal(new Map());
+  languages: Signal<Map<LanguageIdentifier, Language>>;
   attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>> = signal(new Map());
   regions: Signal<Map<RegionIdentifier, Region>> = signal(new Map());
   categories: Signal<Map<CategoryIdentifier, Category>> = signal(new Map());

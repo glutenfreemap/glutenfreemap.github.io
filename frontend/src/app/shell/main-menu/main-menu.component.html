@@ -2,12 +2,31 @@
   <mat-icon>I</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  @for (link of links; track link.path) {
-    <a
-      mat-menu-item
-      [routerLink]="link.path"
-      routerLinkActive="current"
-      ariaCurrentWhenActive="page"
-    >{{ link.label | translate }}</a>
+  <button
+    mat-menu-item
+    routerLink="/config"
+    routerLinkActive="current"
+    ariaCurrentWhenActive="page"
+  >{{ 'navigation.menu.settings' | translate }}</button>
+
+  <button
+    mat-menu-item
+    routerLink="/about"
+    routerLinkActive="current"
+    ariaCurrentWhenActive="page"
+  >{{ 'navigation.menu.about' | translate }}</button>
+
+  <button
+    mat-menu-item
+    [matMenuTriggerFor]="languagesMenu"
+  >{{ 'navigation.menu.language' | translate }}</button>
+</mat-menu>
+
+<mat-menu #languagesMenu="matMenu">
+  @for (language of languages(); track language.id) {
+    <button mat-menu-item (click)="languageService.switchTo(language)" [class.unsupported]="!language.available">
+      <mat-icon>{{ language.selected ? 'K' : ' '}}</mat-icon>
+      {{ language.name }}
+    </button>
   }
 </mat-menu>

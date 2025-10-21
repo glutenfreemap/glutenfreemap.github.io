@@ -1,6 +1,6 @@
 import { toSignal } from "@angular/core/rxjs-interop";
 import { FormControl } from "@angular/forms";
-import { catchError, concat, defer, distinctUntilChanged, map, merge, Observable, share, startWith, take, takeUntil, throwError, throwIfEmpty } from "rxjs";
+import { catchError, concat, defer, distinctUntilChanged, map, merge, Observable, share, startWith, take, takeUntil, throwError, throwIfEmpty, Unsubscribable } from "rxjs";
 import z, { string } from "zod";
 
 export function errorMessage(control: FormControl, errors: { [key: string]: string }): string {
@@ -115,3 +115,27 @@ export function buildWorkflow<T extends {}>(state?: T) : Workflow<T> {
     }
   }
 }
+
+export function unsubscribeOnAbort(abort: AbortController, subscription: { unsubscribe(): void }): void {
+  abort.signal.addEventListener(
+    "abort",
+    () => subscription.unsubscribe(),
+    {
+      once: true
+    }
+  )
+}
+
+export function toMap<T extends { id: unknown }>(source: Iterable<T>): Map<T["id"], T>;
+export function toMap<T, K>(source: Iterable<T>, keySelector: (item: T) => K): Map<K, T>;
+export function toMap<T, K, V>(source: Iterable<T>, keySelector: (item: T) => K, valueSelector: (item: T) => V): Map<K, V>;
+export function toMap<T, K, V>(source: Iterable<T>, keySelector?: (item: T) => K, valueSelector?: (item: T) => V): Map<K, V> {
+  const result = new Map<K, V>();
+  keySelector ||= i => (i as any)["id"] as K;
+  valueSelector ||= i => i as any as V;
+  for (const item of source) {
+    result.set(keySelector(item), valueSelector(item));
+  }
+  return result;
+}
+

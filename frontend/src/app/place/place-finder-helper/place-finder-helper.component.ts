@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { filter, Subject, Subscription, switchMap, withLatestFrom } from 'rxjs';
+import { filter, Subject, switchMap, withLatestFrom } from 'rxjs';
 import { GeographicalCoordinate, GoogleIdentifier, StandalonePlace } from '../../../datamodel/place';
 import { RegionIdentifier } from '../../../datamodel/common';
+import { unsubscribeOnAbort } from '../../common/helpers';
 
 export const PLACES_AUTOCOMPLETE_REQUEST_TYPE = "PlacesAutocompleteRequest";
 export const PLACES_DETAILS_REQUEST_TYPE = "PlacesDetailsRequest";
@@ -74,11 +75,13 @@ interface PlaceRequestEvent<T> {
 })
 export class PlaceFinderHelperComponent implements OnInit, OnDestroy {
   private placesApi = new Subject<google.maps.PlacesLibrary>();
-  private subscriptions: Subscription[] = [];
+
+  private subscriptions = new AbortController();
 
   ngOnInit(): void {
     const searchRequests = new Subject<PlaceRequestEvent<PlaceAutocompleteRequest>>();
     const detailsRequests = new Subject<PlaceRequestEvent<PlaceDetailsRequest>>();
+
     window.addEventListener("message", evt => {
       if (evt.origin !== location.origin) {
         console.error("Invalid origin", evt.origin);
@@ -92,7 +95,7 @@ export class PlaceFinderHelperComponent implements OnInit, OnDestroy {
       } else if (isDetailsRequest(request)) {
         detailsRequests.next({ request, source });
       }
-    }, false);
+    }, { capture: false, signal: this.subscriptions.signal });
 
     (window as any)["mapsApiLoaded"] = async () => {
       const placesApi = <google.maps.PlacesLibrary>await google.maps.importLibrary("places");
@@ -104,7 +107,8 @@ export class PlaceFinderHelperComponent implements OnInit, OnDestroy {
     script.setAttribute("defer", "defer");
     document.body.appendChild(script);
 
-    this.subscriptions.push(
+    unsubscribeOnAbort(
+      this.subscriptions,
       searchRequests.pipe(
         withLatestFrom(this.placesApi),
         filter(([searchEvent, placesApi]) => !!searchEvent && !!placesApi),
@@ -133,7 +137,8 @@ export class PlaceFinderHelperComponent implements OnInit, OnDestroy {
       ).subscribe(r => r.source.postMessage(r.response))
     );
 
-    this.subscriptions.push(
+    unsubscribeOnAbort(
+      this.subscriptions,
       detailsRequests.pipe(
         withLatestFrom(this.placesApi),
         filter(([detailsEvent, placesApi]) => !!detailsEvent && !!placesApi),
@@ -200,6 +205,6 @@ export class PlaceFinderHelperComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.abort();
   }
 }

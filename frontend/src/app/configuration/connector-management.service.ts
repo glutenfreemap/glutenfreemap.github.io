@@ -1,4 +1,4 @@
-import { computed, createEnvironmentInjector, EnvironmentInjector, Injectable, runInInjectionContext, signal } from '@angular/core';
+import { computed, createEnvironmentInjector, EnvironmentInjector, Injectable, runInInjectionContext, Signal, signal, WritableSignal } from '@angular/core';
 import { z } from 'zod';
 import { GITHUB_CONFIGURATION_TYPE, gitHubConfigurationSchema } from '../../connectors/github/configuration';
 import { BranchName, branchNameSchema, Connector, NopConnector } from './connector';
@@ -53,8 +53,6 @@ const connectorConfigurationListSchema = z.preprocess(parseJsonPreprocessor, z.a
 
 type ConnectorConfigurationList = z.infer<typeof connectorConfigurationListSchema>;
 
-const NOP_CONNECTOR = new NopConnector();
-
 @Injectable({
   providedIn: 'root',
 })
@@ -65,12 +63,16 @@ export class ConnectorManagementService {
 
   public isConfigured = computed(() => this._configurations().length > 0);
 
-  private _selectedConnector = signal<Connector>(NOP_CONNECTOR);
-  public selectedConnector = this._selectedConnector.asReadonly();
+  private _selectedConnector: WritableSignal<Connector>;
+  public selectedConnector: Signal<Connector>;
 
   constructor(
-    private injector: EnvironmentInjector
+    private injector: EnvironmentInjector,
+    private nopConnector: NopConnector
   ) {
+    this._selectedConnector = signal<Connector>(this.nopConnector);
+    this.selectedConnector = this._selectedConnector.asReadonly();
+
     const configuration = connectorConfigurationListSchema.safeParse(
       localStorage.getItem(CONNECTOR_CONFIGURATION_KEY)
     );
@@ -92,7 +94,7 @@ export class ConnectorManagementService {
     this.currentConnectorInjector?.destroy();
 
     if (!selectedConfiguration) {
-      this._selectedConnector.set(NOP_CONNECTOR);
+      this._selectedConnector.set(this.nopConnector);
       return;
     }
 
@@ -141,7 +143,7 @@ export class ConnectorManagementService {
       }
 
       default:
-        this._selectedConnector.set(NOP_CONNECTOR);
+        this._selectedConnector.set(this.nopConnector);
         throw new Error(`Unsupported configuration type '${configuration["type"]}`);
     }
   }

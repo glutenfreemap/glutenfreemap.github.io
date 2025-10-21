@@ -1,12 +1,14 @@
 import { computed, DestroyRef, signal } from "@angular/core";
 import z, { ZodType } from "zod";
-import { LanguageIdentifier, AttestationTypeIdentifier, AttestationType, RegionIdentifier, Region, CategoryIdentifier, Category, languageSchema, attestationTypeSchema, regionSchema, categorySchema, Language } from "../../datamodel/common";
+import { LanguageIdentifier, AttestationTypeIdentifier, AttestationType, RegionIdentifier, Region, CategoryIdentifier, Category, languageSchema, attestationTypeSchema, regionSchema, categorySchema, Language, languageIdentifierSchema } from "../../datamodel/common";
 import { TopLevelPlace, PlaceIdentifier, placeSchema, LeafPlace, isComposite } from "../../datamodel/place";
 import { Status, Branch, BranchName } from "./connector";
 import { catchError, combineLatest, concatWith, connectable, distinctUntilChanged, filter, map, merge, Observable, of, retry, scan, share, shareReplay, Subscription, switchMap, take, tap } from "rxjs";
 import { RetryToastMandatoryComponent, RetryToastMandatoryParams } from "../common/retry-toast-mandatory/retry-toast-mandatory.component";
 import { NotificationService } from "../shell/notifications/notification.service";
 import { RetryToastOptionalComponent } from "../common/retry-toast-optional/retry-toast-optional.component";
+import { toMap } from "../common/helpers";
+import { LanguageService } from "../common/language-service";
 
 export const treeEntrySchema = z.object({
   path: z.string()
@@ -22,16 +24,20 @@ class UserCancelledError extends Error {
   }
 }
 
+export type GetResult<T> = {
+  result: T,
+  isFromCache: boolean
+};
+
 export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
-  abstract loadBranches(): Observable<Branch[]>;
-  abstract getTree(branch: BranchName): Observable<TTreeEntry[]>;
-  abstract getFile(fileInfo: TTreeEntry): Observable<any>;
+  abstract loadBranches(): Observable<GetResult<Branch[]>>;
+  abstract getTree(branch: BranchName): Observable<GetResult<TTreeEntry[]>>;
+  abstract getFile(fileInfo: TTreeEntry): Observable<GetResult<unknown>>;
 
   private promptRetryOptional(fileName: string, error: any): Observable<boolean> {
     return this.notificationService.enqueueMergeable(RetryToastOptionalComponent, {
       fileName
     } as RetryToastMandatoryParams).pipe(
-      tap(r => console.log("retry", fileName, r)),
       filter(r => r),
     );
   }
@@ -48,22 +54,25 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
     );
   }
 
-  private load<TSchema extends ZodType<{ id: unknown }>>(
+  private load<TSchema extends ZodType, TResult>(
     tree: Observable<TTreeEntry[]>,
     schema: TSchema,
-    fileName: string
-  ): Observable<Map<z.infer<TSchema>["id"], z.infer<TSchema>>> {
+    fileName: string,
+    projection: (item: z.infer<TSchema>) => TResult
+  ): Observable<TResult> {
     return tree.pipe(
       map(tree => tree.find(f => f.path === fileName)!),
       switchMap(t => this.getFile(t).pipe(
+        map(d => d.isFromCache
+          ? schema.safeParse(d.result).data // If the result comes from cache but we can't parse it, ignore it since a fresh value should be fetched later.
+          : schema.parse(d.result)
+        ),
+        filter((r): r is z.infer<TSchema> => !!r),
         retry({
           delay: error => this.promptRetryMandatory(t.path, error)
         })
       )),
-      map(d => z.array(schema).parse(d).reduce(
-        (d, i) => { d.set(i.id, i); return d; },
-        new Map<z.infer<TSchema>["id"], z.infer<TSchema>>())
-      ),
+      map(d => projection(d)),
       share()
     );
   }
@@ -77,6 +86,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
 
   constructor(
     protected notificationService: NotificationService,
+    private languageService: LanguageService,
     destroyRef: DestroyRef
   ) {
     destroyRef.onDestroy(() => this.unsubscribeAll());
@@ -102,6 +112,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
 
     if (!this.branches$) {
       this.branches$ = this.loadBranches().pipe(
+        map(({ result }) => result),
         tap(this.branches.set),
         shareReplay({ bufferSize: 1, refCount: true })
       );
@@ -117,6 +128,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
 
     const tree$ = currentBranch$.pipe(
       switchMap(branch => this.getTree(branch.name).pipe(
+        map(t => t.result),
         retry({
           delay: error => this.promptRetryMandatory(branch.name, error)
         })
@@ -124,10 +136,10 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
       share()
     );
 
-    const languages$ = this.load(tree$, languageSchema, "languages.json");
-    const attestationTypes$ = this.load(tree$, attestationTypeSchema, "attestations.json");
-    const regions$ = this.load(tree$, regionSchema, "regions.json");
-    const categories$ = this.load(tree$, categorySchema, "categories.json");
+    const languages$ = this.load(tree$, z.array(languageIdentifierSchema), "languages.json", l => new Set(l));
+    const attestationTypes$ = this.load(tree$, z.array(attestationTypeSchema), "attestations.json", l => toMap(l));
+    const regions$ = this.load(tree$, z.array(regionSchema), "regions.json", l => toMap(l));
+    const categories$ = this.load(tree$, z.array(categorySchema), "categories.json", l => toMap(l));
 
     const placeStreams$ = tree$.pipe(
       map(tree => {
@@ -136,9 +148,9 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
           .map(f => {
             // Create a function that returns a fresh observable for each load attempt
             const loadFile = (emitEmpty: boolean): Observable<{ place?: z.infer<typeof placeSchema>, path: string }> => this.getFile(f).pipe(
-              map(place => {
+              map(({ result: place, isFromCache }) => {
                 const parsed = placeSchema.safeParse(place);
-                if (!parsed.success) {
+                if (!parsed.success && !isFromCache) {
                   console.error(`Failed to parse '${f.path}'`, parsed.error);
                 }
                 return {
@@ -263,7 +275,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
     this.subscriptions.push(
       statusSubscription,
       currentBranch$.subscribe(this.currentBranch.set),
-      languages$.subscribe(this.languages.set),
+      languages$.subscribe(langs => this.languages.set(toMap(this.languageService.supportedLanguages.filter(sl => langs.has(sl.id))))),
       attestationTypes$.subscribe(this.attestationTypes.set),
       regions$.subscribe(this.regions.set),
       categories$.subscribe(this.categories.set),

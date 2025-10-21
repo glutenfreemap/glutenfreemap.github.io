@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { NgxEditorComponent, NgxEditorMenuComponent, Editor } from 'ngx-editor';
+import { unsubscribeOnAbort } from '../helpers';
 
 @Component({
   selector: 'app-localized-string-form-field',
@@ -27,17 +28,14 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
   public languages = input.required<Map<LanguageIdentifier, Language>>();
   private controls = new Map<LanguageIdentifier, FormControl>();
   private editors = new Map<LanguageIdentifier, Editor>();
-  private subscriptions: Subscription[] = [];
+  private subscriptions = new AbortController();
 
   ngOnInit(): void {
     this.setValue(this.control.value);
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
-    for (const editor of this.editors.values()) {
-      editor.destroy();
-    }
+    this.subscriptions.abort();
   }
 
   private setValue(value: LocalizedString | null) {
@@ -53,15 +51,18 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
     if (!this.controls.has(language)) {
       const control = new FormControl("", this.control.validator);
       this.controls.set(language, control);
-      this.subscriptions.push(control.valueChanges.subscribe(value => {
-        // Mark as dirty *before* setting the value to allow event listeners to
-        // mark it as pristine if they want to.
-        this.control.markAsDirty();
-        this.control.setValue({
-          ...this.control.value,
-          [language]: this.isEmptyValue(value) ? undefined : value
-        });
-      }));
+      unsubscribeOnAbort(
+        this.subscriptions,
+        control.valueChanges.subscribe(value => {
+          // Mark as dirty *before* setting the value to allow event listeners to
+          // mark it as pristine if they want to.
+          this.control.markAsDirty();
+          this.control.setValue({
+            ...this.control.value,
+            [language]: this.isEmptyValue(value) ? undefined : value
+          });
+        })
+      );
     }
     return this.controls.get(language)!;
   }

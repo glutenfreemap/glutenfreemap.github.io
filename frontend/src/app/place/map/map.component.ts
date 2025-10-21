@@ -59,6 +59,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return result;
   });
 
+  private subscriptions = new AbortController();
+
   constructor(
     private element: ElementRef,
     private containerRef: ViewContainerRef,
@@ -136,14 +138,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private darkModeQuery?: MediaQueryList;
-  private darkModeEventListener?: (this: MediaQueryList, ev: MediaQueryListEventMap["change"]) => any;
-
   ngAfterViewInit(): void {
-    let darkMode = false;
+    let darkModeQuery: MediaQueryList | undefined = undefined;
     if (window.matchMedia) {
-      this.darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-      darkMode = this.darkModeQuery.matches;
+      darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
     }
 
     const map = new MaplibreMap({
@@ -181,34 +179,42 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       trackUserLocation: true
     }), "bottom-right");
 
-    map.addControl({
-      onAdd: () => E(
-        "div",
-        {
-          className: "maplibregl-ctrl maplibregl-ctrl-group"
-        },
-        E(
-          "button",
+    const fitPlacesInMapButton = {
+      onClick: () => this.fitPlacesInMap(),
+      abort: new AbortController(),
+      onAdd: function() {
+        return E(
+          "div",
           {
-            className: "map-button",
-            events: {
-              "click": evt => {
-                evt.preventDefault();
-                this.fitPlacesInMap();
-              }
-            }
+            className: "maplibregl-ctrl maplibregl-ctrl-group"
           },
           E(
-            "span",
+            "button",
             {
-              className: "mat-icon material-icons mat-ligature-font mat-icon-no-color"
+              className: "map-button",
+              events: {
+                "click": evt => {
+                  evt.preventDefault();
+                  this.onClick();
+                }
+              }
             },
-            "J"
+            E(
+              "span",
+              {
+                className: "mat-icon material-icons mat-ligature-font mat-icon-no-color"
+              },
+              "J"
+            )
           )
-        )
-      ),
-      onRemove: () => {}
-    }, "bottom-right");
+        );
+      },
+      onRemove: function() {
+        this.abort.abort();
+      }
+    };
+
+    map.addControl(fitPlacesInMapButton, "bottom-right");
 
     map.addControl({
       onAdd: () => E(
@@ -233,13 +239,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     // before it, and if we do it in the load event, the map flickers because it was
     // already rendered once with the default value of darkMode.
     map.once("style.load" as any, () => {
-      map.setGlobalStateProperty(DARK_MODE_STATE_KEY, darkMode);
-      if (this.darkModeQuery) {
-        this.darkModeEventListener = evt => {
-          map.setGlobalStateProperty(DARK_MODE_STATE_KEY, evt.matches);
-        };
-        this.darkModeQuery.addEventListener("change", this.darkModeEventListener);
-      }
+      map.setGlobalStateProperty(DARK_MODE_STATE_KEY, darkModeQuery?.matches || false);
+      darkModeQuery?.addEventListener("change", evt => {
+        map.setGlobalStateProperty(DARK_MODE_STATE_KEY, evt.matches);
+      }, { signal: this.subscriptions.signal });
     });
 
     map.once("load", async () => {
@@ -372,9 +375,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyInfoWindow();
 
-    if (this.darkModeEventListener) {
-      this.darkModeQuery?.removeEventListener("change", this.darkModeEventListener);
-    }
+    this.subscriptions.abort();
 
     this.map?.remove();
     this.map = undefined;
