@@ -12,7 +12,7 @@
   <mat-card-content>
     @let description = place.description | localize;
     @if (description?.length) {
-      <div innerHTML="{{ description }}"></div>
+      <div class="description" innerHTML="{{ description }}"></div>
       <mat-divider></mat-divider>
     }
     <p>

@@ -3,6 +3,7 @@
 @use '@angular/material' as mat;
 @use "sass:map";
 @use './theme-colors' as theme;
+@use './mixins' as mixins;
 
 @font-face {
   font-family: 'Roboto';
@@ -70,6 +71,10 @@ a {
     color: map.get(theme.$primary-palette, 20);
     text-decoration: underline;
   }
+}
+
+p {
+  @include mixins.paragraph;
 }
 
 .dropdown-icon {

@@ -1,3 +1,5 @@
+@use '../../../mixins' as mixins;
+
 mat-card {
   border: none;
   background: none;
@@ -6,4 +8,8 @@ mat-card {
 mat-card-actions {
   margin-top: 10px;
   gap: 0.5rem;
+}
+
+.description {
+  @include mixins.paragraph;
 }
