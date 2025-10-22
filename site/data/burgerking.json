@@ -2912,6 +2912,20 @@
     "district": "faro"
   },
   {
+    "id": "33218",
+    "gid": null,
+    "subtitle": "Vila Chá, 3731-901. Vale de Cambra",
+    "address": [
+      "Vila Chá, 3731-901. Vale de Cambra",
+      "3731-901 Vale de Cambra"
+    ],
+    "position": {
+      "lat": 40.922391,
+      "lng": -8.391601
+    },
+    "district": "aveiro"
+  },
+  {
     "id": "33219",
     "gid": null,
     "subtitle": "R. BARCA RIBEIRA DE EIRAS 60, EIRAS",
