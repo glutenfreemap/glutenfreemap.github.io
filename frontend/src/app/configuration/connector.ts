@@ -62,7 +62,8 @@ export interface Connector {
 
 export interface WritableConnector extends Connector {
   createBranch(name: BranchName): Promise<CreateBranchResult>,
-  commit<T extends TopLevelPlace>(place: T): Promise<any>
+  commit<T extends TopLevelPlace>(place: T): Promise<any>,
+  mergeCurrentBranch(): Promise<any>
 }
 
 export function isWritableConnector(connector: Connector): connector is WritableConnector {

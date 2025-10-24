@@ -10,10 +10,17 @@
       {{ branch.name }}
     </button>
   }
+  <mat-divider></mat-divider>
   @if (canCreateNewBranch()) {
     <button mat-menu-item (click)="createBranch()">
       <mat-icon>{{ 'M' }}</mat-icon>
-      {{ 'general.branch.createNew' | translate }}
+      {{ 'general.branch.create' | translate }}
+    </button>
+  }
+  @if (!currentBranch()?.protected) {
+    <button mat-menu-item (click)="mergeBranch()">
+      <mat-icon>{{ 'R' }}</mat-icon>
+      {{ 'general.branch.merge' | translate }}
     </button>
   }
 </mat-menu>

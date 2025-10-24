@@ -1,15 +1,15 @@
-<h2 mat-dialog-title>{{ 'branch.creator.title' | translate }}</h2>
+<h2 mat-dialog-title>{{ 'branch.merger.title' | translate: { branch: connector.currentBranch()!.name } }}</h2>
 <mat-dialog-content>
-  <div innerHTML="{{ 'branch.creator.description' | translate }}"></div>
-  <mat-form-field>
+  <div innerHTML="{{ 'branch.merger.description' | translate: { branch: connector.currentBranch()!.name } }}"></div>
+  <!-- <mat-form-field>
     <mat-label>{{ 'branch.creator.name.label' | translate }}</mat-label>
-    <input matInput [formControl]="nameInput" required pattern="^\w+(?:-\w*)*$" cdkFocusInitial />
+    <input matInput [formControl]="nameInput" required pattern="^\w+(?:-\w*)*$" />
     <mat-error *ngIf="nameInput.invalid">{{ error(nameInput, {
       required: 'branch.creator.name.required' | translate,
       pattern: 'branch.creator.name.invalid' | translate,
       duplicate: 'branch.creator.name.duplicate' | translate
     }) }}</mat-error>
-  </mat-form-field>
+  </mat-form-field> -->
 </mat-dialog-content>
 <mat-dialog-actions>
   @if (loading()) {
@@ -17,5 +17,5 @@
   }
 
   <button mat-button mat-dialog-close>{{ 'general.dialog.buttons.cancel' | translate }}</button>
-  <button mat-button [disabled]="!isValid()" (click)="create()">{{ 'general.dialog.buttons.create' | translate }}</button>
+  <!-- <button mat-button [disabled]="!isValid()" (click)="create()">{{ 'general.dialog.buttons.create' | translate }}</button> -->
 </mat-dialog-actions>

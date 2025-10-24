@@ -338,4 +338,8 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
 
     this.places.set(updatedPlaces);
   }
+
+  public async mergeCurrentBranch(): Promise<any> {
+    throw "not implemented";
+  }
 }

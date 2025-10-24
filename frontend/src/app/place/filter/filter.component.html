@@ -25,7 +25,7 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="cancel()">{{ 'general.dialog.buttons.cancel' | translate }}</button>
-    <button mat-button cdkFocusInitial (click)="save(selectedAttestationTypes.selection(), selectedCategories.selection(), selectedRegions.selection())">{{ 'general.dialog.buttons.save' | translate }}</button>
+    <button mat-button (click)="save(selectedAttestationTypes.selection(), selectedCategories.selection(), selectedRegions.selection())">{{ 'general.dialog.buttons.save' | translate }}</button>
   </mat-dialog-actions>
 
 </ng-template>

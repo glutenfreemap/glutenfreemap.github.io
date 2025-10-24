@@ -13,7 +13,7 @@
       <div #generalTab>
         <mat-form-field class="wide">
           <mat-label>{{ 'place.editor.name.label' | translate }}</mat-label>
-          <input matInput [formControl]="nameInput" required />
+          <input matInput [formControl]="nameInput" required cdkFocusInitial />
           <mat-error *ngIf="nameInput.invalid">{{ error(nameInput, {
             required: 'place.editor.name.required' | translate
           }) }}</mat-error>
@@ -116,5 +116,5 @@
     <button mat-button (click)="openSearch()">{{ 'place.editor.searchOnGoogleMaps' | translate }}</button>
   }
   <button mat-button (click)="cancel()">{{ 'general.dialog.buttons.cancel' | translate }}</button>
-  <button mat-button cdkFocusInitial [disabled]="!isValid() || !hasChanges()" (click)="save()">{{ 'general.dialog.buttons.save' | translate }}</button>
+  <button mat-button [disabled]="!isValid() || !hasChanges()" (click)="save()">{{ 'general.dialog.buttons.save' | translate }}</button>
 </mat-dialog-actions>

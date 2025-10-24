@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ConnectorManagementService } from '../../configuration/connector-management.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { BranchMergerComponent } from '../branch-merger/branch-merger.component';
 
 @Component({
   selector: 'app-branch-selector',
@@ -14,6 +16,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatButtonModule,
     MatIconModule,
     MatMenuModule,
+    MatDividerModule,
     TranslateModule
 ],
   templateUrl: './branch-selector.component.html',
@@ -43,6 +46,14 @@ export class BranchSelectorComponent {
 
   public createBranch() {
     const dialogRef = this.dialog.open(BranchCreatorComponent, {
+      data: {
+        connector: this.connector()
+      }
+    });
+  }
+
+  public mergeBranch() {
+    const dialogRef = this.dialog.open(BranchMergerComponent, {
       data: {
         connector: this.connector()
       }
