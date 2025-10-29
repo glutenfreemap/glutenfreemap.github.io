@@ -1,12 +1,11 @@
-import { AfterViewInit, Component, ComponentRef, computed, effect, ElementRef, input, OnDestroy, output, signal, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, computed, effect, ElementRef, input, OnDestroy, output, ViewContainerRef } from '@angular/core';
 import { AttestationTypeIdentifier } from '../../../datamodel/common';
-import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, PlaceIdentifier, StandalonePlace, TopLevelPlace, DisplayablePlace } from '../../../datamodel/place';
-import { ColorSpecification, DataDrivenPropertyValueSpecification, GeoJSONSource, GeolocateControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup, StyleSpecification } from "maplibre-gl";
+import { CompositePlace, isStandalone as globalIsStandalone, isComposite as globalIsComposite, LeafPlace, PlaceIdentifier, StandalonePlace, TopLevelPlace, DisplayablePlace, isChild } from '../../../datamodel/place';
+import { ColorSpecification, DataDrivenPropertyValueSpecification, GeoJSONSource, GeolocateControl, LngLatBounds, LngLatLike, Map as MaplibreMap, NavigationControl, Popup } from "maplibre-gl";
 import { TranslateService } from '@ngx-translate/core';
 import { Connector } from '../../configuration/connector';
 import { getStyle } from '../../../generated/map.style';
 import { debounce } from '../../common/helpers';
-import { PlacePopupComponent } from '../place-popup/place-popup.component';
 import { E } from '../../common/dom';
 
 const CERTIFIED_MARKER = "certified-marker";
@@ -20,6 +19,7 @@ const DARK_MODE_STATE_KEY = "dark-mode";
 
 type MapFeatureProperties = {
   id: PlaceIdentifier,
+  name: string,
   attestation: AttestationTypeIdentifier
 };
 
@@ -34,7 +34,6 @@ type MapFeature = GeoJSON.Feature<GeoJSON.Geometry, MapFeatureProperties>;
 export class MapComponent implements AfterViewInit, OnDestroy {
   private map?: MaplibreMap;
   private infoWindow?: Popup;
-  private popupContent?: ComponentRef<PlacePopupComponent>;
 
   public connector = input.required<Connector>();
 
@@ -69,33 +68,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     // Debouncing helps preventing some errors with maplibregljs
     effect(debounce((filteredPlaces) => this.updateMapSource(filteredPlaces), 100, this.filteredPlaces));
     effect(() => this.selectedPlaceChanged(this.selectedPlace()));
-    effect(() => this.highlightedPlaceChanged(this.highlightedPlace() || this.selectedPlace()));
-  }
-
-  private highlightedPlaceChanged(place: LeafPlace | undefined): void {
-    this.destroyInfoWindow();
-
-    if (place) {
-      this.popupContent = this.containerRef.createComponent(PlacePopupComponent);
-      this.popupContent.instance.place = place;
-
-      this.infoWindow = new Popup({
-        offset: POPUP_OFFSET,
-        anchor: "bottom",
-        maxWidth: "500px",
-        focusAfterOpen: false,
-        closeButton: false
-      });
-
-      this.infoWindow.setDOMContent(this.popupContent.location.nativeElement);
-      this.infoWindow.setLngLat(place.position);
-      this.infoWindow.addTo(this.map!);
-    }
-  }
-
-  private destroyInfoWindow() {
-    this.popupContent?.destroy();
-    this.infoWindow?.remove();
   }
 
   private selectedPlaceChanged(place: LeafPlace | undefined): void {
@@ -331,6 +303,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         source: PLACES_SOURCE,
         filter: ["!", ["has", "point_count"]],
         layout: {
+          "text-field": ["get", "name"],
+          "text-font": ["Noto Sans Regular"],
+          "text-size": 12,
+          "text-offset": [0, 0.5],
+          "text-justify": "auto",
           "icon-image": [
             "case",
             ["!=", ["get", "attestation"], "none"], CERTIFIED_MARKER,
@@ -338,6 +315,21 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           ],
           "icon-anchor": "bottom",
           "icon-size": 0.5
+        },
+        paint: {
+          "text-color": [
+            "case",
+            ["boolean", ["global-state", "dark-mode"]],
+            "#d4e1f1",
+            "#000"
+          ],
+          "text-halo-color": [
+            "case",
+            ["boolean", ["global-state", "dark-mode"]],
+            "#1f1f1f",
+            "#fff"
+          ],
+          "text-halo-width": 1.5
         }
       });
 
@@ -368,13 +360,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
       this.updateMapSource(this.filteredPlaces());
     });
+  }
 
     this.map = map;
   }
 
   ngOnDestroy(): void {
-    this.destroyInfoWindow();
-
     this.subscriptions.abort();
 
     this.map?.remove();
@@ -426,6 +417,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       },
       properties: {
         id: place.id,
+        name: isChild(place) ? place.parent.name : place.name,
         attestation
       }
     };
