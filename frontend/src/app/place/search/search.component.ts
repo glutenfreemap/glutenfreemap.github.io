@@ -29,7 +29,7 @@ import { LocalizePipe } from '../../shell/localize.pipe';
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   host: {
-    "[class.searching]": "searching"
+    "[class.searching]": "searching()"
   }
 })
 export class SearchComponent {
@@ -38,16 +38,16 @@ export class SearchComponent {
 
   public searchText = signal("");
   public searchResults = signal<LeafPlace[]>([]);
-  public searching: boolean = false;
+  public searching = signal(false);
 
   public selectedPlaceChange = output<LeafPlace | undefined>()
   public highlightedPlaceChange = output<LeafPlace | undefined>()
 
   constructor() {
     effect(debounce((searchText, connector) => {
-      this.searching = searchText.length > 0;
+      this.searching.set(searchText.length > 0);
 
-      if (this.searching) {
+      if (this.searching()) {
         const searchToken = this.removeDiacritics(searchText.toLocaleLowerCase());
         this.searchResults.set(
           connector.leafPlaces().filter(p => this.removeDiacritics((isChild(p) ? p.parent.name + " " + p.name : p.name).toLocaleLowerCase()).includes(searchToken))
@@ -60,12 +60,12 @@ export class SearchComponent {
 
   public searchFocused() {
     if (this.searchText().length) {
-      this.searching = true;
+      this.searching.set(true);
     }
   }
 
   public selectPlace(place: LeafPlace) {
-    this.searching = false;
+    this.searching.set(false);
     this.selectedPlaceChange.emit(place);
   }
 

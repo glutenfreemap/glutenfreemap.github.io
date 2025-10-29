@@ -55,11 +55,14 @@ export class LocalizedStringFormFieldComponent implements OnInit, OnDestroy {
         this.subscriptions,
         control.valueChanges.subscribe(value => {
           // Mark as dirty *before* setting the value to allow event listeners to
-          // mark it as pristine if they want to.
-          this.control.markAsDirty();
-          this.control.setValue({
-            ...this.control.value,
-            [language]: this.isEmptyValue(value) ? undefined : value
+          // mark it as pristine if they want to. But we have to defer it to avoid
+          // making the change during the change detection cycle.
+          setTimeout(() => {
+            this.control.markAsDirty();
+            this.control.setValue({
+              ...this.control.value,
+              [language]: this.isEmptyValue(value) ? undefined : value
+            });
           });
         })
       );
