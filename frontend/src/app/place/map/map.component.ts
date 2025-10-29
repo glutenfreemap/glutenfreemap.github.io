@@ -127,7 +127,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         version: 8,
         name: "GlutenFreeMap",
         glyphs: "https://protomaps.github.io/basemaps-assets/fonts/{fontstack}/{range}.pbf",
-        sprite: "https://protomaps.github.io/basemaps-assets/sprites/v4/light",
         sources: {
           protomaps: {
             attribution: "<a href=\"https://github.com/protomaps/basemaps\">Protomaps</a> © <a href=\"https://openstreetmap.org\">OpenStreetMap</a>",
@@ -141,6 +140,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         layers: getStyle(this.translate.currentLang)
       },
     });
+    this.map = map;
 
     map.addControl(new NavigationControl(), "bottom-right");
 
@@ -211,9 +211,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     // before it, and if we do it in the load event, the map flickers because it was
     // already rendered once with the default value of darkMode.
     map.once("style.load" as any, () => {
-      map.setGlobalStateProperty(DARK_MODE_STATE_KEY, darkModeQuery?.matches || false);
+      this.setColorMode(darkModeQuery?.matches || false);
       darkModeQuery?.addEventListener("change", evt => {
-        map.setGlobalStateProperty(DARK_MODE_STATE_KEY, evt.matches);
+        this.setColorMode(evt.matches);
       }, { signal: this.subscriptions.signal });
     });
 
@@ -362,7 +362,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-    this.map = map;
+  private setColorMode(darkMode: boolean) {
+    this.map!.setSprite(darkMode
+      ? "https://protomaps.github.io/basemaps-assets/sprites/v4/dark"
+      : "https://protomaps.github.io/basemaps-assets/sprites/v4/light"
+    );
+    this.map!.setGlobalStateProperty(DARK_MODE_STATE_KEY, darkMode);
   }
 
   ngOnDestroy(): void {
