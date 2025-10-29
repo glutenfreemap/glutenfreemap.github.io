@@ -64,7 +64,18 @@ export class MapViewComponent {
       }
     });
 
-    effect(async () => {
+    // Refresh the selected place when the places change
+    effect(() => {
+      const selected = this.selectedPlace();
+      if (selected) {
+        const actual = this.connector().leafPlaces().find(p => p.id === selected.id);
+        if (selected !== actual) {
+          this.selectedPlace.set(actual);
+        }
+      }
+    });
+
+    effect(() => {
       const selectedPlace = this.selectedPlace();
       if (selectedPlace) {
         const connector = this.connector();
