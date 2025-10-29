@@ -287,12 +287,18 @@ export class GitHubConnector extends ConnectorSkeleton<GithubTreeEntry> implemen
       // 1. Get the SHA of the last commit on the branch:
       .with(() => octokit.rest.git.getRef({
         ...repo,
-        ref: `heads/${currentBranch.name}`
+        ref: `heads/${currentBranch.name}`,
+        headers: {
+          "If-None-Match": "" // Prevent caching
+        }
       }), "ref")
       // 2. Get the tree SHA of the latest commit:
       .with(({ ref }) => octokit.rest.git.getCommit({
         ...repo,
-        commit_sha: ref.data.object.sha
+        commit_sha: ref.data.object.sha,
+        headers: {
+          "If-None-Match": "" // Prevent caching
+        }
       }), "commit")
       // 3. Create a blob with the new file content:
       .with(() => octokit.rest.git.createBlob({
