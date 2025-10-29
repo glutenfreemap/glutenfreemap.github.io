@@ -1388,6 +1388,25 @@
             "categories": [
                 "hotel"
             ]
+        },
+        {
+            "id": "senhor-frogs",
+            "name": "Senhor Frog's",
+            "gid": "ChIJXUm3BonPGg0REahJE2H70mo",
+            "attestation": "none",
+            "address": [
+                "Av. Sá Carneiro 18",
+                "Areias de São João",
+                "8200-340 Albufeira"
+            ],
+            "region": "faro",
+            "position": {
+                "lat": 37.0904273,
+                "lng": -8.227186
+            },
+            "categories": [
+                "restaurant"
+            ]
         }
     ]
 }
