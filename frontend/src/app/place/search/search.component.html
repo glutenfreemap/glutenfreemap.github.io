@@ -15,9 +15,9 @@
   }
 </mat-form-field>
 <div class="search-results">
-  <mat-list>
+  <mat-list role="list">
     @for (place of searchResults(); track place.id) {
-      <mat-list-item class="mat-mdc-list-item-interactive" (click)="selectPlace(place)" (mouseenter)="enterPlace(place)" (mouseleave)="leavePlace(place)">
+      <mat-list-item class="mat-mdc-list-item-interactive" role="listitem" (click)="selectPlace(place)" (mouseenter)="enterPlace(place)" (mouseleave)="leavePlace(place)">
         <h3 matListItemTitle>{{isStandalone(place) ? place.name : place.parent.name}}</h3>
 
         @if (!isStandalone(place)) {

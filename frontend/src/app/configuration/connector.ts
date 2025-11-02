@@ -1,8 +1,8 @@
 import { Injectable, signal, Signal } from "@angular/core";
-import { LeafPlace, TopLevelPlace } from "../../datamodel/place";
+import { LeafPlace, Place, TopLevelPlace } from "../../datamodel/place";
 import { AttestationType, AttestationTypeIdentifier, Category, CategoryIdentifier, Language, LanguageIdentifier, Region, RegionIdentifier } from "../../datamodel/common";
 import { z } from "zod";
-import { toMap } from "../common/helpers";
+import { Optional, toMap } from "../common/helpers";
 import { LanguageService } from "../common/language-service";
 
 type IndeterminateLoadingStatus = {
@@ -50,7 +50,7 @@ export interface Connector {
   branches: Signal<Branch[]>,
 
   currentBranch: Signal<Branch | undefined>,
-  switchToBranch(name: BranchName): void,
+  switchToBranch(name: BranchName): Promise<void>,
 
   languages: Signal<Map<LanguageIdentifier, Language>>,
   attestationTypes: Signal<Map<AttestationTypeIdentifier, AttestationType>>,
@@ -60,10 +60,27 @@ export interface Connector {
   leafPlaces: Signal<LeafPlace[]>
 }
 
+export type PlaceChange =
+  {
+    target: "place",
+    type: "added" | "removed" | "updated",
+    fileName: string,
+    place: Place
+  };
+
+export type Change =
+  {
+    target: "languages",
+    before: Language[],
+    after: Language[]
+  } | PlaceChange;
+
+
 export interface WritableConnector extends Connector {
   createBranch(name: BranchName): Promise<CreateBranchResult>,
-  commit<T extends TopLevelPlace>(place: T): Promise<any>,
-  mergeCurrentBranch(): Promise<any>
+  commit<T extends Place>(place: Optional<T, "id">): Promise<any>,
+  getChanges(): Promise<Change[]>,
+  mergeCurrentBranch(localChanges: Change[]): Promise<any>
 }
 
 export function isWritableConnector(connector: Connector): connector is WritableConnector {
@@ -81,7 +98,7 @@ export class NopConnector implements Connector {
   branches: Signal<Branch[]> = signal([]);
   currentBranch: Signal<Branch | undefined> = signal(undefined);
 
-  switchToBranch(name: BranchName): Promise<any> {
+  switchToBranch(name: BranchName): Promise<void> {
     throw new Error("Method not supported.");
   }
 

@@ -21,8 +21,8 @@ export class LocalizePipe implements PipeTransform, OnDestroy {
     this.langChangeSubscription.unsubscribe();
   }
 
-  transform(value: string | LocalizedString | undefined): string {
-    if (value === undefined) {
+  transform(value: string | LocalizedString | undefined | null): string {
+    if (value === undefined || value === null) {
       return "";
     } else if (typeof value === "string") {
       return value;

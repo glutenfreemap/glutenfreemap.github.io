@@ -18,6 +18,8 @@ export type TreeEntry = z.infer<typeof treeEntrySchema>;
 
 const EMPTY_MAP = new Map();
 
+export const PLACES_PATH_PREFIX = "places/";
+
 class UserCancelledError extends Error {
   constructor(error: any) {
     super("User cancelled", { cause: error });
@@ -86,7 +88,7 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
 
   constructor(
     protected notificationService: NotificationService,
-    private languageService: LanguageService,
+    protected languageService: LanguageService,
     destroyRef: DestroyRef
   ) {
     destroyRef.onDestroy(() => this.unsubscribeAll());
@@ -105,189 +107,201 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   private fileNames = signal<{ [key: PlaceIdentifier]: string }>({});
   private branches$?: Observable<Branch[]>;
 
-  public switchToBranch(name: BranchName) {
-    this.unsubscribeAll();
+  public switchToBranch(name: BranchName): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.unsubscribeAll();
 
-    this.status.set({ status: "loading" });
+      this.status.set({ status: "loading" });
 
-    if (!this.branches$) {
-      this.branches$ = this.loadBranches().pipe(
-        map(({ result }) => result),
-        tap(this.branches.set),
-        shareReplay({ bufferSize: 1, refCount: true })
-      );
-    }
-
-    const branches$ = connectable(this.branches$);
-    const currentBranch$ = branches$.pipe(
-      filter(branches => branches.length !== 0),
-      map(branches => branches.find(b => b.name === name) || branches[0]),
-      distinctUntilChanged((p, c) => p.name === c.name && p.version === c.version),
-      share(),
-    );
-
-    const tree$ = currentBranch$.pipe(
-      switchMap(branch => this.getTree(branch.name).pipe(
-        map(t => t.result),
-        retry({
-          delay: error => this.promptRetryMandatory(branch.name, error)
-        })
-      )),
-      share()
-    );
-
-    const languages$ = this.load(tree$, z.array(languageIdentifierSchema), "languages.json", l => new Set(l));
-    const attestationTypes$ = this.load(tree$, z.array(attestationTypeSchema), "attestations.json", l => toMap(l));
-    const regions$ = this.load(tree$, z.array(regionSchema), "regions.json", l => toMap(l));
-    const categories$ = this.load(tree$, z.array(categorySchema), "categories.json", l => toMap(l));
-
-    const placeStreams$ = tree$.pipe(
-      map(tree => {
-        const fileStreams = tree
-          .filter(f => /^places\/([^\.]+\.json)$/.test(f.path))
-          .map(f => {
-            // Create a function that returns a fresh observable for each load attempt
-            const loadFile = (emitEmpty: boolean): Observable<{ place?: z.infer<typeof placeSchema>, path: string }> => this.getFile(f).pipe(
-              map(({ result: place, isFromCache }) => {
-                const parsed = placeSchema.safeParse(place);
-                if (!parsed.success && !isFromCache) {
-                  console.error(`Failed to parse '${f.path}'`, parsed.error);
-                }
-                return {
-                  place: parsed.data, // Ignore parsing errors
-                  path: f.path,
-                };
-              }),
-              catchError(error => {
-                console.error(`Failed to load ${f.path}`, error);
-                // Handle the error by returning an object with error info
-                if (emitEmpty) {
-                  return of({
-                    path: f.path
-                  }).pipe(
-                    concatWith(this.promptRetryOptional(f.path, error).pipe(
-                      switchMap(_ => loadFile(false))
-                    ))
-                  );
-                } else {
-                  return this.promptRetryOptional(f.path, error).pipe(
-                    switchMap(_ => loadFile(false))
-                  );
-                }
-              })
-            );
-
-            // Start the initial loading process
-            return loadFile(true).pipe(
-              share()
-            );
-          });
-
-        // Return the array of file streams
-        return fileStreams;
-      }),
-      share()
-    );
-
-    const successfulPlaceStreams$ = placeStreams$.pipe(
-      // Switch to a new array of streams whenever tree$ emits
-      switchMap(fileStreams => {
-        if (fileStreams.length === 0) {
-          return of([]);
-        }
-
-        // Combine the latest emissions from all file streams
-        return combineLatest(fileStreams).pipe(
-          // Map to extract just the valid place data, filtering out errors
-          map(results => results
-            .filter((result): result is Required<typeof result> => !!result.place)
-            .map(result => ({ place: result.place, path: result.path }))
-          )
+      if (!this.branches$) {
+        this.branches$ = this.loadBranches().pipe(
+          map(({ result }) => result),
+          tap(this.branches.set),
+          shareReplay({ bufferSize: 1, refCount: true })
         );
-      }),
-      share()
-    );
+      }
 
-    const places$ = successfulPlaceStreams$.pipe(
-      map(list => list.map(p => p.place))
-    );
+      const branches$ = connectable(this.branches$);
+      const currentBranch$ = branches$.pipe(
+        filter(branches => branches.length !== 0),
+        map(branches => branches.find(b => b.name === name) || branches[0]),
+        distinctUntilChanged((p, c) => p.name === c.name && p.version === c.version),
+        share(),
+      );
 
-    const fileNames$ = successfulPlaceStreams$.pipe(
-      map(list => list.reduce((a, p) => { a[p.place.id] = p.path; return a; }, {} as { [key: PlaceIdentifier]: string }))
-    );
+      const tree$ = currentBranch$.pipe(
+        switchMap(branch => this.getTree(branch.name).pipe(
+          map(t => t.result),
+          retry({
+            delay: error => this.promptRetryMandatory(branch.name, error)
+          })
+        )),
+        share()
+      );
 
-    // Progress updates
-    const knownFiles: Observable<any>[] = [languages$, attestationTypes$, regions$, categories$];
+      const languages$ = this.load(tree$, z.array(languageIdentifierSchema), "languages.json", l => new Set(l));
+      const attestationTypes$ = this.load(tree$, z.array(attestationTypeSchema), "attestations.json", l => toMap(l));
+      const regions$ = this.load(tree$, z.array(regionSchema), "regions.json", l => toMap(l));
+      const categories$ = this.load(tree$, z.array(categorySchema), "categories.json", l => toMap(l));
 
-    const totalCount$ = currentBranch$.pipe(
-      switchMap(() => placeStreams$.pipe(
-        take(1),
-        map(streams => knownFiles.length + streams.length)
-      )),
-    );
+      const placeStreams$ = tree$.pipe(
+        map(tree => {
+          const fileStreams = tree
+            .filter(f => /^places\/([^\.]+\.json)$/.test(f.path))
+            .map(f => {
+              // Create a function that returns a fresh observable for each load attempt
+              const loadFile = (emitEmpty: boolean): Observable<{ place?: z.infer<typeof placeSchema>, path: string }> => this.getFile(f).pipe(
+                map(({ result: place, isFromCache }) => {
+                  const parsed = placeSchema.safeParse(place);
+                  if (!parsed.success && !isFromCache) {
+                    console.error(`Failed to parse '${f.path}'`, parsed.error);
+                  }
+                  return {
+                    place: parsed.data, // Ignore parsing errors, they have been logged already
+                    path: f.path,
+                  };
+                }),
+                catchError(error => {
+                  console.error(`Failed to load ${f.path}`, error);
+                  // Handle the error by returning an object with error info
+                  if (emitEmpty) {
+                    return of({
+                      path: f.path
+                    }).pipe(
+                      concatWith(this.promptRetryOptional(f.path, error).pipe(
+                        switchMap(_ => loadFile(false))
+                      ))
+                    );
+                  } else {
+                    return this.promptRetryOptional(f.path, error).pipe(
+                      switchMap(_ => loadFile(false))
+                    );
+                  }
+                })
+              );
 
-    const knownFilesProgress$ = currentBranch$.pipe(
-      switchMap(() => merge(...knownFiles.map(o => o.pipe(
-        take(1),
-        map(_ => 1)
-      ))))
-    );
+              // Start the initial loading process
+              return loadFile(true).pipe(
+                share()
+              );
+            });
 
-    const placeProgress$ = currentBranch$.pipe(
-      switchMap(() => placeStreams$.pipe(
-        take(1), // capture the list for this branch
-        switchMap(streams => streams.length
-          ? merge(...streams.map(s => s.pipe(
-              take(1),
-              map(_ => 1)
-          )))
-          : of()
-        )
-      ))
-    );
+          // Return the array of file streams
+          return fileStreams;
+        }),
+        share()
+      );
 
-    const loadedCount$ = merge(
-      currentBranch$.pipe(
-        map(_ => NaN),
-      ),
-      knownFilesProgress$,
-      placeProgress$,
-    ).pipe(
-      scan((acc, x) => isNaN(x) ? 0 : acc + 1, 0)
-    );
+      const successfulPlaceStreams$ = placeStreams$.pipe(
+        // Switch to a new array of streams whenever tree$ emits
+        switchMap(fileStreams => {
+          if (fileStreams.length === 0) {
+            return of([]);
+          }
 
-    const statusSubscription = combineLatest([totalCount$, loadedCount$]).subscribe({
-      next: ([loaded, total]) => {
-        if (loaded === total || total === 0) {
-          this.status.set({ status: "loaded" });
-        } else if (loaded === 0) {
-          this.status.set({ status: "loading" });
-        } else {
-          this.status.set({ status: "loading", progress: 100 * loaded / total });
+          // Combine the latest emissions from all file streams
+          return combineLatest(fileStreams).pipe(
+            // Map to extract just the valid place data, filtering out errors
+            map(results => results
+              .filter((result): result is Required<typeof result> => !!result.place)
+              .map(result => ({ place: result.place, path: result.path }))
+            )
+          );
+        }),
+        share()
+      );
+
+      const places$ = successfulPlaceStreams$.pipe(
+        map(list => list.map(p => p.place))
+      );
+
+      const fileNames$ = successfulPlaceStreams$.pipe(
+        map(list => list.reduce((a, p) => { a[p.place.id] = p.path; return a; }, {} as { [key: PlaceIdentifier]: string }))
+      );
+
+      // Progress updates
+      const knownFiles: Observable<any>[] = [languages$, attestationTypes$, regions$, categories$];
+
+      const totalCount$ = currentBranch$.pipe(
+        switchMap(() => placeStreams$.pipe(
+          take(1),
+          map(streams => knownFiles.length + streams.length)
+        )),
+      );
+
+      const knownFilesProgress$ = currentBranch$.pipe(
+        switchMap(() => merge(...knownFiles.map(o => o.pipe(
+          take(1),
+          map(_ => 1)
+        ))))
+      );
+
+      const placeProgress$ = currentBranch$.pipe(
+        switchMap(() => placeStreams$.pipe(
+          take(1), // capture the list for this branch
+          switchMap(streams => streams.length
+            ? merge(...streams.map(s => s.pipe(
+                take(1),
+                map(_ => 1)
+            )))
+            : of()
+          )
+        ))
+      );
+
+      const loadedCount$ = merge(
+        currentBranch$.pipe(
+          map(_ => NaN),
+        ),
+        knownFilesProgress$,
+        placeProgress$,
+      ).pipe(
+        scan((acc, x) => isNaN(x) ? 0 : acc + 1, 0)
+      );
+
+      const statusSubscription = combineLatest([totalCount$, loadedCount$]).subscribe({
+        next: ([loaded, total]) => {
+          if (loaded === total || total === 0) {
+            this.status.set({ status: "loaded" });
+          } else if (loaded === 0) {
+            this.status.set({ status: "loading" });
+          } else {
+            this.status.set({ status: "loading", progress: 100 * loaded / total });
+          }
+        },
+        error: error => {
+          this.status.set({
+            status: "error",
+            error: error instanceof UserCancelledError ? error.cause : error
+          });
+          reject(error);
         }
-      },
-      error: error => this.status.set({
-        status: "error",
-        error: error instanceof UserCancelledError ? error.cause : error
-      })
+      });
+
+      const promiseResolutionSubscription = combineLatest([totalCount$, loadedCount$, places$]).subscribe(([loaded, total, places]) => {
+        if ((loaded === total || total === 0) && knownFiles.length + places.length === total) {
+          setTimeout(() => resolve());
+        }
+      });
+
+      this.subscriptions.push(
+        statusSubscription,
+        promiseResolutionSubscription,
+        currentBranch$.subscribe(this.currentBranch.set),
+        languages$.subscribe(langs => this.languages.set(toMap(this.languageService.supportedLanguages.filter(sl => langs.has(sl.id))))),
+        attestationTypes$.subscribe(this.attestationTypes.set),
+        regions$.subscribe(this.regions.set),
+        categories$.subscribe(this.categories.set),
+        places$.subscribe(this.places.set),
+        fileNames$.subscribe(this.fileNames.set)
+      );
+
+      // Only connect the branches after every subscription is setup so that
+      // we don't subscribe to shared observables multiple times.
+      this.subscriptions.push(
+        branches$.connect()
+      );
     });
-
-    this.subscriptions.push(
-      statusSubscription,
-      currentBranch$.subscribe(this.currentBranch.set),
-      languages$.subscribe(langs => this.languages.set(toMap(this.languageService.supportedLanguages.filter(sl => langs.has(sl.id))))),
-      attestationTypes$.subscribe(this.attestationTypes.set),
-      regions$.subscribe(this.regions.set),
-      categories$.subscribe(this.categories.set),
-      places$.subscribe(this.places.set),
-      fileNames$.subscribe(this.fileNames.set)
-    );
-
-    // Only connect the branches after every subscription is setup so that
-    // we don't subscribe to shared observables multiple times.
-    this.subscriptions.push(
-      branches$.connect()
-    );
   }
 
   protected getFileName(place: TopLevelPlace): string {
@@ -295,12 +309,30 @@ export abstract class ConnectorSkeleton<TTreeEntry extends TreeEntry> {
   }
 
   private generateFileName(place: TopLevelPlace): string {
-    const baseName = place.name.replaceAll(/\s+(\w)/g, "-$1").toLocaleLowerCase();
+    const baseName: string = place.id;
     let counter = 0;
     let currentName = `${baseName}.json`;
     while (currentName in this.fileNames) {
       currentName = `${baseName}-${++counter}.json`;
     }
-    return "places/" + currentName;
+    return PLACES_PATH_PREFIX + currentName;
+  }
+
+  protected generatePlaceId(name: string): PlaceIdentifier {
+    const baseId = name
+      .replaceAll(/[^\w\-\s]/g, "")
+      .replaceAll(/(^|\s+)([^\s]+)/g, (m, p1, p2) => (p1.length ? '-' : '') + p2.toLowerCase());
+
+    const existing = new Set(this.places().map(p => p.id as string));
+
+    let tentativeId = baseId;
+    for (let i = 1; i <= 100; ++i) {
+      if (!existing.has(tentativeId)) {
+        return tentativeId as PlaceIdentifier;
+      }
+      tentativeId = `${baseId}-${i}`;
+    }
+
+    return crypto.randomUUID() as PlaceIdentifier;
   }
 }

@@ -139,3 +139,26 @@ export function toMap<T, K, V>(source: Iterable<T>, keySelector?: (item: T) => K
   return result;
 }
 
+export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+
+export function compareObjects< T extends object>(comparators: { [K in keyof T]: (left: T[K], right: T[K]) => boolean }, left: T, right: T, changes: (keyof T)[] | undefined = undefined): boolean {
+  for (const key in comparators) {
+    if (!comparators[key](left[key], right[key])) {
+      if (changes) {
+        changes.push(key);
+      } else {
+        return false;
+      }
+    }
+  }
+  return changes === undefined || changes.length === 0;
+}
+
+export function scalarEquals<T>(left: T, right: T): boolean {
+  return left === right;
+}
+
+export function arrayEquals<T>(comparator: (left: T, right: T) => boolean, left: T[], right: T[]): boolean {
+  return left.length === right.length
+    && left.every((l, idx) => comparator(l, right[idx]));
+}

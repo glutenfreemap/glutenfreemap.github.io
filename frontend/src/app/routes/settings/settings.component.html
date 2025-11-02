@@ -5,9 +5,9 @@
   } @else {
     <h2>{{ 'configuration.subscription.management.subscriptions.title' | translate }}</h2>
     <p>{{ 'configuration.subscription.management.subscriptions.current' | translate }}</p>
-    <mat-list>
+    <mat-list role="list">
       @for (connector of configurations(); track connector) {
-        <mat-list-item>
+        <mat-list-item role="listitem">
           <mat-icon matListItemIcon>{{ connectorIcons[connector.settings.type] }}</mat-icon>
           <span matListItemTitle>{{ connector.displayName }}
           </span>

@@ -1,0 +1,39 @@
+mat-list-item {
+  --mat-list-list-item-two-line-container-height: auto;
+  --mat-list-list-item-three-line-container-height: auto;
+  --mat-badge-container-overlap-offset: -12px 0;
+  --mat-chip-container-height: 22px;
+
+  h4,
+  h5 {
+    white-space: wrap !important;
+  }
+
+  h5 {
+    margin: 0;
+  }
+}
+
+mat-dialog-content > mat-spinner {
+  margin: 1rem auto;
+}
+
+h3 {
+  margin: 2rem 0 0;
+}
+
+mat-icon {
+  --mat-list-list-item-hover-leading-icon-color: var(--mat-list-list-item-leading-icon-color);
+
+  &.added {
+    --mat-list-list-item-leading-icon-color: light-dark(#1e8d57, #93d8be);
+  }
+
+  &.updated {
+    --mat-list-list-item-leading-icon-color: light-dark(#345db5, #939bd8);
+  }
+
+  &.removed {
+    --mat-list-list-item-leading-icon-color: light-dark(#b53434, #d8939f);
+  }
+}

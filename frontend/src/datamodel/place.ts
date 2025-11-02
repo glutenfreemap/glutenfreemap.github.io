@@ -1,6 +1,7 @@
-import { attestationTypeIdentifierSchema, categoryIdentifierSchema, localizedStringSchema, regionIdentifierSchema } from "./common";
+import { attestationTypeIdentifierSchema, categoryIdentifierSchema, localizedStringsAreEqual, localizedStringSchema, regionIdentifierSchema } from "./common";
 import { z } from "zod";
 import type { Simplify, SimplifyDeep } from 'type-fest';
+import { arrayEquals, compareObjects, scalarEquals } from "../app/common/helpers";
 
 export const placeIdentifierSchema = z.string().min(1).brand("PlaceIdentifier");
 export type PlaceIdentifier = z.infer<typeof placeIdentifierSchema>;
@@ -102,4 +103,55 @@ export function isLeaf(place: PrototypePlace): place is PrototypeLeafPlace;
 
 export function isLeaf(place: Place | PrototypePlace): boolean {
   return !isComposite(place);
+}
+
+const commonPlaceComparisons = {
+  id: scalarEquals,
+  name: scalarEquals,
+  attestation: scalarEquals,
+  description: localizedStringsAreEqual
+};
+
+export function comparePlaces<T extends Place>(left: T, right: T): (keyof T)[] {
+  const changes: (keyof T)[] = [];
+  if (isStandalone(left)) {
+    compareObjects<StandalonePlace>({
+      ...commonPlaceComparisons,
+      address: arrayEquals.bind(undefined, scalarEquals),
+      categories: arrayEquals.bind(undefined, scalarEquals),
+      position: compareObjects.bind(undefined, {
+        lat: scalarEquals,
+        lng: scalarEquals
+      }),
+      region: scalarEquals,
+      gid: scalarEquals
+    }, left, right as StandalonePlace, changes as (keyof StandalonePlace)[]);
+  } else if (isComposite(left)) {
+    compareObjects<CompositePlace>({
+      ...commonPlaceComparisons,
+      categories: arrayEquals.bind(undefined, scalarEquals),
+      locations: (l, r) => true
+    }, left, right as CompositePlace, changes as (keyof CompositePlace)[]);
+  } else {
+    compareObjects<ChildPlace>({
+      ...commonPlaceComparisons,
+      address: arrayEquals.bind(undefined, scalarEquals),
+      position: compareObjects.bind(undefined, {
+        lat: scalarEquals,
+        lng: scalarEquals
+      }),
+      region: scalarEquals,
+      gid: scalarEquals,
+      parent: (l, r) => l.id === r.id
+    }, left, right as ChildPlace, changes as (keyof ChildPlace)[]);
+  }
+  return changes;
+}
+
+export function placeToJson(place: Place) {
+  return JSON.stringify(
+    place,
+    (k, v) => k !== "parent" ? v : undefined,
+    2
+  );
 }

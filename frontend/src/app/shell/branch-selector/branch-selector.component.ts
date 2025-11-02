@@ -32,7 +32,7 @@ export class BranchSelectorComponent {
   public canCreateNewBranch = computed(() => isWritableConnector(this.connector()));
 
   constructor(
-    private configurationService: ConnectorManagementService,
+    private connectorManagementService: ConnectorManagementService,
     private dialog: MatDialog
   ) {
     effect(() => this.currentBranch.set(this.connector().currentBranch()));
@@ -40,7 +40,7 @@ export class BranchSelectorComponent {
 
   public async switchTo(branch: Branch) {
     if (this.currentBranch() !== branch) {
-      await this.configurationService.switchToBranch(branch.name);
+      await this.connectorManagementService.switchToBranch(branch.name);
     }
   }
 

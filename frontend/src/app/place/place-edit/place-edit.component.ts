@@ -248,21 +248,6 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
     return this.inputs.some(f => f.dirty);
   }
 
-  private generatePlaceId(name: string): PlaceIdentifier {
-    const baseId = name.replaceAll(/(^|\s+)([^\s]+)/g, (m, p1, p2) => (p1.length ? '-' : '') + p2.toLowerCase());
-    const existing = new Set(this.connector.places().map(p => p.id as string));
-
-    let tentativeId = baseId;
-    for (let i = 1; i <= 100; ++i) {
-      if (!existing.has(tentativeId)) {
-        return tentativeId as PlaceIdentifier;
-      }
-      tentativeId = `${baseId}-${i}`;
-    }
-
-    return crypto.randomUUID() as PlaceIdentifier;
-  }
-
   public async save() {
     if (!this.isValid()) {
       throw new Error("Invalid");
@@ -270,13 +255,11 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
 
     this.loading.set(true);
 
-    const isNew = !this.place.id;
     const name = this.nameInput.value!;
-    const id = this.place.id || this.generatePlaceId(name);
 
     if (isStandalone(this.place)) {
       await this.connector.commit<StandalonePlace>({
-        id,
+        id: this.place.id,
         name,
 
         gid: this.gidInput.value || undefined,
@@ -291,9 +274,9 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
         categories: this.categoriesInput!.value.map(c => c.id)
       });
     } else if (isChild(this.place)) {
-      const child: ChildPlace = {
+      await this.connector.commit<ChildPlace>({
         parent: this.place.parent,
-        id,
+        id: this.place.id,
         name,
 
         gid: this.gidInput.value || undefined,
@@ -305,17 +288,10 @@ export class PlaceEditComponent implements AfterViewInit, OnDestroy {
           lng: this.longitudeInput?.value!,
         },
         description: this.descriptionInput.value || undefined,
-      };
-
-      await this.connector.commit<CompositePlace>({
-        ...this.place.parent,
-        locations: isNew
-          ? [...this.place.parent.locations, child]
-          : this.place.parent.locations.map(p => p.id === child.id ? child : p)
       });
     } else {
       await this.connector.commit<CompositePlace>({
-        id,
+        id: this.place.id,
         name,
 
         locations: this.place.locations,

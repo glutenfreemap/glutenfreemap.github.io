@@ -1,21 +1,41 @@
 <h2 mat-dialog-title>{{ 'branch.merger.title' | translate: { branch: connector.currentBranch()!.name } }}</h2>
 <mat-dialog-content>
   <div innerHTML="{{ 'branch.merger.description' | translate: { branch: connector.currentBranch()!.name } }}"></div>
-  <!-- <mat-form-field>
-    <mat-label>{{ 'branch.creator.name.label' | translate }}</mat-label>
-    <input matInput [formControl]="nameInput" required pattern="^\w+(?:-\w*)*$" />
-    <mat-error *ngIf="nameInput.invalid">{{ error(nameInput, {
-      required: 'branch.creator.name.required' | translate,
-      pattern: 'branch.creator.name.invalid' | translate,
-      duplicate: 'branch.creator.name.duplicate' | translate
-    }) }}</mat-error>
-  </mat-form-field> -->
+  <h3>{{ 'branch.merger.changes.title' | translate }}</h3>
+  @if (loadingChanges()) {
+    <mat-spinner></mat-spinner>
+  } @else {
+    <mat-list role="list">
+      @for (change of changes(); track $index) {
+        @if (change.target === "place") {
+          <mat-list-item role="listitem">
+            @let place = change.place;
+            <mat-icon [ngClass]="change.type" matListItemIcon [matTooltip]="changeTypes[change.type].label | translate">{{ changeTypes[change.type].icon }}</mat-icon>
+            <h4 matListItemTitle>{{isChild(place) ? place.parent.name : place.name }}</h4>
+            @if (isChild(place)) {
+              <h5 matListItemLine>{{place.name}}</h5>
+            }
+            <mat-chip-set matListItemLine>
+              <mat-chip>{{ getAttestationType(place)?.name | localize }}</mat-chip>
+              @let region = getRegion(place);
+              @if (region) {
+                <mat-chip>{{ region.name | localize }}</mat-chip>
+              }
+              @for (category of isChild(place) ? place.parent.categories : place.categories; track category) {
+                <mat-chip>{{ getCategory(category)?.name| localize }}</mat-chip>
+              }
+            </mat-chip-set>
+          </mat-list-item>
+        }
+      }
+    </mat-list>
+  }
 </mat-dialog-content>
 <mat-dialog-actions>
-  @if (loading()) {
+  @if (publishing()) {
     <mat-spinner></mat-spinner>
   }
 
-  <button mat-button mat-dialog-close>{{ 'general.dialog.buttons.cancel' | translate }}</button>
-  <!-- <button mat-button [disabled]="!isValid()" (click)="create()">{{ 'general.dialog.buttons.create' | translate }}</button> -->
+  <button mat-button mat-dialog-close [disabled]="publishing()">{{ 'general.dialog.buttons.cancel' | translate }}</button>
+  <button mat-button [disabled]="loadingChanges() || publishing()" (click)="publish()">{{ 'general.branch.merge' | translate }}</button>
 </mat-dialog-actions>
