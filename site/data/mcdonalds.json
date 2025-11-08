@@ -3000,5 +3000,18 @@
       "lng": "-8.474056"
     },
     "district": "aveiro"
+  },
+  {
+    "id": "quarteira",
+    "subtitle": "Quarteira",
+    "address": [
+      "Av. Francisco Sá Carneiro, Lote 24",
+      "8125-616 Quarteira"
+    ],
+    "position": {
+      "lat": "37.0401",
+      "lng": "-8.0551"
+    },
+    "district": "faro"
   }
 ]
