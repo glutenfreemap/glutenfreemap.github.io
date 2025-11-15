@@ -3013,5 +3013,18 @@
       "lng": "-8.0551"
     },
     "district": "faro"
+  },
+  {
+    "id": "alta-de-lisboa",
+    "subtitle": "Alta de Lisboa",
+    "address": [
+      "R. Hermínio da Palma Inácio",
+      "1750-114 Lisboa"
+    ],
+    "position": {
+      "lat": "38.787264",
+      "lng": "-9.147814"
+    },
+    "district": "lisboa"
   }
 ]
