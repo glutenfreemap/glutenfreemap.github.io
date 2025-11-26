@@ -3026,5 +3026,18 @@
       "lng": "-9.147814"
     },
     "district": "lisboa"
+  },
+  {
+    "id": "coimbra-eiras",
+    "subtitle": "Coimbra Eiras",
+    "address": [
+      "R. Barca Ribeira de Eiras",
+      "Coimbra"
+    ],
+    "position": {
+      "lat": "40.255114",
+      "lng": "-8.428461"
+    },
+    "district": "coimbra"
   }
 ]
