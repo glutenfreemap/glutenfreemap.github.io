@@ -3039,5 +3039,19 @@
       "lng": "-8.428461"
     },
     "district": "coimbra"
+  },
+  {
+    "id": "amarante",
+    "subtitle": "Amarante",
+    "address": [
+      "Amarante",
+      "Rua Agostinho Gonçalves de Abreu",
+      "4600-752"
+    ],
+    "position": {
+      "lat": "38.75557",
+      "lng": "-9.188562"
+    },
+    "district": "lisboa"
   }
 ]
