@@ -3053,5 +3053,19 @@
       "lng": "-9.188562"
     },
     "district": "lisboa"
+  },
+  {
+    "id": "mealhada",
+    "subtitle": "Mealhada",
+    "address": [
+      "Mealhada",
+      "Av. Restauração 142,  Mealhada",
+      "3050-347"
+    ],
+    "position": {
+      "lat": "40.388322",
+      "lng": "-8.450268"
+    },
+    "district": "aveiro"
   }
 ]
